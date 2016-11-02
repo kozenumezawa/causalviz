@@ -2,10 +2,10 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    bundle: './src/index.js'
+    bundle: './front/src/index.js'
   },
   output: {
-    path: path.join(__dirname, '/dist'),
+    path: path.join(__dirname, 'front/dist'),
     filename: '[name].js'
   },
   module: {
