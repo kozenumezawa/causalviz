@@ -1,3 +1,15 @@
-/**
- * Created by koyamada-lab on 2016/11/02.
- */
+import React from 'react'
+
+export default class main extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return (
+      <div>
+        yesss!!!
+      </div>
+    );
+  }
+}
