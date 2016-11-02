@@ -1,3 +1,5 @@
 *.npy
 .idea
 *.log
+node_modules
+front/dist
