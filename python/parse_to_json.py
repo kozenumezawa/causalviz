@@ -19,13 +19,10 @@ def main():
         each_data_list = []
         for i, item in enumerate(data[height]):
             each_data_list.append({
-                'index': i,
                 's': list(item[0]),
-                't': list(item[1]),
-                'v': list(item[2])
+                't': list(item[1])
             })
         obj = {
-            'height': height,
             'data': each_data_list
         }
         data_list.append(obj)
