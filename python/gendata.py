@@ -161,6 +161,7 @@ for height in range(h):
         V[i, :, :, :] = dataset.vo.array[0, 152:253, 332:432]
     X = numpy.sqrt(U ** 2 + V ** 2)
 
+    shape = S.shape
     for i in range(shape[2]):
         for j in range(shape[3]):
             index = i * shape[3] + j
