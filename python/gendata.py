@@ -148,6 +148,7 @@ m = 122    #  timestep
 result = numpy.zeros((h, n, 3, m)) # h = height, n = area, m = timestep
 
 for height in range(h):
+    print(height)
     S = numpy.zeros((len(files), 1, 101, 100))
     T = numpy.zeros((len(files), 1, 101, 100))
     U = numpy.zeros((len(files), 1, 101, 100))
