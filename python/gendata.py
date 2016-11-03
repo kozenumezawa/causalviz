@@ -140,7 +140,8 @@ pydap.lib.CACHE = '/tmp/pydap-cache/'
 #                                      'proxy.kuins.net', 8080)
 url = 'http://vizlab:sicat@133.3.250.177/thredds/dodsC/fora/' + files[0]
 dataset = open_url(url)
-h = dataset.so.shape[0]  # Z = 54
+h = dataset.so.shape[0]  # h = 54
+h = h / 2
 
 shape = dataset.so.array[0, 152:253, 332:432].shape # (1, 101, 100)
 n = shape[1] * shape[2] # 101 * 100
