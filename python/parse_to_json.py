@@ -15,21 +15,18 @@ def main():
     shape = data.shape
     h = shape[0]
 
-    for height in range(h):
+    for height in range(3):
         each_data_list = []
         for i, item in enumerate(data[height]):
             each_data_list.append({
                 's': list(item[0]),
                 't': list(item[1])
             })
-        obj = {
-            'data': each_data_list
-        }
-        data_list.append(obj)
+        data_list.append(each_data_list)
     obj = {
         'data_list': data_list
     }
-    json.dump(obj, open('../front/dist/ocean.json', 'w'), sort_keys=False, indent=2)
+    json.dump(obj, open('../front/dist/ocean.json', 'w'), sort_keys=False)
 
 if __name__ == '__main__':
     main()
