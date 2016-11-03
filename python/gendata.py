@@ -138,50 +138,51 @@ files.sort()
 pydap.lib.CACHE = '/tmp/pydap-cache/'
 # pydap.lib.PROXY = httplib2.ProxyInfo(socks.PROXY_TYPE_HTTP,
 #                                      'proxy.kuins.net', 8080)
+url = 'http://vizlab:sicat@133.3.250.177/thredds/dodsC/fora/' + files[0]
+dataset = open_url(url)
+h = dataset.so.shape[0]  # Z = 54
 
-S = numpy.zeros((len(files), 1, 101, 100))
-T = numpy.zeros((len(files), 1, 101, 100))
-U = numpy.zeros((len(files), 1, 101, 100))
-V = numpy.zeros((len(files), 1, 101, 100))
+shape = dataset.so.array[0, 152:253, 332:432].shape # (1, 101, 100)
+n = shape[1] * shape[2] # 101 * 100
+m = 122    #  timestep
+result = numpy.zeros((h, n, 3, m)) # h = height, n = area, m = timestep
 
-for i, name in enumerate(files):
-    print(name)
-    url = 'http://vizlab:sicat@133.3.250.177/thredds/dodsC/fora/' + name
-    dataset = open_url(url)
-    print(dataset)
-    S[i, :, :, :] = dataset.so.array[0, 152:253, 332:432]
-    T[i, :, :, :] = dataset.to.array[0, 152:253, 332:432]
-    U[i, :, :, :] = dataset.uo.array[0, 152:253, 332:432]
-    V[i, :, :, :] = dataset.vo.array[0, 152:253, 332:432]
+for height in range(h):
+    S = numpy.zeros((len(files), 1, 101, 100))
+    T = numpy.zeros((len(files), 1, 101, 100))
+    U = numpy.zeros((len(files), 1, 101, 100))
+    V = numpy.zeros((len(files), 1, 101, 100))
+    for i, name in enumerate(files):
+        url = 'http://vizlab:sicat@133.3.250.177/thredds/dodsC/fora/' + name
+        dataset = open_url(url)
+        S[i, :, :, :] = dataset.so.array[0, 152:253, 332:432]
+        T[i, :, :, :] = dataset.to.array[0, 152:253, 332:432]
+        U[i, :, :, :] = dataset.uo.array[0, 152:253, 332:432]
+        V[i, :, :, :] = dataset.vo.array[0, 152:253, 332:432]
+    X = numpy.sqrt(U ** 2 + V ** 2)
 
-X = numpy.sqrt(U ** 2 + V ** 2)
+    for i in range(shape[2]):
+        for j in range(shape[3]):
+            index = i * shape[3] + j
+            result[height, index, 0, :] = S[:, 0, i, j]
+            result[height, index, 1, :] = T[:, 0, i, j]
+            result[height, index, 2, :] = X[:, 0, i, j]
+numpy.save('./ocean.npy', result)
 
-shape = S.shape
-n = shape[2] * shape[3]
-m = shape[0]
-result = numpy.zeros((n, 3, m))
-for i in range(shape[2]):
-    for j in range(shape[3]):
-        index = i * shape[3] + j
-        result[index, 0, :] = S[:, 0, i, j]
-        result[index, 1, :] = T[:, 0, i, j]
-        result[index, 2, :] = X[:, 0, i, j]
-numpy.save('../ocean.npy', result)
-
-minS = numpy.min(S)
-maxS = numpy.max(S)
-minT = numpy.min(T)
-maxT = numpy.max(T)
-minX = numpy.min(X)
-maxX = numpy.max(X)
-S = (S - minS) / (maxS - minS)
-T = (T - minT) / (maxT - minT)
-X = (X - minX) / (maxX - minX)
-
-for i in range(shape[2]):
-    for j in range(shape[3]):
-        index = i * shape[3] + j
-        result[index, 0, :] = S[:, 0, i, j]
-        result[index, 1, :] = T[:, 0, i, j]
-        result[index, 2, :] = X[:, 0, i, j]
-numpy.save('ocean.normalized.npy', result)
+# minS = numpy.min(S)
+# maxS = numpy.max(S)
+# minT = numpy.min(T)
+# maxT = numpy.max(T)
+# minX = numpy.min(X)
+# maxX = numpy.max(X)
+# S = (S - minS) / (maxS - minS)
+# T = (T - minT) / (maxT - minT)
+# X = (X - minX) / (maxX - minX)
+#
+# for i in range(shape[2]):
+#     for j in range(shape[3]):
+#         index = i * shape[3] + j
+#         result[index, 0, :] = S[:, 0, i, j]
+#         result[index, 1, :] = T[:, 0, i, j]
+#         result[index, 2, :] = X[:, 0, i, j]
+# numpy.save('ocean.normalized.npy', result)
