@@ -1,6 +1,8 @@
 import React from 'react'
-import ThreeContainer from './components/three-container'
 import { Grid, Row, Col } from 'react-bootstrap'
+
+import ThreeContainer from './components/three-container'
+import GraphContainer from './components/graph-container'
 
 export default class main extends React.Component {
   constructor(props) {
@@ -16,7 +18,7 @@ export default class main extends React.Component {
               <ThreeContainer />
             </Col>
             <Col md={4}>
-              aaa
+              <GraphContainer />
             </Col>
           </Row>
         </Grid>
