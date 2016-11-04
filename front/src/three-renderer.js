@@ -22,6 +22,19 @@ export default class ThreeRenderer {
     this.camera.position.z = 5;
 
     this.threeRender();
+
+    window.fetch('ocean.json')
+      .then((response) => response.json())
+      .then((data) => {
+        this.retrieveData(data);
+      });
+  }
+
+  retrieveData(data) {
+    const ocean_data = data.data_list;
+    ocean_data.forEach((element, idx) => {
+      console.log(element);
+    });
   }
 
   threeRender() {
