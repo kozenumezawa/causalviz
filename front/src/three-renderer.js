@@ -15,19 +15,17 @@ export default class ThreeRenderer {
 
     document.getElementById('output_space').appendChild(this.renderer.domElement);
 
+    // window.fetch('ocean.json')
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     this.retrieveData(data);
+    //   });
     const geometry = new THREE.CubeGeometry(1, 1, 1);
     const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
     const cube = new THREE.Mesh(geometry, material);
     this.scene.add(cube);
     this.camera.position.z = 5;
-
     this.threeRender();
-
-    window.fetch('ocean.json')
-      .then((response) => response.json())
-      .then((data) => {
-        this.retrieveData(data);
-      });
   }
 
   retrieveData(data) {
