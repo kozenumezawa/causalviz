@@ -3,6 +3,10 @@ import { Grid, Row, Col } from 'react-bootstrap'
 
 import ThreeContainer from './components/three-container'
 import GraphContainer from './components/graph-container'
+import AppBar from './components/app-bar'
+
+
+
 
 export default class main extends React.Component {
   constructor(props) {
@@ -12,6 +16,7 @@ export default class main extends React.Component {
   render() {
     return (
       <div>
+        <AppBar />
         <Grid>
           <Row className="show-grid">
             <Col md={8}>
