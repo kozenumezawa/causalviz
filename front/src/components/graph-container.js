@@ -1,5 +1,7 @@
 import React from 'react'
+import * as d3 from 'd3'
 import {scaleLinear, scaleOrdinal, schemeCategory10, line} from 'd3'
+
 
 export default class GraphContainer extends React.Component {
   constructor(props) {
@@ -20,12 +22,11 @@ export default class GraphContainer extends React.Component {
   retrieveData(data) {
     // Array[3]Array[10100].{s,t}
     const ocean_data = data.data_list;
-    ocean_data.forEach((element, idx) => {
 
-    });
-
-    const svgWidth = 300
-    const svgHeight = 250
+    const graph_grid = d3.select("#time_series_graph");
+    const aspect = 1.5;
+    const svgWidth = parseInt(graph_grid.style("width"))
+    const svgHeight = Math.floor(svgWidth / aspect)
     const contentWidth = svgWidth
     const contentHeight = svgHeight
     const xScale = scaleLinear()
@@ -68,7 +69,7 @@ export default class GraphContainer extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id="time_series_graph">
         { this.state.render_graph }
       </div>
     );

@@ -17,12 +17,13 @@ export default class main extends React.Component {
     return (
       <div>
         <AppBar />
+        <br />
         <Grid>
           <Row className="show-grid">
-            <Col md={8}>
+            <Col md={7}>
               <ThreeContainer />
             </Col>
-            <Col md={4}>
+            <Col md={5}>
               <GraphContainer />
             </Col>
           </Row>
