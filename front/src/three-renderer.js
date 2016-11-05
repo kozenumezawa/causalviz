@@ -1,9 +1,12 @@
+import * as d3 from 'd3'
+
 const OrbitControls = require('three-orbit-controls')(THREE);
 
 export default class ThreeRenderer {
   constructor() {
-    const width = 500;
-    const height = 500;
+    const output_space = d3.select("#output_space");
+    const width = parseInt(output_space.style("width"))
+    const height = width;
 
     this.scene = new THREE.Scene();
 
