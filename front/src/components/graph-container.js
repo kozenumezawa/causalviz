@@ -59,7 +59,6 @@ export default class GraphContainer extends React.Component {
   }
 
   render() {
-    console.log(this.props.raw_data);
     return (
       <div id="time_series_graph">
         {(() => {
