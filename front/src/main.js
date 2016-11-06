@@ -34,7 +34,9 @@ export default class main extends React.Component {
         <Grid>
           <Row className="show-grid">
             <Col md={7}>
-              <ThreeContainer />
+              <ThreeContainer
+                raw_data={this.state.raw_data}
+              />
             </Col>
             <Col md={5}>
               <GraphContainer

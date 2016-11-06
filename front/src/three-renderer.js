@@ -3,7 +3,7 @@ import * as d3 from 'd3'
 const OrbitControls = require('three-orbit-controls')(THREE);
 
 export default class ThreeRenderer {
-  constructor() {
+  constructor(data) {
     const output_space = d3.select("#output_space");
     const width = parseInt(output_space.style("width"))
     const height = width;
@@ -18,17 +18,14 @@ export default class ThreeRenderer {
 
     document.getElementById('output_space').appendChild(this.renderer.domElement);
 
-    // window.fetch('ocean.json')
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     this.retrieveData(data);
-    //   });
     const geometry = new THREE.CubeGeometry(1, 1, 1);
     const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
     const cube = new THREE.Mesh(geometry, material);
     this.scene.add(cube);
     this.camera.position.z = 5;
     this.threeRender();
+
+    this.retrieveData(data);
   }
 
   retrieveData(data) {
