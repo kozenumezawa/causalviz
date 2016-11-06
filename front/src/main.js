@@ -10,7 +10,20 @@ import AppBar from './components/app-bar'
 
 export default class main extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
+    this.state = {
+      raw_data: null
+    };
+  }
+
+  componentDidMount() {
+    window.fetch('ocean.json')
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({
+          raw_data: data
+        });
+      });
   }
 
   render() {
@@ -24,7 +37,9 @@ export default class main extends React.Component {
               <ThreeContainer />
             </Col>
             <Col md={5}>
-              <GraphContainer />
+              <GraphContainer
+                raw_data={this.state.raw_data}
+              />
             </Col>
           </Row>
         </Grid>

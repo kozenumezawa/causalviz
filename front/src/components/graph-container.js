@@ -6,20 +6,12 @@ import {scaleLinear, scaleOrdinal, schemeCategory10, line} from 'd3'
 export default class GraphContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      render_graph : []
-    };
   }
 
   componentDidMount() {
-    window.fetch('ocean.json')
-      .then((response) => response.json())
-      .then((data) => {
-        this.retrieveData(data);
-      });
   }
 
-  retrieveData(data) {
+  renderData(data) {
     // Array[3]Array[10100].{s,t}
     const ocean_data = data.data_list;
 
@@ -42,35 +34,39 @@ export default class GraphContainer extends React.Component {
     const dataOpacity = 0.02
     const featureOpacity = 0.5
 
-    const graph =
-      (<svg width={svgWidth} height={svgHeight}>
-        <g transform='translate(50,50)'>
-          <g>{
-            ocean_data[0].map(({s}, i) => <path key={i} d={l(s)} fill='none' stroke={color(0)} opacity={dataOpacity} />)
+    return (
+      <div>
+        <svg width={svgWidth} height={svgHeight}>
+          <g transform='translate(50,50)'>
+            <g>{
+              ocean_data[0].map(({s}, i) => <path key={i} d={l(s)} fill='none' stroke={color(0)} opacity={dataOpacity} />)
+            }</g>
+            <g>{
+              ocean_data[0].map(({t}, i) => <path key={i} d={l(t)} fill='none' stroke={color(1)} opacity={dataOpacity} />)
+            }</g>
+          </g>
+          <g transform='translate(950,50)'>{
+            ['salinity', 'temperature'].map((label, i) => {
+              return <g key={i} transform={`translate(50,${i * 30})`}>
+                <rect x='-25' fill={color(i)} width='20' height='20' />
+                <text y='12'>{label}</text>
+              </g>
+            })
           }</g>
-          <g>{
-            ocean_data[0].map(({t}, i) => <path key={i} d={l(t)} fill='none' stroke={color(1)} opacity={dataOpacity} />)
-          }</g>
-        </g>
-        <g transform='translate(950,50)'>{
-          ['salinity', 'temperature'].map((label, i) => {
-            return <g key={i} transform={`translate(50,${i * 30})`}>
-              <rect x='-25' fill={color(i)} width='20' height='20' />
-              <text y='12'>{label}</text>
-            </g>
-          })
-        }</g>
-      </svg>
-      );
-    this.setState({
-      render_graph : graph
-    });
+        </svg>
+      </div>
+    );
   }
 
   render() {
+    console.log(this.props.raw_data);
     return (
       <div id="time_series_graph">
-        { this.state.render_graph }
+        {(() => {
+          if(this.props.raw_data != null) {
+            return this.renderData(this.props.raw_data);
+          }
+        })()}
       </div>
     );
   }
