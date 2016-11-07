@@ -7,10 +7,7 @@ export default class GraphContainer extends React.Component {
   constructor(props) {
     super(props);
   }
-
-  componentDidMount() {
-  }
-
+  
   renderData(data) {
     // Array[3]Array[10100].{s,t}
     const ocean_data = data.data_list;
