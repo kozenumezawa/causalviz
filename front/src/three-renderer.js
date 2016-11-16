@@ -31,8 +31,8 @@ export default class ThreeRenderer {
   retrieveData(data) {
     const ocean_data = data.data_list;
     ocean_data.forEach((element, idx) => {
-      console.log(element);
     });
+    
   }
 
   threeRender() {
