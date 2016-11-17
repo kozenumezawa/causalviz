@@ -9,18 +9,21 @@ export default class TiffContainer extends React.Component{
 
   componentDidMount() {
   }
-
-  getRenderTiffList() {
+  
+  getRenderPngList() {
     let key = 0;
-    const tiff_list = this.tiff_viewer.getTiffList();
-    const renderList = tiff_list.map((tiffFile) => {
+    const png_list = this.tiff_viewer.getPngList();
+    const render_list = png_list.map((pngFile) => {
       return (
-        <div key={key++}>{tiffFile}</div>
+        <div key={key++}>
+          <img src={pngFile} />
+        </div>
       );
     });
+
     return (
       <div>
-        {renderList}
+        {render_list}
       </div>
     );
   }
@@ -29,8 +32,9 @@ export default class TiffContainer extends React.Component{
     return (
       <div id="output_space">
         {(() => {
-          this.getRenderTiffList()
+          return this.getRenderPngList();
         })()}
+
       </div>
     );
   }

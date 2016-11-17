@@ -1,6 +1,7 @@
 export default class TiffViewer {
   constructor () {
     this.tiff_list = [];
+    this.png_list = [];
     window.fetch('Substack.tif')
       .then((response) => {
         response.arrayBuffer().then((buffer) => {
@@ -9,7 +10,7 @@ export default class TiffViewer {
             tiff.setDirectory(i);
             const canvas = tiff.toCanvas();
             this.tiff_list.push(canvas);
-            document.body.append(canvas);
+            this.png_list.push(canvas.toDataURL());
           }
         });
       });
@@ -17,5 +18,9 @@ export default class TiffViewer {
 
   getTiffList() {
     return this.tiff_list;
+  }
+
+  getPngList() {
+    return this.png_list;
   }
 }
