@@ -2,8 +2,8 @@ import React from 'react'
 import { Grid, Row, Col } from 'react-bootstrap'
 
 import TiffContainer from './components/tiff-container'
-import GraphContainer from './components/graph-container'
 import AppBar from './components/app-bar'
+import StepButton from './components/button/step-button'
 
 export default class main extends React.Component {
   constructor(props) {
@@ -24,6 +24,7 @@ export default class main extends React.Component {
               <TiffContainer />
             </Col>
             <Col md={5}>
+              <StepButton />
             </Col>
           </Row>
         </Grid>
