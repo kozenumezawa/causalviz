@@ -5,25 +5,12 @@ import TiffContainer from './components/tiff-container'
 import GraphContainer from './components/graph-container'
 import AppBar from './components/app-bar'
 
-
-
-
 export default class main extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      raw_data: null
-    };
   }
 
   componentDidMount() {
-    window.fetch('ocean.json')
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState({
-          raw_data: data
-        });
-      });
   }
 
   render() {
@@ -37,9 +24,6 @@ export default class main extends React.Component {
               <TiffContainer />
             </Col>
             <Col md={5}>
-              <GraphContainer
-                raw_data={this.state.raw_data}
-              />
             </Col>
           </Row>
         </Grid>
