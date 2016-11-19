@@ -1,19 +1,21 @@
 import React from 'react'
 import FlatButton from 'material-ui/FlatButton'
 
+import Actions from '../../actions/Actions'
+
 export default class stepButton extends React.Component {
   constructor(props) {
     super(props);
   }
 
   handleBeforeClick() {
-    console.log('before');
+    Actions.handleBeforeClick();
   }
 
   handleNextClick() {
     console.log('next');
   }
-  
+
   render() {
     return (
       <div>
