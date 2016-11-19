@@ -5,6 +5,7 @@ import eventConstants from '../constants/event-constants'
 const CHANGE_EVENT = 'change';
 
 let tiff_list = [];
+let tiff_index = 0;
 
 class Store extends EventEmitter {
   constructor() {
@@ -23,7 +24,6 @@ class Store extends EventEmitter {
   }
 
   getTiffData() {
-    tiff_list = [];
     window.fetch('Substack.tif')
       .then((response) => {
         response.arrayBuffer().then((buffer) => {
@@ -32,23 +32,10 @@ class Store extends EventEmitter {
             tiff.setDirectory(i);
             const canvas = tiff.toCanvas();
             tiff_list.push(canvas);
-            this.appendCanvas(canvas, "output_space");
           }
           this.emitChange();
         });
       });
-  }
-
-  appendCanvas(canvas, id) {
-    const display_canvas = document.createElement('canvas');
-    const bias = 3;
-    display_canvas.width = canvas.width * bias;
-    display_canvas.height = canvas.height * bias;
-    const ctx = display_canvas.getContext('2d');
-    ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width * bias, canvas.height * bias);
-
-    const elem = document.getElementById(id);
-    elem.appendChild(display_canvas);
   }
 
   handler(action) {
@@ -64,6 +51,10 @@ class Store extends EventEmitter {
 
   getTiffList() {
     return tiff_list;
+  }
+
+  getTiffIndex() {
+    return tiff_index;
   }
 }
 

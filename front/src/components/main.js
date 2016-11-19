@@ -10,7 +10,8 @@ import StepButton from './button/step-button'
 
 function getAllState() {
   return {
-    tiff_list: Store.getTiffList()
+    tiff_list: Store.getTiffList(),
+    tiff_index: Store.getTiffIndex()
   }
 }
 
@@ -18,7 +19,6 @@ export default class main extends React.Component {
   constructor(props) {
     super(props);
     this.state = getAllState();
-    console.log(getAllState());
   }
 
   componentDidMount() {
@@ -37,7 +37,10 @@ export default class main extends React.Component {
         <Grid>
           <Row className="show-grid">
             <Col md={7}>
-              <TiffContainer />
+              <TiffContainer
+                tiff_list={this.state.tiff_list}
+                tiff_index={this.state.tiff_index}
+              />
             </Col>
             <Col md={5}>
               <StepButton />
