@@ -1,9 +1,9 @@
 import React from 'react'
-import TiffViewer from '../tiff-viewer'
 
 export default class TiffContainer extends React.Component{
   constructor(props) {
     super(props);
+    this.display_canvas = null;
   }
 
   componentDidMount() {
@@ -17,15 +17,21 @@ export default class TiffContainer extends React.Component{
   }
 
   appendCanvas(canvas) {
-    const display_canvas = document.createElement('canvas');
     const bias = 3;
-    display_canvas.width = canvas.width * bias;
-    display_canvas.height = canvas.height * bias;
-    const ctx = display_canvas.getContext('2d');
-    ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width * bias, canvas.height * bias);
+    //  Element is created when first drawing
+    if(this.display_canvas == null) {
+      this.display_canvas = document.createElement('canvas');
+      this.display_canvas.width = canvas.width * bias;
+      this.display_canvas.height = canvas.height * bias;
+      this.ctx = this.display_canvas.getContext('2d');
+      this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width * bias, canvas.height * bias);
 
-    const elem = document.getElementById('output_space');
-    elem.appendChild(display_canvas);
+      const elem = document.getElementById('output_space');
+      elem.appendChild(this.display_canvas);
+    }
+    this.ctx.beginPath();
+    this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width * bias, canvas.height * bias);
+    this.ctx.closePath();
   }
 
   render() {

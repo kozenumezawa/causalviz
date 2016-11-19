@@ -41,12 +41,20 @@ class Store extends EventEmitter {
   handler(action) {
     switch(action.actionType) {
       case eventConstants.HANDLE_BEFORE_CLICK:
+        tiff_index--;
+        if(tiff_index < 0) {
+          tiff_index = tiff_list.length - 1;
+        }
         break;
       case eventConstants.HANDLE_NEXT_CLICK:
-        console.log('a');
+        tiff_index++;
+        if(tiff_index == tiff_list.length) {
+          tiff_index = 0;
+        }
         break;
       default:
     }
+    this.emitChange();
   }
 
   getTiffList() {
