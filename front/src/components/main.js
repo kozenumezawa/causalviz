@@ -1,9 +1,10 @@
 import React from 'react'
 import { Grid, Row, Col } from 'react-bootstrap'
 
-import TiffContainer from './components/tiff-container'
-import AppBar from './components/app-bar'
-import StepButton from './components/button/step-button'
+import TiffContainer from './tiff-container'
+import AppBar from './app-bar'
+import StepButton from './button/step-button'
+
 
 export default class main extends React.Component {
   constructor(props) {
