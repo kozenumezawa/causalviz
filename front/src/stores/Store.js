@@ -6,12 +6,15 @@ class Store extends EventEmitter {
   constructor() {
     super();
     Dispatcher.register(this.handler.bind(this));
+    
   }
 
   handler(action) {
     switch(action.actionType) {
       case eventConstants.HANDLE_BEFORE_CLICK:
-        console.log('b');
+        break;
+      case eventConstants.HANDLE_NEXT_CLICK:
+        console.log('a');
         break;
       default:
     }

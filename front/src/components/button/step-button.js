@@ -13,7 +13,7 @@ export default class stepButton extends React.Component {
   }
 
   handleNextClick() {
-    console.log('next');
+    Actions.handleNextClick();
   }
 
   render() {

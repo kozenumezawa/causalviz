@@ -6,5 +6,11 @@ export default {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_BEFORE_CLICK
     });
+  },
+
+  handleNextClick: () => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_NEXT_CLICK
+    });
   }
 }
