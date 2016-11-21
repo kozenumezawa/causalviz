@@ -40,7 +40,10 @@ export default class main extends React.Component {
                 tiff_list={this.state.tiff_list}
                 tiff_index={this.state.tiff_index}
               />
-              <StepButton />
+              <StepButton
+                tiff_list={this.state.tiff_list}
+                tiff_index={this.state.tiff_index}
+              />
             </Col>
             <Col md={5}>
 
