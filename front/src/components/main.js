@@ -2,7 +2,6 @@ import React from 'react'
 import { Grid, Row, Col } from 'react-bootstrap'
 
 import Store from '../stores/Store'
-import eventConstants from '../constants/event-constants'
 
 import TiffContainer from './tiff-container'
 import AppBar from './app-bar'
