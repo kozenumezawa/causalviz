@@ -15,7 +15,8 @@ def main():
     shape = data.shape
     h = shape[0]
 
-    for height in range(3):
+    # for height in range(h):
+    for height in range(1):
         each_data_list = []
         for i, item in enumerate(data[height]):
             each_data_list.append({
