@@ -21,10 +21,10 @@
     "events": "^1.1.1",
     "flux": "^3.1.0",
     "keymirror": "^0.1.1",
-    "material-ui": "^0.16.1",
-    "react": "^15.3.2",
+    "material-ui": "^0.16.4",
+    "react": "^15.3.0",
     "react-bootstrap": "^0.30.6",
-    "react-dom": "^15.3.2",
+    "react-dom": "^15.2.1",
     "react-tap-event-plugin": "^1.0.0",
     "three-orbit-controls": "^72.0.0"
   },
