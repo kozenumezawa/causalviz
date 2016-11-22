@@ -29,6 +29,7 @@ export default class TiffContainer extends React.Component{
       const elem = document.getElementById('output_space');
       elem.appendChild(this.display_canvas);
     }
+    //  Update canvas
     this.ctx.beginPath();
     this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width * bias, canvas.height * bias);
     this.ctx.closePath();

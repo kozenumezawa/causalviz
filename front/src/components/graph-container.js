@@ -7,23 +7,55 @@ export default class GraphContainer extends React.Component {
   constructor(props) {
     super(props);
   }
-  
-  renderData(data) {
-    // Array[3]Array[10100].{s,t}
-    const ocean_data = data.data_list;
 
+  createTimeSeriesFromTiff() {
+    let green_time_series_inverse = [];
+    this.props.tiff_list.forEach((element, idx) => {
+      const canvas = this.props.tiff_list[idx];
+      const context = canvas.getContext('2d');
+      const image_data = context.getImageData(0, 0, canvas.width, canvas.height);
+      const image_rgba = image_data.data; // image_rgba = [R, G, B, A, R, G, B, A, ...] (hex data)
+
+      green_time_series_inverse.push(this.getGreenFromRGBA(image_rgba));
+      // console.log(green_time_series_inverse) -> [time][points]
+    });
+
+    // transpose time series data
+    let green_time_series = [];
+    for(let i = 0; i < green_time_series_inverse[0].length; i++) {
+      green_time_series[i] = [];
+      for(let j = 0; j < green_time_series_inverse.length; j++) {
+        green_time_series[i][j] = green_time_series_inverse[j][i];
+      }
+    }
+    // console.log(green_time_series) -> [points][time]
+    return green_time_series;
+  }
+
+  getGreenFromRGBA(rgba_data) {
+    let green_list = [];
+    for(let i = 1; i < rgba_data.length; i += 4) {
+      green_list.push(rgba_data[i]);
+    }
+    return green_list;
+  }
+  
+  renderData() {
+    const green_time_series = this.createTimeSeriesFromTiff();
+
+    // Array[3]Array[10100].{s,t}
     const graph_grid = d3.select("#time_series_graph");
     const aspect = 1.5;
-    const svgWidth = parseInt(graph_grid.style("width"))
-    const svgHeight = Math.floor(svgWidth / aspect)
-    const contentWidth = svgWidth
-    const contentHeight = svgHeight
+    const svgWidth = parseInt(graph_grid.style("width"));
+    const svgHeight = Math.floor(svgWidth / aspect);
+    const contentWidth = svgWidth;
+    const contentHeight = svgHeight;
     const xScale = scaleLinear()
-      .domain([0, ocean_data[0][0].s.length - 1])
-      .range([0, contentWidth])
+      .domain([0, green_time_series[0].length - 1])
+      .range([0, contentWidth]);
     const yScale = scaleLinear()
-      .domain([0, 50])
-      .range([contentHeight, 0])
+      .domain([0, 255])
+      .range([contentHeight, 0]);
     const l = line()
       .x((_, i) => xScale(i))
       .y((d) => yScale(+d))
@@ -36,10 +68,7 @@ export default class GraphContainer extends React.Component {
         <svg width={svgWidth} height={svgHeight}>
           <g transform='translate(50,50)'>
             <g>{
-              ocean_data[0].map(({s}, i) => <path key={i} d={l(s)} fill='none' stroke={color(0)} opacity={dataOpacity} />)
-            }</g>
-            <g>{
-              ocean_data[0].map(({t}, i) => <path key={i} d={l(t)} fill='none' stroke={color(1)} opacity={dataOpacity} />)
+              green_time_series.map((data, i) => <path key={i} d={l(data)} fill='none' stroke={color(0)} opacity={dataOpacity} />)
             }</g>
           </g>
           <g transform='translate(950,50)'>{
@@ -59,8 +88,8 @@ export default class GraphContainer extends React.Component {
     return (
       <div id="time_series_graph">
         {(() => {
-          if(this.props.raw_data != null) {
-            return this.renderData(this.props.raw_data);
+          if(this.props.tiff_list.length != 0) {
+            return this.renderData();
           }
         })()}
       </div>

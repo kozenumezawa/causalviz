@@ -6,6 +6,7 @@ import Store from '../stores/Store'
 import TiffContainer from './tiff-container'
 import AppBar from './app-bar'
 import StepButton from './button/step-button'
+import GraphContainer from './graph-container'
 
 function getAllState() {
   return {
@@ -35,7 +36,7 @@ export default class main extends React.Component {
         <br />
         <Grid>
           <Row className="show-grid">
-            <Col md={7}>
+            <Col md={6}>
               <TiffContainer
                 tiff_list={this.state.tiff_list}
                 tiff_index={this.state.tiff_index}
@@ -45,8 +46,11 @@ export default class main extends React.Component {
                 tiff_index={this.state.tiff_index}
               />
             </Col>
-            <Col md={5}>
-
+            <Col md={6}>
+              <GraphContainer
+                tiff_list={this.state.tiff_list}
+                tiff_index={this.state.tiff_index}
+              />
             </Col>
           </Row>
         </Grid>
