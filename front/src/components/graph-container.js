@@ -71,14 +71,6 @@ export default class GraphContainer extends React.Component {
               green_time_series.map((data, i) => <path key={i} d={l(data)} fill='none' stroke={color(0)} opacity={dataOpacity} />)
             }</g>
           </g>
-          <g transform='translate(950,50)'>{
-            ['salinity', 'temperature'].map((label, i) => {
-              return <g key={i} transform={`translate(50,${i * 30})`}>
-                <rect x='-25' fill={color(i)} width='20' height='20' />
-                <text y='12'>{label}</text>
-              </g>
-            })
-          }</g>
         </svg>
       </div>
     );
