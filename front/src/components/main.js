@@ -36,8 +36,9 @@ export default class main extends React.Component {
         <br />
         <Grid>
           <Row className="show-grid">
-            <Col md={6}>
+            <Col sm={5}>
               <TiffContainer
+                id="tiff_output_1"
                 tiff_list={this.state.tiff_list}
                 tiff_index={this.state.tiff_index}
               />
@@ -45,8 +46,13 @@ export default class main extends React.Component {
                 tiff_list={this.state.tiff_list}
                 tiff_index={this.state.tiff_index}
               />
+              <TiffContainer
+                id="tiff_output_2"
+                tiff_list={this.state.tiff_list}
+                tiff_index={this.state.tiff_index}
+              />
             </Col>
-            <Col md={6}>
+            <Col sm={7}>
               <GraphContainer
                 tiff_list={this.state.tiff_list}
                 tiff_index={this.state.tiff_index}

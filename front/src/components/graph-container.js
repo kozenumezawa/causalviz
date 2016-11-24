@@ -74,7 +74,7 @@ export default class GraphContainer extends React.Component {
 
     const target_canvas = document.getElementById('time_series_graph_canvas');
     const line_opts = {
-      color: 'red',
+      color: 'green',
       width: 0.1
     };
     green_time_series.forEach((element, idx) => {
@@ -86,7 +86,7 @@ export default class GraphContainer extends React.Component {
   render() {
     return (
       <div id="time_series_graph">
-        <canvas id="time_series_graph_canvas" width="400" height="300"></canvas>
+        <canvas id="time_series_graph_canvas" width="420" height="200"></canvas>
         {(() => {
           if(this.props.tiff_list.length != 0 && this.already_drawn == false) {
             this.renderData();

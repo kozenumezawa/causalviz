@@ -17,7 +17,7 @@ export default class TiffContainer extends React.Component{
   }
 
   appendCanvas(canvas) {
-    const bias = 3;
+    const bias = 2;
     //  Element is created when first drawing
     if(this.display_canvas == null) {
       this.display_canvas = document.createElement('canvas');
@@ -26,7 +26,7 @@ export default class TiffContainer extends React.Component{
       this.ctx = this.display_canvas.getContext('2d');
       this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width * bias, canvas.height * bias);
 
-      const elem = document.getElementById('output_space');
+      const elem = document.getElementById(this.props.id);
       elem.appendChild(this.display_canvas);
     }
     //  Update canvas
@@ -37,7 +37,7 @@ export default class TiffContainer extends React.Component{
 
   render() {
     return (
-      <div id="output_space">
+      <div id={this.props.id}>
         {(() => {
           this.renderTiff();
         })()}
