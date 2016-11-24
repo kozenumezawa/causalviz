@@ -1,11 +1,9 @@
 import React from 'react'
-import * as d3 from 'd3'
-import {scaleLinear, scaleOrdinal, schemeCategory10, line} from 'd3'
-
 
 export default class GraphContainer extends React.Component {
   constructor(props) {
     super(props);
+    this.already_drawn = false;
   }
 
   createTimeSeriesFromTiff() {
@@ -39,49 +37,59 @@ export default class GraphContainer extends React.Component {
     }
     return green_list;
   }
-  
+
+  lineGraph(canvas_obj, time_series_data, line_opts) {
+    const context = canvas_obj.getContext('2d');
+    let pos1 = {
+      x: 0,
+      y: canvas_obj.height
+    };
+    let pos2 = {
+      x: 0,
+      y: 0
+    };
+    const dataWH = {
+      w: canvas_obj.width / time_series_data.length,
+      h: canvas_obj.height
+    };
+    context.strokeStyle = line_opts.color;
+    context.lineWidth = line_opts.width;
+    context.save();
+    context.beginPath();
+    // draw lines
+    for (let i = 0; i < time_series_data.length; i++){
+      context.moveTo(pos1.x, pos1.y);
+      pos2.x += dataWH.w;
+      pos2.y = dataWH.h - time_series_data[i];
+      context.lineTo(pos2.x, pos2.y);
+      pos1 = pos2;
+    }
+    context.stroke();
+    context.restore();
+  }
+
+
   renderData() {
     const green_time_series = this.createTimeSeriesFromTiff();
 
-    // Array[3]Array[10100].{s,t}
-    const graph_grid = d3.select("#time_series_graph");
-    const aspect = 1.5;
-    const svgWidth = parseInt(graph_grid.style("width"));
-    const svgHeight = Math.floor(svgWidth / aspect);
-    const contentWidth = svgWidth;
-    const contentHeight = svgHeight;
-    const xScale = scaleLinear()
-      .domain([0, green_time_series[0].length - 1])
-      .range([0, contentWidth]);
-    const yScale = scaleLinear()
-      .domain([0, 255])
-      .range([contentHeight, 0]);
-    const l = line()
-      .x((_, i) => xScale(i))
-      .y((d) => yScale(+d))
-    const color = scaleOrdinal(schemeCategory10)
-    const dataOpacity = 0.02
-    const featureOpacity = 0.5
-
-    return (
-      <div>
-        <svg width={svgWidth} height={svgHeight}>
-          <g transform='translate(50,50)'>
-            <g>{
-              green_time_series.map((data, i) => <path key={i} d={l(data)} fill='none' stroke={color(0)} opacity={dataOpacity} />)
-            }</g>
-          </g>
-        </svg>
-      </div>
-    );
+    const target_canvas = document.getElementById('time_series_graph_canvas');
+    const line_opts = {
+      color: 'red',
+      width: 0.1
+    };
+    green_time_series.forEach((element, idx) => {
+      this.lineGraph(target_canvas, element, line_opts);
+    });
+    this.already_drawn = true;
   }
 
   render() {
     return (
       <div id="time_series_graph">
+        <canvas id="time_series_graph_canvas" width="400" height="300"></canvas>
         {(() => {
-          if(this.props.tiff_list.length != 0) {
-            return this.renderData();
+          if(this.props.tiff_list.length != 0 && this.already_drawn == false) {
+            this.renderData();
           }
         })()}
       </div>
