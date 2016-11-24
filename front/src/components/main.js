@@ -7,6 +7,7 @@ import TiffContainer from './tiff-container'
 import AppBar from './app-bar'
 import StepButton from './button/step-button'
 import GraphContainer from './graph-container'
+import CommandButton from './button/command-button'
 
 function getAllState() {
   return {
@@ -72,6 +73,7 @@ export default class main extends React.Component {
             </Col>
           </Row>
         </Grid>
+        <CommandButton />
       </div>
     );
   }
