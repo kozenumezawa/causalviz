@@ -46,6 +46,17 @@ export default class main extends React.Component {
                 tiff_list={this.state.tiff_list}
                 tiff_index={this.state.tiff_index}
               />
+            </Col>
+            <Col sm={7}>
+              <GraphContainer
+                id="time_series_graph_1"
+                tiff_list={this.state.tiff_list}
+                tiff_index={this.state.tiff_index}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={5}>
               <TiffContainer
                 id="tiff_output_2"
                 tiff_list={this.state.tiff_list}
@@ -54,6 +65,7 @@ export default class main extends React.Component {
             </Col>
             <Col sm={7}>
               <GraphContainer
+                id="time_series_graph_2"
                 tiff_list={this.state.tiff_list}
                 tiff_index={this.state.tiff_index}
               />
