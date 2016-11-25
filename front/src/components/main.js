@@ -8,6 +8,7 @@ import AppBar from './app-bar'
 import StepButton from './button/step-button'
 import GraphContainer from './graph-container'
 import CommandButton from './button/command-button'
+import RelationContainer from './relation-container'
 
 function getAllState() {
   return {
@@ -74,6 +75,9 @@ export default class main extends React.Component {
           </Row>
         </Grid>
         <CommandButton />
+        <RelationContainer
+          id="relation_output"
+        />
       </div>
     );
   }

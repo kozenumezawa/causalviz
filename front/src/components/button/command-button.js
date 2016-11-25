@@ -1,6 +1,5 @@
 import React from 'react'
 import FlatButton from 'material-ui/FlatButton'
-import {white} from 'material-ui/styles/colors'
 
 import Actions from '../../actions/Actions'
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default class GraphContainer extends React.Component {
+export default class graphContainer extends React.Component {
   constructor(props) {
     super(props);
     this.already_drawn = false;
