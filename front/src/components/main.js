@@ -13,7 +13,8 @@ import RelationContainer from './relation-container'
 function getAllState() {
   return {
     tiff_list: Store.getTiffList(),
-    tiff_index: Store.getTiffIndex()
+    tiff_index: Store.getTiffIndex(),
+    green_time_series: Store.getGreenTimeSeries()
   }
 }
 
@@ -53,7 +54,7 @@ export default class main extends React.Component {
               <GraphContainer
                 id="time_series_graph_1"
                 tiff_list={this.state.tiff_list}
-                tiff_index={this.state.tiff_index}
+                green_time_series={this.state.green_time_series}
               />
             </Col>
           </Row>
@@ -69,7 +70,7 @@ export default class main extends React.Component {
               <GraphContainer
                 id="time_series_graph_2"
                 tiff_list={this.state.tiff_list}
-                tiff_index={this.state.tiff_index}
+                green_time_series={this.state.green_time_series}
               />
             </Col>
           </Row>

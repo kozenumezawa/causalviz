@@ -5,39 +5,7 @@ export default class graphContainer extends React.Component {
     super(props);
     this.already_drawn = false;
   }
-
-  createTimeSeriesFromTiff() {
-    let green_time_series_inverse = [];
-    this.props.tiff_list.forEach((element, idx) => {
-      const canvas = this.props.tiff_list[idx];
-      const context = canvas.getContext('2d');
-      const image_data = context.getImageData(0, 0, canvas.width, canvas.height);
-      const image_rgba = image_data.data; // image_rgba = [R, G, B, A, R, G, B, A, ...] (hex data)
-
-      green_time_series_inverse.push(this.getGreenFromRGBA(image_rgba));
-      // console.log(green_time_series_inverse) -> [time][points]
-    });
-
-    // transpose time series data
-    let green_time_series = [];
-    for(let i = 0; i < green_time_series_inverse[0].length; i++) {
-      green_time_series[i] = [];
-      for(let j = 0; j < green_time_series_inverse.length; j++) {
-        green_time_series[i][j] = green_time_series_inverse[j][i];
-      }
-    }
-    // console.log(green_time_series) -> [points][time]
-    return green_time_series;
-  }
-
-  getGreenFromRGBA(rgba_data) {
-    let green_list = [];
-    for(let i = 1; i < rgba_data.length; i += 4) {
-      green_list.push(rgba_data[i]);
-    }
-    return green_list;
-  }
-
+  
   lineGraph(canvas_obj, time_series_data, line_opts) {
     const context = canvas_obj.getContext('2d');
     let pos1 = {
@@ -70,7 +38,7 @@ export default class graphContainer extends React.Component {
 
 
   renderData() {
-    const green_time_series = this.createTimeSeriesFromTiff();
+    const green_time_series = this.props.green_time_series;
 
     const target_canvas = document.getElementById(this.props.id);
     const line_opts = {
