@@ -1,18 +1,19 @@
 import { EventEmitter } from 'events'
 import Dispatcher from '../dispatcher/Dispatcher'
 import eventConstants from '../constants/event-constants'
+import pairTimeSeries from '../pair-time-series'
 
 const CHANGE_EVENT = 'change';
 
-let tiff_list = [];
+let all_tiff_list = [];
+let all_green_time = [];
 let tiff_index = 0;
-let green_time_series = [];
 
 class Store extends EventEmitter {
   constructor() {
     super();
-    this.getTiffData();
-
+    this.getTiffData('Substack.tif');
+    this.getTiffData('Substack.tif');
     Dispatcher.register(this.handler.bind(this));
   }
 
@@ -29,12 +30,12 @@ class Store extends EventEmitter {
       case eventConstants.HANDLE_BEFORE_CLICK:
         tiff_index--;
         if(tiff_index < 0) {
-          tiff_index = tiff_list.length - 1;
+          tiff_index = all_tiff_list[0].length - 1;
         }
         break;
       case eventConstants.HANDLE_NEXT_CLICK:
         tiff_index++;
-        if(tiff_index == tiff_list.length) {
+        if(tiff_index == all_tiff_list[0].length) {
           tiff_index = 0;
         }
         break;
@@ -43,35 +44,37 @@ class Store extends EventEmitter {
     this.emitChange();
   }
 
-  getTiffList() {
-    return tiff_list;
+  getAllTiffList() {
+    return all_tiff_list;
   }
 
   getTiffIndex() {
     return tiff_index;
   }
 
-  getGreenTimeSeries() {
-    return green_time_series;
+  getAllGreenTime() {
+    return all_green_time;
   }
 
-  getTiffData() {
-    window.fetch('Substack.tif')
+  getTiffData(name) {
+    window.fetch(name)
       .then((response) => {
         response.arrayBuffer().then((buffer) => {
+          let tiff_list = [];
           const tiff = new Tiff({ buffer: buffer });
           for (let i = 0, len = tiff.countDirectory(); i < len; i++) {
             tiff.setDirectory(i);
             const canvas = tiff.toCanvas();
             tiff_list.push(canvas);
           }
-          green_time_series = this.createTimeSeriesFromTiff();
+          all_tiff_list.push(tiff_list);
+          all_green_time.push(this.createTimeSeriesFromTiff(tiff_list));
           this.emitChange();
         });
       });
   }
 
-  createTimeSeriesFromTiff() {
+  createTimeSeriesFromTiff(tiff_list) {
     let green_time_series_inverse = [];
     tiff_list.forEach((element, idx) => {
       const canvas = element;

@@ -10,7 +10,7 @@ export default class TiffContainer extends React.Component{
   }
 
   renderTiff() {
-    if(this.props.tiff_list.length == 0) {
+    if(this.props.tiff_list === undefined) {
       return null
     }
     this.appendCanvas(this.props.tiff_list[this.props.tiff_index]);

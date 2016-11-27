@@ -12,9 +12,9 @@ import RelationContainer from './relation-container'
 
 function getAllState() {
   return {
-    tiff_list: Store.getTiffList(),
+    all_tiff_list: Store.getAllTiffList(),
     tiff_index: Store.getTiffIndex(),
-    green_time_series: Store.getGreenTimeSeries()
+    all_green_time: Store.getAllGreenTime()
   }
 }
 
@@ -42,19 +42,19 @@ export default class main extends React.Component {
             <Col sm={5}>
               <TiffContainer
                 id="tiff_output_1"
-                tiff_list={this.state.tiff_list}
+                tiff_list={this.state.all_tiff_list[0]}
                 tiff_index={this.state.tiff_index}
               />
               <StepButton
-                tiff_list={this.state.tiff_list}
+                tiff_list={this.state.all_tiff_list[0]}
                 tiff_index={this.state.tiff_index}
               />
             </Col>
             <Col sm={7}>
               <GraphContainer
                 id="time_series_graph_1"
-                tiff_list={this.state.tiff_list}
-                green_time_series={this.state.green_time_series}
+                tiff_list={this.state.all_tiff_list[0]}
+                green_time_series={this.state.all_green_time[0]}
               />
             </Col>
           </Row>
@@ -62,15 +62,15 @@ export default class main extends React.Component {
             <Col sm={5}>
               <TiffContainer
                 id="tiff_output_2"
-                tiff_list={this.state.tiff_list}
+                tiff_list={this.state.all_tiff_list[1]}
                 tiff_index={this.state.tiff_index}
               />
             </Col>
             <Col sm={7}>
               <GraphContainer
                 id="time_series_graph_2"
-                tiff_list={this.state.tiff_list}
-                green_time_series={this.state.green_time_series}
+                tiff_list={this.state.all_tiff_list[1]}
+                green_time_series={this.state.all_green_time[1]}
               />
             </Col>
           </Row>
@@ -78,7 +78,7 @@ export default class main extends React.Component {
         <CommandButton />
         <RelationContainer
           id="relation_output"
-        />
+        />  
       </div>
     );
   }
