@@ -14,7 +14,8 @@ function getAllState() {
   return {
     all_tiff_list: Store.getAllTiffList(),
     tiff_index: Store.getTiffIndex(),
-    all_green_time: Store.getAllGreenTime()
+    all_green_time: Store.getAllGreenTime(),
+    relation_list : Store.getRelationList()
   }
 }
 
@@ -76,9 +77,17 @@ export default class main extends React.Component {
           </Row>
         </Grid>
         <CommandButton />
-        <RelationContainer
-          id="relation_output"
-        />  
+        <Grid>
+          <Row>
+            <Col sm={5}>
+              <RelationContainer
+                id="relation_output"
+                relation_list={this.state.relation_list}
+              />
+            </Col>
+          </Row>
+        </Grid>
+
       </div>
     );
   }

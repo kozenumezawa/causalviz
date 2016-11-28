@@ -8,6 +8,7 @@ const CHANGE_EVENT = 'change';
 let all_tiff_list = [];
 let all_green_time = [];
 let tiff_index = 0;
+let relation_list = [];
 
 class Store extends EventEmitter {
   constructor() {
@@ -40,7 +41,9 @@ class Store extends EventEmitter {
         }
         break;
       case eventConstants.HANDLE_CORRELATION_CLICK:
-        this.createCorrelationMap();
+        if(relation_list.length == 0) {
+          this.createCorrelationMap();
+        }
         break;
       default:
     }
@@ -57,6 +60,10 @@ class Store extends EventEmitter {
 
   getAllGreenTime() {
     return all_green_time;
+  }
+
+  getRelationList() {
+    return relation_list;
   }
 
   getTiffData(name) {
@@ -113,8 +120,9 @@ class Store extends EventEmitter {
     for(let i = 0; i < all_green_time[0].length; i++) {
       // console.log(all_green_time[i]) -> [points][time]
       const pair = new pairTimeSeries(all_green_time[0][i], all_green_time[1][i]);
-      console.log(pair.getCorrelation());
+      relation_list.push(pair.getCorrelation());
     }
+    this.emitChange();
   }
 }
 
