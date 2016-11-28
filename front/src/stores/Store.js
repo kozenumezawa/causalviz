@@ -39,6 +39,9 @@ class Store extends EventEmitter {
           tiff_index = 0;
         }
         break;
+      case eventConstants.HANDLE_CORRELATION_CLICK:
+        this.createCorrelationMap();
+        break;
       default:
     }
     this.emitChange();
@@ -104,6 +107,14 @@ class Store extends EventEmitter {
       green_list.push(rgba_data[i]);
     }
     return green_list;
+  }
+
+  createCorrelationMap() {
+    for(let i = 0; i < all_green_time[0].length; i++) {
+      // console.log(all_green_time[i]) -> [points][time]
+      const pair = new pairTimeSeries(all_green_time[0][i], all_green_time[1][i]);
+      console.log(pair.getCorrelation());
+    }
   }
 }
 

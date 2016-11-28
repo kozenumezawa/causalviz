@@ -16,8 +16,7 @@ export default class commandButton extends React.Component {
   }
 
   handleCorrelationClick() {
-    // Actions.handleBeforeClick();
-    console.log('a');
+    Actions.handleCorrelationClick();
   }
 
   handleGrangerClick() {

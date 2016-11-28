@@ -12,5 +12,11 @@ export default {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_NEXT_CLICK
     });
+  },
+
+  handleCorrelationClick: () => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_CORRELATION_CLICK
+    });
   }
 }
