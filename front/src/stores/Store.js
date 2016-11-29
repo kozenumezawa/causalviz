@@ -117,9 +117,11 @@ class Store extends EventEmitter {
   }
 
   createCorrelationMap() {
-    for(let i = 0; i < all_green_time[0].length; i++) {
-      // console.log(all_green_time[i]) -> [points][time]
-      const pair = new pairTimeSeries(all_green_time[0][i], all_green_time[1][i]);
+    const time_series_1 = all_green_time[0]; // console.log(all_green_time[0]) -> [points][time]
+    const time_series_2 = all_green_time[1];
+
+    for(let i = 0; i < time_series_1.length; i++) {
+      const pair = new pairTimeSeries(time_series_1[i], time_series_2[i]);
       relation_list.push(pair.getCorrelation());
     }
     this.emitChange();
