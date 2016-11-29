@@ -17,7 +17,7 @@ export default class TiffContainer extends React.Component{
   }
 
   appendCanvas(canvas) {
-    const bias = 2;
+    const bias = this.props.canvas_scale;
     //  Element is created when first drawing
     if(this.display_canvas == null) {
       this.display_canvas = document.createElement('canvas');

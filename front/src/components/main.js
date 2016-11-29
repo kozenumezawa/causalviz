@@ -34,6 +34,7 @@ export default class main extends React.Component {
   }
 
   render() {
+    const canvas_scale = 2;
     return (
       <div>
         <AppBar />
@@ -45,6 +46,7 @@ export default class main extends React.Component {
                 id="tiff_output_1"
                 tiff_list={this.state.all_tiff_list[0]}
                 tiff_index={this.state.tiff_index}
+                canvas_scale={canvas_scale}
               />
               <StepButton
                 tiff_list={this.state.all_tiff_list[0]}
@@ -65,6 +67,7 @@ export default class main extends React.Component {
                 id="tiff_output_2"
                 tiff_list={this.state.all_tiff_list[1]}
                 tiff_index={this.state.tiff_index}
+                canvas_scale={canvas_scale}
               />
             </Col>
             <Col sm={7}>
@@ -83,6 +86,7 @@ export default class main extends React.Component {
               <RelationContainer
                 id="relation_output"
                 relation_list={this.state.relation_list}
+                canvas_scale={canvas_scale}
               />
             </Col>
           </Row>
