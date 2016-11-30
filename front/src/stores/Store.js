@@ -8,8 +8,9 @@ const CHANGE_EVENT = 'change';
 let all_tiff_list = [];
 let all_green_time = [];
 let all_red_time = [];
-let tiff_index = 0;
+let tiff_index = 0;       // indicate the tiff file which should be displayed
 let relation_list = [];
+let highlighted_line = 4550;
 
 class Store extends EventEmitter {
   constructor() {
@@ -69,6 +70,10 @@ class Store extends EventEmitter {
 
   getRelationList() {
     return relation_list;
+  }
+
+  getHighlightedLine() {
+    return highlighted_line;
   }
 
   getTiffData(name) {

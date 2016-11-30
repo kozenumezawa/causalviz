@@ -12,11 +12,12 @@ import RelationContainer from './relation-container'
 
 function getAllState() {
   return {
-    all_tiff_list: Store.getAllTiffList(),
-    tiff_index: Store.getTiffIndex(),
-    all_green_time: Store.getAllGreenTime(),
-    all_red_time: Store.getAllRedTime(),
-    relation_list : Store.getRelationList()
+    all_tiff_list     : Store.getAllTiffList(),
+    tiff_index        : Store.getTiffIndex(),
+    all_green_time    : Store.getAllGreenTime(),
+    all_red_time      : Store.getAllRedTime(),
+    relation_list     : Store.getRelationList(),
+    highlighted_line  : Store.getHighlightedLine()
   }
 }
 
@@ -59,6 +60,7 @@ export default class main extends React.Component {
                 id="time_series_graph_1"
                 tiff_list={this.state.all_tiff_list[0]}
                 green_time_series={this.state.all_green_time[0]}
+                highlighted_line={this.state.highlighted_line}
               />
             </Col>
           </Row>
@@ -76,6 +78,7 @@ export default class main extends React.Component {
                 id="time_series_graph_2"
                 tiff_list={this.state.all_tiff_list[1]}
                 green_time_series={this.state.all_green_time[1]}
+                highlighted_line={this.state.highlighted_line}
               />
             </Col>
           </Row>

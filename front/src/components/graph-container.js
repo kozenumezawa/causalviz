@@ -5,7 +5,13 @@ export default class graphContainer extends React.Component {
     super(props);
     this.already_drawn = false;
   }
-  
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.highlighted_line !== this.props.highlighted_line) {
+      this.renderData();
+    }
+  }
+
   lineGraph(canvas_obj, time_series_data, line_opts) {
     const context = canvas_obj.getContext('2d');
     let pos1 = {
@@ -36,19 +42,28 @@ export default class graphContainer extends React.Component {
     context.restore();
   }
 
-
   renderData() {
     const green_time_series = this.props.green_time_series;
-
     const target_canvas = document.getElementById(this.props.id);
-    const line_opts = {
+
+    let line_opts = {
       color: 'green',
       width: 0.1
     };
     green_time_series.forEach((element, idx) => {
-      this.lineGraph(target_canvas, element, line_opts);
+      if(idx != this.props.highlighted_line) {
+        this.lineGraph(target_canvas, element, line_opts);
+      }
     });
     this.already_drawn = true;
+
+    if(this.props.highlighted_line == -1) {
+      return;
+    }
+    //  draw a highlighted line
+    line_opts.color = 'orange';
+    line_opts.width = 3;
+    this.lineGraph(target_canvas, green_time_series[this.props.highlighted_line], line_opts);
   }
 
   render() {
