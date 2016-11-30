@@ -7,6 +7,7 @@ const CHANGE_EVENT = 'change';
 
 let all_tiff_list = [];
 let all_green_time = [];
+let all_red_time = [];
 let tiff_index = 0;
 let relation_list = [];
 
@@ -62,6 +63,10 @@ class Store extends EventEmitter {
     return all_green_time;
   }
 
+  getAllRedTime() {
+    return all_red_time;
+  }
+
   getRelationList() {
     return relation_list;
   }
@@ -78,34 +83,49 @@ class Store extends EventEmitter {
             tiff_list.push(canvas);
           }
           all_tiff_list.push(tiff_list);
-          all_green_time.push(this.createTimeSeriesFromTiff(tiff_list));
+          all_green_time.push(this.createTimeSeriesFromTiff(tiff_list, 'green'));
+          all_red_time.push(this.createTimeSeriesFromTiff(tiff_list, 'red'));
           this.emitChange();
         });
       });
   }
 
-  createTimeSeriesFromTiff(tiff_list) {
+  createTimeSeriesFromTiff(tiff_list, color_flag) {
     let green_time_series_inverse = [];
+    let red_time_series_inverse = [];
     tiff_list.forEach((element, idx) => {
       const canvas = element;
       const context = canvas.getContext('2d');
       const image_data = context.getImageData(0, 0, canvas.width, canvas.height);
       const image_rgba = image_data.data; // image_rgba = [R, G, B, A, R, G, B, A, ...] (hex data)
 
-      green_time_series_inverse.push(this.getGreenFromRGBA(image_rgba));
-      // console.log(green_time_series_inverse) -> [time][points]
+      green_time_series_inverse.push(this.getGreenFromRGBA(image_rgba));  // console.log(green_time_series_inverse) -> [time][points]
+      red_time_series_inverse.push(this.getRedFromRGBA(image_rgba));
     });
 
-    // transpose time series data
-    let green_time_series = [];
-    for(let i = 0; i < green_time_series_inverse[0].length; i++) {
-      green_time_series[i] = [];
-      for(let j = 0; j < green_time_series_inverse.length; j++) {
-        green_time_series[i][j] = green_time_series_inverse[j][i];
+    if(color_flag == 'green') {
+      // transpose time series data
+      let green_time_series = [];
+      for(let i = 0; i < green_time_series_inverse[0].length; i++) {
+        green_time_series[i] = [];
+        for(let j = 0; j < green_time_series_inverse.length; j++) {
+          green_time_series[i][j] = green_time_series_inverse[j][i];
+        }
       }
+      // console.log(green_time_series) -> [points][time]
+      return green_time_series;
     }
-    // console.log(green_time_series) -> [points][time]
-    return green_time_series;
+
+    if(color_flag == 'red') {
+      let red_time_series = [];
+      for(let i = 0; i < red_time_series_inverse[0].length; i++) {
+        red_time_series[i] = [];
+        for(let j = 0; j < red_time_series_inverse.length; j++) {
+          red_time_series[i][j] = red_time_series_inverse[j][i];
+        }
+      }
+      return red_time_series;
+    }
   }
 
   getGreenFromRGBA(rgba_data) {
@@ -114,6 +134,14 @@ class Store extends EventEmitter {
       green_list.push(rgba_data[i]);
     }
     return green_list;
+  }
+
+  getRedFromRGBA(rgba_data) {
+    let red_list = [];
+    for(let i = 0; i < rgba_data.length; i += 4) {
+      red_list.push(rgba_data[i]);
+    }
+    return red_list;
   }
 
   createCorrelationMap() {

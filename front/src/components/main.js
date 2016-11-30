@@ -15,6 +15,7 @@ function getAllState() {
     all_tiff_list: Store.getAllTiffList(),
     tiff_index: Store.getTiffIndex(),
     all_green_time: Store.getAllGreenTime(),
+    all_red_time: Store.getAllRedTime(),
     relation_list : Store.getRelationList()
   }
 }
