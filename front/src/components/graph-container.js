@@ -6,8 +6,11 @@ export default class graphContainer extends React.Component {
     this.already_drawn = false;
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.highlighted_line !== this.props.highlighted_line) {
+  componentDidUpdate(prevProps) {
+    if(prevProps.highlighted_line !== this.props.highlighted_line) {
+      const target_canvas = document.getElementById(this.props.id);
+      const ctx = target_canvas.getContext('2d');
+      ctx.clearRect(0, 0, target_canvas.width, target_canvas.height);
       this.renderData();
     }
   }
@@ -50,10 +53,8 @@ export default class graphContainer extends React.Component {
       color: 'green',
       width: 0.1
     };
-    green_time_series.forEach((element, idx) => {
-      if(idx != this.props.highlighted_line) {
-        this.lineGraph(target_canvas, element, line_opts);
-      }
+    green_time_series.forEach((element, idx) => { 
+      this.lineGraph(target_canvas, element, line_opts);
     });
     this.already_drawn = true;
 

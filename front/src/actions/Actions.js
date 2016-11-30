@@ -18,5 +18,14 @@ export default {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_CORRELATION_CLICK
     });
+  },
+
+  handleTiffClick: (x, y) => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_TIFF_CLICK,
+      x : x,
+      y : y
+    });
   }
+
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import Action from '../actions/Actions'
 
 export default class TiffContainer extends React.Component{
   constructor(props) {
@@ -33,6 +34,15 @@ export default class TiffContainer extends React.Component{
     this.ctx.beginPath();
     this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width * bias, canvas.height * bias);
     this.ctx.closePath();
+
+    this.display_canvas.addEventListener('click', this.onClickCanvas, false);
+  }
+
+  onClickCanvas(e) {
+    const rect = e.target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    Action.handleTiffClick(x, y);
   }
 
   render() {
@@ -41,7 +51,6 @@ export default class TiffContainer extends React.Component{
         {(() => {
           this.renderTiff();
         })()}
-
       </div>
     );
   }

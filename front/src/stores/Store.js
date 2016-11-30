@@ -10,7 +10,7 @@ let all_green_time = [];
 let all_red_time = [];
 let tiff_index = 0;       // indicate the tiff file which should be displayed
 let relation_list = [];
-let highlighted_line = 4550;
+let highlighted_line = -1;
 
 class Store extends EventEmitter {
   constructor() {
@@ -47,6 +47,8 @@ class Store extends EventEmitter {
           this.createCorrelationMap();
         }
         break;
+      case eventConstants.HANDLE_TIFF_CLICK:
+        highlighted_line = Math.floor(action.y / 2) * 140 + Math.floor(action.x / 2);
       default:
     }
     this.emitChange();
