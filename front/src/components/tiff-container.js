@@ -18,21 +18,15 @@ export default class TiffContainer extends React.Component{
   }
 
   appendCanvas(canvas) {
-    const bias = this.props.canvas_scale;
     //  Element is created when first drawing
     if(this.display_canvas == null) {
-      this.display_canvas = document.createElement('canvas');
-      this.display_canvas.width = canvas.width * bias;
-      this.display_canvas.height = canvas.height * bias;
+      this.display_canvas = document.getElementById(this.props.id);
       this.ctx = this.display_canvas.getContext('2d');
-      this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width * bias, canvas.height * bias);
-
-      const elem = document.getElementById(this.props.id);
-      elem.appendChild(this.display_canvas);
+      this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.display_canvas.width, this.display_canvas.height);
     }
     //  Update canvas
     this.ctx.beginPath();
-    this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width * bias, canvas.height * bias);
+    this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.display_canvas.width, this.display_canvas.height);
     this.ctx.closePath();
 
     this.display_canvas.addEventListener('click', this.onClickCanvas, false);
@@ -47,7 +41,8 @@ export default class TiffContainer extends React.Component{
 
   render() {
     return (
-      <div id={this.props.id}>
+      <div>
+        <canvas id={this.props.id} width="280" height="200" ></canvas>
         {(() => {
           this.renderTiff();
         })()}
