@@ -54,7 +54,7 @@ export default class graphContainer extends React.Component {
     const green_time_series = this.props.green_time_series;
     const target_canvas = document.getElementById(this.props.id);
 
-    let line_opts = {
+    const line_opts = {
       color: 'green',
       width: 0.1
     };
