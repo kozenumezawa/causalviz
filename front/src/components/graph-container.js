@@ -8,10 +8,16 @@ export default class graphContainer extends React.Component {
 
   componentDidUpdate(prevProps) {
     if(prevProps.highlighted_line !== this.props.highlighted_line) {
-      const target_canvas = document.getElementById(this.props.id);
+      //  draw a highlighted line
+      const target_canvas = document.getElementById(this.props.id + '_highlight');
       const ctx = target_canvas.getContext('2d');
+      const green_time_series = this.props.green_time_series;
+      const line_opts = {
+        color: 'orange',
+        width: 3
+      };
       ctx.clearRect(0, 0, target_canvas.width, target_canvas.height);
-      this.renderData();
+      this.lineGraph(target_canvas, green_time_series[this.props.highlighted_line], line_opts);
     }
   }
 
@@ -56,20 +62,13 @@ export default class graphContainer extends React.Component {
       this.lineGraph(target_canvas, element, line_opts);
     });
     this.already_drawn = true;
-
-    if(this.props.highlighted_line == -1) {
-      return;
-    }
-    //  draw a highlighted line
-    line_opts.color = 'orange';
-    line_opts.width = 3;
-    this.lineGraph(target_canvas, green_time_series[this.props.highlighted_line], line_opts);
   }
 
   render() {
     return (
       <div>
-        <canvas id={this.props.id} width="420" height="200"></canvas>
+        <canvas id={this.props.id} width="420" height="200" style={{position: 'absolute', left: 0, top: 0, zIndex: 0}}></canvas>
+        <canvas id={this.props.id + '_highlight'} width="420" height="200" style={{position: 'absolute', left: 0, top: 0, zIndex: 1}}></canvas>
         {(() => {
           if(this.props.tiff_list !== undefined && this.already_drawn == false) {
             this.renderData();
