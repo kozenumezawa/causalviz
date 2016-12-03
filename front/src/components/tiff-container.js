@@ -53,6 +53,7 @@ export default class TiffContainer extends React.Component{
       <div>
         <canvas id={this.props.id} width="280" height="200" style={{left: 0, top: 0, zIndex: 0}}></canvas>
         <canvas id={this.props.id+'overlapped'} width="280" height="200" style={{position: 'absolute', display: 'block', top: 0, zIndex: 1}}></canvas>
+        
         {(() => {
           this.renderTiff();
         })()}
