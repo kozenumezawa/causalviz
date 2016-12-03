@@ -5,6 +5,7 @@ export default class TiffContainer extends React.Component{
   constructor(props) {
     super(props);
     this.display_canvas = null;
+    this.onClickCanvas = this.onClickCanvas.bind(this);
   }
 
   componentDidMount() {
@@ -43,6 +44,8 @@ export default class TiffContainer extends React.Component{
     const overlapped_canvas = document.getElementById(this.props.id + 'overlapped');
     const ctx = overlapped_canvas.getContext('2d');
     ctx.clearRect(0, 0, overlapped_canvas.width, overlapped_canvas.height);
+    ctx.fillStyle='orange';
+    ctx.fillRect(x, y, 2, 2);
   }
 
   render() {

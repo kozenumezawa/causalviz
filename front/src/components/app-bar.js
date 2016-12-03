@@ -2,7 +2,7 @@ import React from 'react'
 import AppBar from 'material-ui/AppBar'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
-export default class CausalVizAppBar extends React.Component {
+export default class CausalVisAppBar extends React.Component {
   constructor(props) {
     super(props);
     injectTapEventPlugin();
@@ -16,7 +16,7 @@ export default class CausalVizAppBar extends React.Component {
     return (
       <div>
         <AppBar
-          title="CausalViz"
+          title="CausalVis"
           iconClassNameRight="muidocs-icon-navigation-expand-more"
           onClick={this.handleClick}
         />
