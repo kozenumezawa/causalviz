@@ -88,7 +88,7 @@ export default class main extends React.Component {
               <GraphContainer
                 id="time_series_graph_2"
                 tiff_list={this.state.all_tiff_list[1]}
-                green_time_series={this.state.all_green_time[1]}
+                green_time_series={this.state.all_red_time[1]}
                 highlighted_line={this.state.highlighted_line}
               />
             </Col>

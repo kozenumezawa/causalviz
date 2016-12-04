@@ -20,7 +20,7 @@ class Store extends EventEmitter {
   constructor() {
     super();
     this.getTiffData('Substack.tif');
-    this.getTiffData('Substack.tif');
+    this.getDummyTiffData('Substack.tif');
     Dispatcher.register(this.handler.bind(this));
   }
 
@@ -108,6 +108,49 @@ class Store extends EventEmitter {
       });
   }
 
+  getDummyTiffData(name) {
+    window.fetch(name)
+      .then((response) => {
+        response.arrayBuffer().then((buffer) => {
+          let tiff_list = [];
+          const tiff = new Tiff({ buffer: buffer });
+          for (let i = 0, len = tiff.countDirectory(); i < len; i++) {
+            tiff.setDirectory(i);
+            const canvas = tiff.toCanvas();
+            tiff_list.push(canvas);
+          }
+          // create dummy data
+          tiff_list.forEach((element, idx) => {
+            const canvas = element;
+            const ctx = canvas.getContext('2d');
+
+            const image_data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const image_rgba = image_data.data; // image_rgba = [R, G, B, A, R, G, B, A, ...] (hex data)
+            // shift data
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            let j = 0;
+            for(let i = 0; i < image_rgba.length; i += 4, j++) {
+              ctx.fillStyle = 'rgb(' + image_rgba[i + 1] + ',' + image_rgba[i + 0] + ',' + image_rgba[i + 2] + ')';
+              let x = j % canvas.width - 15;
+              let y = j / canvas.width + 10;
+              if(x < 0) {
+                x = x + canvas.width;
+              }
+              if(y > canvas.height) {
+                y = y - canvas.height;
+              }
+              ctx.fillRect(x, y, 1, 1);
+            }
+
+
+          });
+          all_tiff_list.push(tiff_list);
+          all_green_time.push(this.createTimeSeriesFromTiff(tiff_list, 'green'));
+          all_red_time.push(this.createTimeSeriesFromTiff(tiff_list, 'red'));
+          this.emitChange();
+        });
+      });
+  }
   createTimeSeriesFromTiff(tiff_list, color_flag) {
     let green_time_series_inverse = [];
     let red_time_series_inverse = [];
@@ -164,7 +207,7 @@ class Store extends EventEmitter {
 
   createCorrelationMap() {
     const time_series_1 = all_green_time[0]; // console.log(all_green_time[0]) -> [points][time]
-    const time_series_2 = all_green_time[1];
+    const time_series_2 = all_red_time[1];
 
     for(let i = 0; i < time_series_1.length; i++) {
       const pair = new pairTimeSeries(time_series_1[i], time_series_2[i]);
