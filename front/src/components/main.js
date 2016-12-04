@@ -17,7 +17,8 @@ function getAllState() {
     all_green_time    : Store.getAllGreenTime(),
     all_red_time      : Store.getAllRedTime(),
     relation_list     : Store.getRelationList(),
-    highlighted_line  : Store.getHighlightedLine()
+    highlighted_line  : Store.getHighlightedLine(),
+    clicked_point     : Store.getClickedPoint()
   }
 }
 
@@ -49,6 +50,7 @@ export default class main extends React.Component {
                 tiff_list={this.state.all_tiff_list[0]}
                 tiff_index={this.state.tiff_index}
                 canvas_scale={canvas_scale}
+                clicked_point={this.state.clicked_point}
               />
               <StepButton
                 tiff_list={this.state.all_tiff_list[0]}
@@ -71,6 +73,7 @@ export default class main extends React.Component {
                 tiff_list={this.state.all_tiff_list[1]}
                 tiff_index={this.state.tiff_index}
                 canvas_scale={canvas_scale}
+                clicked_point={this.state.clicked_point}
               />
             </Col>
             <Col sm={7}>

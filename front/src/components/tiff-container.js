@@ -8,7 +8,15 @@ export default class TiffContainer extends React.Component{
     this.onClickCanvas = this.onClickCanvas.bind(this);
   }
 
-  componentDidMount() {
+  componentWillReceiveProps(nextProps) {
+    if(this.props.clicked_point.x !== -1) {
+      // draw a point
+      const overlapped_canvas = document.getElementById(this.props.id + 'overlapped');
+      const ctx = overlapped_canvas.getContext('2d');
+      ctx.clearRect(0, 0, overlapped_canvas.width, overlapped_canvas.height);
+      ctx.fillStyle='orange';
+      ctx.fillRect(nextProps.clicked_point.x, nextProps.clicked_point.y, 2, 2);
+    }
   }
 
   renderTiff() {
@@ -39,13 +47,6 @@ export default class TiffContainer extends React.Component{
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     Action.handleTiffClick(x, y);
-
-    // draw a point
-    const overlapped_canvas = document.getElementById(this.props.id + 'overlapped');
-    const ctx = overlapped_canvas.getContext('2d');
-    ctx.clearRect(0, 0, overlapped_canvas.width, overlapped_canvas.height);
-    ctx.fillStyle='orange';
-    ctx.fillRect(x, y, 2, 2);
   }
 
   render() {

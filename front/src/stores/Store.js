@@ -11,6 +11,10 @@ let all_red_time = [];
 let tiff_index = 0;       // indicate the tiff file which should be displayed
 let relation_list = [];
 let highlighted_line = -1;
+let clicked_point = {
+  x : -1,
+  y : -1
+};
 
 class Store extends EventEmitter {
   constructor() {
@@ -49,6 +53,9 @@ class Store extends EventEmitter {
         break;
       case eventConstants.HANDLE_TIFF_CLICK:
         highlighted_line = Math.floor(action.y / 2) * 140 + Math.floor(action.x / 2);
+        console.log(clicked_point);
+        clicked_point.x = action.x;
+        clicked_point.y = action.y;
       default:
     }
     this.emitChange();
@@ -76,6 +83,10 @@ class Store extends EventEmitter {
 
   getHighlightedLine() {
     return highlighted_line;
+  }
+
+  getClickedPoint() {
+    return clicked_point;
   }
 
   getTiffData(name) {
