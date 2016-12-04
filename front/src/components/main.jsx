@@ -57,13 +57,19 @@ export default class main extends React.Component {
                 tiff_index={this.state.tiff_index}
               />
             </Col>
-            <Col sm={7}>
+            <Col sm={1}>
+              <div style={{position: 'absolute', display: 'inline', right: 0}}> 255 </div>
+              <div style={{position: 'absolute', display: 'inline', top: 190, right: 0}}> 0 </div>
+            </Col>
+            <Col sm={6}>
               <GraphContainer
                 id="time_series_graph_1"
                 tiff_list={this.state.all_tiff_list[0]}
                 green_time_series={this.state.all_green_time[0]}
                 highlighted_line={this.state.highlighted_line}
               />
+              <div style={{display: 'inline'}}> 0 </div>
+              <div style={{position: 'absolute', display: 'inline', left: 420}}> 99 </div>
             </Col>
           </Row>
           <Row>
@@ -76,13 +82,19 @@ export default class main extends React.Component {
                 clicked_point={this.state.clicked_point}
               />
             </Col>
-            <Col sm={7}>
+            <Col sm={1}>
+              <div style={{position: 'absolute', display: 'inline', right: 0}}> 255 </div>
+              <div style={{position: 'absolute', display: 'inline', top: 190, right: 0}}> 0 </div>
+            </Col>
+            <Col sm={6}>
               <GraphContainer
                 id="time_series_graph_2"
                 tiff_list={this.state.all_tiff_list[1]}
                 green_time_series={this.state.all_green_time[1]}
                 highlighted_line={this.state.highlighted_line}
               />
+              <div style={{display: 'inline'}}> 0 </div>
+              <div style={{position: 'absolute', display: 'inline', left: 420}}> 99 </div>
             </Col>
           </Row>
         </Grid>
