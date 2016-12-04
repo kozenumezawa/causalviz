@@ -3,12 +3,12 @@ import { Grid, Row, Col } from 'react-bootstrap'
 
 import Store from '../stores/Store'
 
-import TiffContainer from './tiff-container'
-import AppBar from './app-bar'
-import StepButton from './button/step-button'
-import GraphContainer from './graph-container'
-import CommandButton from './button/command-button'
-import RelationContainer from './relation-container'
+import TiffContainer from './tiff-container.jsx'
+import AppBar from './app-bar.jsx'
+import StepButton from './button/step-button.jsx'
+import GraphContainer from './graph-container.jsx'
+import CommandButton from './button/command-button.jsx'
+import RelationContainer from './relation-container.jsx'
 
 function getAllState() {
   return {
