@@ -69,7 +69,9 @@ export default class graphContainer extends React.Component {
       <div>
         <canvas id={this.props.id} width="420" height="200" style={{left: 0, top: 0, zIndex: 0}}></canvas>
         <canvas id={this.props.id + '_highlight'} width="420" height="200" style={{position: 'absolute', top: 0, zIndex: 1}}></canvas>
-
+        <div style={{display: 'inline'}}> 0 </div>
+        <div style={{position: 'absolute', display: 'inline', left: 190}}> time step </div>
+        <div style={{position: 'absolute', display: 'inline', left: 420}}> 99 </div>
         {(() => {
           if(this.props.tiff_list !== undefined && this.already_drawn == false) {
             this.renderData();
