@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    bundle: './front/src/index.js'
+    bundle: './front/src/index.jsx'
   },
   output: {
     path: path.join(__dirname, 'front/dist'),
