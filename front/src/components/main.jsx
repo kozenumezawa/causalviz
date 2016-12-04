@@ -58,8 +58,8 @@ export default class main extends React.Component {
               />
             </Col>
             <Col sm={1}>
-              <div style={{position: 'absolute', display: 'inline', right: 0}}> 255 </div>
-              <div style={{position: 'absolute', display: 'inline', top: 190, right: 0}}> 0 </div>
+              <div style={{position: 'absolute', right: 0}}> 255 </div>
+              <div style={{position: 'absolute', top: 190, right: 0}}> 0 </div>
             </Col>
             <Col sm={6}>
               <GraphContainer
@@ -83,8 +83,8 @@ export default class main extends React.Component {
               />
             </Col>
             <Col sm={1}>
-              <div style={{position: 'absolute', display: 'inline', right: 0}}> 255 </div>
-              <div style={{position: 'absolute', display: 'inline', top: 190, right: 0}}> 0 </div>
+              <div style={{position: 'absolute', right: 0}}> 255 </div>
+              <div style={{position: 'absolute', top: 190, right: 0}}> 0 </div>
             </Col>
             <Col sm={6}>
               <GraphContainer
