@@ -69,6 +69,9 @@ export default class main extends React.Component {
                 green_time_series={this.state.all_green_time[0]}
                 highlighted_line={this.state.highlighted_line}
               />
+              <div style={{display: 'inline'}}> 0 </div>
+              <div style={{position: 'absolute', display: 'inline', left: 190}}> time step </div>
+              <div style={{position: 'absolute', display: 'inline', left: 420}}> 99 </div>
             </Col>
           </Row>
           <Row>
@@ -93,6 +96,9 @@ export default class main extends React.Component {
                 green_time_series={this.state.all_red_time[1]}
                 highlighted_line={this.state.highlighted_line}
               />
+              <div style={{display: 'inline'}}> 0 </div>
+              <div style={{position: 'absolute', display: 'inline', left: 190}}> time step </div>
+              <div style={{position: 'absolute', display: 'inline', left: 420}}> 99 </div>
             </Col>
           </Row>
         </Grid>
