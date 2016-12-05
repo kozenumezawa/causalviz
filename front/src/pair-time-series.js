@@ -5,8 +5,15 @@ export default class pairTimeSeries {
   }
 
   getCorrelation() {
+    const error = -2;
     const x_mean = this.getMean(this.x);
     const y_mean = this.getMean(this.y);
+
+    // if all data are 0, return 0
+    if(x_mean == 0 && y_mean == 0) {
+      return error;
+    }
+
     let xx = 0, yy = 0, xy = 0;
 
     for(let i = 0; i < this.x.length; i++) {
@@ -18,7 +25,7 @@ export default class pairTimeSeries {
     yy = Math.sqrt(yy);
 
     if((xx * yy) == 0) {
-      return 1;
+      return error;
     }
     const correlation = xy / (xx * yy);
     return correlation;

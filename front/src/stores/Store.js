@@ -131,7 +131,7 @@ class Store extends EventEmitter {
             let j = 0;
             for(let i = 0; i < image_rgba.length; i += 4, j++) {
               ctx.fillStyle = 'rgb(' + image_rgba[i + 1] + ',' + image_rgba[i + 0] + ',' + image_rgba[i + 2] + ')';
-              let x = j % canvas.width - 15;
+              let x = j % canvas.width - 5;
               let y = j / canvas.width + 10;
               if(x < 0) {
                 x = x + canvas.width;

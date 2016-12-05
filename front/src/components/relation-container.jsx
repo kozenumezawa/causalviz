@@ -52,16 +52,18 @@ export default class relationContainer extends React.Component {
     const tiff_width = 140;
     const tiff_height = 100;
 
-    ctx.scale(2, 2);
+    const bias = this.props.canvas_scale;
+    ctx.scale(bias, bias);
     for(let i = 0; i < this.props.relation_list.length; i++) {
-      const color = this.colorScale(this.props.relation_list[i]);
-      const rgb = this.hslToRgb(2 / 3 * (1 - color), 0.8, 0.5);
+      const correlation = this.props.relation_list[i];
+      const error = -2;     // this value is needed to equal to pair-time-series.js's error
+      const lightness = (correlation == error) ? 0 : 0.5;
+      const color = this.colorScale(correlation);
+
+      const rgb = this.hslToRgb(2 / 3 * (1 - color), 0.8, lightness);
       ctx.fillStyle = 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')';
       ctx.fillRect(i % tiff_width, i / tiff_width, 1, 1);
     }
-    // resize image
-    const bias = this.props.canvas_scale;
-    // ctx.drawImage(canvas, 0, 0, tiff_width, tiff_height, 0, 0, tiff_width * bias, tiff_height * bias);
 
     this.already_drawn = true;
   }
