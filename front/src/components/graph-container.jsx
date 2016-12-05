@@ -14,7 +14,7 @@ export default class graphContainer extends React.Component {
       const green_time_series = this.props.green_time_series;
       const line_opts = {
         color: 'black',
-        width: 3
+        width: 2
       };
       ctx.clearRect(0, 0, target_canvas.width, target_canvas.height);
       this.lineGraph(target_canvas, green_time_series[this.props.highlighted_line], line_opts);
