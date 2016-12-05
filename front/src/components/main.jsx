@@ -64,6 +64,7 @@ export default class main extends React.Component {
             <Col sm={6}>
               <GraphContainer
                 id="time_series_graph_1"
+                line_color="green"
                 tiff_list={this.state.all_tiff_list[0]}
                 green_time_series={this.state.all_green_time[0]}
                 highlighted_line={this.state.highlighted_line}
@@ -87,6 +88,7 @@ export default class main extends React.Component {
             <Col sm={6}>
               <GraphContainer
                 id="time_series_graph_2"
+                line_color="red"
                 tiff_list={this.state.all_tiff_list[1]}
                 green_time_series={this.state.all_red_time[1]}
                 highlighted_line={this.state.highlighted_line}

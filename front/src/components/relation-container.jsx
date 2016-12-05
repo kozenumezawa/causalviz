@@ -59,8 +59,9 @@ export default class relationContainer extends React.Component {
       const error = -2;     // this value is needed to equal to pair-time-series.js's error
       const lightness = (correlation == error) ? 0 : 0.5;
       const color = this.colorScale(correlation);
+      const saturation = 0.8;
 
-      const rgb = this.hslToRgb(2 / 3 * (1 - color), 0.8, lightness);
+      const rgb = this.hslToRgb(2 / 3 * (1 - color), saturation, lightness);
       ctx.fillStyle = 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')';
       ctx.fillRect(i % tiff_width, i / tiff_width, 1, 1);
     }

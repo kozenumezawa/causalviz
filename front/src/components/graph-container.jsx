@@ -13,7 +13,7 @@ export default class graphContainer extends React.Component {
       const ctx = target_canvas.getContext('2d');
       const green_time_series = this.props.green_time_series;
       const line_opts = {
-        color: 'orange',
+        color: 'black',
         width: 3
       };
       ctx.clearRect(0, 0, target_canvas.width, target_canvas.height);
@@ -55,7 +55,7 @@ export default class graphContainer extends React.Component {
     const target_canvas = document.getElementById(this.props.id);
 
     const line_opts = {
-      color: 'green',
+      color: this.props.line_color,
       width: 0.1
     };
     green_time_series.forEach((element, idx) => { 
