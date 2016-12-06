@@ -1,5 +1,6 @@
 import React from 'react'
-import Action from '../actions/Actions'
+
+import ClickedCanvas from './canvas/clicked_canvas.jsx'
 
 export default class relationContainer extends React.Component {
   constructor(props) {
@@ -78,24 +79,16 @@ export default class relationContainer extends React.Component {
       ctx.fillRect(i % tiff_width, i / tiff_width, 1, 1);
     }
 
-    const overlapped_canvas = document.getElementById(this.props.id + 'overlapped');
-    overlapped_canvas.addEventListener('click', this.onClickCanvas, false);
-
     this.already_drawn = true;
-  }
-
-  onClickCanvas(e) {
-    const rect = e.target.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    Action.handleTiffClick(x, y);
   }
 
   render() {
     return (
       <div style={{position:'relative'}}>
         <canvas id={this.props.id} width="280" height="200" style={{left: 0, top: 0, zIndex: 0}}></canvas>
-        <canvas id={this.props.id+'overlapped'} width="280" height="200" style={{position: 'absolute', display: 'block', top: 0, zIndex: 1}}></canvas>
+        <ClickedCanvas
+          id={this.props.id}
+        />
         {(()=>{
           if(this.props.relation_list.length != 0 && this.already_drawn == false) {
             return this.renderData();

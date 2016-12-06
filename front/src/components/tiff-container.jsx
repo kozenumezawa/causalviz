@@ -1,11 +1,11 @@
 import React from 'react'
-import Action from '../actions/Actions'
+
+import ClickedCanvas from './canvas/clicked_canvas.jsx'
 
 export default class TiffContainer extends React.Component{
   constructor(props) {
     super(props);
     this.display_canvas = null;
-    this.onClickCanvas = this.onClickCanvas.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -27,33 +27,25 @@ export default class TiffContainer extends React.Component{
   }
 
   appendCanvas(canvas) {
-    //  Element is created to draw for the first time. Also, eventListener is added
+    //  Element is created to draw for the first time
     if(this.display_canvas == null) {
       this.display_canvas = document.getElementById(this.props.id);
       this.ctx = this.display_canvas.getContext('2d');
       this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.display_canvas.width, this.display_canvas.height);
-
-      const overlapped_canvas = document.getElementById(this.props.id + 'overlapped');
-      overlapped_canvas.addEventListener('click', this.onClickCanvas, false);
     }
     //  Update canvas
     this.ctx.beginPath();
     this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.display_canvas.width, this.display_canvas.height);
     this.ctx.closePath();
   }
-
-  onClickCanvas(e) {
-    const rect = e.target.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    Action.handleTiffClick(x, y);
-  }
-
+  
   render() {
     return (
       <div>
         <canvas id={this.props.id} width="280" height="200" style={{left: 0, top: 0, zIndex: 0}}></canvas>
-        <canvas id={this.props.id+'overlapped'} width="280" height="200" style={{position: 'absolute', display: 'block', top: 0, zIndex: 1}}></canvas>
+        <ClickedCanvas
+          id={this.props.id}
+        />
         
         {(() => {
           this.renderTiff();
