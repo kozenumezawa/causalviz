@@ -210,8 +210,7 @@ class Store extends EventEmitter {
     const time_series_2 = all_red_time[1];
 
     for(let i = 0; i < time_series_1.length; i++) {
-      const pair = new pairTimeSeries(time_series_1[i], time_series_2[i]);
-      relation_list.push(pair.getCorrelation());
+      relation_list.push(pairTimeSeries.getCorrelation(time_series_1[i], time_series_2[i]));
     }
     this.emitChange();
   }
