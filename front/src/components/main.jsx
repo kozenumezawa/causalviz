@@ -102,10 +102,10 @@ export default class main extends React.Component {
             </Col>
           </Row>
         </Grid>
-        <CommandButton />
         <Grid>
           <Row>
             <Col sm={5}>
+              <CommandButton />
               <RelationContainer
                 id="relation_output"
                 relation_list={this.state.relation_list}
