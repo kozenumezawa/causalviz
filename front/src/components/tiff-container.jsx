@@ -27,7 +27,7 @@ export default class TiffContainer extends React.Component{
   }
 
   appendCanvas(canvas) {
-    //  Element is created when first drawing
+    //  Element is created to draw for the first time. Also, eventListener is added
     if(this.display_canvas == null) {
       this.display_canvas = document.getElementById(this.props.id);
       this.ctx = this.display_canvas.getContext('2d');

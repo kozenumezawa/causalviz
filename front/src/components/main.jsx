@@ -110,6 +110,7 @@ export default class main extends React.Component {
                 id="relation_output"
                 relation_list={this.state.relation_list}
                 canvas_scale={canvas_scale}
+                clicked_point={this.state.clicked_point}
               />
             </Col>
           </Row>

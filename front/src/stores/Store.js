@@ -53,7 +53,6 @@ class Store extends EventEmitter {
         break;
       case eventConstants.HANDLE_TIFF_CLICK:
         highlighted_line = Math.floor(action.y / 2) * 140 + Math.floor(action.x / 2);
-        console.log(clicked_point);
         clicked_point.x = action.x;
         clicked_point.y = action.y;
       default:
