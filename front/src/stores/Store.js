@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events'
 import Dispatcher from '../dispatcher/Dispatcher'
 import eventConstants from '../constants/event-constants'
-import pairTimeSeries from '../pair-time-series'
+import * as pairTimeSeries from '../pair-time-series'
 
 const CHANGE_EVENT = 'change';
 
@@ -146,6 +146,7 @@ class Store extends EventEmitter {
           all_tiff_list.push(tiff_list);
           all_green_time.push(this.createTimeSeriesFromTiff(tiff_list, 'green'));
           all_red_time.push(this.createTimeSeriesFromTiff(tiff_list, 'red'));
+          this.createCorrelationMap();
           this.emitChange();
         });
       });

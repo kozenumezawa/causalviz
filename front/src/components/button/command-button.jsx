@@ -28,6 +28,7 @@ export default class commandButton extends React.Component {
       <div style={styles.wrapper}>
         <FlatButton
           label="correlation"
+          disabled={true}
           onClick={this.handleCorrelationClick}
         />
         <FlatButton
