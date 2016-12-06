@@ -1,5 +1,6 @@
 import React from 'react'
 import FlatButton from 'material-ui/FlatButton'
+import IconButton from 'material-ui/IconButton';
 
 import Actions from '../../actions/Actions'
 
@@ -23,6 +24,10 @@ export default class commandButton extends React.Component {
     console.log('a');
   }
 
+  handleLoupeClick() {
+    console.log('a');
+  }
+
   render() {
     return (
       <div style={styles.wrapper}>
@@ -35,6 +40,9 @@ export default class commandButton extends React.Component {
           label="Granger"
           onClick={this.handleGrangerClick}
         />
+        <div className="btn btn-link" onClick={this.handleLoupeClick}>
+          <span className="glyphicon glyphicon-search" ></span>
+        </div>
       </div>
     );
   }

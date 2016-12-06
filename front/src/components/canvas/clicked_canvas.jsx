@@ -10,6 +10,7 @@ export default class ClickedCanvas extends React.Component {
   componentDidMount() {
     const overlapped_canvas = document.getElementById(this.props.id + 'overlapped');
     overlapped_canvas.addEventListener('click', this.onClickCanvas, false);
+    overlapped_canvas.addEventListener('mousemove', this.mouseMove)
   }
 
   onClickCanvas(e) {
@@ -18,7 +19,13 @@ export default class ClickedCanvas extends React.Component {
     const y = e.clientY - rect.top;
     Action.handleTiffClick(x, y);
   }
-  
+
+  mouseMove(e) {
+    const rect = e.target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+  }
+
   render() {
     return (
       <div>
@@ -27,4 +34,5 @@ export default class ClickedCanvas extends React.Component {
     );
   }
 }
+
 
