@@ -6,7 +6,7 @@ export default class relationContainer extends React.Component {
     super(props);
     this.already_drawn = false;
   }
-  
+
   componentWillReceiveProps(nextProps) {
     if(this.props.clicked_point.x !== -1) {
       // draw a point
