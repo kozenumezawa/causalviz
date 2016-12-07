@@ -8,7 +8,12 @@ export default class relationContainer extends React.Component {
     super(props);
     this.already_drawn = false;
   }
-  
+
+  componentDidMount() {
+    this.canvas = document.getElementById(this.props.id);
+    this.ctx = this.canvas.getContext('2d');
+  }
+
   /**
    * Converts an HSL color value to RGB. Conversion formula
    * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
@@ -50,13 +55,11 @@ export default class relationContainer extends React.Component {
   }
 
   renderData() {
-    const canvas = document.getElementById(this.props.id);
-    const ctx = canvas.getContext('2d');
     const tiff_width = 140;
     const tiff_height = 100;
 
     const bias = this.props.canvas_scale;
-    ctx.scale(bias, bias);
+    this.ctx.scale(bias, bias);
     for(let i = 0; i < this.props.relation_list.length; i++) {
       const correlation = this.props.relation_list[i];
       const error = -2;     // this value is needed to equal to pair-time-series.js's error
@@ -65,8 +68,8 @@ export default class relationContainer extends React.Component {
       const saturation = 0.8;
 
       const rgb = this.hslToRgb(2 / 3 * (1 - color), saturation, lightness);
-      ctx.fillStyle = 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')';
-      ctx.fillRect(i % tiff_width, i / tiff_width, 1, 1);
+      this.ctx.fillStyle = 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')';
+      this.ctx.fillRect(i % tiff_width, i / tiff_width, 1, 1);
     }
 
     this.already_drawn = true;

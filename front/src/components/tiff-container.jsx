@@ -9,6 +9,11 @@ export default class TiffContainer extends React.Component{
     this.display_canvas = null;
   }
 
+  componentDidMount() {
+    this.canvas = document.getElementById(this.props.id);
+    this.ctx = this.canvas.getContext('2d');
+  }
+
   renderTiff() {
     if(this.props.tiff_list === undefined) {
       return null
@@ -19,13 +24,11 @@ export default class TiffContainer extends React.Component{
   appendCanvas(canvas) {
     //  Element is created to draw for the first time
     if(this.display_canvas == null) {
-      this.display_canvas = document.getElementById(this.props.id);
-      this.ctx = this.display_canvas.getContext('2d');
-      this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.display_canvas.width, this.display_canvas.height);
+      this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.canvas.width, this.canvas.height);
     }
     //  Update canvas
     this.ctx.beginPath();
-    this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.display_canvas.width, this.display_canvas.height);
+    this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.canvas.width, this.canvas.height);
     this.ctx.closePath();
   }
   

@@ -5,14 +5,17 @@ export default class ClickedCanvas extends React.Component {
     super(props);
   }
 
+  componentDidMount() {
+    this.canvas = document.getElementById(this.props.id + 'clicked');
+    this.ctx = this.canvas.getContext('2d');
+  }
+
   componentWillReceiveProps(nextProps) {
     if(this.props.clicked_point.x !== -1) {
       // draw a point
-      const overlapped_canvas = document.getElementById(this.props.id + 'clicked');
-      const ctx = overlapped_canvas.getContext('2d');
-      ctx.clearRect(0, 0, overlapped_canvas.width, overlapped_canvas.height);
-      ctx.fillStyle='white';
-      ctx.fillRect(nextProps.clicked_point.x, nextProps.clicked_point.y, 2, 2);
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.fillStyle='white';
+      this.ctx.fillRect(nextProps.clicked_point.x, nextProps.clicked_point.y, 2, 2);
     }
   }
   

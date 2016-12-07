@@ -6,29 +6,26 @@ export default class EventCanvas extends React.Component{
   constructor(props) {
     super(props);
     this.mouseMove = this.mouseMove.bind(this);
-    console.log(this.props);
   }
 
   componentDidMount() {
-    const overlapped_canvas = document.getElementById(this.props.id + 'event');
-    overlapped_canvas.addEventListener('click', this.onClickCanvas, false);
-    overlapped_canvas.addEventListener('mousemove', this.mouseMove)
+    this.canvas = document.getElementById(this.props.id + 'event');
+    this.ctx = this.canvas.getContext('2d');
+
+    this.canvas.addEventListener('click', this.onClickCanvas, false);
+    this.canvas.addEventListener('mousemove', this.mouseMove)
   }
 
   componentWillReceiveProps(nextProps) {
-    const overlapped_canvas = document.getElementById(this.props.id + 'event');
-    const ctx = overlapped_canvas.getContext('2d');
-
     if(nextProps.loupe_point.on == true && nextProps.loupe_point.x != -1) {
-      console.log(nextProps.loupe_point.x);
       // draw a loupe
-      ctx.clearRect(0, 0, overlapped_canvas.width, overlapped_canvas.height);
-      ctx.strokeStyle = 'white';
-      ctx.beginPath();
-      ctx.arc(nextProps.loupe_point.x, nextProps.loupe_point.y, 40, 0, Math.PI * 2, false);
-      ctx.stroke();
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.strokeStyle = 'white';
+      this.ctx.beginPath();
+      this.ctx.arc(nextProps.loupe_point.x, nextProps.loupe_point.y, 40, 0, Math.PI * 2, false);
+      this.ctx.stroke();
     } else {
-      ctx.clearRect(0, 0, overlapped_canvas.width, overlapped_canvas.height);
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
   }
 
