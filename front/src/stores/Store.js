@@ -18,7 +18,8 @@ let clicked_point = {
 let loupe_point = {
   x : -1,
   y : -1,
-  on : false
+  on : false,
+  radius : 40
 };
 
 class Store extends EventEmitter {
@@ -64,10 +65,8 @@ class Store extends EventEmitter {
       case eventConstants.HANDLE_LOUPE_CLICK:
         loupe_point.on = !loupe_point.on;
         if(loupe_point.on == false) {
-          loupe_point = {
-            x: -1,
-            y: -1
-          }
+          loupe_point.x = -1;
+          loupe_point.y = -1;
         }
         break;
       case eventConstants.HANDLE_LOUPE_MOVE:
