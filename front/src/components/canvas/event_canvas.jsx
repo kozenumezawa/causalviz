@@ -17,12 +17,13 @@ export default class EventCanvas extends React.Component{
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.loupe_point.on == true && nextProps.loupe_point.x != -1) {
+    const loupe_point = nextProps.loupe_point;
+    if(loupe_point.on == true && loupe_point.x != -1) {
       // draw a loupe
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.ctx.strokeStyle = 'white';
       this.ctx.beginPath();
-      this.ctx.arc(nextProps.loupe_point.x, nextProps.loupe_point.y, 40, 0, Math.PI * 2, false);
+      this.ctx.arc(loupe_point.x, loupe_point.y, loupe_point.radius, 0, Math.PI * 2, false);
       this.ctx.stroke();
     } else {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);

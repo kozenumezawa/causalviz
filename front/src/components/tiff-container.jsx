@@ -14,6 +14,14 @@ export default class TiffContainer extends React.Component{
     this.ctx = this.canvas.getContext('2d');
   }
 
+  componentWillReceiveProps(nextProps) {
+    const loupe_point = nextProps.loupe_point;
+    if(loupe_point.on == true) {
+      // magnify a canvas
+      // console.log(loupe_point.x)
+    }
+  }
+
   renderTiff() {
     if(this.props.tiff_list === undefined) {
       return null
