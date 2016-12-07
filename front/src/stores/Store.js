@@ -17,7 +17,8 @@ let clicked_point = {
 };
 let loupe_point = {
   x : -1,
-  y : -1
+  y : -1,
+  on : false
 };
 
 class Store extends EventEmitter {
@@ -59,6 +60,15 @@ class Store extends EventEmitter {
         highlighted_line = Math.floor(action.y / 2) * 140 + Math.floor(action.x / 2);
         clicked_point.x = action.x;
         clicked_point.y = action.y;
+        break;
+      case eventConstants.HANDLE_LOUPE_CLICK:
+        loupe_point.on = !loupe_point.on;
+        if(loupe_point.on == false) {
+          loupe_point = {
+            x: -1,
+            y: -1
+          }
+        }
         break;
       case eventConstants.HANDLE_LOUPE_MOVE:
         loupe_point.x = action.x;
