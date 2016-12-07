@@ -34,6 +34,11 @@ export default {
       x : x,
       y : y
     });
-  }
+  },
 
+  handleLoupeClick: () => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_LOUPE_CLICK
+    });
+  }
 }

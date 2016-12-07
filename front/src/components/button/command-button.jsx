@@ -25,7 +25,7 @@ export default class commandButton extends React.Component {
   }
 
   handleLoupeClick() {
-    console.log('a');
+    Actions.handleLoupeClick();
   }
 
   render() {

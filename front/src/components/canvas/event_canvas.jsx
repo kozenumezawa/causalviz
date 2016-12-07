@@ -6,6 +6,7 @@ export default class EventCanvas extends React.Component{
   constructor(props) {
     super(props);
     this.mouseMove = this.mouseMove.bind(this);
+    console.log(this.props);
   }
 
   componentDidMount() {
@@ -15,15 +16,19 @@ export default class EventCanvas extends React.Component{
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.loupe_point.x != -1) {
+    const overlapped_canvas = document.getElementById(this.props.id + 'event');
+    const ctx = overlapped_canvas.getContext('2d');
+
+    if(nextProps.loupe_point.on == true && nextProps.loupe_point.x != -1) {
+      console.log(nextProps.loupe_point.x);
       // draw a loupe
-      const overlapped_canvas = document.getElementById(this.props.id + 'event');
-      const ctx = overlapped_canvas.getContext('2d');
       ctx.clearRect(0, 0, overlapped_canvas.width, overlapped_canvas.height);
       ctx.strokeStyle = 'white';
       ctx.beginPath();
       ctx.arc(nextProps.loupe_point.x, nextProps.loupe_point.y, 40, 0, Math.PI * 2, false);
       ctx.stroke();
+    } else {
+      ctx.clearRect(0, 0, overlapped_canvas.width, overlapped_canvas.height);
     }
   }
 
@@ -35,10 +40,12 @@ export default class EventCanvas extends React.Component{
   }
 
   mouseMove(e) {
-    const rect = e.target.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    Action.handleLoupeMove(x, y);
+    if(this.props.loupe_point.on == true) {
+      const rect = e.target.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      Action.handleLoupeMove(x, y);
+    }
   }
 
   render() {
