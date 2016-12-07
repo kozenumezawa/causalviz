@@ -7,18 +7,7 @@ export default class relationContainer extends React.Component {
     super(props);
     this.already_drawn = false;
   }
-
-  componentWillReceiveProps(nextProps) {
-    if(this.props.clicked_point.x !== -1) {
-      // draw a point
-      const overlapped_canvas = document.getElementById(this.props.id + 'overlapped');
-      const ctx = overlapped_canvas.getContext('2d');
-      ctx.clearRect(0, 0, overlapped_canvas.width, overlapped_canvas.height);
-      ctx.fillStyle='white';
-      ctx.fillRect(nextProps.clicked_point.x, nextProps.clicked_point.y, 2, 2);
-    }
-  }
-
+  
   /**
    * Converts an HSL color value to RGB. Conversion formula
    * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
@@ -88,6 +77,7 @@ export default class relationContainer extends React.Component {
         <canvas id={this.props.id} width="280" height="200" style={{left: 0, top: 0, zIndex: 0}}></canvas>
         <ClickedCanvas
           id={this.props.id}
+          clicked_point={this.props.clicked_point}
         />
         {(()=>{
           if(this.props.relation_list.length != 0 && this.already_drawn == false) {

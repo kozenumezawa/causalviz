@@ -8,17 +8,6 @@ export default class TiffContainer extends React.Component{
     this.display_canvas = null;
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(this.props.clicked_point.x !== -1) {
-      // draw a point
-      const overlapped_canvas = document.getElementById(this.props.id + 'overlapped');
-      const ctx = overlapped_canvas.getContext('2d');
-      ctx.clearRect(0, 0, overlapped_canvas.width, overlapped_canvas.height);
-      ctx.fillStyle='white';
-      ctx.fillRect(nextProps.clicked_point.x, nextProps.clicked_point.y, 2, 2);
-    }
-  }
-
   renderTiff() {
     if(this.props.tiff_list === undefined) {
       return null
@@ -45,6 +34,7 @@ export default class TiffContainer extends React.Component{
         <canvas id={this.props.id} width="280" height="200" style={{left: 0, top: 0, zIndex: 0}}></canvas>
         <ClickedCanvas
           id={this.props.id}
+          clicked_point={this.props.clicked_point}
         />
         
         {(() => {
