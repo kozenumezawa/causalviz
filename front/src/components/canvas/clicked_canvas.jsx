@@ -1,7 +1,5 @@
 import React from 'react'
 
-import Action from '../../actions/Actions'
-
 export default class ClickedCanvas extends React.Component {
   constructor(props) {
     super(props);

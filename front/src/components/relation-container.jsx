@@ -82,6 +82,7 @@ export default class relationContainer extends React.Component {
         />
         <EventCanvas
           id={this.props.id}
+          loupe_point={this.props.loupe_point}
         />
         {(()=>{
           if(this.props.relation_list.length != 0 && this.already_drawn == false) {

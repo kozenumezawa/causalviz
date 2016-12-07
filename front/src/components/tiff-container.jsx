@@ -39,6 +39,7 @@ export default class TiffContainer extends React.Component{
         />
         <EventCanvas
           id={this.props.id}
+          loupe_point={this.props.loupe_point}
         />
         
         {(() => {

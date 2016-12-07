@@ -26,6 +26,14 @@ export default {
       x : x,
       y : y
     });
+  },
+
+  handleLoupeMove: (x, y) => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_LOUPE_MOVE,
+      x : x,
+      y : y
+    });
   }
 
 }

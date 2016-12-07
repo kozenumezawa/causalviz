@@ -18,7 +18,8 @@ function getAllState() {
     all_red_time      : Store.getAllRedTime(),
     relation_list     : Store.getRelationList(),
     highlighted_line  : Store.getHighlightedLine(),
-    clicked_point     : Store.getClickedPoint()
+    clicked_point     : Store.getClickedPoint(),
+    loupe_point       : Store.getLoupePoint()
   }
 }
 
@@ -51,6 +52,7 @@ export default class main extends React.Component {
                 tiff_index={this.state.tiff_index}
                 canvas_scale={canvas_scale}
                 clicked_point={this.state.clicked_point}
+                loupe_point={this.state.loupe_point}
               />
               <StepButton
                 tiff_list={this.state.all_tiff_list[0]}
@@ -82,6 +84,7 @@ export default class main extends React.Component {
                 tiff_index={this.state.tiff_index}
                 canvas_scale={canvas_scale}
                 clicked_point={this.state.clicked_point}
+                loupe_point={this.state.loupe_point}
               />
             </Col>
             <Col sm={1}>
@@ -111,6 +114,7 @@ export default class main extends React.Component {
                 relation_list={this.state.relation_list}
                 canvas_scale={canvas_scale}
                 clicked_point={this.state.clicked_point}
+                loupe_point={this.state.loupe_point}
               />
             </Col>
           </Row>

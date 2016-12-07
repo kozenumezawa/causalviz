@@ -15,6 +15,10 @@ let clicked_point = {
   x : -1,
   y : -1
 };
+let loupe_point = {
+  x : -1,
+  y : -1
+};
 
 class Store extends EventEmitter {
   constructor() {
@@ -55,6 +59,11 @@ class Store extends EventEmitter {
         highlighted_line = Math.floor(action.y / 2) * 140 + Math.floor(action.x / 2);
         clicked_point.x = action.x;
         clicked_point.y = action.y;
+        break;
+      case eventConstants.HANDLE_LOUPE_MOVE:
+        loupe_point.x = action.x;
+        loupe_point.y = action.y;
+        break;
       default:
     }
     this.emitChange();
@@ -86,6 +95,10 @@ class Store extends EventEmitter {
 
   getClickedPoint() {
     return clicked_point;
+  }
+
+  getLoupePoint() {
+    return loupe_point;
   }
 
   getTiffData(name) {
