@@ -6,7 +6,6 @@ import EventCanvas from './canvas/event_canvas.jsx'
 export default class TiffContainer extends React.Component{
   constructor(props) {
     super(props);
-    this.display_canvas = null;
   }
 
   componentDidMount() {
@@ -15,31 +14,30 @@ export default class TiffContainer extends React.Component{
   }
 
   componentWillReceiveProps(nextProps) {
-    const loupe_point = nextProps.loupe_point;
-    if(loupe_point.on == true) {
-      // magnify a canvas
-      // console.log(loupe_point.x)
-    }
-  }
-
-  renderTiff() {
     if(this.props.tiff_list === undefined) {
       return null
     }
-    this.appendCanvas(this.props.tiff_list[this.props.tiff_index]);
+
+    // draw a base image
+    const canvas = this.props.tiff_list[this.props.tiff_index];
+    this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.canvas.width, this.canvas.height);
+
+    // magnify the area which is surrounded by a loupe
+    if(nextProps.loupe_point.on == true && nextProps.loupe_point.x != -1) {
+      const loupe_point = nextProps.loupe_point;
+      const magnify_length = loupe_point.side * 2;
+      const magnify_x = loupe_point.x - loupe_point.side;
+      const magnify_y = loupe_point.y - loupe_point.side;
+
+      const clipped_length = loupe_point.side;
+      const clipped_x = loupe_point.x - clipped_length / 2;
+      const clipped_y = loupe_point.y - clipped_length / 2;
+
+      this.ctx.drawImage(this.canvas, clipped_x, clipped_y, clipped_length, clipped_length
+                                    , magnify_x, magnify_y, magnify_length, magnify_length);
+    }
   }
 
-  appendCanvas(canvas) {
-    //  Element is created to draw for the first time
-    if(this.display_canvas == null) {
-      this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.canvas.width, this.canvas.height);
-    }
-    //  Update canvas
-    this.ctx.beginPath();
-    this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.closePath();
-  }
-  
   render() {
     return (
       <div>
@@ -52,10 +50,6 @@ export default class TiffContainer extends React.Component{
           id={this.props.id}
           loupe_point={this.props.loupe_point}
         />
-        
-        {(() => {
-          this.renderTiff();
-        })()}
       </div>
     );
   }
