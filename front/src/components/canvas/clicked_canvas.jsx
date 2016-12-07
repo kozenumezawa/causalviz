@@ -7,12 +7,6 @@ export default class ClickedCanvas extends React.Component {
     super(props);
   }
 
-  componentDidMount() {
-    const overlapped_canvas = document.getElementById(this.props.id + 'clicked');
-    overlapped_canvas.addEventListener('click', this.onClickCanvas, false);
-    overlapped_canvas.addEventListener('mousemove', this.mouseMove)
-  }
-
   componentWillReceiveProps(nextProps) {
     if(this.props.clicked_point.x !== -1) {
       // draw a point
@@ -23,20 +17,7 @@ export default class ClickedCanvas extends React.Component {
       ctx.fillRect(nextProps.clicked_point.x, nextProps.clicked_point.y, 2, 2);
     }
   }
-
-  onClickCanvas(e) {
-    const rect = e.target.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    Action.handleTiffClick(x, y);
-  }
-
-  mouseMove(e) {
-    const rect = e.target.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-  }
-
+  
   render() {
     return (
       <div>

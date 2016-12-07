@@ -1,6 +1,7 @@
 import React from 'react'
 
 import ClickedCanvas from './canvas/clicked_canvas.jsx'
+import EventCanvas from './canvas/event_canvas.jsx'
 
 export default class relationContainer extends React.Component {
   constructor(props) {
@@ -78,6 +79,9 @@ export default class relationContainer extends React.Component {
         <ClickedCanvas
           id={this.props.id}
           clicked_point={this.props.clicked_point}
+        />
+        <EventCanvas
+          id={this.props.id}
         />
         {(()=>{
           if(this.props.relation_list.length != 0 && this.already_drawn == false) {
