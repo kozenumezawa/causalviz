@@ -45,6 +45,7 @@ export default class TiffContainer extends React.Component{
         <ClickedCanvas
           id={this.props.id}
           clicked_point={this.props.clicked_point}
+          loupe_point={this.props.loupe_point}
         />
         <EventCanvas
           id={this.props.id}
