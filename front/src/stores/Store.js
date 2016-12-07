@@ -19,7 +19,7 @@ let loupe_point = {
   x : -1,
   y : -1,
   on : false,
-  radius : 40
+  side : 40
 };
 
 class Store extends EventEmitter {
