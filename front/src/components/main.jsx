@@ -108,7 +108,6 @@ export default class main extends React.Component {
         <Grid>
           <Row>
             <Col sm={5}>
-              <CommandButton />
               <RelationContainer
                 id="relation_output"
                 relation_list={this.state.relation_list}
@@ -118,6 +117,7 @@ export default class main extends React.Component {
               />
             </Col>
           </Row>
+          <CommandButton />
         </Grid>
 
       </div>

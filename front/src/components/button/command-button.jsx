@@ -1,6 +1,6 @@
 import React from 'react'
 import FlatButton from 'material-ui/FlatButton'
-import IconButton from 'material-ui/IconButton';
+import Toggle from 'material-ui/Toggle'
 
 import Actions from '../../actions/Actions'
 
@@ -40,9 +40,13 @@ export default class commandButton extends React.Component {
           label="Granger"
           onClick={this.handleGrangerClick}
         />
-        <div className="btn btn-link" onClick={this.handleLoupeClick}>
+        <div className="btn btn-link">
+          <Toggle
+            onToggle={this.handleLoupeClick}
+          />
           <span className="glyphicon glyphicon-search" ></span>
         </div>
+
       </div>
     );
   }
