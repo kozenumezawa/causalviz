@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<meta content="text/css" http-equiv="Content-Style-Type">
+<meta content="text/javascript" http-equiv="Content-Script-Type">
+<title>GrangerTest</title>
+<script src="granger1.js"></script>
+<script src="granger.js"></script>
+<script src="mx.js/mx.js"></script>
+<script src="mx.js/matrix.js"></script>
+<script src="mx.js/vector.js"></script>
+<script src="mx.js/o.js"></script>
+<script src="jstat/core.js"></script>
+<script src="jstat/special.js"></script>
+<script src="jstat/distribution.js"></script>
+<script src="samplearray.js"></script>
+<script src="js/jkl-dumper.js"></script>
+</head>
+<body>
+<pre>
+matrix library: http://tkengo.github.io/mx.js/
+statistics library: http://jstat.github.io/
+2系列専用グレンジャーテスト
+
+<script>
+function log(arg) {
+document.writeln(arg);
+}
+
+function dump(arg) {
+dumper = new JKL.Dumper();
+log(dumper.dump(arg));
+}
+
+var p;
+var lag =2;
+
+document.write("\n");
+document.write("array A=[");
+for (i = 0; i<A.length;i++) {
+	if ( i == A.length-1) {
+		document.write(A[i]+"]\n");
+	} else {
+		document.write(A[i]+", ");
+		if( i % 10 == 9 ) {
+			document.write("\n");
+		}
+	}
+}
+document.write("\n");
+document.write("array B=[");
+for (i = 0; i<B.length;i++) {
+	if ( i == B.length-1) {
+		document.write(B[i]+"]\n");
+	} else {
+		document.write(B[i]+", ");
+		if( i % 10 == 9 ) {
+			document.write("\n");
+		}
+	}
+}
+document.write("\n");
+
+log("\n");
+p = grangerTest(A, B, lag);
+log("granger test A→B(lag="+lag+"): p="+p);
+
+log("\n");
+p = grangerTest(B, A, lag);
+log("granger test B→A(lag="+lag+"): p="+p);
+</script>
+</pre>
+</body>
+</html>
