@@ -5,16 +5,3 @@ node_modules
 front/dist/bundle.js
 front/dist/bundle.js.map
 front/dist/*.tif
-*.tiff
-
-# Ignore bundler config.
-/.bundle
-
-# Ignore the default SQLite database.
-/db/*.sqlite3
-/db/*.sqlite3-journal
-
-# Ignore all logfiles and tempfiles.
-/log/*
-!/log/.keep
-/tmp
