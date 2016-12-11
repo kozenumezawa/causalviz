@@ -31,7 +31,7 @@ export default class stepButton extends React.Component {
   render() {
     let pages = '- / -';
     if(this.props.tiff_list !== undefined) {
-      pages = this.props.tiff_index + ' / ' + (this.props.tiff_list.length - 1);
+      pages = (this.props.tiff_index + 1) + ' / ' + this.props.tiff_list.length;
     }
     return (
       <div style={styles.wrapper}>
