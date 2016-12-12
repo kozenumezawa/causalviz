@@ -37,7 +37,7 @@ export default class ClickedCanvas extends React.Component {
   render() {
     return (
       <div>
-        <canvas id={this.props.id+'clicked'} width="280" height="200" style={{position: 'absolute', display: 'block', top: 0, zIndex: 1}}></canvas>
+        <canvas id={this.props.id+'clicked'} width="285" height="130"  style={{position: 'absolute', display: 'block', top: 0, zIndex: 1}}></canvas>
       </div>
     );
   }

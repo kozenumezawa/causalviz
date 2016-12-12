@@ -14,12 +14,12 @@ export default class TiffContainer extends React.Component{
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.tiff_list === undefined) {
+    if(nextProps.tiff_list === undefined) {
       return null
     }
 
     // draw a base image
-    const canvas = this.props.tiff_list[nextProps.tiff_index];
+    const canvas = nextProps.tiff_list[nextProps.tiff_index];
     this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.canvas.width, this.canvas.height);
 
     // magnify the area which is surrounded by a loupe
@@ -41,7 +41,7 @@ export default class TiffContainer extends React.Component{
   render() {
     return (
       <div>
-        <canvas id={this.props.id} width="280" height="200" style={{left: 0, top: 0, zIndex: 0}}></canvas>
+        <canvas id={this.props.id} width="285" height="130" style={{left: 0, top: 0, zIndex: 0}}></canvas>
         <ClickedCanvas
           id={this.props.id}
           clicked_point={this.props.clicked_point}
