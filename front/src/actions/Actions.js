@@ -40,5 +40,12 @@ export default {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_LOUPE_CLICK
     });
+  },
+
+  handleIndicatorMove: (index) => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_INDICATOR_MOVE,
+      new_index : index
+    });
   }
 }

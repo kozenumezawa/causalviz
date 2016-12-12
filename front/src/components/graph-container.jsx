@@ -1,15 +1,28 @@
 import React from 'react'
 
+import Action from '../actions/Actions'
+
 export default class graphContainer extends React.Component {
   constructor(props) {
     super(props);
+    this.mouse_down = false;
     this.already_drawn = false;
+
+    this.mouseDown = this.mouseDown.bind(this);
+    this.mouseMove = this.mouseMove.bind(this);
+    this.mouseUp = this.mouseUp.bind(this);
+    this.mouseOut = this.mouseOut.bind(this);
   }
 
   componentDidMount() {
     // draw a vertical line to the graph
     const target_canvas = document.getElementById(this.props.id + '_indicator');
     this.drawVerticalLine(0, 0, 0, target_canvas.height);
+
+    target_canvas.addEventListener('mousedown', this.mouseDown)
+    target_canvas.addEventListener('mousemove', this.mouseMove)
+    target_canvas.addEventListener('mouseup', this.mouseUp)
+    target_canvas.addEventListener('mouseout', this.mouseOut);
   }
 
   componentDidUpdate(prevProps) {
@@ -77,6 +90,40 @@ export default class graphContainer extends React.Component {
     ctx.lineTo(x2, y2);
     ctx.stroke();
     ctx.restore();
+  }
+
+  mouseDown(e) {
+    this.mouse_down = true;
+  }
+
+  mouseMove(e) {
+    if(this.mouse_down === false) {
+      return;
+    }
+    this.updateIndexByMouse(e);
+  }
+
+  updateIndexByMouse(e) {
+    const rect = e.target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+
+    const target_canvas = document.getElementById(this.props.id + '_indicator');
+    const line_x = target_canvas.width / this.props.tiff_list.length * this.props.tiff_index;
+
+    let new_index = Math.floor(x / target_canvas.width * this.props.tiff_list.length);
+    new_index = (new_index > 0)? new_index : 0;
+    new_index = (new_index < this.props.tiff_list.length)? new_index : this.props.tiff_list.length;
+    Action.handleIndicatorMove(new_index);
+  }
+
+  mouseUp(e) {
+    this.mouse_down = false;
+  }
+
+  mouseOut(e) {
+    if(this.mouse_down === true) {
+      this.mouse_down = false;
+    }
   }
 
   renderData() {

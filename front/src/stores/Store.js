@@ -73,6 +73,9 @@ class Store extends EventEmitter {
         loupe_point.x = action.x;
         loupe_point.y = action.y;
         break;
+      case eventConstants.HANDLE_INDICATOR_MOVE:
+        tiff_index = action.new_index;
+        break;
       default:
     }
     this.emitChange();
