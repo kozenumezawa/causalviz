@@ -6,6 +6,12 @@ export default class graphContainer extends React.Component {
     this.already_drawn = false;
   }
 
+  componentDidMount() {
+    // draw a vertical line to the graph
+    const target_canvas = document.getElementById(this.props.id + '_indicator');
+    this.drawVerticalLine(0, 0, 0, target_canvas.height);
+  }
+
   componentDidUpdate(prevProps) {
     //  draw a highlighted line
     if(prevProps.highlighted_line !== this.props.highlighted_line) {
@@ -23,20 +29,11 @@ export default class graphContainer extends React.Component {
     // draw an indicator to show a timestep
     if(prevProps.tiff_index !== this.props.tiff_index) {
       const target_canvas = document.getElementById(this.props.id + '_indicator');
-      const ctx = target_canvas.getContext('2d');
-      ctx.strokeStyle = 'black';
-      ctx.lineWidth = 2;
-      ctx.clearRect(0, 0, target_canvas.width, target_canvas.height);
-      ctx.beginPath()
-      // draw lines
       const pos1 = {
         x: target_canvas.width / this.props.tiff_list.length * this.props.tiff_index,
         y: 0
       };
-      ctx.moveTo(pos1.x, pos1.y);
-      ctx.lineTo(pos1.x, target_canvas.height);
-      ctx.stroke();
-      ctx.restore();
+      this.drawVerticalLine(pos1.x, pos1.y, pos1.x, target_canvas.height);
     }
   }
 
@@ -66,6 +63,20 @@ export default class graphContainer extends React.Component {
     }
     context.stroke();
     context.restore();
+  }
+
+  drawVerticalLine(x1, y1, x2, y2) {
+    const target_canvas = document.getElementById(this.props.id + '_indicator');
+    const ctx = target_canvas.getContext('2d');
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 2;
+    ctx.clearRect(0, 0, target_canvas.width, target_canvas.height);
+    // draw lines
+    ctx.beginPath()
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+    ctx.restore();
   }
 
   renderData() {
