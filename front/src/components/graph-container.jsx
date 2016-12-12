@@ -93,6 +93,7 @@ export default class graphContainer extends React.Component {
   }
 
   mouseDown(e) {
+    this.updateIndexByMouse(e);
     this.mouse_down = true;
   }
 
