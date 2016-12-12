@@ -63,7 +63,7 @@ export default class graphContainer extends React.Component {
 
     // draw lines
     let pos1 = {
-      x: dataWH.w,
+      x: 0,
       y: dataWH.h - time_series_data[0] / 1.3    // 1.3 is temporal number
     };
     let pos2 = pos1;
