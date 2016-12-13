@@ -26,8 +26,7 @@ let loupe_point = {
 class Store extends EventEmitter {
   constructor() {
     super();
-    this.getTiffData('GFBratio-mask-64-255.tif');
-    this.getLegend('2E2_GFB.tif');
+    this.getTiffData('GFBratio-mask-64-255.tif', '2E2_GFB.tif');
     Dispatcher.register(this.handler.bind(this));
   }
 
@@ -118,8 +117,8 @@ class Store extends EventEmitter {
     return loupe_point;
   }
 
-  getTiffData(name) {
-    window.fetch(name)
+  getTiffData(tiff_name, legend_name) {
+    window.fetch(tiff_name)
       .then((response) => {
         response.arrayBuffer().then((buffer) => {
           let tiff_list = [];
@@ -134,24 +133,23 @@ class Store extends EventEmitter {
           all_red_time.push(this.createTimeSeriesFromTiff(tiff_list, 'red'));
           this.emitChange();
         });
+      })
+      .then(() => {
+        window.fetch(legend_name)
+          .then((response) => {
+            response.arrayBuffer().then((buffer) => {
+              const tiff = new Tiff({ buffer: buffer });
+              for (let i = 0, len = tiff.countDirectory(); i < len; i++) {
+                tiff.setDirectory(i);
+                const canvas = tiff.toCanvas();
+                legend_tiff = canvas;
+              }
+              this.emitChange();
+            });
+          });
       });
   }
-
-  getLegend(name) {
-    window.fetch(name)
-      .then((response) => {
-        response.arrayBuffer().then((buffer) => {
-          const tiff = new Tiff({ buffer: buffer });
-          for (let i = 0, len = tiff.countDirectory(); i < len; i++) {
-            tiff.setDirectory(i);
-            const canvas = tiff.toCanvas();
-            legend_tiff = canvas;
-          }
-          this.emitChange();
-        });
-      });
-  }
-
+  
   createTimeSeriesFromTiff(tiff_list, color_flag) {
     let green_time_series_inverse = [];
     let red_time_series_inverse = [];
