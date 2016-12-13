@@ -13,6 +13,7 @@ function getAllState() {
   return {
     all_tiff_list     : Store.getAllTiffList(),
     tiff_index        : Store.getTiffIndex(),
+    heatmap_tiff      : Store.getHeatmapTiff(),
     all_green_time    : Store.getAllGreenTime(),
     all_red_time      : Store.getAllRedTime(),
     relation_list     : Store.getRelationList(),
