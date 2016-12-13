@@ -8,12 +8,13 @@ import AppBar from './app-bar.jsx'
 import StepButton from './button/step-button.jsx'
 import GraphContainer from './graph-container.jsx'
 import CommandButton from './button/command-button.jsx'
+import LegendContainer from './legend-container.jsx'
 
 function getAllState() {
   return {
     all_tiff_list     : Store.getAllTiffList(),
     tiff_index        : Store.getTiffIndex(),
-    heatmap_tiff      : Store.getHeatmapTiff(),
+    legend_tiff      : Store.getLegendTiff(),
     all_green_time    : Store.getAllGreenTime(),
     all_red_time      : Store.getAllRedTime(),
     relation_list     : Store.getRelationList(),
@@ -45,6 +46,10 @@ export default class main extends React.Component {
         <br />
         <Grid>
           <Row className="show-grid">
+            <LegendContainer
+              id="legend_output"
+              legend_tiff={this.state.legend_tiff}
+            />
             <Col sm={5}>
               <TiffContainer
                 id="tiff_output_1"

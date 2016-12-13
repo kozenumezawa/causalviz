@@ -9,7 +9,7 @@ let all_tiff_list = [];
 let all_green_time = [];
 let all_red_time = [];
 let tiff_index = 0;       // indicate the tiff file which should be displayed
-let heatmap_tiff = null;
+let legend_tiff = null;
 let relation_list = [];
 let highlighted_line = -1;
 let clicked_point = {
@@ -27,7 +27,7 @@ class Store extends EventEmitter {
   constructor() {
     super();
     this.getTiffData('GFBratio-mask-64-255.tif');
-    this.getHeatmap('2E2_GFB.tif');
+    this.getLegend('2E2_GFB.tif');
     Dispatcher.register(this.handler.bind(this));
   }
 
@@ -90,8 +90,8 @@ class Store extends EventEmitter {
     return tiff_index;
   }
 
-  getHeatmapTiff() {
-    return heatmap_tiff;
+  getLegendTiff() {
+    return legend_tiff;
   }
 
   getAllGreenTime() {
@@ -137,7 +137,7 @@ class Store extends EventEmitter {
       });
   }
 
-  getHeatmap(name) {
+  getLegend(name) {
     window.fetch(name)
       .then((response) => {
         response.arrayBuffer().then((buffer) => {
@@ -145,7 +145,7 @@ class Store extends EventEmitter {
           for (let i = 0, len = tiff.countDirectory(); i < len; i++) {
             tiff.setDirectory(i);
             const canvas = tiff.toCanvas();
-            heatmap_tiff = canvas;
+            legend_tiff = canvas;
           }
           this.emitChange();
         });
