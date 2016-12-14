@@ -140,7 +140,7 @@ class Store extends EventEmitter {
                 const canvas = tiff.toCanvas();
                 legend_tiff = canvas;
               }
-              // this.createTimeSeriesFromTiff();
+              this.createAllTimeSeriesFromTiff();
               this.emitChange();
             });
           });
@@ -171,6 +171,14 @@ class Store extends EventEmitter {
       }
     }
     return time_series;
+  }
+
+  createAllTimeSeriesFromTiff() {
+    const legend_canvas = legend_tiff;
+    const legend_ctx = legend_canvas.getContext('2d');
+    const image_data = legend_ctx.getImageData(0, 0, legend_canvas.width, legend_canvas.height);
+    const image_rgba = image_data.data; // image_rgba = [R, G, B, A, R, G, B, A, ...] (hex data)
+    console.log(image_rgba);
   }
 
   createCorrelationMap() {
