@@ -30,13 +30,13 @@ export default class graphContainer extends React.Component {
     if(prevProps.highlighted_line !== this.props.highlighted_line) {
       const target_canvas = document.getElementById(this.props.id + '_highlight');
       const ctx = target_canvas.getContext('2d');
-      const green_time_series = this.props.green_time_series;
+      const time_series = this.props.time_series;
       const line_opts = {
         color: 'black',
         width: 2
       };
       ctx.clearRect(0, 0, target_canvas.width, target_canvas.height);
-      this.lineGraph(target_canvas, green_time_series[this.props.highlighted_line], line_opts);
+      this.lineGraph(target_canvas, time_series[this.props.highlighted_line], line_opts);
     }
 
     // draw an indicator to show a timestep
@@ -128,14 +128,14 @@ export default class graphContainer extends React.Component {
   }
 
   renderData() {
-    const green_time_series = this.props.green_time_series;
+    const time_series = this.props.time_series;
     const target_canvas = document.getElementById(this.props.id);
 
     const line_opts = {
       color: this.props.line_color,
       width: 0.1
     };
-    green_time_series.forEach((element, idx) => { 
+    time_series.forEach((element, idx) => {
       this.lineGraph(target_canvas, element, line_opts);
     });
     this.already_drawn = true;

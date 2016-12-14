@@ -73,7 +73,7 @@ export default class main extends React.Component {
                 line_color="green"
                 tiff_list={this.state.all_tiff_list[0]}
                 tiff_index={this.state.tiff_index}
-                green_time_series={this.state.all_time_series[0]}
+                time_series={this.state.all_time_series[0]}
                 highlighted_line={this.state.highlighted_line}
               />
               <div style={{display: 'inline'}}> 1 </div>
