@@ -59,7 +59,8 @@ class Store extends EventEmitter {
         }
         break;
       case eventConstants.HANDLE_TIFF_CLICK:
-        highlighted_line = Math.floor(action.y / 2) * 140 + Math.floor(action.x / 2);
+        const width = 285;
+        highlighted_line = Math.floor(action.y) * width + Math.floor(action.x);
         clicked_point.x = action.x;
         clicked_point.y = action.y;
         break;
