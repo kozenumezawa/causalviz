@@ -11,7 +11,7 @@ export default class extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.legend_tiff === undefined) {
+    if(nextProps.legend_tiff === undefined || nextProps.legend_tiff === null) {
       return null
     }
     const canvas = nextProps.legend_tiff;

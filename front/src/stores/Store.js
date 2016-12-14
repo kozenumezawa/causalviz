@@ -127,23 +127,21 @@ class Store extends EventEmitter {
           }
           all_tiff_list.push(tiff_list);
           all_time_series.push(this.createTimeSeriesFromTiff(tiff_list));
-          this.emitChange();
-        });
-      })
-      .then(() => {
-        window.fetch(legend_name)
-          .then((response) => {
-            response.arrayBuffer().then((buffer) => {
-              const tiff = new Tiff({ buffer: buffer });
-              for (let i = 0, len = tiff.countDirectory(); i < len; i++) {
-                tiff.setDirectory(i);
-                const canvas = tiff.toCanvas();
-                legend_tiff = canvas;
-              }
-              this.createAllTimeSeriesFromTiff();
-              this.emitChange();
+
+          window.fetch(legend_name)
+            .then((response) => {
+              response.arrayBuffer().then((buffer) => {
+                const tiff = new Tiff({ buffer: buffer });
+                for (let i = 0, len = tiff.countDirectory(); i < len; i++) {
+                  tiff.setDirectory(i);
+                  const canvas = tiff.toCanvas();
+                  legend_tiff = canvas;
+                }
+                this.createAllTimeSeriesFromTiff();
+                this.emitChange();
+              });
             });
-          });
+        });
       });
   }
 
