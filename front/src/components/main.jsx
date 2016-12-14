@@ -14,9 +14,8 @@ function getAllState() {
   return {
     all_tiff_list     : Store.getAllTiffList(),
     tiff_index        : Store.getTiffIndex(),
-    legend_tiff      : Store.getLegendTiff(),
-    all_green_time    : Store.getAllGreenTime(),
-    all_red_time      : Store.getAllRedTime(),
+    legend_tiff       : Store.getLegendTiff(),
+    all_time_series   : Store.getAllTimeSeries(),
     relation_list     : Store.getRelationList(),
     highlighted_line  : Store.getHighlightedLine(),
     clicked_point     : Store.getClickedPoint(),
@@ -74,7 +73,7 @@ export default class main extends React.Component {
                 line_color="green"
                 tiff_list={this.state.all_tiff_list[0]}
                 tiff_index={this.state.tiff_index}
-                green_time_series={this.state.all_green_time[0]}
+                green_time_series={this.state.all_time_series[0]}
                 highlighted_line={this.state.highlighted_line}
               />
               <div style={{display: 'inline'}}> 1 </div>
