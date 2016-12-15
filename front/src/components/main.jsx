@@ -59,10 +59,6 @@ export default class main extends React.Component {
                 clicked_point={this.state.clicked_point}
                 loupe_point={this.state.loupe_point}
               />
-              <StepButton
-                tiff_list={this.state.all_tiff_list[0]}
-                tiff_index={this.state.tiff_index}
-              />
             </Col>
             <Col sm={6}>
               <div style={{position: 'absolute', right: 0}}> 255 </div>
@@ -91,6 +87,10 @@ export default class main extends React.Component {
                 canvas_scale={canvas_scale}
                 clicked_point={this.state.clicked_point}
                 loupe_point={this.state.loupe_point}
+              />
+              <StepButton
+                tiff_list={this.state.all_tiff_list[0]}
+                tiff_index={this.state.tiff_index}
               />
             </Col>
           </Row>
