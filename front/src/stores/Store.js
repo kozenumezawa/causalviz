@@ -213,6 +213,7 @@ class Store extends EventEmitter {
       }
     }
     all_time_series.push(time_series);
+    // this.createCsvFromTimeSeries(time_series);
   }
 
   createCorrelationMap() {
@@ -223,6 +224,49 @@ class Store extends EventEmitter {
       relation_list.push(pairTimeSeries.getCorrelation(time_series_1[i], time_series_2[i]));
     }
     this.emitChange();
+  }
+
+  // create csv file for Python
+  createCsvFromTimeSeries(time_series) {
+    const tableToCsvString = function(table, index) {
+      const N_DATA = table.length;
+      let str = '';
+      const imax = N_DATA / 15 * (index + 1);
+      for (let i = N_DATA / 15 * index; i < imax; ++i) {
+        let row = table[i];
+        for (let j = 0, jmax = row.length - 1; j <= jmax; ++j) {
+          str += String(row[j]);
+          if (j !== jmax) {
+            str += ',';
+          }
+        }
+        str += '\n';
+      }
+      return str;
+    };
+
+    const createDataUriFromString = function(str) {
+      return 'data:text/csv,' + encodeURIComponent(str);
+    };
+
+    const downloadDataUri = function(uri, filename) {
+      let link = document.createElement('a');
+      link.download = filename;
+      link.href = uri;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+
+    const downloadCsv = function(table) {
+      for(let i = 0; i < 15; i++) {
+        const filename = 'timeseries_' + String(i) + '.csv';
+        const uri = createDataUriFromString(tableToCsvString(table, i));
+        downloadDataUri(uri, filename);
+      }
+    };
+    downloadCsv(time_series);
+    // console.log(time_series.length); -> 37050
   }
 }
 
