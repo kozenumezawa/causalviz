@@ -14,8 +14,8 @@ export default class ClickedCanvas extends React.Component {
     if(this.props.clicked_point.x !== -1) {
       // draw a point
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.ctx.fillStyle='white';
-      this.ctx.fillRect(nextProps.clicked_point.x, nextProps.clicked_point.y, 1, 1);
+      this.ctx.fillStyle='red';
+      this.ctx.fillRect(nextProps.clicked_point.x, nextProps.clicked_point.y, 3, 3);
       // magnify the area which is surrounded by a loupe
       if(nextProps.loupe_point.on == true && nextProps.loupe_point.x != -1) {
         const loupe_point = nextProps.loupe_point;
