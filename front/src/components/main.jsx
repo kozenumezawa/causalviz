@@ -9,6 +9,7 @@ import StepButton from './button/step-button.jsx'
 import GraphContainer from './graph-container.jsx'
 import CommandButton from './button/command-button.jsx'
 import LegendContainer from './legend-container.jsx'
+import SelectPalette from './canvas/select_palette.jsx'
 
 function getAllState() {
   return {
@@ -63,11 +64,9 @@ export default class main extends React.Component {
                 tiff_index={this.state.tiff_index}
               />
             </Col>
-            <Col sm={1}>
+            <Col sm={6}>
               <div style={{position: 'absolute', right: 0}}> 255 </div>
               <div style={{position: 'absolute', top: 190, right: 0}}> 0 </div>
-            </Col>
-            <Col sm={6}>
               <GraphContainer
                 id="time_series_graph_1"
                 line_color="green"
@@ -83,6 +82,19 @@ export default class main extends React.Component {
           </Row>
         </Grid>
         <Grid>
+          <Row className="show-grid">
+            <Col sm={5}>
+              <SelectPalette
+                id="select_palette"
+                tiff_list={this.state.all_tiff_list[0]}
+                tiff_index={this.state.tiff_index}
+                canvas_scale={canvas_scale}
+                clicked_point={this.state.clicked_point}
+                loupe_point={this.state.loupe_point}
+              />
+            </Col>
+          </Row>
+
           <CommandButton />
         </Grid>
 
