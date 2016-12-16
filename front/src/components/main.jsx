@@ -1,5 +1,7 @@
 import React from 'react'
 import { Grid, Row, Col } from 'react-bootstrap'
+import Chip from 'material-ui/Chip'
+import {white} from 'material-ui/styles/colors'
 
 import Store from '../stores/Store'
 
@@ -9,7 +11,7 @@ import StepButton from './button/step-button.jsx'
 import GraphContainer from './graph-container.jsx'
 import CommandButton from './button/command-button.jsx'
 import LegendContainer from './legend-container.jsx'
-import SelectPalette from './canvas/select_palette.jsx'
+import ControlPanel from './canvas/control_panel.jsx'
 
 function getAllState() {
   return {
@@ -50,6 +52,9 @@ export default class main extends React.Component {
               id="legend_output"
               legend_tiff={this.state.legend_tiff}
             />
+            <Chip backgroundColor={white}>
+              {'Ca2+ Response'}
+            </Chip>
             <Col sm={5}>
               <TiffContainer
                 id="tiff_output_1"
@@ -62,7 +67,7 @@ export default class main extends React.Component {
             </Col>
             <Col sm={6}>
               <div style={{position: 'absolute', right: 0}}> 255 </div>
-              <div style={{position: 'absolute', top: 190, right: 0}}> 0 </div>
+              <div style={{position: 'absolute', top: 130, right: 0}}> 0 </div>
               <GraphContainer
                 id="time_series_graph_1"
                 line_color="green"
@@ -73,14 +78,17 @@ export default class main extends React.Component {
               />
               <div style={{display: 'inline'}}> 1 </div>
               <div style={{position: 'absolute', display: 'inline', left: 190}}> time step </div>
-              <div style={{position: 'absolute', display: 'inline', left: 420}}> 100 </div>
+              <div style={{position: 'absolute', display: 'inline', left: 420}}> 130 </div>
             </Col>
           </Row>
         </Grid>
         <Grid>
           <Row className="show-grid">
+            <Chip backgroundColor={white}>
+              {'Control panel'}
+            </Chip>
             <Col sm={5}>
-              <SelectPalette
+              <ControlPanel
                 id="select_palette"
                 tiff_list={this.state.all_tiff_list[0]}
                 tiff_index={this.state.tiff_index}

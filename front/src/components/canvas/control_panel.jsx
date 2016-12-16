@@ -3,7 +3,7 @@ import React from 'react'
 import ClickedCanvas from './clicked_canvas.jsx'
 import EventCanvas from './event_canvas.jsx'
 
-export default class SelectPalette extends React.Component{
+export default class ControlPanel extends React.Component{
   constructor(props) {
     super(props);
   }
