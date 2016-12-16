@@ -139,6 +139,23 @@ class Store extends EventEmitter {
                 }
                 this.createAllTimeSeriesFromTiff();
                 this.emitChange();
+
+                window.fetch('http://localhost:8000', {
+                    mode: 'cors',
+                    method: 'POST',
+                    headers: {
+                      'content-type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                      user: 'test'
+                    })
+                  })
+                  .then((response) => {
+                    return response.json();
+                  })
+                  .then((json) => {
+                    console.log(json);
+                  });
               });
             });
         });
