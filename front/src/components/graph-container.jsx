@@ -75,7 +75,6 @@ export default class graphContainer extends React.Component {
       pos1 = pos2;
     }
     context.stroke();
-    context.restore();
   }
 
   drawVerticalLine(x1, y1, x2, y2) {
@@ -89,7 +88,6 @@ export default class graphContainer extends React.Component {
     ctx.moveTo(x1, y1);
     ctx.lineTo(x2, y2);
     ctx.stroke();
-    ctx.restore();
   }
 
   mouseDown(e) {
