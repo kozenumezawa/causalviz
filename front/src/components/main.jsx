@@ -12,6 +12,7 @@ import GraphContainer from './graph-container.jsx'
 import CommandButton from './button/command-button.jsx'
 import LegendContainer from './legend-container.jsx'
 import ControlPanel from './canvas/control_panel.jsx'
+import RelationCanvas from './canvas/relation_canvas.jsx'
 
 function getAllState() {
   return {
@@ -85,11 +86,28 @@ export default class main extends React.Component {
         <Grid>
           <Row className="show-grid">
             <Chip backgroundColor={white}>
+              {'Relation view'}
+            </Chip>
+            <Col sm={5}>
+              <RelationCanvas
+                id="relation_view"
+                tiff_list={this.state.all_tiff_list[0]}
+                tiff_index={this.state.tiff_index}
+                canvas_scale={canvas_scale}
+                clicked_point={this.state.clicked_point}
+                loupe_point={this.state.loupe_point}
+              />
+            </Col>
+          </Row>
+        </Grid>
+        <Grid>
+          <Row className="show-grid">
+            <Chip backgroundColor={white}>
               {'Control panel'}
             </Chip>
             <Col sm={5}>
               <ControlPanel
-                id="select_palette"
+                id="control_panel"
                 tiff_list={this.state.all_tiff_list[0]}
                 tiff_index={this.state.tiff_index}
                 canvas_scale={canvas_scale}
