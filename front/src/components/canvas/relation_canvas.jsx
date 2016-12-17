@@ -19,7 +19,7 @@ export default class RelationCanvas extends React.Component{
     }
 
     // draw a base image
-    this.renderData();
+    this.renderData(nextProps.relation_list);
 
     // magnify the area which is surrounded by a loupe
     if(nextProps.loupe_point.on == true && nextProps.loupe_point.x != -1) {
@@ -77,9 +77,9 @@ export default class RelationCanvas extends React.Component{
     return 0.5 + (x / 2);
   }
 
-  renderData() {
-    for(let i = 0; i < this.props.relation_list.length; i++) {
-      const correlation = this.props.relation_list[i];
+  renderData(relation_list) {
+    for(let i = 0; i < relation_list.length; i++) {
+      const correlation = relation_list[i];
       const error = -2;     // this value is needed to equal to pair-time-series.js's error
       const lightness = (correlation == error) ? 0 : 0.5;
       const color = this.colorScale(correlation);
