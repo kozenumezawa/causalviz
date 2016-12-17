@@ -137,7 +137,7 @@ class Store extends EventEmitter {
                   const canvas = tiff.toCanvas();
                   legend_tiff = canvas;
                 }
-                this.createAllTimeSeriesFromTiff();
+                all_time_series.push(this.createAllTimeSeriesFromTiff());
                 this.emitChange();
 
                 window.fetch('http://localhost:8000', {
@@ -147,7 +147,7 @@ class Store extends EventEmitter {
                       'content-type': 'application/json',
                     },
                     body: JSON.stringify({
-                      user: 'test'
+                      data: all_time_series[0]
                     })
                   })
                   .then((response) => {
@@ -229,8 +229,8 @@ class Store extends EventEmitter {
         time_series[i][j] = all_time_series_inverse[j][i];
       }
     }
-    all_time_series.push(time_series);
     // this.createCsvFromTimeSeries(time_series);
+    return time_series;
   }
 
   createCorrelationMap() {
