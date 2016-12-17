@@ -63,6 +63,7 @@ class Store extends EventEmitter {
         highlighted_line = Math.floor(action.y) * width + Math.floor(action.x);
         clicked_point.x = action.x;
         clicked_point.y = action.y;
+        this.updateRelationList();
         break;
       case eventConstants.HANDLE_LOUPE_CLICK:
         loupe_point.on = !loupe_point.on;
@@ -233,14 +234,13 @@ class Store extends EventEmitter {
     return time_series;
   }
 
-  createCorrelationMap() {
-    const time_series_1 = all_green_time[0]; // console.log(all_green_time[0]) -> [points][time]
-    const time_series_2 = all_red_time[1];
-
-    for(let i = 0; i < time_series_1.length; i++) {
-      relation_list.push(pairTimeSeries.getCorrelation(time_series_1[i], time_series_2[i]));
-    }
-    this.emitChange();
+  updateRelationList() {
+    relation_list = [];
+    const time_series = all_time_series[0];
+    const x = time_series[highlighted_line];
+    time_series.forEach((y, idx) => {
+      relation_list.push(pairTimeSeries.getCorrelation(x, y));
+    });
   }
 
   // create csv file for Python

@@ -96,6 +96,7 @@ export default class main extends React.Component {
                 canvas_scale={canvas_scale}
                 clicked_point={this.state.clicked_point}
                 loupe_point={this.state.loupe_point}
+                relation_list={this.state.relation_list}
               />
             </Col>
           </Row>
