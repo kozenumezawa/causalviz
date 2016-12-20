@@ -11,6 +11,7 @@ export default class RelationCanvas extends React.Component{
   componentDidMount() {
     this.canvas = document.getElementById(this.props.id);
     this.ctx = this.canvas.getContext('2d');
+    this.drawFrame();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -89,6 +90,19 @@ export default class RelationCanvas extends React.Component{
       this.ctx.fillStyle = 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')';
       this.ctx.fillRect(i % this.canvas.width, i / this.canvas.width, 1, 1);
     }
+  }
+
+  drawFrame() {
+    // draw a frame
+    this.ctx.strokeStyle = 'black';
+    this.ctx.lineWidth = 1;
+    this.ctx.beginPath();
+    this.ctx.moveTo(0, 0);
+    this.ctx.lineTo(this.canvas.width, 0);
+    this.ctx.lineTo(this.canvas.width, this.canvas.height);
+    this.ctx.lineTo(0, this.canvas.height);
+    this.ctx.lineTo(0, 0);
+    this.ctx.stroke();
   }
 
   render() {
