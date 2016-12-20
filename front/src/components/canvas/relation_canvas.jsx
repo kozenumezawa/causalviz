@@ -19,11 +19,13 @@ export default class RelationCanvas extends React.Component{
       return;
     }
 
-    // draw a base image
-    this.renderData(nextProps.relation_list);
+    if(this.props.relation_list !== nextProps.relation_list) {
+      this.renderData(nextProps.relation_list);
+    }
 
     // magnify the area which is surrounded by a loupe
     if(nextProps.loupe_point.on == true && nextProps.loupe_point.x != -1) {
+      this.renderData(nextProps.relation_list); // draw a base image
       const loupe_point = nextProps.loupe_point;
       const magnify_length = loupe_point.side * 2;
       const magnify_x = loupe_point.x - loupe_point.side;
