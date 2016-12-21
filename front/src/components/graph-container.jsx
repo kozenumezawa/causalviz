@@ -143,8 +143,9 @@ export default class graphContainer extends React.Component {
     return (
       <div>
         <canvas id={this.props.id} width="420" height="150" style={{left: 0, top: 0, zIndex: 0}}></canvas>
-        <canvas id={this.props.id + '_highlight'} width="420" height="150" style={{position: 'absolute', top: 0, left: 15, zIndex: 1}}></canvas>
-        <canvas id={this.props.id + '_indicator'} width="420" height="150" style={{position: 'absolute', top: 0, left: 15, zIndex: 1}}></canvas>
+        <canvas id={this.props.id + '_highlight'} width="420" height="150" style={{position: 'absolute', display: 'block', top: 0, zIndex: 1}}></canvas>
+        <canvas id={this.props.id + '_indicator'} width="420" height="150" style={{position: 'absolute', display: 'block', top: 0, zIndex: 1}}></canvas>
+        
         {(() => {
           if(this.props.tiff_list !== undefined && this.already_drawn == false) {
             this.renderData();

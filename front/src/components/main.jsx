@@ -44,92 +44,114 @@ export default class main extends React.Component {
   }
 
   render() {
-    const canvas_scale = 2;
+    const left_ref = 30;
+    const top_response = 150;
+    const top_relation = 350;
+    const top_control = 550;
+
     return (
       <div>
         <AppBar />
         <br />
-        <Grid>
-          <Row className="show-grid">
+
+        <div>
+          <div style={{position: 'absolute', display: 'inline-block', top: 100, left: left_ref}}>
             <LegendContainer
               id="legend_output"
               legend_tiff={this.state.legend_tiff}
             />
+          </div>
+        </div>
+
+        <div>
+          <div style={{position: 'absolute', display: 'inline-block', top: top_response, left: left_ref}}>
             <Chip backgroundColor={white}>
               {'Ca2+ Response'}
             </Chip>
-            <Col sm={5}>
-              <TiffContainer
-                id="tiff_output_1"
-                tiff_list={this.state.all_tiff_list[0]}
-                tiff_index={this.state.tiff_index}
-                canvas_scale={canvas_scale}
-                clicked_point={this.state.clicked_point}
-                loupe_point={this.state.loupe_point}
-              />
-            </Col>
-            <Col sm={6}>
-              <div style={{position: 'absolute', right: 0}}> 255 </div>
-              <div style={{position: 'absolute', top: 130, right: 0}}> 0 </div>
-              <GraphContainer
-                id="time_series_graph_1"
-                line_color="green"
-                tiff_list={this.state.all_tiff_list[0]}
-                tiff_index={this.state.tiff_index}
-                time_series={this.state.all_time_series[0]}
-                highlighted_line={this.state.highlighted_line}
-              />
-              <div style={{display: 'inline'}}> 1 </div>
-              <div style={{position: 'absolute', display: 'inline', left: 190}}> time step </div>
-              <div style={{position: 'absolute', display: 'inline', left: 420}}> 130 </div>
-            </Col>
-          </Row>
-        </Grid>
-        <Grid>
-          <Row className="show-grid">
+          </div>
+          <div style={{position: 'absolute', display: 'inline-block', top: top_response+40, left: left_ref+30}}>
+            <TiffContainer
+              id="tiff_output_1"
+              tiff_list={this.state.all_tiff_list[0]}
+              tiff_index={this.state.tiff_index}
+              clicked_point={this.state.clicked_point}
+              loupe_point={this.state.loupe_point}
+            />
+          </div>
+        </div>
+
+        <div>
+          <div style={{position: 'absolute', display: 'inline-block', top: top_relation, left: left_ref}}>
             <Chip backgroundColor={white}>
               {'Relation view'}
             </Chip>
-            <Col sm={5}>
-              <RelationCanvas
-                id="relation_view"
-                tiff_list={this.state.all_tiff_list[0]}
-                tiff_index={this.state.tiff_index}
-                canvas_scale={canvas_scale}
-                clicked_point={this.state.clicked_point}
-                loupe_point={this.state.loupe_point}
-                relation_list={this.state.relation_list}
-              />
-            </Col>
-          </Row>
-        </Grid>
-        <Grid>
-          <Row className="show-grid">
+          </div>
+          <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
+            <RelationCanvas
+              id="relation_view"
+              tiff_list={this.state.all_tiff_list[0]}
+              tiff_index={this.state.tiff_index}
+              clicked_point={this.state.clicked_point}
+              loupe_point={this.state.loupe_point}
+              relation_list={this.state.relation_list}
+            />
+          </div>
+        </div>
+
+        <div>
+          <div style={{position: 'absolute', display: 'inline-block', top: top_control, left: left_ref}}>
             <Chip backgroundColor={white}>
               {'Control panel'}
             </Chip>
-            <Col sm={5}>
-              <ControlPanel
-                id="control_panel"
-                tiff_list={this.state.all_tiff_list[0]}
-                tiff_index={this.state.tiff_index}
-                canvas_scale={canvas_scale}
-                clicked_point={this.state.clicked_point}
-                loupe_point={this.state.loupe_point}
-              />
-              <StepButton
-                tiff_list={this.state.all_tiff_list[0]}
-                tiff_index={this.state.tiff_index}
-              />
-              <ClusteringCanvas
-                id="clustering_view"
-                clustering_list={this.state.clustering_list}
-              />
-            </Col>
-          </Row>
-          <CommandButton />
-        </Grid>
+          </div>
 
+          <div style={{position: 'absolute', display: 'inline-block', top: top_control+40, left: left_ref+30}}>
+            <ControlPanel
+              id="control_panel"
+              tiff_list={this.state.all_tiff_list[0]}
+              tiff_index={this.state.tiff_index}
+              clicked_point={this.state.clicked_point}
+              loupe_point={this.state.loupe_point}
+            />
+          </div>
+        </div>
+        
+        <div style={{position: 'absolute', display: 'inline-block', top: 750, left: left_ref}}>
+          <StepButton
+            tiff_list={this.state.all_tiff_list[0]}
+            tiff_index={this.state.tiff_index}
+          />
+        </div>
+
+        <div style={{position: 'absolute', display: 'inline-block', top: 850, left: left_ref}}>
+          <ClusteringCanvas
+            id="clustering_view"
+            clustering_list={this.state.clustering_list}
+          />
+        </div>
+
+        <div style={{position: 'absolute', display: 'inline-block', top: 1000, left: left_ref}}>
+          <CommandButton />
+        </div>
+
+        <div>
+          <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 400}}>
+            <GraphContainer
+              id="time_series_graph_1"
+              line_color="green"
+              tiff_list={this.state.all_tiff_list[0]}
+              tiff_index={this.state.tiff_index}
+              time_series={this.state.all_time_series[0]}
+              highlighted_line={this.state.highlighted_line}
+            />
+          </div>
+          <div style={{position: 'absolute', display: 'inline-block', top:190, left: 370}}> 255 </div>
+          <div style={{position: 'absolute', display: 'inline-block', top:340, left: 375}}> 0 </div>
+
+          <div style={{position: 'absolute', display: 'inline-block', top:350, left: 395}}> 1 </div>
+          <div style={{position: 'absolute', display: 'inline-block', top:350, left: 565}}> time step </div>
+          <div style={{position: 'absolute', display: 'inline-block', top:350, left: 810}}> 130 </div>
+        </div>
       </div>
     );
   }
