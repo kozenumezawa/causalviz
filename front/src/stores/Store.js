@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events'
 import Dispatcher from '../dispatcher/Dispatcher'
 import eventConstants from '../constants/event-constants'
+import generalConstants from '../constants/general-constants'
 import * as pairTimeSeries from '../pair-time-series'
 
 const CHANGE_EVENT = 'change';
@@ -22,6 +23,7 @@ let loupe_point = {
   side : 40
 };
 let clustering_list = [];
+let render_contents = generalConstants.VIEW_DEFAULT;
 
 class Store extends EventEmitter {
   constructor() {
@@ -78,6 +80,12 @@ class Store extends EventEmitter {
       case eventConstants.HANDLE_INDICATOR_MOVE:
         tiff_index = action.new_index;
         break;
+      case eventConstants.HANDLE_DEFAULT_CLICK:
+        render_contents = generalConstants.VIEW_DEFAULT;
+        break;
+      case eventConstants.HANDLE_KMEANS_CLICK:
+        render_contents = generalConstants.VIEW_KMEANS;
+        break;
       default:
     }
     this.emitChange();
@@ -117,6 +125,10 @@ class Store extends EventEmitter {
 
   getClusteringList() {
     return clustering_list;
+  }
+
+  getRenderContents() {
+    return render_contents;
   }
 
   getTiffData(tiff_name, legend_name) {

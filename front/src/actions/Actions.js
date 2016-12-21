@@ -47,5 +47,17 @@ export default {
       actionType: eventConstants.HANDLE_INDICATOR_MOVE,
       new_index : index
     });
+  },
+
+  handleDefaultClick: () => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_DEFAULT_CLICK
+    });
+  },
+
+  handleKmeansClick: () => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_KMEANS_CLICK
+    });
   }
 }

@@ -62,7 +62,8 @@ export default class ClusteringCanvas extends React.Component{
   renderData(clustering_list) {
     for(let i = 0; i < clustering_list.length; i++) {
       const area_number = clustering_list[i];
-      const color = 1 / (area_number + 1);
+      // const color = 1 / (area_number + 1);
+      const color = area_number / 10;
       const saturation = 0.8;
       const lightness = 0.5;
       const rgb = this.hslToRgb(2 / 3 * (1 - color), saturation, lightness);

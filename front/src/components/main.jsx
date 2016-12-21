@@ -1,9 +1,9 @@
 import React from 'react'
-import { Grid, Row, Col } from 'react-bootstrap'
 import Chip from 'material-ui/Chip'
 import {white} from 'material-ui/styles/colors'
 
 import Store from '../stores/Store'
+import generalConstants from '../constants/general-constants'
 
 import TiffContainer from './tiff-container.jsx'
 import AppBar from './app-bar.jsx'
@@ -25,7 +25,8 @@ function getAllState() {
     highlighted_line  : Store.getHighlightedLine(),
     clicked_point     : Store.getClickedPoint(),
     loupe_point       : Store.getLoupePoint(),
-    clustering_list   : Store.getClusteringList()
+    clustering_list   : Store.getClusteringList(),
+    render_contents   : Store.getRenderContents()
   }
 }
 
@@ -48,7 +49,6 @@ export default class main extends React.Component {
     const top_response = 150;
     const top_relation = 350;
     const top_control = 550;
-
     return (
       <div>
         <AppBar />
@@ -80,55 +80,72 @@ export default class main extends React.Component {
           </div>
         </div>
 
-        <div>
-          <div style={{position: 'absolute', display: 'inline-block', top: top_relation, left: left_ref}}>
-            <Chip backgroundColor={white}>
-              {'Relation view'}
-            </Chip>
-          </div>
-          <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
-            <RelationCanvas
-              id="relation_view"
-              tiff_list={this.state.all_tiff_list[0]}
-              tiff_index={this.state.tiff_index}
-              clicked_point={this.state.clicked_point}
-              loupe_point={this.state.loupe_point}
-              relation_list={this.state.relation_list}
-            />
-          </div>
-        </div>
+        {(() => {
+          if(this.state.render_contents === generalConstants.VIEW_DEFAULT) {
+            return (
+              <div>
+                <div>
+                  <div style={{position: 'absolute', display: 'inline-block', top: top_relation, left: left_ref}}>
+                    <Chip backgroundColor={white}>
+                      {'Relation view'}
+                    </Chip>
+                  </div>
+                  <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
+                    <RelationCanvas
+                      id="relation_view"
+                      tiff_list={this.state.all_tiff_list[0]}
+                      tiff_index={this.state.tiff_index}
+                      clicked_point={this.state.clicked_point}
+                      loupe_point={this.state.loupe_point}
+                      relation_list={this.state.relation_list}
+                    />
+                  </div>
+                </div>
 
-        <div>
-          <div style={{position: 'absolute', display: 'inline-block', top: top_control, left: left_ref}}>
-            <Chip backgroundColor={white}>
-              {'Control panel'}
-            </Chip>
-          </div>
+                <div>
+                  <div style={{position: 'absolute', display: 'inline-block', top: top_control, left: left_ref}}>
+                    <Chip backgroundColor={white}>
+                      {'Control panel'}
+                    </Chip>
+                  </div>
 
-          <div style={{position: 'absolute', display: 'inline-block', top: top_control+40, left: left_ref+30}}>
-            <ControlPanel
-              id="control_panel"
-              tiff_list={this.state.all_tiff_list[0]}
-              tiff_index={this.state.tiff_index}
-              clicked_point={this.state.clicked_point}
-              loupe_point={this.state.loupe_point}
-            />
-          </div>
-        </div>
-        
-        <div style={{position: 'absolute', display: 'inline-block', top: 750, left: left_ref}}>
-          <StepButton
-            tiff_list={this.state.all_tiff_list[0]}
-            tiff_index={this.state.tiff_index}
-          />
-        </div>
+                  <div style={{position: 'absolute', display: 'inline-block', top: top_control+40, left: left_ref+30}}>
+                    <ControlPanel
+                      id="control_panel"
+                      tiff_list={this.state.all_tiff_list[0]}
+                      tiff_index={this.state.tiff_index}
+                      clicked_point={this.state.clicked_point}
+                      loupe_point={this.state.loupe_point}
+                    />
+                  </div>
+                </div>
 
-        <div style={{position: 'absolute', display: 'inline-block', top: 850, left: left_ref}}>
-          <ClusteringCanvas
-            id="clustering_view"
-            clustering_list={this.state.clustering_list}
-          />
-        </div>
+                <div style={{position: 'absolute', display: 'inline-block', top: 750, left: left_ref}}>
+                  <StepButton
+                    tiff_list={this.state.all_tiff_list[0]}
+                    tiff_index={this.state.tiff_index}
+                  />
+                </div>
+              </div>
+            );
+          } else {
+            return (
+              <div>
+                <div style={{position: 'absolute', display: 'inline-block', top: top_relation, left: left_ref}}>
+                  <Chip backgroundColor={white}>
+                    {'Clustering view'}
+                  </Chip>
+                </div>
+                <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
+                  <ClusteringCanvas
+                    id="clustering_view"
+                    clustering_list={this.state.clustering_list}
+                  />
+                </div>
+              </div>
+            );
+          }
+        })()}
 
         <div style={{position: 'absolute', display: 'inline-block', top: 1000, left: left_ref}}>
           <CommandButton />
