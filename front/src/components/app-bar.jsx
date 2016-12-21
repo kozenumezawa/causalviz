@@ -1,25 +1,57 @@
 import React from 'react'
 import AppBar from 'material-ui/AppBar'
-import injectTapEventPlugin from 'react-tap-event-plugin'
+import Drawer from 'material-ui/Drawer';
+import MenuItem from 'material-ui/MenuItem';
 
 export default class CausalVisAppBar extends React.Component {
   constructor(props) {
     super(props);
-    injectTapEventPlugin();
+    this.state = {open: true};
+
+    this.handleIconClick = this.handleIconClick.bind(this);
   }
 
-  handleClick() {
-    console.log('a');
+  handleIconClick() {
+    this.setState({
+        open: !this.state.open
+    });
+  }
+
+  renderAppBar() {
+    if(this.state.open === true) {
+      return(
+        <div>
+          <AppBar />
+          <Drawer
+            width={250}
+          >
+            <AppBar
+              title="CausalVis"
+              iconClassNameRight="muidocs-icon-navigation-expand-more"
+              onClick={this.handleIconClick}
+            />
+            <MenuItem onTouchTap={this.handleClose}>default view</MenuItem>
+            <MenuItem onTouchTap={this.handleClose}>k-means clustering</MenuItem>
+          </Drawer>
+        </div>
+      );
+    } else {
+      return (
+        <AppBar
+          title="CausalVis"
+          iconClassNameRight="muidocs-icon-navigation-expand-more"
+          onClick={this.handleIconClick}
+        />
+      );
+    }
   }
 
   render() {
     return (
       <div>
-        <AppBar
-          title="CausalVis"
-          iconClassNameRight="muidocs-icon-navigation-expand-more"
-          onClick={this.handleClick}
-        />
+        {(() => {
+          return this.renderAppBar();
+        })()}
       </div>
     );
   }
