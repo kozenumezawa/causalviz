@@ -141,7 +141,7 @@ class Store extends EventEmitter {
                 all_time_series.push(this.createAllTimeSeriesFromTiff());
                 this.emitChange();
 
-                window.fetch('http://localhost:8000/api/v1/hierarchical', {
+                window.fetch('http://localhost:8000/api/v1/kmeans', {
                     mode: 'cors',
                     method: 'POST',
                     headers: {
