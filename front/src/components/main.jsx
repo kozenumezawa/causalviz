@@ -13,6 +13,7 @@ import CommandButton from './button/command-button.jsx'
 import LegendContainer from './legend-container.jsx'
 import ControlPanel from './canvas/control_panel.jsx'
 import RelationCanvas from './canvas/relation_canvas.jsx'
+import ClusteringCanvas from './canvas/clustering_canvas.jsx'
 
 function getAllState() {
   return {
@@ -23,7 +24,8 @@ function getAllState() {
     relation_list     : Store.getRelationList(),
     highlighted_line  : Store.getHighlightedLine(),
     clicked_point     : Store.getClickedPoint(),
-    loupe_point       : Store.getLoupePoint()
+    loupe_point       : Store.getLoupePoint(),
+    clustering_list   : Store.getClusteringList()
   }
 }
 
@@ -119,9 +121,12 @@ export default class main extends React.Component {
                 tiff_list={this.state.all_tiff_list[0]}
                 tiff_index={this.state.tiff_index}
               />
+              <ClusteringCanvas
+                id="clustering_view"
+                clustering_list={this.state.clustering_list}
+              />
             </Col>
           </Row>
-
           <CommandButton />
         </Grid>
 

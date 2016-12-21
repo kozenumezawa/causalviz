@@ -12,6 +12,11 @@ export default class ClusteringCanvas extends React.Component{
   }
 
   componentWillReceiveProps(nextProps) {
+    if(nextProps.clustering_list.length == 0) {
+      return;
+    }
+
+    this.renderData(nextProps.clustering_list);
   }
 
   /**
@@ -52,6 +57,18 @@ export default class ClusteringCanvas extends React.Component{
   // convert [-1, 1] -> [0, 1]
   colorScale(x) {
     return 0.5 + (x / 2);
+  }
+
+  renderData(clustering_list) {
+    for(let i = 0; i < clustering_list.length; i++) {
+      const area_number = clustering_list[i];
+      const color = 1 / (area_number + 1);
+      const saturation = 0.8;
+      const lightness = 0.5;
+      const rgb = this.hslToRgb(2 / 3 * (1 - color), saturation, lightness);
+      this.ctx.fillStyle = 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')';
+      this.ctx.fillRect(i % this.canvas.width, i / this.canvas.width, 1, 1);
+    }
   }
 
   drawFrame() {

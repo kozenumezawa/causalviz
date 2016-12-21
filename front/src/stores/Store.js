@@ -7,8 +7,6 @@ const CHANGE_EVENT = 'change';
 
 let all_tiff_list = [];
 let all_time_series = [];
-let all_green_time = [];
-let all_red_time = [];
 let tiff_index = 0;       // indicate the tiff file which should be displayed
 let legend_tiff = null;
 let relation_list = [];
@@ -23,6 +21,7 @@ let loupe_point = {
   on : false,
   side : 40
 };
+let clustering_list = [];
 
 class Store extends EventEmitter {
   constructor() {
@@ -116,6 +115,10 @@ class Store extends EventEmitter {
     return loupe_point;
   }
 
+  getClusteringList() {
+    return clustering_list;
+  }
+
   getTiffData(tiff_name, legend_name) {
     window.fetch(tiff_name)
       .then((response) => {
@@ -156,8 +159,9 @@ class Store extends EventEmitter {
                     return response.json();
                   })
                   .then((json) => {
-                    labels = json.labels;
-                    console.log(labels);
+                    const labels = json.labels;
+                    clustering_list = labels;
+                    this.emitChange();
                   });
               });
             });
