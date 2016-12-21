@@ -148,6 +148,7 @@ class Store extends EventEmitter {
                       'content-type': 'application/json',
                     },
                     body: JSON.stringify({
+                      n_clusters:10,
                       data: all_time_series[0]
                     })
                   })
@@ -155,7 +156,8 @@ class Store extends EventEmitter {
                     return response.json();
                   })
                   .then((json) => {
-                    console.log(json);
+                    labels = json.labels;
+                    console.log(labels);
                   });
               });
             });
