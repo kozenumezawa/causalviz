@@ -6,7 +6,7 @@ import MenuItem from 'material-ui/MenuItem';
 export default class CausalVisAppBar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {open: true};
+    this.state = {open: false};
 
     this.handleIconClick = this.handleIconClick.bind(this);
   }
