@@ -9,13 +9,10 @@ export default class ClusteringCanvas extends React.Component{
     this.canvas = document.getElementById(this.props.id);
     this.ctx = this.canvas.getContext('2d');
     this.drawFrame();
+    this.renderData(this.props.clustering_list);
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.clustering_list.length == 0) {
-      return;
-    }
-
     this.renderData(nextProps.clustering_list);
   }
 
@@ -60,6 +57,10 @@ export default class ClusteringCanvas extends React.Component{
   }
 
   renderData(clustering_list) {
+    if(clustering_list.length == 0) {
+      return;
+    }
+
     for(let i = 0; i < clustering_list.length; i++) {
       const area_number = clustering_list[i];
       // const color = 1 / (area_number + 1);

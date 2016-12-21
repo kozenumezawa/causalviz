@@ -12,16 +12,11 @@ export default class RelationCanvas extends React.Component{
     this.canvas = document.getElementById(this.props.id);
     this.ctx = this.canvas.getContext('2d');
     this.drawFrame();
+    this.renderData(this.props.relation_list);
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.relation_list.length == 0) {
-      return;
-    }
-
-    if(this.props.relation_list !== nextProps.relation_list) {
-      this.renderData(nextProps.relation_list);
-    }
+    this.renderData(nextProps.relation_list);
 
     // magnify the area which is surrounded by a loupe
     if(nextProps.loupe_point.on == true && nextProps.loupe_point.x != -1) {
@@ -81,6 +76,10 @@ export default class RelationCanvas extends React.Component{
   }
 
   renderData(relation_list) {
+    if(relation_list.length == 0) {
+      return;
+    }
+
     for(let i = 0; i < relation_list.length; i++) {
       const correlation = relation_list[i];
       const error = -2;     // this value is needed to equal to pair-time-series.js's error

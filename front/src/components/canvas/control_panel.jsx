@@ -11,15 +11,33 @@ export default class ControlPanel extends React.Component{
   componentDidMount() {
     this.canvas = document.getElementById(this.props.id);
     this.ctx = this.canvas.getContext('2d');
+    this.renderData(this.props.tiff_list, this.props.tiff_index);
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.tiff_list === undefined) {
+    this.renderData(nextProps.tiff_list, nextProps.tiff_index);
+
+    // magnify the area which is surrounded by a loupe
+    if(nextProps.loupe_point.on == true && nextProps.loupe_point.x != -1) {
+      const loupe_point = nextProps.loupe_point;
+      const magnify_length = loupe_point.side * 2;
+      const magnify_x = loupe_point.x - loupe_point.side;
+      const magnify_y = loupe_point.y - loupe_point.side;
+
+      const clipped_length = loupe_point.side;
+      const clipped_x = loupe_point.x - clipped_length / 2;
+      const clipped_y = loupe_point.y - clipped_length / 2;
+
+      this.ctx.drawImage(this.canvas, clipped_x, clipped_y, clipped_length, clipped_length
+        , magnify_x, magnify_y, magnify_length, magnify_length);
+    }
+  }
+
+  renderData(tiff_list, tiff_index) {
+    if(tiff_list === undefined) {
       return null
     }
-    
-    const canvas = nextProps.tiff_list[nextProps.tiff_index];
-    // this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.canvas.width, this.canvas.height);
+    const canvas = tiff_list[tiff_index];
     const ctx = canvas.getContext('2d');
     const tiff_image = ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
     const tiff_rgba = tiff_image.data; // image_rgba = [R, G, B, A, R, G, B, A, ...] (hex data)
@@ -37,20 +55,6 @@ export default class ControlPanel extends React.Component{
       this.ctx.fillRect(i % this.canvas.width, i / this.canvas.width, 1, 1);
     }
 
-    // magnify the area which is surrounded by a loupe
-    if(nextProps.loupe_point.on == true && nextProps.loupe_point.x != -1) {
-      const loupe_point = nextProps.loupe_point;
-      const magnify_length = loupe_point.side * 2;
-      const magnify_x = loupe_point.x - loupe_point.side;
-      const magnify_y = loupe_point.y - loupe_point.side;
-
-      const clipped_length = loupe_point.side;
-      const clipped_x = loupe_point.x - clipped_length / 2;
-      const clipped_y = loupe_point.y - clipped_length / 2;
-
-      this.ctx.drawImage(this.canvas, clipped_x, clipped_y, clipped_length, clipped_length
-        , magnify_x, magnify_y, magnify_length, magnify_length);
-    }
   }
 
   render() {
