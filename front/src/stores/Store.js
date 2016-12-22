@@ -8,6 +8,7 @@ const CHANGE_EVENT = 'change';
 
 let all_tiff_list = [];
 let all_time_series = [];
+let cluster_time_series = [];
 let tiff_index = 0;       // indicate the tiff file which should be displayed
 let legend_tiff = null;
 let relation_list = [];
@@ -107,6 +108,10 @@ class Store extends EventEmitter {
     return all_time_series;
   }
 
+  getClusterTimeSeries() {
+    return cluster_time_series;
+  }
+
   getRelationList() {
     return relation_list;
   }
@@ -173,7 +178,7 @@ class Store extends EventEmitter {
                   .then((json) => {
                     const labels = json.labels;
                     clustering_list = labels;
-                    // all_time_series[0] = json.average;
+                    cluster_time_series = json.average;
                     this.emitChange();
                   });
               });

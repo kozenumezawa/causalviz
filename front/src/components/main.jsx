@@ -8,7 +8,8 @@ import generalConstants from '../constants/general-constants'
 import TiffContainer from './tiff-container.jsx'
 import AppBar from './app-bar.jsx'
 import StepButton from './button/step-button.jsx'
-import GraphContainer from './graph-container.jsx'
+import GraphContainer from './graph/graph-container.jsx'
+import ClusterGraphContainer from './graph/cluster-graph-container.jsx'
 import CommandButton from './button/command-button.jsx'
 import LegendContainer from './legend-container.jsx'
 import ControlPanel from './canvas/control_panel.jsx'
@@ -17,16 +18,17 @@ import ClusteringCanvas from './canvas/clustering_canvas.jsx'
 
 function getAllState() {
   return {
-    all_tiff_list     : Store.getAllTiffList(),
-    tiff_index        : Store.getTiffIndex(),
-    legend_tiff       : Store.getLegendTiff(),
-    all_time_series   : Store.getAllTimeSeries(),
-    relation_list     : Store.getRelationList(),
-    highlighted_line  : Store.getHighlightedLine(),
-    clicked_point     : Store.getClickedPoint(),
-    loupe_point       : Store.getLoupePoint(),
-    clustering_list   : Store.getClusteringList(),
-    render_contents   : Store.getRenderContents()
+    all_tiff_list       : Store.getAllTiffList(),
+    tiff_index          : Store.getTiffIndex(),
+    legend_tiff         : Store.getLegendTiff(),
+    all_time_series     : Store.getAllTimeSeries(),
+    cluster_time_series : Store.getClusterTimeSeries(),
+    relation_list       : Store.getRelationList(),
+    highlighted_line    : Store.getHighlightedLine(),
+    clicked_point       : Store.getClickedPoint(),
+    loupe_point         : Store.getLoupePoint(),
+    clustering_list     : Store.getClusteringList(),
+    render_contents     : Store.getRenderContents()
   }
 }
 
@@ -126,6 +128,16 @@ export default class main extends React.Component {
                     tiff_index={this.state.tiff_index}
                   />
                 </div>
+                <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 400}}>
+                  <GraphContainer
+                    id="time_series_graph_1"
+                    line_color="green"
+                    tiff_list={this.state.all_tiff_list}
+                    tiff_index={this.state.tiff_index}
+                    time_series={this.state.all_time_series}
+                    highlighted_line={this.state.highlighted_line}
+                  />
+                </div>
               </div>
             );
           } else {
@@ -142,6 +154,22 @@ export default class main extends React.Component {
                     clustering_list={this.state.clustering_list}
                   />
                 </div>
+                <div style={{position: 'absolute', display: 'inline-block', top: 750, left: left_ref}}>
+                  <StepButton
+                    tiff_list={this.state.all_tiff_list}
+                    tiff_index={this.state.tiff_index}
+                  />
+                </div>
+                <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 400}}>
+                  <ClusterGraphContainer
+                    id="time_series_graph_1"
+                    line_color="green"
+                    tiff_list={this.state.all_tiff_list}
+                    tiff_index={this.state.tiff_index}
+                    time_series={this.state.cluster_time_series}
+                    highlighted_line={this.state.highlighted_line}
+                  />
+                </div>
               </div>
             );
           }
@@ -152,16 +180,6 @@ export default class main extends React.Component {
         </div>
 
         <div>
-          <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 400}}>
-            <GraphContainer
-              id="time_series_graph_1"
-              line_color="green"
-              tiff_list={this.state.all_tiff_list}
-              tiff_index={this.state.tiff_index}
-              time_series={this.state.all_time_series}
-              highlighted_line={this.state.highlighted_line}
-            />
-          </div>
           <div style={{position: 'absolute', display: 'inline-block', top:190, left: 370}}> 255 </div>
           <div style={{position: 'absolute', display: 'inline-block', top:340, left: 375}}> 0 </div>
 
