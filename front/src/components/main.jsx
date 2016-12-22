@@ -162,7 +162,7 @@ export default class main extends React.Component {
                 </div>
                 <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 400}}>
                   <ClusterGraphContainer
-                    id="time_series_graph_1"
+                    id="cluster_graph"
                     line_color="green"
                     tiff_list={this.state.all_tiff_list}
                     tiff_index={this.state.tiff_index}

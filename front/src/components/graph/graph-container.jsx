@@ -1,26 +1,12 @@
 import React from 'react'
 
+import HighlightCanvas from './highlight-canvas.jsx'
 import IndicatorCanvas from './indicator-canvas.jsx'
 
 export default class graphContainer extends React.Component {
   constructor(props) {
     super(props);
     this.already_drawn = false;
-  }
-
-  componentDidUpdate(prevProps) {
-    //  draw a highlighted line
-    if(prevProps.highlighted_line !== this.props.highlighted_line) {
-      const target_canvas = document.getElementById(this.props.id + '_highlight');
-      const ctx = target_canvas.getContext('2d');
-      const time_series = this.props.time_series;
-      const line_opts = {
-        color: 'black',
-        width: 2
-      };
-      ctx.clearRect(0, 0, target_canvas.width, target_canvas.height);
-      this.lineGraph(target_canvas, time_series[this.props.highlighted_line], line_opts);
-    }
   }
 
   lineGraph(canvas_obj, time_series_data, line_opts) {
@@ -68,7 +54,11 @@ export default class graphContainer extends React.Component {
     return (
       <div>
         <canvas id={this.props.id} width="420" height="150" style={{left: 0, top: 0, zIndex: 0}}></canvas>
-        <canvas id={this.props.id + '_highlight'} width="420" height="150" style={{position: 'absolute', display: 'block', top: 0, zIndex: 1}}></canvas>
+        <HighlightCanvas
+          id={this.props.id}
+          time_series={this.props.time_series}
+          highlighted_line={this.props.highlighted_line}
+        />
         <IndicatorCanvas
           id={this.props.id}
           tiff_list={this.props.tiff_list}
