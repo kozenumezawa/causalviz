@@ -9,6 +9,11 @@ export default class clusterGraphContainer extends React.Component {
     this.already_drawn = false;
   }
 
+  componentDidMount() {
+    this.canvas = document.getElementById(this.props.id);
+    this.ctx = this.canvas.getContext('2d');
+  }
+  
   lineGraph(canvas_obj, time_series_data, line_opts) {
     const context = canvas_obj.getContext('2d');
 
@@ -38,16 +43,13 @@ export default class clusterGraphContainer extends React.Component {
 
   renderData() {
     const time_series = this.props.time_series;
-    const target_canvas = document.getElementById(this.props.id);
-    const target_ctx = target_canvas.getContext('2d');
-    target_ctx.clearRect(0, 0, target_canvas.width, target_canvas.height);
 
     const line_opts = {
       color: this.props.line_color,
       width: 0.1
     };
     time_series.forEach((element, idx) => {
-      this.lineGraph(target_canvas, element, line_opts);
+      this.lineGraph(this.canvas, element, line_opts);
     });
     // this.already_drawn = true;
   }

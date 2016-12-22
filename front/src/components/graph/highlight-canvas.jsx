@@ -10,16 +10,16 @@ export default class highlightCanvas extends React.Component {
     this.ctx = this.canvas.getContext('2d');
   }
 
-  componentDidUpdate(prevProps) {
+  componentWillReceiveProps(nextProps) {
     //  draw a highlighted line
-    if(prevProps.highlighted_line !== this.props.highlighted_line) {
-      const time_series = this.props.time_series;
+    if(this.props.highlighted_line !== nextProps.highlighted_line) {
+      const time_series = nextProps.time_series;
       const line_opts = {
         color: 'black',
         width: 2
       };
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.lineGraph(this.canvas, time_series[this.props.highlighted_line], line_opts);
+      this.lineGraph(this.canvas, time_series[nextProps.highlighted_line], line_opts);
     }
   }
 

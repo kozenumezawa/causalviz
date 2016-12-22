@@ -26,11 +26,11 @@ export default class indicatorCanvas extends React.Component {
     this.canvas.addEventListener('mouseout', this.mouseOut);
   }
 
-  componentDidUpdate(prevProps) {
+  componentWillReceiveProps(nextProps) {
     // draw an indicator to show a timestep
-    if(prevProps.tiff_index !== this.props.tiff_index) {
+    if(this.props.tiff_index !== nextProps.tiff_index) {
       const pos1 = {
-        x: this.canvas.width / this.props.tiff_list.length * this.props.tiff_index,
+        x: this.canvas.width / nextProps.tiff_list.length * nextProps.tiff_index,
         y: 0
       };
       this.drawVerticalLine(pos1.x, pos1.y, pos1.x, this.canvas.height);
