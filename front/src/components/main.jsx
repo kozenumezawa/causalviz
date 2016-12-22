@@ -65,6 +65,13 @@ export default class main extends React.Component {
           </div>
         </div>
 
+        <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: 480}}>
+          <StepButton
+            tiff_list={this.state.all_tiff_list}
+            tiff_index={this.state.tiff_index}
+          />
+        </div>
+
         <div>
           <div style={{position: 'absolute', display: 'inline-block', top: top_response, left: left_ref}}>
             <Chip backgroundColor={white}>
@@ -122,12 +129,6 @@ export default class main extends React.Component {
                   </div>
                 </div>
 
-                <div style={{position: 'absolute', display: 'inline-block', top: 750, left: left_ref}}>
-                  <StepButton
-                    tiff_list={this.state.all_tiff_list}
-                    tiff_index={this.state.tiff_index}
-                  />
-                </div>
                 <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 400}}>
                   <GraphContainer
                     id="time_series_graph_1"
@@ -152,12 +153,6 @@ export default class main extends React.Component {
                   <ClusteringCanvas
                     id="clustering_view"
                     clustering_list={this.state.clustering_list}
-                  />
-                </div>
-                <div style={{position: 'absolute', display: 'inline-block', top: 750, left: left_ref}}>
-                  <StepButton
-                    tiff_list={this.state.all_tiff_list}
-                    tiff_index={this.state.tiff_index}
                   />
                 </div>
                 <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 400}}>
