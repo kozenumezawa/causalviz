@@ -34,7 +34,7 @@ export default class ControlPanel extends React.Component{
   }
 
   renderData(tiff_list, tiff_index) {
-    if(tiff_list === undefined) {
+    if(tiff_list.length === 0) {
       return null
     }
     const canvas = tiff_list[tiff_index];

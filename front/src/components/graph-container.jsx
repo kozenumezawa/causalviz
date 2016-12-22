@@ -147,7 +147,7 @@ export default class graphContainer extends React.Component {
         <canvas id={this.props.id + '_indicator'} width="420" height="150" style={{position: 'absolute', display: 'block', top: 0, zIndex: 1}}></canvas>
         
         {(() => {
-          if(this.props.tiff_list !== undefined && this.already_drawn == false) {
+          if(this.props.tiff_list.length !== 0 && this.already_drawn == false) {
             this.renderData();
           }
         })()}

@@ -45,12 +45,12 @@ class Store extends EventEmitter {
       case eventConstants.HANDLE_BEFORE_CLICK:
         tiff_index--;
         if(tiff_index < 0) {
-          tiff_index = all_tiff_list[0].length - 1;
+          tiff_index = all_tiff_list.length - 1;
         }
         break;
       case eventConstants.HANDLE_NEXT_CLICK:
         tiff_index++;
-        if(tiff_index == all_tiff_list[0].length) {
+        if(tiff_index == all_tiff_list.length) {
           tiff_index = 0;
         }
         break;
@@ -142,7 +142,7 @@ class Store extends EventEmitter {
             const canvas = tiff.toCanvas();
             tiff_list.push(canvas);
           }
-          all_tiff_list.push(tiff_list);
+          all_tiff_list = tiff_list;
 
           window.fetch(legend_name)
             .then((response) => {
@@ -153,7 +153,7 @@ class Store extends EventEmitter {
                   const canvas = tiff.toCanvas();
                   legend_tiff = canvas;
                 }
-                all_time_series.push(this.createAllTimeSeriesFromTiff());
+                all_time_series = this.createAllTimeSeriesFromTiff();
                 this.emitChange();
 
                 window.fetch('http://localhost:8000/api/v1/kmeans', {
@@ -164,7 +164,7 @@ class Store extends EventEmitter {
                     },
                     body: JSON.stringify({
                       n_clusters:10,
-                      data: all_time_series[0]
+                      data: all_time_series
                     })
                   })
                   .then((response) => {
@@ -173,6 +173,7 @@ class Store extends EventEmitter {
                   .then((json) => {
                     const labels = json.labels;
                     clustering_list = labels;
+                    // all_time_series[0] = json.average;
                     this.emitChange();
                   });
               });
@@ -216,7 +217,7 @@ class Store extends EventEmitter {
 
     // create time series data from each time step data
     let all_time_series_inverse = [];
-    all_tiff_list[0].forEach((tiff_canvas, idx) => {
+    all_tiff_list.forEach((tiff_canvas, idx) => {
       let time_series_inverse = [];
       const tiff_ctx = tiff_canvas.getContext('2d');
       const tiff_image = tiff_ctx.getImageData(0, 0, tiff_canvas.width, tiff_canvas.height);
@@ -254,7 +255,7 @@ class Store extends EventEmitter {
 
   updateRelationList() {
     relation_list = [];
-    const time_series = all_time_series[0];
+    const time_series = all_time_series;
     const x = time_series[highlighted_line];
     time_series.forEach((y, idx) => {
       relation_list.push(pairTimeSeries.getCorrelation(x, y));

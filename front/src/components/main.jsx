@@ -72,7 +72,7 @@ export default class main extends React.Component {
           <div style={{position: 'absolute', display: 'inline-block', top: top_response+40, left: left_ref+30}}>
             <TiffContainer
               id="tiff_output_1"
-              tiff_list={this.state.all_tiff_list[0]}
+              tiff_list={this.state.all_tiff_list}
               tiff_index={this.state.tiff_index}
               clicked_point={this.state.clicked_point}
               loupe_point={this.state.loupe_point}
@@ -93,7 +93,7 @@ export default class main extends React.Component {
                   <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
                     <RelationCanvas
                       id="relation_view"
-                      tiff_list={this.state.all_tiff_list[0]}
+                      tiff_list={this.state.all_tiff_list}
                       tiff_index={this.state.tiff_index}
                       clicked_point={this.state.clicked_point}
                       loupe_point={this.state.loupe_point}
@@ -112,7 +112,7 @@ export default class main extends React.Component {
                   <div style={{position: 'absolute', display: 'inline-block', top: top_control+40, left: left_ref+30}}>
                     <ControlPanel
                       id="control_panel"
-                      tiff_list={this.state.all_tiff_list[0]}
+                      tiff_list={this.state.all_tiff_list}
                       tiff_index={this.state.tiff_index}
                       clicked_point={this.state.clicked_point}
                       loupe_point={this.state.loupe_point}
@@ -122,7 +122,7 @@ export default class main extends React.Component {
 
                 <div style={{position: 'absolute', display: 'inline-block', top: 750, left: left_ref}}>
                   <StepButton
-                    tiff_list={this.state.all_tiff_list[0]}
+                    tiff_list={this.state.all_tiff_list}
                     tiff_index={this.state.tiff_index}
                   />
                 </div>
@@ -156,9 +156,9 @@ export default class main extends React.Component {
             <GraphContainer
               id="time_series_graph_1"
               line_color="green"
-              tiff_list={this.state.all_tiff_list[0]}
+              tiff_list={this.state.all_tiff_list}
               tiff_index={this.state.tiff_index}
-              time_series={this.state.all_time_series[0]}
+              time_series={this.state.all_time_series}
               highlighted_line={this.state.highlighted_line}
             />
           </div>
