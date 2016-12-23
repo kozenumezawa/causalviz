@@ -25,6 +25,22 @@ export function lineGraph(canvas_obj, time_series_data, line_opts) {
   context.stroke();
 }
 
+export function drawLoupeArea(canvas, ctx, loupe_point) {
+  // magnify the area which is surrounded by a loupe
+  if(loupe_point.on == true && loupe_point.x != -1) {
+    const magnify_length = loupe_point.side * 2;
+    const magnify_x = loupe_point.x - loupe_point.side;
+    const magnify_y = loupe_point.y - loupe_point.side;
+
+    const clipped_length = loupe_point.side;
+    const clipped_x = loupe_point.x - clipped_length / 2;
+    const clipped_y = loupe_point.y - clipped_length / 2;
+
+    ctx.drawImage(canvas, clipped_x, clipped_y, clipped_length, clipped_length
+      , magnify_x, magnify_y, magnify_length, magnify_length);
+  }
+}
+
 /**
  * Converts an HSL color value to RGB. Conversion formula
  * adapted from http://en.wikipedia.org/wiki/HSL_color_space.

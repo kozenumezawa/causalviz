@@ -3,6 +3,7 @@ import * as d3_scale from 'd3-scale'
 
 import ClickedCanvas from './clicked_canvas.jsx'
 import EventCanvas from './event_canvas.jsx'
+import * as drawingTool from '../../utils/drawing-tool'
 
 export default class ClusteringCanvas extends React.Component{
   constructor(props) {
@@ -13,14 +14,14 @@ export default class ClusteringCanvas extends React.Component{
     this.canvas = document.getElementById(this.props.id);
     this.ctx = this.canvas.getContext('2d');
     this.drawFrame();
-    this.renderData(this.props.clustering_list);
+    this.renderData(this.props.clustering_list, this.props.loupe_point);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.renderData(nextProps.clustering_list);
+    this.renderData(nextProps.clustering_list, nextProps.loupe_point);
   }
 
-  renderData(clustering_list) {
+  renderData(clustering_list, loupe_point) {
     if(clustering_list.length == 0) {
       return;
     }
@@ -29,6 +30,8 @@ export default class ClusteringCanvas extends React.Component{
       this.ctx.fillStyle = color_map[clustering_list[i]];
       this.ctx.fillRect(i % this.canvas.width, i / this.canvas.width, 1, 1);
     }
+
+    drawingTool.drawLoupeArea(this.canvas, this.ctx, loupe_point);
   }
 
   drawFrame() {

@@ -1,5 +1,7 @@
 import React from 'react'
 
+import * as drawingTool from '../../utils/drawing-tool'
+
 export default class ClickedCanvas extends React.Component {
   constructor(props) {
     super(props);
@@ -22,20 +24,8 @@ export default class ClickedCanvas extends React.Component {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.ctx.fillStyle='red';
       this.ctx.fillRect(props.clicked_point.x, props.clicked_point.y, 3, 3);
-      // magnify the area which is surrounded by a loupe
-      if(props.loupe_point.on == true && props.loupe_point.x != -1) {
-        const loupe_point = props.loupe_point;
-        const magnify_length = loupe_point.side * 2;
-        const magnify_x = loupe_point.x - loupe_point.side;
-        const magnify_y = loupe_point.y - loupe_point.side;
 
-        const clipped_length = loupe_point.side;
-        const clipped_x = loupe_point.x - clipped_length / 2;
-        const clipped_y = loupe_point.y - clipped_length / 2;
-
-        this.ctx.drawImage(this.canvas, clipped_x, clipped_y, clipped_length, clipped_length
-          , magnify_x, magnify_y, magnify_length, magnify_length);
-      }
+      drawingTool.drawLoupeArea(this.canvas, this.ctx, props.loupe_point);
     }
   }
 
