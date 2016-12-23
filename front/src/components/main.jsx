@@ -67,8 +67,8 @@ export default class main extends React.Component {
 
         <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: 480}}>
           <StepButton
-            tiff_list={this.state.all_tiff_list}
             tiff_index={this.state.tiff_index}
+            tiff_list={this.state.all_tiff_list}
           />
         </div>
 
@@ -81,10 +81,10 @@ export default class main extends React.Component {
           <div style={{position: 'absolute', display: 'inline-block', top: top_response+40, left: left_ref+30}}>
             <TiffContainer
               id="tiff_output_1"
-              tiff_list={this.state.all_tiff_list}
-              tiff_index={this.state.tiff_index}
               clicked_point={this.state.clicked_point}
               loupe_point={this.state.loupe_point}
+              tiff_index={this.state.tiff_index}
+              tiff_list={this.state.all_tiff_list}
             />
           </div>
         </div>
@@ -102,11 +102,11 @@ export default class main extends React.Component {
                   <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
                     <RelationCanvas
                       id="relation_view"
-                      tiff_list={this.state.all_tiff_list}
-                      tiff_index={this.state.tiff_index}
                       clicked_point={this.state.clicked_point}
                       loupe_point={this.state.loupe_point}
                       relation_list={this.state.relation_list}
+                      tiff_index={this.state.tiff_index}
+                      tiff_list={this.state.all_tiff_list}
                     />
                   </div>
                 </div>
@@ -121,10 +121,10 @@ export default class main extends React.Component {
                   <div style={{position: 'absolute', display: 'inline-block', top: top_control+40, left: left_ref+30}}>
                     <ControlPanel
                       id="control_panel"
-                      tiff_list={this.state.all_tiff_list}
-                      tiff_index={this.state.tiff_index}
                       clicked_point={this.state.clicked_point}
                       loupe_point={this.state.loupe_point}
+                      tiff_index={this.state.tiff_index}
+                      tiff_list={this.state.all_tiff_list}
                     />
                   </div>
                 </div>
@@ -132,11 +132,11 @@ export default class main extends React.Component {
                 <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 400}}>
                   <GraphContainer
                     id="time_series_graph_1"
-                    line_color="green"
-                    tiff_list={this.state.all_tiff_list}
-                    tiff_index={this.state.tiff_index}
-                    time_series={this.state.all_time_series}
                     highlighted_line={this.state.highlighted_line}
+                    line_color="green"
+                    tiff_index={this.state.tiff_index}
+                    tiff_list={this.state.all_tiff_list}
+                    time_series={this.state.all_time_series}
                   />
                 </div>
               </div>
@@ -146,26 +146,26 @@ export default class main extends React.Component {
               <div>
                 <div style={{position: 'absolute', display: 'inline-block', top: top_relation, left: left_ref}}>
                   <Chip backgroundColor={white}>
-                    {'Clustering view'}
+                    {'Cluster view'}
                   </Chip>
                 </div>
                 <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
                   <ClusteringCanvas
                     id="clustering_view"
-                    clustering_list={this.state.clustering_list}
                     clicked_point={this.state.clicked_point}
+                    clustering_list={this.state.clustering_list}
                     loupe_point={this.state.loupe_point}
                   />
                 </div>
                 <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 400}}>
                   <ClusterGraphContainer
                     id="cluster_graph"
-                    tiff_list={this.state.all_tiff_list}
-                    tiff_index={this.state.tiff_index}
                     all_time_series={this.state.all_time_series}
                     cluster_time_series={this.state.cluster_time_series}
-                    highlighted_line={this.state.highlighted_line}
                     clustering_list={this.state.clustering_list}
+                    highlighted_line={this.state.highlighted_line}
+                    tiff_index={this.state.tiff_index}
+                    tiff_list={this.state.all_tiff_list}
                   />
                 </div>
               </div>
