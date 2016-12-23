@@ -87,6 +87,9 @@ class Store extends EventEmitter {
       case eventConstants.HANDLE_KMEANS_CLICK:
         render_contents = generalConstants.VIEW_KMEANS;
         break;
+      case eventConstants.HANDLE_CLEAR_SELECTION:
+        highlighted_line = -1;
+        break;
       default:
     }
     this.emitChange();

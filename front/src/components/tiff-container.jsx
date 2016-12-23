@@ -1,8 +1,10 @@
 import React from 'react'
+import FlatButton from 'material-ui/FlatButton'
 
 import ClickedCanvas from './canvas/clicked_canvas.jsx'
 import EventCanvas from './canvas/event_canvas.jsx'
 import * as drawingTool from '../utils/drawing-tool'
+import Actions from '../actions/Actions'
 
 export default class TiffContainer extends React.Component{
   constructor(props) {
@@ -38,6 +40,12 @@ export default class TiffContainer extends React.Component{
         <EventCanvas
           id={this.props.id}
           loupe_point={this.props.loupe_point}
+        />
+        <FlatButton
+          label="Clear selection"
+          style={{width: '50%'}}
+          labelStyle={{fontSize: '10px'}}
+          onClick={Actions.handleClearSelection}
         />
       </div>
     );

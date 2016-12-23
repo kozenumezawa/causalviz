@@ -9,7 +9,8 @@ const eventConstant = keyMirror({
   HANDLE_LOUPE_CLICK       : null,
   HANDLE_INDICATOR_MOVE    : null,
   HANDLE_DEFAULT_CLICK     : null,
-  HANDLE_KMEANS_CLICK      : null
+  HANDLE_KMEANS_CLICK      : null,
+  HANDLE_CLEAR_SELECTION   : null
 });
 
 export default eventConstant

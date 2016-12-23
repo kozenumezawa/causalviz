@@ -59,5 +59,11 @@ export default {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_KMEANS_CLICK
     });
+  },
+
+  handleClearSelection: () => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_CLEAR_SELECTION
+    })
   }
 }
