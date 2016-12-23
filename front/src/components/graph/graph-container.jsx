@@ -2,7 +2,7 @@ import React from 'react'
 
 import HighlightCanvas from './highlight-canvas.jsx'
 import IndicatorCanvas from './indicator-canvas.jsx'
-import * as drawLine from '../../utils/draw-line'
+import * as drawingTool from '../../utils/drawing-tool'
 
 export default class graphContainer extends React.Component {
   constructor(props) {
@@ -23,7 +23,7 @@ export default class graphContainer extends React.Component {
       width: 0.1
     };
     time_series.forEach((element, idx) => {
-      drawLine.lineGraph(this.canvas, element, line_opts);
+      drawingTool.lineGraph(this.canvas, element, line_opts);
     });
     this.already_drawn = true;
   }
