@@ -46,8 +46,9 @@ export default class graphContainer extends React.Component {
         <canvas id={this.props.id} width="420" height="150" style={{left: 0, top: 0, zIndex: 0}}></canvas>
         <HighlightCanvas
           id={this.props.id}
-          time_series={this.props.time_series}
-          highlighted_line={this.props.highlighted_line}
+          line_color={'black'}
+          line_width={2}
+          highlight_time_series={this.props.time_series[this.props.highlighted_line]}
         />
         <IndicatorCanvas
           id={this.props.id}
