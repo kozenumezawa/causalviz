@@ -1,4 +1,5 @@
 import React from 'react'
+import * as d3_scale from 'd3-scale'
 
 import HighlightCanvas from './highlight-canvas.jsx'
 import IndicatorCanvas from './indicator-canvas.jsx'
@@ -31,11 +32,12 @@ export default class clusterGraphContainer extends React.Component {
       return;
     }
 
-    const line_opts = {
-      color: this.props.line_color,
-      width: 0.1
-    };
+    const color_map = d3_scale.schemeCategory20c;
     time_series.forEach((element, idx) => {
+      const line_opts = {
+        color: color_map[idx],
+        width: 1.5
+      };
       drawingTool.lineGraph(this.canvas, element, line_opts);
     });
     this.already_drawn = true;
