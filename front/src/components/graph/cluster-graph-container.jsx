@@ -15,26 +15,36 @@ export default class clusterGraphContainer extends React.Component {
   componentDidMount() {
     this.canvas = document.getElementById(this.props.id);
     this.ctx = this.canvas.getContext('2d');
-    this.renderData(this.props.time_series);
+    this.renderData(this.props.cluster_time_series, this.props.clustering_list);
   }
 
   componentWillReceiveProps(nextProps) {
     if(this.already_drawn === true) {
       return;
     }
-    if(this.props.time_series.toString() !== nextProps.time_series.toString()) {
-      this.renderData(nextProps.time_series);
+    if(this.props.cluster_time_series.toString() !== nextProps.cluster_time_series.toString()) {
+      this.renderData(nextProps.cluster_time_series, nextProps.clustering_list);
     }
   }
 
-  renderData(time_series) {
+  renderData(time_series, clustering_list) {
     if(time_series.length === 0) {
       return;
     }
 
+    let line_opts = {
+      color: 'gray',
+      width: 0.1
+    };
+    this.props.all_time_series.forEach((element, idx) => {
+      if(clustering_list[idx] === 8) {
+        drawingTool.lineGraph(this.canvas, element, line_opts);
+      }
+    });
+
     const color_map = d3_scale.schemeCategory20c;
     time_series.forEach((element, idx) => {
-      const line_opts = {
+      line_opts = {
         color: color_map[idx],
         width: 1.5
       };
@@ -51,7 +61,7 @@ export default class clusterGraphContainer extends React.Component {
           id={this.props.id}
           line_color={'black'}
           line_width={2}
-          highlight_time_series={this.props.time_series[this.props.highlighted_line]}
+          highlight_time_series={this.props.cluster_time_series[this.props.highlighted_line]}
         />
         <IndicatorCanvas
           id={this.props.id}

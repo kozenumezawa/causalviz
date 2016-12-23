@@ -160,8 +160,10 @@ export default class main extends React.Component {
                     id="cluster_graph"
                     tiff_list={this.state.all_tiff_list}
                     tiff_index={this.state.tiff_index}
-                    time_series={this.state.cluster_time_series}
+                    all_time_series={this.state.all_time_series}
+                    cluster_time_series={this.state.cluster_time_series}
                     highlighted_line={this.state.highlighted_line}
+                    clustering_list={this.state.clustering_list}
                   />
                 </div>
               </div>
