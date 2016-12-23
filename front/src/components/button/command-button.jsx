@@ -31,6 +31,12 @@ export default class commandButton extends React.Component {
   render() {
     return (
       <div style={styles.wrapper}>
+        <div className="btn btn-link">
+          <Toggle
+            onToggle={this.handleLoupeClick}
+          />
+          <span className="glyphicon glyphicon-search" ></span>
+        </div>
         <FlatButton
           label="correlation"
           disabled={true}
@@ -40,13 +46,6 @@ export default class commandButton extends React.Component {
           label="Granger"
           onClick={this.handleGrangerClick}
         />
-        <div className="btn btn-link">
-          <Toggle
-            onToggle={this.handleLoupeClick}
-          />
-          <span className="glyphicon glyphicon-search" ></span>
-        </div>
-
       </div>
     );
   }
