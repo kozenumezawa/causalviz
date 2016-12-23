@@ -14,7 +14,8 @@ import CommandButton from './button/command-button.jsx'
 import LegendContainer from './legend-container.jsx'
 import ControlPanel from './canvas/control_panel.jsx'
 import RelationCanvas from './canvas/relation_canvas.jsx'
-import ClusteringCanvas from './canvas/clustering_canvas.jsx'
+import ClusterCanvas from './canvas/cluster_canvas.jsx'
+import ClusterDetailCanvas from './canvas/cluster_detail_canvas.jsx'
 
 function getAllState() {
   return {
@@ -150,10 +151,24 @@ export default class main extends React.Component {
                   </Chip>
                 </div>
                 <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
-                  <ClusteringCanvas
-                    id="clustering_view"
+                  <ClusterCanvas
+                    id="cluster_view"
                     clicked_point={this.state.clicked_point}
                     clustering_list={this.state.clustering_list}
+                    loupe_point={this.state.loupe_point}
+                  />
+                </div>
+                <div style={{position: 'absolute', display: 'inline-block', top: top_control, left: left_ref}}>
+                  <Chip backgroundColor={white}>
+                    {'Selected Cluster view'}
+                  </Chip>
+                </div>
+                <div style={{position: 'absolute', display: 'inline-block', top: top_control+40, left: left_ref+30}}>
+                  <ClusterDetailCanvas
+                    id="cluster_detail_view"
+                    clicked_point={this.state.clicked_point}
+                    clustering_list={this.state.clustering_list}
+                    highlighted_line={this.state.highlighted_line}
                     loupe_point={this.state.loupe_point}
                   />
                 </div>

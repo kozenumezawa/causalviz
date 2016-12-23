@@ -5,7 +5,7 @@ import ClickedCanvas from './clicked_canvas.jsx'
 import EventCanvas from './event_canvas.jsx'
 import * as drawingTool from '../../utils/drawing-tool'
 
-export default class ClusteringCanvas extends React.Component{
+export default class ClusterDetailCanvas extends React.Component{
   constructor(props) {
     super(props);
   }
@@ -14,21 +14,27 @@ export default class ClusteringCanvas extends React.Component{
     this.canvas = document.getElementById(this.props.id);
     this.ctx = this.canvas.getContext('2d');
     this.drawFrame();
-    this.renderData(this.props.clustering_list, this.props.loupe_point);
+    this.renderData(this.props.clustering_list, this.props.loupe_point, this.props.highlighted_line);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.renderData(nextProps.clustering_list, nextProps.loupe_point);
+    this.renderData(nextProps.clustering_list, nextProps.loupe_point, nextProps.highlighted_line);
   }
 
-  renderData(clustering_list, loupe_point) {
+  renderData(clustering_list, loupe_point, highlighted_line) {
     if(clustering_list.length == 0) {
       return;
     }
     const color_map = d3_scale.schemeCategory20c;
+    const selected_cluster = clustering_list[highlighted_line];
+
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.drawFrame();
     for(let i = 0; i < clustering_list.length; i++) {
-      this.ctx.fillStyle = color_map[clustering_list[i]];
-      this.ctx.fillRect(i % this.canvas.width, i / this.canvas.width, 1, 1);
+      if(clustering_list[i] === selected_cluster) {
+        this.ctx.fillStyle = color_map[clustering_list[i]];
+        this.ctx.fillRect(i % this.canvas.width, i / this.canvas.width, 1, 1);
+      }
     }
 
     drawingTool.drawLoupeArea(this.canvas, this.ctx, loupe_point);
