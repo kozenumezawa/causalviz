@@ -17,7 +17,9 @@ export default class RelationCanvas extends React.Component{
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.relation_list.toString() !== nextProps.relation_list.toString()) {
+    if(this.props.relation_list.toString() !== nextProps.relation_list.toString()
+        || nextProps.loupe_point.on === true
+    ) {
       this.renderData(nextProps.relation_list);
     }
     drawingTool.drawLoupeArea(this.canvas, this.ctx, nextProps.loupe_point);
