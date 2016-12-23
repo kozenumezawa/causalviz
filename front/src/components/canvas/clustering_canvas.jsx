@@ -1,6 +1,9 @@
 import React from 'react'
 import * as d3_scale from 'd3-scale'
 
+import ClickedCanvas from './clicked_canvas.jsx'
+import EventCanvas from './event_canvas.jsx'
+
 export default class ClusteringCanvas extends React.Component{
   constructor(props) {
     super(props);
@@ -45,6 +48,15 @@ export default class ClusteringCanvas extends React.Component{
     return (
       <div>
         <canvas id={this.props.id} width="285" height="130" style={{left: 0, top: 0, zIndex: 0}}></canvas>
+        <ClickedCanvas
+          id={this.props.id}
+          clicked_point={this.props.clicked_point}
+          loupe_point={this.props.loupe_point}
+        />
+        <EventCanvas
+          id={this.props.id}
+          loupe_point={this.props.loupe_point}
+        />
       </div>
     );
   }

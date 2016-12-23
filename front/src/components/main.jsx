@@ -153,6 +153,8 @@ export default class main extends React.Component {
                   <ClusteringCanvas
                     id="clustering_view"
                     clustering_list={this.state.clustering_list}
+                    clicked_point={this.state.clicked_point}
+                    loupe_point={this.state.loupe_point}
                   />
                 </div>
                 <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 400}}>
