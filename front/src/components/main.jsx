@@ -173,7 +173,7 @@ export default class main extends React.Component {
           }
         })()}
 
-        <div style={{position: 'absolute', display: 'inline-block', top: 1000, left: left_ref}}>
+        <div style={{position: 'absolute', display: 'inline-block', top: 100, left: 480}}>
           <CommandButton />
         </div>
 
