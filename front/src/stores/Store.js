@@ -2,7 +2,7 @@ import { EventEmitter } from 'events'
 import Dispatcher from '../dispatcher/Dispatcher'
 import eventConstants from '../constants/event-constants'
 import generalConstants from '../constants/general-constants'
-import * as pairTimeSeries from '../pair-time-series'
+import * as pairTimeSeries from '../utils/pair-time-series'
 
 const CHANGE_EVENT = 'change';
 
