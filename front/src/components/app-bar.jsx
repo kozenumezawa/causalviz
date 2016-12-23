@@ -22,17 +22,17 @@ export default class CausalVisAppBar extends React.Component {
   }
 
   handleDefaultClick() {
-    Action.handleDefaultClick();
     this.setState({
       open: !this.state.open
     });
+    Action.handleDefaultClick();
   }
 
   handleKmeansClick() {
-    Action.handleKmeansClick();
     this.setState({
       open: !this.state.open
     });
+    Action.handleKmeansClick();
   }
 
   renderAppBar() {

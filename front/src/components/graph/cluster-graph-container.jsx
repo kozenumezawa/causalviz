@@ -8,15 +8,28 @@ export default class clusterGraphContainer extends React.Component {
   constructor(props) {
     super(props);
     this.already_drawn = false;
+
   }
 
   componentDidMount() {
     this.canvas = document.getElementById(this.props.id);
     this.ctx = this.canvas.getContext('2d');
+    this.renderData(this.props.time_series);
   }
 
-  renderData() {
-    const time_series = this.props.time_series;
+  componentWillReceiveProps(nextProps) {
+    if(this.already_drawn === true) {
+      return;
+    }
+    if(this.props.time_series.toString() !== nextProps.time_series.toString()) {
+      this.renderData(nextProps.time_series);
+    }
+  }
+
+  renderData(time_series) {
+    if(time_series.length === 0) {
+      return;
+    }
 
     const line_opts = {
       color: this.props.line_color,
@@ -25,7 +38,7 @@ export default class clusterGraphContainer extends React.Component {
     time_series.forEach((element, idx) => {
       drawingTool.lineGraph(this.canvas, element, line_opts);
     });
-    // this.already_drawn = true;
+    this.already_drawn = true;
   }
 
   render() {
@@ -42,12 +55,6 @@ export default class clusterGraphContainer extends React.Component {
           tiff_list={this.props.tiff_list}
           tiff_index={this.props.tiff_index}
         />
-        
-        {(() => {
-          if(this.props.tiff_list.length !== 0 && this.already_drawn == false) {
-            this.renderData();
-          }
-        })()}
       </div>
     );
   }

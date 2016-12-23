@@ -18,7 +18,14 @@ export default class indicatorCanvas extends React.Component {
     this.canvas = document.getElementById(this.props.id + '_indicator');
     this.ctx = this.canvas.getContext('2d');
 
-    this.drawVerticalLine(0, 0, 0, this.canvas.height);
+    let pos1 = {
+      x: 0,
+      y: 0
+    };
+    if(this.props.tiff_index !== 0) {
+      pos1.x = this.canvas.width / this.props.tiff_list.length * this.props.tiff_index;
+    }
+    this.drawVerticalLine(pos1.x, pos1.y, pos1.x, this.canvas.height);
 
     this.canvas.addEventListener('mousedown', this.mouseDown)
     this.canvas.addEventListener('mousemove', this.mouseMove)
