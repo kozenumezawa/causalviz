@@ -16,6 +16,7 @@ import ControlPanel from './canvas/control_panel.jsx'
 import RelationCanvas from './canvas/relation_canvas.jsx'
 import ClusterCanvas from './canvas/cluster_canvas.jsx'
 import ClusterDetailCanvas from './canvas/cluster_detail_canvas.jsx'
+import ClusterButton from './button/cluster-button.jsx'
 
 function getAllState() {
   return {
@@ -181,6 +182,15 @@ export default class main extends React.Component {
                     highlighted_line={this.state.highlighted_line}
                     tiff_index={this.state.tiff_index}
                     tiff_list={this.state.all_tiff_list}
+                  />
+                </div>
+                <div style={{position: 'absolute', display: 'inline-block', top: top_control+40, left: 400}}>
+                  <Chip backgroundColor={white}>
+                    {'Cluster list'}
+                  </Chip>
+                  <ClusterButton
+                    id="cluster_button"
+                    clustering_list={this.state.clustering_list}
                   />
                 </div>
               </div>
