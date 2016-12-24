@@ -8,13 +8,25 @@ export default class clusterButton extends React.Component {
     super(props);
   }
 
+  handleCheckClick(index) {
+    console.log(index);
+    console.log(document.checkbox[index].checked);
+  }
+
   renderCanvas() {
     let render_canvas = [];
-    for(let i = 0; i < 20; i++) {
+
+    let N_cluster = Math.max.apply(null, this.props.clustering_list) + 1;
+    if(N_cluster === -Infinity) {
+      N_cluster = 20;
+    }
+
+    for(let i = 0; i < N_cluster; i++) {
       const id_canvas = this.props.id + i;
       render_canvas.push(
         <div key={i} style={{display:'inline-block'}}>
           <canvas id={id_canvas} style={{marginLeft:10}} width={20} height={20}></canvas>
+          <input type="checkbox" value="on" onClick={this.handleCheckClick.bind(this, i)} style={{display:'block', marginLeft:13}}></input>
         </div>
       );
     }
@@ -37,13 +49,14 @@ export default class clusterButton extends React.Component {
   }
 
   render() {
-    const margin = 10;
     return (
       <div>
         <div style={{display:'inline-block'}}>
-          {(() => {
-            return this.renderCanvas();
-          })()}
+          <form name="checkbox">
+            {(() => {
+              return this.renderCanvas();
+            })()}
+          </form>
 
           {(() => {
             return this.renderClusterLegend();
