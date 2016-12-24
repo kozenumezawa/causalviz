@@ -65,5 +65,12 @@ export default {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_CLEAR_SELECTION
     })
+  },
+
+  handleCheckClick: (index) => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_CHECK_CLICK,
+      index: index
+    })
   }
 }

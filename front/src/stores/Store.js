@@ -24,7 +24,8 @@ let loupe_point = {
   side : 40
 };
 let clustering_list = [];
-let render_contents = generalConstants.VIEW_DEFAULT;
+let render_contents = generalConstants.VIEW_KMEANST;
+let checked_cluster = [];
 
 class Store extends EventEmitter {
   constructor() {
@@ -65,6 +66,11 @@ class Store extends EventEmitter {
         highlighted_line = Math.floor(action.y) * width + Math.floor(action.x);
         clicked_point.x = action.x;
         clicked_point.y = action.y;
+
+        if(clustering_list.length !== 0) {
+          const selected_cluster = clustering_list[highlighted_line];
+          checked_cluster[selected_cluster] = !checked_cluster[selected_cluster];
+        }
         this.updateRelationList();
         break;
       case eventConstants.HANDLE_LOUPE_CLICK:
@@ -89,6 +95,9 @@ class Store extends EventEmitter {
         break;
       case eventConstants.HANDLE_CLEAR_SELECTION:
         highlighted_line = -1;
+        break;
+      case eventConstants.HANDLE_CHECK_CLICK:
+        checked_cluster[action.index] = !checked_cluster[action.index];
         break;
       default:
     }
@@ -139,6 +148,10 @@ class Store extends EventEmitter {
     return render_contents;
   }
 
+  getCheckedCluster() {
+    return checked_cluster;
+  }
+
   getTiffData(tiff_name, legend_name) {
     window.fetch(tiff_name)
       .then((response) => {
@@ -171,7 +184,7 @@ class Store extends EventEmitter {
                       'content-type': 'application/json',
                     },
                     body: JSON.stringify({
-                      n_clusters:10,
+                      n_clusters: 3,
                       data: all_time_series
                     })
                   })
@@ -182,6 +195,9 @@ class Store extends EventEmitter {
                     const labels = json.labels;
                     clustering_list = labels;
                     cluster_time_series = json.average;
+
+                    checked_cluster = new Array(Math.max.apply(null, clustering_list) + 1);
+                    checked_cluster.fill(false);
                     this.emitChange();
                   });
               });

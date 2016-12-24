@@ -8,9 +8,14 @@ export default class clusterButton extends React.Component {
     super(props);
   }
 
+  componentWillReceiveProps(nextProps) {
+    nextProps.checked_cluster.forEach((element, idx) => {
+      document.checkbox[idx].checked = element
+    });
+  }
+
   handleCheckClick(index) {
-    console.log(index);
-    console.log(document.checkbox[index].checked);
+    Actions.handleCheckClick(index);
   }
 
   renderCanvas() {
@@ -42,7 +47,11 @@ export default class clusterButton extends React.Component {
     for(let i = 0; i < N_cluster; i++) {
       const id_canvas = this.props.id + i;
       const canvas = document.getElementById(id_canvas);
+      if(canvas === null) {
+        return;
+      }
       const ctx = canvas.getContext('2d');
+
       ctx.fillStyle = color_map[i];
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     }

@@ -30,7 +30,8 @@ function getAllState() {
     clicked_point       : Store.getClickedPoint(),
     loupe_point         : Store.getLoupePoint(),
     clustering_list     : Store.getClusteringList(),
-    render_contents     : Store.getRenderContents()
+    render_contents     : Store.getRenderContents(),
+    checked_cluster     : Store.getCheckedCluster()
   }
 }
 
@@ -167,9 +168,9 @@ export default class main extends React.Component {
                 <div style={{position: 'absolute', display: 'inline-block', top: top_control+40, left: left_ref+30}}>
                   <ClusterDetailCanvas
                     id="cluster_detail_view"
+                    checked_cluster={this.state.checked_cluster}
                     clicked_point={this.state.clicked_point}
                     clustering_list={this.state.clustering_list}
-                    highlighted_line={this.state.highlighted_line}
                     loupe_point={this.state.loupe_point}
                   />
                 </div>
@@ -190,6 +191,7 @@ export default class main extends React.Component {
                   </Chip>
                   <ClusterButton
                     id="cluster_button"
+                    checked_cluster={this.state.checked_cluster}
                     clustering_list={this.state.clustering_list}
                   />
                 </div>
