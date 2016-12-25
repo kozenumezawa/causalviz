@@ -184,7 +184,7 @@ class Store extends EventEmitter {
                       'content-type': 'application/json',
                     },
                     body: JSON.stringify({
-                      n_clusters: 3,
+                      n_clusters: 10,
                       data: all_time_series
                     })
                   })
