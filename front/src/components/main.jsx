@@ -17,6 +17,7 @@ import RelationCanvas from './canvas/relation_canvas.jsx'
 import ClusterCanvas from './canvas/cluster_canvas.jsx'
 import ClusterDetailCanvas from './canvas/cluster_detail_canvas.jsx'
 import ClusterButton from './button/cluster-button.jsx'
+import CrossCorrelationCanvas from './canvas/crosscorrelation-canvas.jsx'
 
 function getAllState() {
   return {
@@ -200,7 +201,19 @@ export default class main extends React.Component {
           } else if(this.state.render_contents === generalConstants.VIEW_CROSS_CORRELATION) {
             return(
               <div>
-                aaaaa
+                <div style={{position: 'absolute', display: 'inline-block', top: top_relation, left: left_ref}}>
+                  <Chip backgroundColor={white}>
+                    {'Cross Correlation view'}
+                  </Chip>
+                </div>
+                <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
+                  <CrossCorrelationCanvas
+                    id="cross_correlation_view"
+                    clicked_point={this.state.clicked_point}
+                    clustering_list={this.state.clustering_list}
+                    loupe_point={this.state.loupe_point}
+                  />
+                </div>
               </div>
             );
           }
@@ -216,7 +229,7 @@ export default class main extends React.Component {
 
           <div style={{position: 'absolute', display: 'inline-block', top:350, left: 395}}> 1 </div>
           <div style={{position: 'absolute', display: 'inline-block', top:350, left: 565}}> time step </div>
-          <div style={{position: 'absolute', display: 'inline-block', top:350, left: 810}}> 130 </div>
+          <div style={{position: 'absolute', display: 'inline-block', top:350, left: 810}}> 80 </div>
         </div>
       </div>
     );

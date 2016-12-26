@@ -24,8 +24,9 @@ let loupe_point = {
   side : 40
 };
 let clustering_list = [];
-let render_contents = generalConstants.VIEW_CROSS_CORRELATION;
+let render_contents = generalConstants.VIEW_KMEANS;
 let checked_cluster = [];
+let cross_correlation = [];
 
 class Store extends EventEmitter {
   constructor() {
@@ -161,7 +162,7 @@ class Store extends EventEmitter {
         response.arrayBuffer().then((buffer) => {
           let tiff_list = [];
           const tiff = new Tiff({ buffer: buffer });
-          for (let i = 0, len = tiff.countDirectory(); i < len; i++) {
+          for (let i = 0, len = tiff.countDirectory() - 50; i < len; i++) {
             tiff.setDirectory(i);
             const canvas = tiff.toCanvas();
             tiff_list.push(canvas);
@@ -203,6 +204,14 @@ class Store extends EventEmitter {
                     checked_cluster.fill(false);
                     this.emitChange();
                   });
+
+                // calculate cross correlation (but cut first 9 time steps because they are meaningless)
+                for(let i = 0, len = all_time_series.length; i < len; i++) {
+
+                }
+
+
+                this.emitChange();
               });
             });
         });
