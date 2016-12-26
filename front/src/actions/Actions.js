@@ -61,6 +61,12 @@ export default {
     });
   },
 
+  handleCrossCorrelation: () => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_CROSS_CORRELATION
+    });
+  },
+
   handleClearSelection: () => {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_CLEAR_SELECTION

@@ -24,7 +24,7 @@ let loupe_point = {
   side : 40
 };
 let clustering_list = [];
-let render_contents = generalConstants.VIEW_KMEANST;
+let render_contents = generalConstants.VIEW_CROSS_CORRELATION;
 let checked_cluster = [];
 
 class Store extends EventEmitter {
@@ -92,6 +92,9 @@ class Store extends EventEmitter {
         break;
       case eventConstants.HANDLE_KMEANS_CLICK:
         render_contents = generalConstants.VIEW_KMEANS;
+        break;
+      case eventConstants.HANDLE_CROSS_CORRELATION:
+        render_contents = generalConstants.VIEW_CROSS_CORRELATION;
         break;
       case eventConstants.HANDLE_CLEAR_SELECTION:
         highlighted_line = -1;

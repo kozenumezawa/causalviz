@@ -144,7 +144,7 @@ export default class main extends React.Component {
                 </div>
               </div>
             );
-          } else {
+          } else if(this.state.render_contents === generalConstants.VIEW_KMEANS){
             return (
               <div>
                 <div style={{position: 'absolute', display: 'inline-block', top: top_relation, left: left_ref}}>
@@ -195,6 +195,12 @@ export default class main extends React.Component {
                     clustering_list={this.state.clustering_list}
                   />
                 </div>
+              </div>
+            );
+          } else if(this.state.render_contents === generalConstants.VIEW_CROSS_CORRELATION) {
+            return(
+              <div>
+                aaaaa
               </div>
             );
           }
