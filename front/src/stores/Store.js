@@ -156,6 +156,10 @@ class Store extends EventEmitter {
     return checked_cluster;
   }
 
+  getCrossCorrelation() {
+    return cross_correlation;
+  }
+
   getTiffData(tiff_name, legend_name) {
     window.fetch(tiff_name)
       .then((response) => {
@@ -206,11 +210,13 @@ class Store extends EventEmitter {
                   });
 
                 // calculate cross correlation (but cut first 9 time steps because they are meaningless)
-                for(let i = 0, len = all_time_series.length; i < len; i++) {
-
+                let cut_time_series = [];
+                for(let i = 0, len_area = all_time_series.length; i < len_area; i++) {
+                  cut_time_series[i] = []
+                  for(let j = 0, len_time = all_time_series[0].length - 9; j < len_time; j++) {
+                    cut_time_series[i][j] = all_time_series[i][j + 9]
+                  }
                 }
-
-
                 this.emitChange();
               });
             });

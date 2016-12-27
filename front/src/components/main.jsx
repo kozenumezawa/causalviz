@@ -32,7 +32,8 @@ function getAllState() {
     loupe_point         : Store.getLoupePoint(),
     clustering_list     : Store.getClusteringList(),
     render_contents     : Store.getRenderContents(),
-    checked_cluster     : Store.getCheckedCluster()
+    checked_cluster     : Store.getCheckedCluster(),
+    cross_correlation   : Store.getCrossCorrelation()
   }
 }
 
