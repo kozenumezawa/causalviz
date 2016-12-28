@@ -23,7 +23,16 @@ export default class MaximumCanvas extends React.Component{
     if(maximum_list.length == 0) {
       return;
     }
-    console.log(maximum_list);
+
+    const color_map = d3_scale.schemeCategory20;
+    maximum_list.forEach((max, idx) => {
+      if(max < 55) {
+        this.ctx.fillStyle = 'black';
+      } else {
+        this.ctx.fillStyle = color_map[Math.floor((max - 55) / 20)];
+      }
+      this.ctx.fillRect(idx % this.canvas.width, idx / this.canvas.width, 1, 1);
+    });
 
     drawingTool.drawLoupeArea(this.canvas, this.ctx, loupe_point);
   }

@@ -25,6 +25,7 @@ export default class ClusterCanvas extends React.Component{
     if(clustering_list.length == 0) {
       return;
     }
+    
     const color_map = d3_scale.schemeCategory20c;
     for(let i = 0; i < clustering_list.length; i++) {
       this.ctx.fillStyle = color_map[clustering_list[i]];
