@@ -19,17 +19,28 @@ export default class MaximumCanvas extends React.Component{
     this.renderData(nextProps.maximum_list, nextProps.loupe_point);
   }
 
+  // from 0~255 to 0~300
+  colorScale(x) {
+    return (x / 256) * 300;
+  }
+  // from 128~255 to 0~300
+  colorScale2(x) {
+    return ((x - 128) / 128) * 300;
+  }
+
   renderData(maximum_list, loupe_point) {
     if(maximum_list.length == 0) {
       return;
     }
 
-    const color_map = d3_scale.schemeCategory20;
+    const color_map = d3_scale.schemeCategory20c;
     maximum_list.forEach((max, idx) => {
-      if(max < 55) {
+      if(max < 30) {
         this.ctx.fillStyle = 'black';
       } else {
-        this.ctx.fillStyle = color_map[Math.floor((max - 55) / 20)];
+        const percent = this.colorScale2(max);
+        const color_index = Math.floor(percent / 15);
+        this.ctx.fillStyle = color_map[color_index];
       }
       this.ctx.fillRect(idx % this.canvas.width, idx / this.canvas.width, 1, 1);
     });
