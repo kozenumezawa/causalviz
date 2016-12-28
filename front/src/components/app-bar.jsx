@@ -13,6 +13,7 @@ export default class CausalVisAppBar extends React.Component {
     this.handleIconClick = this.handleIconClick.bind(this);
     this.handleDefaultClick = this.handleDefaultClick.bind(this);
     this.handleKmeansClick = this.handleKmeansClick.bind(this);
+    this.handleMaximumClick = this.handleMaximumClick.bind(this);
     this.handleCrossCorrelation = this.handleCrossCorrelation.bind(this);
   }
 
@@ -34,6 +35,13 @@ export default class CausalVisAppBar extends React.Component {
       open: !this.state.open
     });
     Action.handleKmeansClick();
+  }
+
+  handleMaximumClick() {
+    this.setState({
+      open: !this.state.open
+    });
+    Action.handleMaximumClick();
   }
 
   handleCrossCorrelation() {
@@ -58,6 +66,7 @@ export default class CausalVisAppBar extends React.Component {
             />
             <MenuItem onTouchTap={this.handleDefaultClick}>default view</MenuItem>
             <MenuItem onTouchTap={this.handleKmeansClick}>k-means clustering</MenuItem>
+            <MenuItem onTouchTap={this.handleMaximumClick}>maximum value clustering</MenuItem>
             <MenuItem onTouchTap={this.handleCrossCorrelation}>Cross Correlation</MenuItem>
           </Drawer>
         </div>

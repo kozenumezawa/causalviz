@@ -27,6 +27,7 @@ let clustering_list = [];
 let render_contents = generalConstants.VIEW_KMEANS;
 let checked_cluster = [];
 let cross_correlation = [];
+let maximum_list = [];
 
 class Store extends EventEmitter {
   constructor() {
@@ -94,6 +95,9 @@ class Store extends EventEmitter {
       case eventConstants.HANDLE_KMEANS_CLICK:
         render_contents = generalConstants.VIEW_KMEANS;
         break;
+      case eventConstants.HANDLE_MAXIMUM_CLICK:
+        render_contents = generalConstants.VIEW_MAXIMUM;
+        break;
       case eventConstants.HANDLE_CROSS_CORRELATION:
         render_contents = generalConstants.VIEW_CROSS_CORRELATION;
         break;
@@ -156,6 +160,10 @@ class Store extends EventEmitter {
     return checked_cluster;
   }
 
+  getMaximumList() {
+    return maximum_list;
+  }
+
   getCrossCorrelation() {
     return cross_correlation;
   }
@@ -192,7 +200,7 @@ class Store extends EventEmitter {
                       'content-type': 'application/json',
                     },
                     body: JSON.stringify({
-                      n_clusters: 10,
+                      n_clusters: 6,
                       data: all_time_series
                     })
                   })
@@ -209,15 +217,21 @@ class Store extends EventEmitter {
                     this.emitChange();
                   });
 
-                // calculate cross correlation (but cut first 9 time steps because they are meaningless)
-                let cut_time_series = [];
-                for(let i = 0, len_area = all_time_series.length; i < len_area; i++) {
-                  cut_time_series[i] = []
-                  for(let j = 0, len_time = all_time_series[0].length - 9; j < len_time; j++) {
-                    cut_time_series[i][j] = all_time_series[i][j + 9]
-                  }
+                // calculate maximum values
+                for(let i = 0, len = all_time_series.length; i < len; i++) {
+                  maximum_list[i] = Math.max.apply(null, all_time_series[i]);
                 }
                 this.emitChange();
+
+                // calculate cross correlation (but cut first 9 time steps because they are meaningless)
+                // let cut_time_series = [];
+                // for(let i = 0, len_area = all_time_series.length; i < len_area; i++) {
+                //   cut_time_series[i] = []
+                //   for(let j = 0, len_time = all_time_series[0].length - 9; j < len_time; j++) {
+                //     cut_time_series[i][j] = all_time_series[i][j + 9]
+                //   }
+                // }
+                // this.emitChange();
               });
             });
         });

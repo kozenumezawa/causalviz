@@ -17,6 +17,7 @@ import RelationCanvas from './canvas/relation_canvas.jsx'
 import ClusterCanvas from './canvas/cluster_canvas.jsx'
 import ClusterDetailCanvas from './canvas/cluster_detail_canvas.jsx'
 import ClusterButton from './button/cluster-button.jsx'
+import MaximumCanvas from './canvas/maximum-canvas.jsx'
 import CrossCorrelationCanvas from './canvas/crosscorrelation-canvas.jsx'
 
 function getAllState() {
@@ -33,6 +34,7 @@ function getAllState() {
     clustering_list     : Store.getClusteringList(),
     render_contents     : Store.getRenderContents(),
     checked_cluster     : Store.getCheckedCluster(),
+    maximum_list        : Store.getMaximumList(),
     cross_correlation   : Store.getCrossCorrelation()
   }
 }
@@ -199,6 +201,24 @@ export default class main extends React.Component {
                 </div>
               </div>
             );
+          } else if(this.state.render_contents === generalConstants.VIEW_MAXIMUM) {
+            return(
+              <div>
+                <div style={{position: 'absolute', display: 'inline-block', top: top_relation, left: left_ref}}>
+                  <Chip backgroundColor={white}>
+                    {'Maximum Value Cluster view'}
+                  </Chip>
+                </div>
+                <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
+                  <MaximumCanvas
+                    id="maximum_view"
+                    clicked_point={this.state.clicked_point}
+                    loupe_point={this.state.loupe_point}
+                    maximum_list={this.state.maximum_list}
+                  />
+                </div>
+              </div>
+            );
           } else if(this.state.render_contents === generalConstants.VIEW_CROSS_CORRELATION) {
             return(
               <div>
@@ -225,12 +245,12 @@ export default class main extends React.Component {
         </div>
 
         <div>
-          <div style={{position: 'absolute', display: 'inline-block', top:190, left: 370}}> 255 </div>
-          <div style={{position: 'absolute', display: 'inline-block', top:340, left: 375}}> 0 </div>
+          <div style={{position: 'absolute', display: 'inline-block', top:190, left: 370}}> 100 </div>
+          <div style={{position: 'absolute', display: 'inline-block', top:340, left: 375}}> -50 </div>
 
-          <div style={{position: 'absolute', display: 'inline-block', top:350, left: 395}}> 1 </div>
-          <div style={{position: 'absolute', display: 'inline-block', top:350, left: 565}}> time step </div>
-          <div style={{position: 'absolute', display: 'inline-block', top:350, left: 810}}> 80 </div>
+          <div style={{position: 'absolute', display: 'inline-block', top:350, left: 395}}> 0 </div>
+          <div style={{position: 'absolute', display: 'inline-block', top:350, left: 565}}> Time (seconds) </div>
+          <div style={{position: 'absolute', display: 'inline-block', top:350, left: 810}}> 40 </div>
         </div>
       </div>
     );

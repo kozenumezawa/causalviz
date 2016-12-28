@@ -61,6 +61,12 @@ export default {
     });
   },
 
+  handleMaximumClick: () => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_MAXIMUM_CLICK
+    });
+  },
+
   handleCrossCorrelation: () => {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_CROSS_CORRELATION
