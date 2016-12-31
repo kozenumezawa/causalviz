@@ -107,6 +107,9 @@ class Store extends EventEmitter {
       case eventConstants.HANDLE_CHECK_CLICK:
         checked_cluster[action.index] = !checked_cluster[action.index];
         break;
+      case eventConstants.HANDLE_CLUSTER_CHANGE:
+        console.log(action.n_clusters);
+        break;
       default:
     }
     this.emitChange();

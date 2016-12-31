@@ -84,5 +84,12 @@ export default {
       actionType: eventConstants.HANDLE_CHECK_CLICK,
       index: index
     })
+  },
+
+  handleClusterChange: (n_clusters) => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_CLUSTER_CHANGE,
+      n_clusters: n_clusters
+    })
   }
 }

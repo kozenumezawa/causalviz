@@ -13,7 +13,8 @@ const eventConstant = keyMirror({
   HANDLE_MAXIMUM_CLICK      : null,
   HANDLE_CROSS_CORRELATION : null,
   HANDLE_CLEAR_SELECTION   : null,
-  HANDLE_CHECK_CLICK       : null
+  HANDLE_CHECK_CLICK       : null,
+  HANDLE_CLUSTER_CHANGE    : null
 });
 
 export default eventConstant
