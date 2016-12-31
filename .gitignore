@@ -5,3 +5,4 @@ node_modules
 front/dist/bundle.js
 front/dist/bundle.js.map
 front/dist/*.tif
+python/timeseries_data
