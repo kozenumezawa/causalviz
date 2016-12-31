@@ -1,4 +1,5 @@
 *.npy
+*.pyc
 .idea
 *.log
 node_modules
