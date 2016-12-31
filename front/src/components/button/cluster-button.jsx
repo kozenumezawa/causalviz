@@ -57,6 +57,15 @@ export default class clusterButton extends React.Component {
     }
   }
 
+  renderClusterController() {
+    const N_cluster = Math.max.apply(null, this.props.clustering_list) + 1;
+    return (
+      <div>
+        {N_cluster}
+      </div>
+    );
+  }
+
   render() {
     return (
       <div>
@@ -70,6 +79,12 @@ export default class clusterButton extends React.Component {
           {(() => {
             return this.renderClusterLegend();
           })()}
+
+          {
+            (() => {
+              return this.renderClusterController();
+            })()
+          }
         </div>
       </div>
     );
