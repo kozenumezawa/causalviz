@@ -108,7 +108,7 @@ class Store extends EventEmitter {
         checked_cluster[action.index] = !checked_cluster[action.index];
         break;
       case eventConstants.HANDLE_CLUSTER_CHANGE:
-        console.log(action.n_clusters);
+        this.updateClusterList(action.n_clusters);
         break;
       default:
     }
@@ -300,7 +300,8 @@ class Store extends EventEmitter {
   }
 
   updateClusterList(n_clusters) {
-    window.fetch('./cluster/k_means_6.json')
+    const file_name = './cluster/k_means_' + n_clusters + '.json'
+    window.fetch(file_name)
       .then((response) => {
         return response.json();
       })
@@ -310,6 +311,7 @@ class Store extends EventEmitter {
         cluster_time_series = json.average;
 
         checked_cluster = new Array(Math.max.apply(null, cluster_list) + 1);
+        console.log(Math.max.apply(null, cluster_list) + 1);
         checked_cluster.fill(false);
         this.emitChange();
       });

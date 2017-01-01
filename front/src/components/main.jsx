@@ -31,7 +31,7 @@ function getAllState() {
     highlighted_line    : Store.getHighlightedLine(),
     clicked_point       : Store.getClickedPoint(),
     loupe_point         : Store.getLoupePoint(),
-    cluster_list     : Store.getClusterList(),
+    cluster_list        : Store.getClusterList(),
     render_contents     : Store.getRenderContents(),
     checked_cluster     : Store.getCheckedCluster(),
     maximum_list        : Store.getMaximumList(),
