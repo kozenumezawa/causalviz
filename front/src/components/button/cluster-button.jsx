@@ -20,8 +20,9 @@ export default class clusterButton extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     nextProps.checked_cluster.forEach((element, idx) => {
-      // document.checkbox[idx].checked = element
+      document.checkbox[idx].checked = element
     });
+
     this.renderClusterLegend(nextProps.cluster_list);
   }
 
@@ -35,7 +36,8 @@ export default class clusterButton extends React.Component {
     }
     const color_map = d3_scale.schemeCategory20c;
     const N_cluster = Math.max.apply(null, cluster_list) + 1;
-    for(let i = 0; i < N_cluster; i++) {
+    const N_canvas = 20;
+    for(let i = 0; i < N_canvas; i++) {
       const id_canvas = this.props.id + i;
       const canvas = document.getElementById(id_canvas);
       if(canvas === null) {
@@ -43,7 +45,13 @@ export default class clusterButton extends React.Component {
       }
       const ctx = canvas.getContext('2d');
 
-      ctx.fillStyle = color_map[i];
+      if(i < N_cluster) {
+        ctx.fillStyle = color_map[i];
+        document.checkbox[i].style.visibility = "visible"
+      } else {
+        ctx.fillStyle = 'white';
+        document.checkbox[i].style.visibility = "hidden"
+      }
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
   }
