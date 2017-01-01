@@ -13,20 +13,20 @@ export default class clusterGraphContainer extends React.Component {
   componentDidMount() {
     this.canvas = document.getElementById(this.props.id);
     this.ctx = this.canvas.getContext('2d');
-    this.renderData(this.props.cluster_time_series, this.props.clustering_list, this.props.highlighted_line);
+    this.renderData(this.props.cluster_time_series, this.props.cluster_list, this.props.highlighted_line);
   }
 
   componentWillReceiveProps(nextProps) {
     if(this.props.highlighted_line !== nextProps.highlighted_line) {
-      this.renderData(nextProps.cluster_time_series, nextProps.clustering_list, nextProps.highlighted_line);
+      this.renderData(nextProps.cluster_time_series, nextProps.cluster_list, nextProps.highlighted_line);
     }
 
     if(this.props.cluster_time_series.toString() !== nextProps.cluster_time_series.toString()) {
-      this.renderData(nextProps.cluster_time_series, nextProps.clustering_list, nextProps.highlighted_line);
+      this.renderData(nextProps.cluster_time_series, nextProps.cluster_list, nextProps.highlighted_line);
     }
   }
 
-  renderData(time_series, clustering_list, highlighted_line) {
+  renderData(time_series, cluster_list, highlighted_line) {
     if(time_series.length === 0) {
       return;
     }
@@ -38,9 +38,9 @@ export default class clusterGraphContainer extends React.Component {
         color: 'gray',
         width: 0.1
       };
-      const selected_cluster = clustering_list[highlighted_line];
+      const selected_cluster = cluster_list[highlighted_line];
       this.props.all_time_series.forEach((element, idx) => {
-        if(clustering_list[idx] === selected_cluster) {
+        if(cluster_list[idx] === selected_cluster) {
           drawingTool.lineGraph(this.canvas, element, line_opts);
         }
       });

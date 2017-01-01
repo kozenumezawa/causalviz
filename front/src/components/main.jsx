@@ -31,7 +31,7 @@ function getAllState() {
     highlighted_line    : Store.getHighlightedLine(),
     clicked_point       : Store.getClickedPoint(),
     loupe_point         : Store.getLoupePoint(),
-    clustering_list     : Store.getClusteringList(),
+    cluster_list     : Store.getClusterList(),
     render_contents     : Store.getRenderContents(),
     checked_cluster     : Store.getCheckedCluster(),
     maximum_list        : Store.getMaximumList(),
@@ -160,7 +160,7 @@ export default class main extends React.Component {
                   <ClusterCanvas
                     id="cluster_view"
                     clicked_point={this.state.clicked_point}
-                    clustering_list={this.state.clustering_list}
+                    cluster_list={this.state.cluster_list}
                     loupe_point={this.state.loupe_point}
                   />
                 </div>
@@ -174,7 +174,7 @@ export default class main extends React.Component {
                     id="cluster_detail_view"
                     checked_cluster={this.state.checked_cluster}
                     clicked_point={this.state.clicked_point}
-                    clustering_list={this.state.clustering_list}
+                    cluster_list={this.state.cluster_list}
                     loupe_point={this.state.loupe_point}
                   />
                 </div>
@@ -183,7 +183,7 @@ export default class main extends React.Component {
                     id="cluster_graph"
                     all_time_series={this.state.all_time_series}
                     cluster_time_series={this.state.cluster_time_series}
-                    clustering_list={this.state.clustering_list}
+                    cluster_list={this.state.cluster_list}
                     highlighted_line={this.state.highlighted_line}
                     tiff_index={this.state.tiff_index}
                     tiff_list={this.state.all_tiff_list}
@@ -196,7 +196,7 @@ export default class main extends React.Component {
                   <ClusterButton
                     id="cluster_button"
                     checked_cluster={this.state.checked_cluster}
-                    clustering_list={this.state.clustering_list}
+                    cluster_list={this.state.cluster_list}
                   />
                 </div>
               </div>
@@ -231,7 +231,7 @@ export default class main extends React.Component {
                   <CrossCorrelationCanvas
                     id="cross_correlation_view"
                     clicked_point={this.state.clicked_point}
-                    clustering_list={this.state.clustering_list}
+                    cluster_list={this.state.cluster_list}
                     loupe_point={this.state.loupe_point}
                   />
                 </div>

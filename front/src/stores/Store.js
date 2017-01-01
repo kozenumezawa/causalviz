@@ -23,7 +23,7 @@ let loupe_point = {
   on : false,
   side : 40
 };
-let clustering_list = [];
+let cluster_list = [];
 let render_contents = generalConstants.VIEW_KMEANS;
 let checked_cluster = [];
 let cross_correlation = [];
@@ -69,8 +69,8 @@ class Store extends EventEmitter {
         clicked_point.x = action.x;
         clicked_point.y = action.y;
 
-        if(clustering_list.length !== 0) {
-          const selected_cluster = clustering_list[highlighted_line];
+        if(cluster_list.length !== 0) {
+          const selected_cluster = cluster_list[highlighted_line];
           checked_cluster[selected_cluster] = !checked_cluster[selected_cluster];
         }
         this.updateRelationList();
@@ -151,8 +151,8 @@ class Store extends EventEmitter {
     return loupe_point;
   }
 
-  getClusteringList() {
-    return clustering_list;
+  getClusterList() {
+    return cluster_list;
   }
 
   getRenderContents() {
@@ -306,10 +306,10 @@ class Store extends EventEmitter {
       })
       .then((json) => {
         const labels = json.labels;
-        clustering_list = labels;
+        cluster_list = labels;
         cluster_time_series = json.average;
 
-        checked_cluster = new Array(Math.max.apply(null, clustering_list) + 1);
+        checked_cluster = new Array(Math.max.apply(null, cluster_list) + 1);
         checked_cluster.fill(false);
         this.emitChange();
       });

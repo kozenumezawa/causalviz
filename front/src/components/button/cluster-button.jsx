@@ -27,7 +27,7 @@ export default class clusterButton extends React.Component {
   renderCanvas() {
     let render_canvas = [];
 
-    let N_cluster = Math.max.apply(null, this.props.clustering_list) + 1;
+    let N_cluster = Math.max.apply(null, this.props.cluster_list) + 1;
     if(N_cluster === -Infinity) {
       N_cluster = 20;
     }
@@ -45,11 +45,11 @@ export default class clusterButton extends React.Component {
   }
 
   renderClusterLegend() {
-    if(this.props.clustering_list.length === 0) {
+    if(this.props.cluster_list.length === 0) {
       return;
     }
     const color_map = d3_scale.schemeCategory20c;
-    const N_cluster = Math.max.apply(null, this.props.clustering_list) + 1;
+    const N_cluster = Math.max.apply(null, this.props.cluster_list) + 1;
     for(let i = 0; i < N_cluster; i++) {
       const id_canvas = this.props.id + i;
       const canvas = document.getElementById(id_canvas);
@@ -71,7 +71,7 @@ export default class clusterButton extends React.Component {
   }
 
   renderClusterController() {
-    const N_cluster = Math.max.apply(null, this.props.clustering_list) + 1;
+    const N_cluster = Math.max.apply(null, this.props.cluster_list) + 1;
     return (
       <div>
         {this.state.slider}
