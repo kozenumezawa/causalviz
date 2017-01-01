@@ -311,7 +311,6 @@ class Store extends EventEmitter {
         cluster_time_series = json.average;
 
         checked_cluster = new Array(Math.max.apply(null, cluster_list) + 1);
-        console.log(Math.max.apply(null, cluster_list) + 1);
         checked_cluster.fill(false);
         this.emitChange();
       });

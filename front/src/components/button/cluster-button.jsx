@@ -1,17 +1,12 @@
 import React from 'react'
 import * as d3_scale from 'd3-scale'
-import Slider from 'material-ui/Slider';
 
 import Actions from '../../actions/Actions'
+import ClusterSlider from './cluster-slider.jsx'
 
 export default class clusterButton extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      slider: 6
-    };
-
-    this.handleSliderChange = this.handleSliderChange.bind(this);
   }
 
   componentDidMount() {
@@ -54,21 +49,6 @@ export default class clusterButton extends React.Component {
       }
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
-  }
-
-  handleSliderChange(event, value) {
-    this.setState({
-      slider: value
-    });
-    Actions.handleClusterChange(value);
-  }
-
-  renderClusterController() {
-    return (
-      <div>
-        {this.state.slider}
-      </div>
-    );
   }
 
   render() {
@@ -158,23 +138,8 @@ export default class clusterButton extends React.Component {
             </div>
           </form>
         </div>
-        <div >
-          <Slider
-            min={1}
-            max={20}
-            step={1}
-            defaultValue={6}
-            value={this.state.slider}
-            onChange={this.handleSliderChange}
-            style={{width: 300, height: 14}}
-            sliderStyle={{marginBottom: 15}}
-          />
-          {
-            (() => {
-              return this.renderClusterController()
-            })()
-          }
-        </div>
+
+        <ClusterSlider />
       </div>
     );
   }
