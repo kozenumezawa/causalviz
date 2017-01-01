@@ -196,36 +196,14 @@ class Store extends EventEmitter {
                 all_time_series = this.createAllTimeSeriesFromTiff();
                 this.emitChange();
 
-                window.fetch('http://localhost:8000/api/v1/kmeans', {
-                    mode: 'cors',
-                    method: 'POST',
-                    headers: {
-                      'content-type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                      n_clusters: 6,
-                      data: all_time_series
-                    })
-                  })
-                  .then((response) => {
-                    return response.json();
-                  })
-                  .then((json) => {
-                    const labels = json.labels;
-                    clustering_list = labels;
-                    cluster_time_series = json.average;
-
-                    checked_cluster = new Array(Math.max.apply(null, clustering_list) + 1);
-                    checked_cluster.fill(false);
-                    this.emitChange();
-                  });
+                this.updateClusterList(6);
 
                 // calculate maximum values
                 for(let i = 0, len = all_time_series.length; i < len; i++) {
                   maximum_list[i] = Math.max.apply(null, all_time_series[i]);
                 }
                 this.emitChange();
-
+              });
                 // calculate cross correlation (but cut first 9 time steps because they are meaningless)
                 // let cut_time_series = [];
                 // for(let i = 0, len_area = all_time_series.length; i < len_area; i++) {
@@ -235,7 +213,7 @@ class Store extends EventEmitter {
                 //   }
                 // }
                 // this.emitChange();
-              });
+
             });
         });
       });
@@ -321,6 +299,21 @@ class Store extends EventEmitter {
     });
   }
 
+  updateClusterList(n_clusters) {
+    window.fetch('./cluster/k_means_6.json')
+      .then((response) => {
+        return response.json();
+      })
+      .then((json) => {
+        const labels = json.labels;
+        clustering_list = labels;
+        cluster_time_series = json.average;
+
+        checked_cluster = new Array(Math.max.apply(null, clustering_list) + 1);
+        checked_cluster.fill(false);
+        this.emitChange();
+      });
+  }
   // create csv file for Python
   createCsvFromTimeSeries(time_series) {
     const tableToCsvString = function(table, index) {
