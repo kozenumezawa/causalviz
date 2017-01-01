@@ -6,3 +6,4 @@ def clustering(all_time_series):
     from matplotlib.pyplot import show
 
     pdist = pdist(all_time_series)
+    result = linkage(pdist, method = 'average')
