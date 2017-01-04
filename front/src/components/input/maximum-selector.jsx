@@ -3,8 +3,10 @@ import * as d3_scale from 'd3-scale'
 
 import Actions from '../../actions/Actions'
 
-const color_map = d3_scale.schemeCategory20c;
+const color_map = d3_scale.schemeCategory20;
 let line_heights = [];
+const color_width = 30;
+const text_width = 30;
 
 export default class maximumSelector extends React.Component {
   constructor(props) {
@@ -21,8 +23,8 @@ export default class maximumSelector extends React.Component {
     this.canvas = document.getElementById(this.props.id);
     this.ctx = this.canvas.getContext('2d');
 
-    for(let i = 0, len = 6 + 1; i < len; i++) {
-      line_heights[i] = this.canvas.height / 6 * i;
+    for(let i = 0, len = 5 + 1; i < len; i++) {
+      line_heights[i] = this.canvas.height / 5 * i;
     }
     this.paintCanvas();
 
@@ -36,7 +38,14 @@ export default class maximumSelector extends React.Component {
     for(let i = 1, len = line_heights.length; i < len; i++) {
       this.ctx.fillStyle = color_map[i];
       const height = line_heights[i] - line_heights[i - 1];
-      this.ctx.fillRect(0, line_heights[i - 1], this.canvas.width, height);
+      this.ctx.fillRect(0, line_heights[i - 1], color_width, height);
+    }
+
+    this.ctx.clearRect(color_width, 0, text_width, this.canvas.height);
+    this.ctx.fillStyle = 'black';
+    for(let i = 0, len = line_heights.length; i < len; i++) {
+      const scalar = this.canvas.height - line_heights[i];
+      this.ctx.fillText(scalar, color_width + 5, line_heights[i]);
     }
   }
 
@@ -50,6 +59,7 @@ export default class maximumSelector extends React.Component {
       return;
     }
     this.updateLineHeightsByMouse(e);
+    Actions.handleLineHeightsChange(line_heights);
   }
 
   mouseUp(e) {
@@ -92,7 +102,7 @@ export default class maximumSelector extends React.Component {
   render() {
     return (
       <div>
-        <canvas id={this.props.id} width="420" height="150"></canvas>
+        <canvas id={this.props.id} width={color_width + text_width} height="255"></canvas>
       </div>
     );
   }

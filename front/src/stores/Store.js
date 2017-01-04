@@ -112,6 +112,9 @@ class Store extends EventEmitter {
       case eventConstants.HANDLE_CLUSTER_CHANGE:
         this.updateClusterList(action.n_clusters);
         break;
+      case eventConstants.HANDLE_LINEHEIGHTS_CHANGE:
+        this.updateMaximumList(action.line_heights);
+        break;
       default:
     }
     this.emitChange();
@@ -208,7 +211,7 @@ class Store extends EventEmitter {
                 for(let i = 0, len = all_time_series.length; i < len; i++) {
                   maxvalue_list[i] = Math.max.apply(null, all_time_series[i]);
                 }
-                this.updateMaximumList();
+                this.updateMaximumList([0, 51, 102, 153, 204, 255]);
                 this.emitChange();
               });
                 // calculate cross correlation (but cut first 9 time steps because they are meaningless)
@@ -323,8 +326,16 @@ class Store extends EventEmitter {
       });
   }
 
-  updateMaximumList(n_clusters) {
-    maximum_list = maxvalue_list;
+  updateMaximumList(line_heights) {
+    maxvalue_list.forEach((max, idx) => {
+      for(let i = 0, len = line_heights.length; i < len; i++) {
+        const scalar = 255 - line_heights[i];
+        if(max > scalar) {
+          maximum_list[idx] = i;
+          break;
+        }
+      }
+    });
   }
 
   // create csv file for Python

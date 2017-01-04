@@ -91,5 +91,12 @@ export default {
       actionType: eventConstants.HANDLE_CLUSTER_CHANGE,
       n_clusters: n_clusters
     })
+  },
+
+  handleLineHeightsChange: (line_heights) => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_LINEHEIGHTS_CHANGE,
+      line_heights: line_heights
+    })
   }
 }

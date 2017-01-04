@@ -10,11 +10,12 @@ const eventConstant = keyMirror({
   HANDLE_INDICATOR_MOVE    : null,
   HANDLE_DEFAULT_CLICK     : null,
   HANDLE_KMEANS_CLICK      : null,
-  HANDLE_MAXIMUM_CLICK      : null,
+  HANDLE_MAXIMUM_CLICK     : null,
   HANDLE_CROSS_CORRELATION : null,
   HANDLE_CLEAR_SELECTION   : null,
   HANDLE_CHECK_CLICK       : null,
-  HANDLE_CLUSTER_CHANGE    : null
+  HANDLE_CLUSTER_CHANGE    : null,
+  HANDLE_LINEHEIGHTS_CHANGE: null
 });
 
 export default eventConstant
