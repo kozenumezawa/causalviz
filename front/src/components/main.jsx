@@ -189,7 +189,7 @@ export default class main extends React.Component {
                     tiff_list={this.state.all_tiff_list}
                   />
                 </div>
-                <div style={{position: 'absolute', display: 'inline-block', top: top_control+40, left: 400}}>
+                <div style={{position: 'absolute', display: 'inline-block', top: top_relation+100, left: 400}}>
                   <Chip backgroundColor={white}>
                     {'Cluster list'}
                   </Chip>
