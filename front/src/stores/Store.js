@@ -25,10 +25,11 @@ let loupe_point = {
   side : 40
 };
 let cluster_list = [];
-let render_contents = generalConstants.VIEW_KMEANS;
+let render_contents = generalConstants.VIEW_MAXIMUM;
 let checked_cluster = [];
 let cross_correlation = [];
 let maximum_list = [];
+let maxvalue_list = [];   // not to become state variable
 
 class Store extends EventEmitter {
   constructor() {
@@ -205,8 +206,9 @@ class Store extends EventEmitter {
 
                 // calculate maximum values
                 for(let i = 0, len = all_time_series.length; i < len; i++) {
-                  maximum_list[i] = Math.max.apply(null, all_time_series[i]);
+                  maxvalue_list[i] = Math.max.apply(null, all_time_series[i]);
                 }
+                this.updateMaximumList();
                 this.emitChange();
               });
                 // calculate cross correlation (but cut first 9 time steps because they are meaningless)
@@ -320,6 +322,11 @@ class Store extends EventEmitter {
         this.emitChange();
       });
   }
+
+  updateMaximumList(n_clusters) {
+    maximum_list = maxvalue_list;
+  }
+
   // create csv file for Python
   createCsvFromTimeSeries(time_series) {
     const tableToCsvString = function(table, index) {

@@ -18,6 +18,7 @@ import ClusterCanvas from './canvas/cluster_canvas.jsx'
 import ClusterDetailCanvas from './canvas/cluster_detail_canvas.jsx'
 import ClusterButton from './button/cluster-button.jsx'
 import MaximumCanvas from './canvas/maximum-canvas.jsx'
+import MaximumSelector from './button/maximum-selector.jsx'
 import CrossCorrelationCanvas from './canvas/crosscorrelation-canvas.jsx'
 
 function getAllState() {
@@ -215,6 +216,16 @@ export default class main extends React.Component {
                     clicked_point={this.state.clicked_point}
                     loupe_point={this.state.loupe_point}
                     maximum_list={this.state.maximum_list}
+                  />
+                </div>
+                <div style={{position: 'absolute', display: 'inline-block', top: top_relation+100, left: 400}}>
+                  <Chip backgroundColor={white}>
+                    {'Maximum Selector'}
+                  </Chip>
+                </div>
+                <div style={{position: 'absolute', display: 'inline-block', top: top_relation+150, left: 400}}>
+                  <MaximumSelector
+                    id="maximum_selector"
                   />
                 </div>
               </div>
