@@ -6,6 +6,6 @@ npm install
 npm run start
 ```
 
-## description
+## Description
 This project is used for a study.
 The description of study is written at [StudyDescription.md](https://github.com/kozenumezawa/causalviz/blob/master/StudyDescription.md).
