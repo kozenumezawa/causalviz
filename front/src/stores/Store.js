@@ -25,7 +25,7 @@ let loupe_point = {
   side : 40
 };
 let cluster_list = [];
-let render_contents = generalConstants.VIEW_MAXIMUM;
+let render_contents = generalConstants.VIEW_KMEANS;
 let checked_cluster = [];
 let cross_correlation = [];
 let maximum_list = [];
