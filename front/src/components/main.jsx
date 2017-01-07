@@ -256,8 +256,8 @@ export default class main extends React.Component {
         </div>
 
         <div>
-          <div style={{position: 'absolute', display: 'inline-block', top:190, left: 370}}> 255 </div>
-          <div style={{position: 'absolute', display: 'inline-block', top:340, left: 375}}> 0 </div>
+          <div style={{position: 'absolute', display: 'inline-block', top:190, left: 370}}> 100 </div>
+          <div style={{position: 'absolute', display: 'inline-block', top:340, left: 375}}> -50 </div>
 
           <div style={{position: 'absolute', display: 'inline-block', top:350, left: 395}}> 0 </div>
           <div style={{position: 'absolute', display: 'inline-block', top:350, left: 565}}> Time (seconds) </div>
