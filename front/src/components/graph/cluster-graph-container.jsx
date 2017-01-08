@@ -56,8 +56,6 @@ export default class clusterGraphContainer extends React.Component {
         drawingTool.lineGraph(this.canvas, element, line_opts);
       });
     }
-
-
   }
 
   render() {

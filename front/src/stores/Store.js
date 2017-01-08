@@ -9,7 +9,7 @@ const CHANGE_EVENT = 'change';
 let all_tiff_list = [];
 let all_time_series = [];
 let cluster_time_series = [];
-let maximum_time_series = [];
+let corr_time_series = [];
 let tiff_index = 0;       // indicate the tiff file which should be displayed
 let legend_tiff = null;
 let relation_list = [];
@@ -25,11 +25,13 @@ let loupe_point = {
   side : 40
 };
 let cluster_list = [];
-let render_contents = generalConstants.VIEW_KMEANS;
+let render_contents = generalConstants.VIEW_CROSS_CORRELATION;
 let checked_cluster = [];
-let cross_correlation = [];
+let correlation_list = [];
+
 let maximum_list = [];
 let maxvalue_list = [];   // not to become state variable
+let cut_time_series = []; // to calculate cross correlation
 
 class Store extends EventEmitter {
   constructor() {
@@ -140,8 +142,8 @@ class Store extends EventEmitter {
     return cluster_time_series;
   }
 
-  getMaximumTimeSeries() {
-    return maximum_time_series;
+  getCorrTimeSeries() {
+    return corr_time_series;
   }
 
   getRelationList() {
@@ -176,8 +178,20 @@ class Store extends EventEmitter {
     return maximum_list;
   }
 
-  getCrossCorrelation() {
-    return cross_correlation;
+  getCorrelationList() {
+    return correlation_list;
+  }
+
+  getCutTimeSeries() {
+    return cut_time_series;
+  }
+
+  getCutTiffList() {
+    let cut_tiff_list = [];
+    for(let i = 0, len = all_tiff_list.length - 15; i < len; i++) {
+      cut_tiff_list[i] = all_tiff_list[i + 15];
+    }
+    return cut_tiff_list;
   }
 
   getTiffData(tiff_name, legend_name) {
@@ -213,17 +227,10 @@ class Store extends EventEmitter {
                 }
                 this.updateMaximumList([0, 51, 102, 153, 204, 255]);
                 this.emitChange();
-              });
-                // calculate cross correlation (but cut first 9 time steps because they are meaningless)
-                // let cut_time_series = [];
-                // for(let i = 0, len_area = all_time_series.length; i < len_area; i++) {
-                //   cut_time_series[i] = []
-                //   for(let j = 0, len_time = all_time_series[0].length - 9; j < len_time; j++) {
-                //     cut_time_series[i][j] = all_time_series[i][j + 9]
-                //   }
-                // }
-                // this.emitChange();
 
+                this.calculateCrossCorrelation();
+                this.emitChange();
+              });
             });
         });
       });
@@ -336,6 +343,57 @@ class Store extends EventEmitter {
         }
       }
     });
+  }
+
+  calculateCrossCorrelation() {
+    const len_time = all_time_series[0].length - 15;
+
+    let criteria_time_series = new Array(all_time_series[0].length - 15);
+    criteria_time_series.fill(0);
+    let sum_count = 0;
+
+    // create cut_time_series and criteria_time_series
+    for(let i = 0, len_area = all_time_series.length; i < len_area; i++) {
+      cut_time_series[i] = [];
+      // cut first 15 time steps because they are meaningless
+      for(let j = 0; j < len_time; j++) {
+        cut_time_series[i][j] = all_time_series[i][j + 15];
+      }
+
+      // add right hand area data to criteria_time_series
+      const width = 285;
+      if(i % width < 250 || cut_time_series[i].indexOf(0) >= 0)
+        continue;
+
+      sum_count += 1;
+      cut_time_series[i].forEach((scalar, idx) => {
+        criteria_time_series[idx] += scalar;
+      });
+    }
+
+    criteria_time_series = criteria_time_series.map((element) => {
+      return element / sum_count;
+    });
+    corr_time_series.push(criteria_time_series);
+
+    // calculate tau which maximize cross correlation
+    cut_time_series.forEach((time_series) => {
+      correlation_list.push(this.getTauMaximizingCorr(criteria_time_series, time_series));
+    });
+  }
+
+  getTauMaximizingCorr(criteria_x, y) {
+    let corr_list = [];
+    for(let i = 0; i < 5; i++) {
+      corr_list.push(pairTimeSeries.getCorrelation(criteria_x, y.slice(i)));
+    }
+    const max_corr = Math.max.apply(null, corr_list);
+    if(max_corr === pairTimeSeries.error) {
+      return pairTimeSeries.error;
+    }
+
+    const tau = corr_list.indexOf(max_corr);
+    return tau;
   }
 
   // create csv file for Python

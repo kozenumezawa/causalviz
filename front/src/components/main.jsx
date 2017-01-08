@@ -28,6 +28,7 @@ function getAllState() {
     legend_tiff         : Store.getLegendTiff(),
     all_time_series     : Store.getAllTimeSeries(),
     cluster_time_series : Store.getClusterTimeSeries(),
+    corr_time_series    : Store.getCorrTimeSeries(),
     relation_list       : Store.getRelationList(),
     highlighted_line    : Store.getHighlightedLine(),
     clicked_point       : Store.getClickedPoint(),
@@ -36,7 +37,7 @@ function getAllState() {
     render_contents     : Store.getRenderContents(),
     checked_cluster     : Store.getCheckedCluster(),
     maximum_list        : Store.getMaximumList(),
-    cross_correlation   : Store.getCrossCorrelation()
+    correlation_list    : Store.getCorrelationList()
   }
 }
 
@@ -59,6 +60,12 @@ export default class main extends React.Component {
     const top_response = 150;
     const top_relation = 350;
     const top_control = 550;
+
+    let tiff_list = this.state.all_tiff_list;
+    if(this.state.render_contents === generalConstants.VIEW_CROSS_CORRELATION) {
+      tiff_list = Store.getCutTiffList();
+    }
+
     return (
       <div>
         <AppBar />
@@ -76,7 +83,7 @@ export default class main extends React.Component {
         <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: 480}}>
           <StepButton
             tiff_index={this.state.tiff_index}
-            tiff_list={this.state.all_tiff_list}
+            tiff_list={tiff_list}
           />
         </div>
 
@@ -92,7 +99,7 @@ export default class main extends React.Component {
               clicked_point={this.state.clicked_point}
               loupe_point={this.state.loupe_point}
               tiff_index={this.state.tiff_index}
-              tiff_list={this.state.all_tiff_list}
+              tiff_list={tiff_list}
             />
           </div>
         </div>
@@ -114,7 +121,7 @@ export default class main extends React.Component {
                       loupe_point={this.state.loupe_point}
                       relation_list={this.state.relation_list}
                       tiff_index={this.state.tiff_index}
-                      tiff_list={this.state.all_tiff_list}
+                      tiff_list={tiff_list}
                     />
                   </div>
                 </div>
@@ -132,7 +139,7 @@ export default class main extends React.Component {
                       clicked_point={this.state.clicked_point}
                       loupe_point={this.state.loupe_point}
                       tiff_index={this.state.tiff_index}
-                      tiff_list={this.state.all_tiff_list}
+                      tiff_list={tiff_list}
                     />
                   </div>
                 </div>
@@ -143,7 +150,7 @@ export default class main extends React.Component {
                     highlighted_line={this.state.highlighted_line}
                     line_color="green"
                     tiff_index={this.state.tiff_index}
-                    tiff_list={this.state.all_tiff_list}
+                    tiff_list={tiff_list}
                     time_series={this.state.all_time_series}
                   />
                 </div>
@@ -187,7 +194,7 @@ export default class main extends React.Component {
                     cluster_list={this.state.cluster_list}
                     highlighted_line={this.state.highlighted_line}
                     tiff_index={this.state.tiff_index}
-                    tiff_list={this.state.all_tiff_list}
+                    tiff_list={tiff_list}
                   />
                 </div>
                 <div style={{position: 'absolute', display: 'inline-block', top: top_relation+100, left: 400}}>
@@ -242,8 +249,19 @@ export default class main extends React.Component {
                   <CrossCorrelationCanvas
                     id="cross_correlation_view"
                     clicked_point={this.state.clicked_point}
-                    cluster_list={this.state.cluster_list}
+                    cluster_list={this.state.correlation_list}
                     loupe_point={this.state.loupe_point}
+                  />
+                </div>
+                <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 400}}>
+                  <ClusterGraphContainer
+                    id="correlation_graph"
+                    all_time_series={this.state.all_time_series}
+                    cluster_time_series={this.state.corr_time_series}
+                    cluster_list={this.state.cluster_list}
+                    highlighted_line={this.state.highlighted_line}
+                    tiff_index={this.state.tiff_index}
+                    tiff_list={tiff_list}
                   />
                 </div>
               </div>
