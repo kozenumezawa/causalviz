@@ -25,7 +25,8 @@ export default class CrossCorrelationCanvas extends React.Component{
     if(cluster_list.length == 0) {
       return;
     }
-    const color_map = d3_scale.schemeCategory20c;
+
+    const color_map = d3_scale.schemeCategory20;
     for(let i = 0; i < cluster_list.length; i++) {
       this.ctx.fillStyle = color_map[cluster_list[i]];
       this.ctx.fillRect(i % this.canvas.width, i / this.canvas.width, 1, 1);
@@ -51,6 +52,15 @@ export default class CrossCorrelationCanvas extends React.Component{
     return (
       <div>
         <canvas id={this.props.id} width="285" height="130" style={{left: 0, top: 0, zIndex: 0}}></canvas>
+        <ClickedCanvas
+          id={this.props.id}
+          clicked_point={this.props.clicked_point}
+          loupe_point={this.props.loupe_point}
+        />
+        <EventCanvas
+          id={this.props.id}
+          loupe_point={this.props.loupe_point}
+        />
       </div>
     );
   }

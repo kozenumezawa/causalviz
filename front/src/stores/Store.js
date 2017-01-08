@@ -348,7 +348,7 @@ class Store extends EventEmitter {
   calculateCrossCorrelation() {
     const len_time = all_time_series[0].length - 15;
 
-    let criteria_time_series = new Array(all_time_series[0].length - 15);
+    let criteria_time_series = new Array(len_time);
     criteria_time_series.fill(0);
     let sum_count = 0;
 
@@ -384,7 +384,7 @@ class Store extends EventEmitter {
 
   getTauMaximizingCorr(criteria_x, y) {
     let corr_list = [];
-    for(let i = 0; i < 5; i++) {
+    for(let i = 0; i < 10; i++) {
       corr_list.push(pairTimeSeries.getCorrelation(criteria_x, y.slice(i)));
     }
     const max_corr = Math.max.apply(null, corr_list);
