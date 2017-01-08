@@ -228,7 +228,7 @@ class Store extends EventEmitter {
                 this.updateMaximumList([0, 51, 102, 153, 204, 255]);
                 this.emitChange();
 
-                this.calculateCrossCorrelation();
+                this.updateCorrelationList();
                 this.emitChange();
               });
             });
@@ -345,7 +345,7 @@ class Store extends EventEmitter {
     });
   }
 
-  calculateCrossCorrelation() {
+  updateCorrelationList() {
     const len_time = all_time_series[0].length - 15;
 
     let criteria_time_series = new Array(len_time);

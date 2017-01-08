@@ -4,6 +4,7 @@ import * as d3_scale from 'd3-scale'
 import ClickedCanvas from './clicked_canvas.jsx'
 import EventCanvas from './event_canvas.jsx'
 import * as drawingTool from '../../utils/drawing-tool'
+import * as pairTimeSeries from '../../utils/pair-time-series'
 
 export default class CrossCorrelationCanvas extends React.Component{
   constructor(props) {
@@ -29,6 +30,11 @@ export default class CrossCorrelationCanvas extends React.Component{
     const color_map = d3_scale.schemeCategory20;
     for(let i = 0; i < cluster_list.length; i++) {
       this.ctx.fillStyle = color_map[cluster_list[i]];
+
+      if(i % this.canvas.width > 250 && cluster_list[i] !== pairTimeSeries.error) {
+        this.ctx.fillStyle = 'black'
+      }
+
       this.ctx.fillRect(i % this.canvas.width, i / this.canvas.width, 1, 1);
     }
 
