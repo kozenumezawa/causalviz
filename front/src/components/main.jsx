@@ -37,7 +37,8 @@ function getAllState() {
     render_contents     : Store.getRenderContents(),
     checked_cluster     : Store.getCheckedCluster(),
     maximum_list        : Store.getMaximumList(),
-    correlation_list    : Store.getCorrelationList()
+    correlation_list    : Store.getCorrelationList(),
+    criteria_time_series: Store.getCriteriaTimeSeries()
   }
 }
 
@@ -256,8 +257,8 @@ export default class main extends React.Component {
                 <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 400}}>
                   <ClusterGraphContainer
                     id="correlation_graph"
-                    all_time_series={this.state.all_time_series}
-                    cluster_time_series={this.state.corr_time_series}
+                    all_time_series={Store.getCutTimeSeries()}
+                    cluster_time_series={this.state.corr_time_series} 
                     cluster_list={this.state.cluster_list}
                     highlighted_line={this.state.highlighted_line}
                     tiff_index={this.state.tiff_index}

@@ -27,7 +27,7 @@ export default class CrossCorrelationCanvas extends React.Component{
       return;
     }
 
-    const color_map = d3_scale.schemeCategory20;
+    const color_map = d3_scale.schemeCategory20c;
     for(let i = 0; i < cluster_list.length; i++) {
       this.ctx.fillStyle = color_map[cluster_list[i]];
 

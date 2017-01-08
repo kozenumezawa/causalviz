@@ -28,6 +28,7 @@ let cluster_list = [];
 let render_contents = generalConstants.VIEW_CROSS_CORRELATION;
 let checked_cluster = [];
 let correlation_list = [];
+let criteria_time_series = [];
 
 let maximum_list = [];
 let maxvalue_list = [];   // not to become state variable
@@ -180,6 +181,10 @@ class Store extends EventEmitter {
 
   getCorrelationList() {
     return correlation_list;
+  }
+
+  getCriteriaTimeSeries() {
+    return criteria_time_series;
   }
 
   getCutTimeSeries() {
@@ -348,7 +353,7 @@ class Store extends EventEmitter {
   updateCorrelationList() {
     const len_time = all_time_series[0].length - 15;
 
-    let criteria_time_series = new Array(len_time);
+    criteria_time_series = new Array(len_time);
     criteria_time_series.fill(0);
     let sum_count = 0;
 
@@ -374,12 +379,13 @@ class Store extends EventEmitter {
     criteria_time_series = criteria_time_series.map((element) => {
       return element / sum_count;
     });
-    corr_time_series.push(criteria_time_series);
 
     // calculate tau which maximize cross correlation
     cut_time_series.forEach((time_series) => {
       correlation_list.push(this.getTauMaximizingCorr(criteria_time_series, time_series));
     });
+
+    corr_time_series = this.getAverageEachTau();
   }
 
   getTauMaximizingCorr(criteria_x, y) {
@@ -395,6 +401,40 @@ class Store extends EventEmitter {
     const tau = corr_list.indexOf(max_corr);
     return tau;
   }
+
+  getAverageEachTau() {
+    // initialize
+    let average_time_series = [];
+    const n_clusters = 10;
+    let tau_frequency = new Array(n_clusters); // count the number of elements in each tau
+    tau_frequency.fill(0);
+
+    for(let i = 0; i < n_clusters; i++) {
+      average_time_series[i] = new Array(criteria_time_series.length);
+      average_time_series[i].fill(0);
+    }
+
+    // calculate clustering frequency and total value of each cluster
+    cut_time_series.forEach((time_series, idx) => {
+      const cluster_number = correlation_list[idx];
+      if(cluster_number === pairTimeSeries.error)
+        return;
+
+      tau_frequency[cluster_number] += 1;
+      time_series.forEach((scalar, j) => {
+        average_time_series[cluster_number][j] += scalar;
+      });
+    });
+
+    // calculate average
+    for(let i = 0; i < average_time_series.length; i++) {
+      average_time_series[i] = average_time_series[i].map((element) => {
+        return element / tau_frequency[i];
+      });
+    }
+    return average_time_series;
+  }
+
 
   // create csv file for Python
   createCsvFromTimeSeries(time_series) {
