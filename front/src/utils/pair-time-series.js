@@ -1,4 +1,10 @@
 export function getCorrelation(x, y) {
+  if(x.length > y.length) {
+    x = x.slice(0, y.length);
+  } else if(x.length < y.length) {
+    y = y.slice(0, x.length);
+  }
+
   const error = -2;
   const x_mean = getMean(x);
   const y_mean = getMean(y);
