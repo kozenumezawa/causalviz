@@ -82,7 +82,7 @@ export function getColorCategory(n) {
 
   let color_category = [];
   for(let i = 0; i < n; i++) {
-    const hue = 1 / n * i;
+    const hue = 1 / (n - 1) * i;
     const rgb = hslToRgb(2 / 3 * (1 - hue), saturation, lightness);
 
     let color_string = '#';
