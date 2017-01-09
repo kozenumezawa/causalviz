@@ -258,8 +258,8 @@ export default class main extends React.Component {
                   <ClusterGraphContainer
                     id="correlation_graph"
                     all_time_series={Store.getCutTimeSeries()}
-                    cluster_time_series={this.state.corr_time_series} 
-                    cluster_list={this.state.cluster_list}
+                    cluster_time_series={this.state.corr_time_series}
+                    cluster_list={this.state.correlation_list}
                     highlighted_line={this.state.highlighted_line}
                     tiff_index={this.state.tiff_index}
                     tiff_list={tiff_list}
