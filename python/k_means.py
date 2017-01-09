@@ -8,6 +8,14 @@ def clustering(all_time_series, n_clusters):
     kmeans_model = KMeans(n_clusters=n_clusters, random_state=10).fit(all_time_series)
     kmeans_labels = kmeans_model.labels_
 
+    # label of non-oocyte area becomes 0
+    non_oocyte_cluster = kmeans_labels[0]
+    for (i, label) in enumerate(kmeans_labels):
+        if label == non_oocyte_cluster:
+            kmeans_labels[i] = 0
+        elif label == 0:
+            kmeans_labels[i] = non_oocyte_cluster
+
     # calculate each average
     average_time_series = []
     clustering_frequency = []   # count number of elements in each cluster
