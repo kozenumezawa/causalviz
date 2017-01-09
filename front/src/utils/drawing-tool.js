@@ -75,3 +75,21 @@ export function hslToRgb(h, s, l) {
   }
   return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
 }
+
+export function getColorCategory(n) {
+  const lightness = 0.5;
+  const saturation = 0.8;
+
+  let color_category = [];
+  for(let i = 0; i < n; i++) {
+    const hue = 1 / n * i;
+    const rgb = hslToRgb(2 / 3 * (1 - hue), saturation, lightness);
+
+    let color_string = '#';
+    rgb.forEach((color, idx) => {
+      color_string += color.toString(16);
+    });
+    color_category.push(color_string);
+  }
+  return color_category;
+}

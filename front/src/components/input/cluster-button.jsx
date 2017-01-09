@@ -1,8 +1,8 @@
 import React from 'react'
-import * as d3_scale from 'd3-scale'
 
 import Actions from '../../actions/Actions'
 import ClusterSlider from './cluster-slider.jsx'
+import * as drawingTool from '../../utils/drawing-tool'
 
 export default class clusterButton extends React.Component {
   constructor(props) {
@@ -29,8 +29,10 @@ export default class clusterButton extends React.Component {
     if(cluster_list.length === 0) {
       return;
     }
-    const color_map = d3_scale.schemeCategory20c;
-    const N_cluster = Math.max.apply(null, cluster_list) + 1;
+
+    const N_clusters = Math.max.apply(null, cluster_list) + 1;
+    const color_map = drawingTool.getColorCategory(N_clusters);
+
     const N_canvas = 20;
     for(let i = 0; i < N_canvas; i++) {
       const id_canvas = this.props.id + i;
@@ -40,7 +42,7 @@ export default class clusterButton extends React.Component {
       }
       const ctx = canvas.getContext('2d');
 
-      if(i < N_cluster) {
+      if(i < N_clusters) {
         ctx.fillStyle = color_map[i];
         document.checkbox[i].style.visibility = "visible"
       } else {

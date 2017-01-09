@@ -1,5 +1,4 @@
 import React from 'react'
-import * as d3_scale from 'd3-scale'
 
 import ClickedCanvas from './clicked_canvas.jsx'
 import EventCanvas from './event_canvas.jsx'
@@ -25,8 +24,10 @@ export default class ClusterCanvas extends React.Component{
     if(cluster_list.length == 0) {
       return;
     }
+
+    const n_clusters= Math.max.apply(null, cluster_list) + 1;
+    const color_map = drawingTool.getColorCategory(n_clusters);
     
-    const color_map = d3_scale.schemeCategory20c;
     for(let i = 0; i < cluster_list.length; i++) {
       this.ctx.fillStyle = color_map[cluster_list[i]];
       this.ctx.fillRect(i % this.canvas.width, i / this.canvas.width, 1, 1);

@@ -1,5 +1,4 @@
 import React from 'react'
-import * as d3_scale from 'd3-scale'
 
 import HighlightCanvas from './highlight-canvas.jsx'
 import IndicatorCanvas from './indicator-canvas.jsx'
@@ -31,8 +30,10 @@ export default class clusterGraphContainer extends React.Component {
       return;
     }
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+    const n_clusters= Math.max.apply(null, cluster_list) + 1;
+    const color_map = drawingTool.getColorCategory(n_clusters);
     
-    const color_map = d3_scale.schemeCategory20c;
     if(highlighted_line !== -1) {
       let line_opts = {
         color: 'gray',
