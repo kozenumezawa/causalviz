@@ -43,7 +43,7 @@ export default class ClusterDetailCanvas extends React.Component{
       }
     }
 
-    drawingTool.drawLoupeArea(this.canvas, this.ctx, loupe_point);
+    // drawingTool.drawLoupeArea(this.canvas, this.ctx, loupe_point);
   }
 
   drawFrame() {
