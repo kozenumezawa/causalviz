@@ -1,3 +1,5 @@
+import * as d3_scale from 'd3-scale'
+
 export function lineGraph(canvas_obj, time_series_data, line_opts) {
   const context = canvas_obj.getContext('2d');
 
@@ -91,5 +93,7 @@ export function getColorCategory(n) {
     });
     color_category.push(color_string);
   }
+
+  color_category = d3_scale.schemeCategory20c;
   return color_category;
 }
