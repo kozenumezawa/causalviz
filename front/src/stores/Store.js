@@ -25,7 +25,7 @@ let loupe_point = {
   side : 40
 };
 let cluster_list = [];
-let render_contents = generalConstants.VIEW_CROSS_CORRELATION;
+let render_contents = generalConstants.VIEW_KMEANS;
 let checked_cluster = [];
 let correlation_list = [];
 let criteria_time_series = [];
