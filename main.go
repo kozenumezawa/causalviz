@@ -14,5 +14,5 @@ func main() {
 	r := gin.Default()
 
 	r.GET("/", handler)
-	r.Run("127.0.0.1:8000")
+	r.Run("127.0.0.1:3000")
 }
