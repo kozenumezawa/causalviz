@@ -380,7 +380,7 @@ class Store extends EventEmitter {
       return element / sum_count;
     });
 
-    // calculate tau which maximize cross correlation
+    // calculate tau which maximizes cross correlation
     cut_time_series.forEach((time_series) => {
       correlation_list.push(this.getTauMaximizingCorr(criteria_time_series, time_series));
     });
