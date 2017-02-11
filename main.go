@@ -10,6 +10,6 @@ func main() {
 	r := gin.Default()
 
 	r.StaticFile("/", "front/dist/index.html")
-	r.Static("/front", "front")
+	r.Static("/front/dist", "front/dist")
 	r.Run("127.0.0.1:3000")
 }
