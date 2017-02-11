@@ -255,21 +255,6 @@ export default class main extends React.Component {
                   />
                 </div>
 
-                <div style={{position: 'absolute', display: 'inline-block', top: top_control, left: left_ref}}>
-                  <Chip backgroundColor={white}>
-                    {'Selected Cluster view'}
-                  </Chip>
-                </div>
-                <div style={{position: 'absolute', display: 'inline-block', top: top_control+40, left: left_ref+30}}>
-                  <ClusterDetailCanvas
-                    id="correlation_detail_view"
-                    checked_cluster={this.state.checked_cluster}
-                    clicked_point={this.state.clicked_point}
-                    cluster_list={this.state.correlation_list}
-                    loupe_point={this.state.loupe_point}
-                  />
-                </div>
-
                 <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 400}}>
                   <ClusterGraphContainer
                     id="correlation_graph"
