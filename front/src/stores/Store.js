@@ -322,7 +322,7 @@ class Store extends EventEmitter {
   }
 
   updateClusterList(n_clusters) {
-    const file_name = './cluster/k_means_' + n_clusters + '.json'
+    const file_name = 'front/dist/cluster/k_means_' + n_clusters + '.json'
     window.fetch(file_name)
       .then((response) => {
         return response.json();
