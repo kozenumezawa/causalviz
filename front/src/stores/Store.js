@@ -37,7 +37,7 @@ let cut_time_series = []; // to calculate cross correlation
 class Store extends EventEmitter {
   constructor() {
     super();
-    this.getTiffData('GFBratio-mask-64-255.tif', '2E2_GFB.tif');
+    this.getTiffData('front/dist/GFBratio-mask-64-255.tif', 'front/dist/2E2_GFB.tif');
     Dispatcher.register(this.handler.bind(this));
   }
 
