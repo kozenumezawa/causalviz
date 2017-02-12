@@ -19,7 +19,7 @@ import ClusterDetailCanvas from './canvas/cluster_selected_canvas.jsx'
 import ClusterButton from './input/cluster-button.jsx'
 import MaximumCanvas from './canvas/maximum-canvas.jsx'
 import MaximumSelector from './input/maximum-selector.jsx'
-import CrossCorrelationCanvas from './canvas/crosscorrelation-canvas.jsx'
+import CorrelationCanvas from './canvas/correlation-canvas.jsx'
 
 function getAllState() {
   return {
@@ -247,7 +247,7 @@ export default class main extends React.Component {
                   </Chip>
                 </div>
                 <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
-                  <CrossCorrelationCanvas
+                  <CorrelationCanvas
                     id="cross_correlation_view"
                     clicked_point={this.state.clicked_point}
                     cluster_list={this.state.correlation_list}

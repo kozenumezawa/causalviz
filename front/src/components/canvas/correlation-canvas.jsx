@@ -6,7 +6,7 @@ import EventCanvas from './event_canvas.jsx'
 import * as drawingTool from '../../utils/drawing-tool'
 import * as pairTimeSeries from '../../utils/pair-time-series'
 
-export default class CrossCorrelationCanvas extends React.Component{
+export default class CorrelationCanvas extends React.Component{
   constructor(props) {
     super(props);
   }
