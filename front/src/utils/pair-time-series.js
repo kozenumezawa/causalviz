@@ -1,4 +1,4 @@
-export const error = 19;
+export const error = -2;
 
 export function getCorrelation(x, y) {
   if(x.length > y.length) {

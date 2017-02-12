@@ -387,6 +387,7 @@ class Store extends EventEmitter {
     });
 
     // calculate tau which maximizes cross correlation
+    correlation_list = [];
     cut_time_series.forEach((time_series) => {
       correlation_list.push(this.getTauMaximizingCorr(criteria_time_series, time_series, n_clusters));
     });
