@@ -98,12 +98,14 @@ class Store extends EventEmitter {
         render_contents = generalConstants.VIEW_DEFAULT;
         break;
       case eventConstants.HANDLE_KMEANS_CLICK:
+        this.updateClusterList(6);
         render_contents = generalConstants.VIEW_KMEANS;
         break;
       case eventConstants.HANDLE_MAXIMUM_CLICK:
         render_contents = generalConstants.VIEW_MAXIMUM;
         break;
       case eventConstants.HANDLE_CROSS_CORRELATION:
+        this.updateCorrelationList(10);
         render_contents = generalConstants.VIEW_CROSS_CORRELATION;
         break;
       case eventConstants.HANDLE_CLEAR_SELECTION:
@@ -114,6 +116,7 @@ class Store extends EventEmitter {
         break;
       case eventConstants.HANDLE_CLUSTER_CHANGE:
         this.updateClusterList(action.n_clusters);
+        this.updateCorrelationList(action.n_clusters);
         break;
       case eventConstants.HANDLE_LINEHEIGHTS_CHANGE:
         this.updateMaximumList(action.line_heights);
@@ -234,7 +237,6 @@ class Store extends EventEmitter {
                 this.emitChange();
 
                 this.updateCorrelationList(10);
-                this.emitChange();
               });
             });
         });
@@ -321,6 +323,11 @@ class Store extends EventEmitter {
     });
   }
 
+  updateCheckedCluster(list) {
+    checked_cluster = new Array(Math.max.apply(null, list) + 1);
+    checked_cluster.fill(false);
+  }
+
   updateClusterList(n_clusters) {
     const file_name = 'front/dist/cluster/k_means_' + n_clusters + '.json'
     window.fetch(file_name)
@@ -332,8 +339,7 @@ class Store extends EventEmitter {
         cluster_list = labels;
         cluster_time_series = json.average;
 
-        checked_cluster = new Array(Math.max.apply(null, cluster_list) + 1);
-        checked_cluster.fill(false);
+        this.updateCheckedCluster(cluster_list);
         this.emitChange();
       });
   }
@@ -386,6 +392,9 @@ class Store extends EventEmitter {
     });
 
     corr_time_series = this.getAverageEachTau(n_clusters);
+
+    this.updateCheckedCluster(correlation_list);
+    this.emitChange();
   }
 
   getTauMaximizingCorr(criteria_x, y, n_clusters) {
