@@ -131,7 +131,6 @@ class Store extends EventEmitter {
         } else if(render_contents === generalConstants.VIEW_CROSS_CORRELATION) {
           this.updateCorrelationList(slider_value);
         }
-
         break;
       case eventConstants.HANDLE_LINEHEIGHTS_CHANGE:
         this.updateMaximumList(action.line_heights);

@@ -313,6 +313,8 @@ export default class main extends React.Component {
                   <TraceFlowCanvas
                     id="traceflow_view"
                     clicked_point={this.state.clicked_point}
+                    tiff_index={this.state.tiff_index}
+                    tiff_list={tiff_list}
                     traceflow_list={this.state.traceflow_list}
                     loupe_point={this.state.loupe_point}
                   />
