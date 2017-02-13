@@ -20,6 +20,7 @@ import ClusterButton from './input/cluster-button.jsx'
 import MaximumCanvas from './canvas/maximum-canvas.jsx'
 import MaximumSelector from './input/maximum-selector.jsx'
 import CorrelationCanvas from './canvas/correlation-canvas.jsx'
+import TraceFlowCanvas from './canvas/traceflow-canvas.jsx'
 
 function getAllState() {
   return {
@@ -39,7 +40,8 @@ function getAllState() {
     maximum_list        : Store.getMaximumList(),
     tau_list            : Store.getTauList(),
     correlation_list    : Store.getCorrelationList(),
-    criteria_time_series: Store.getCriteriaTimeSeries()
+    criteria_time_series: Store.getCriteriaTimeSeries(),
+    traceflow_list      : Store.getTraceflowList()
   }
 }
 
@@ -292,6 +294,24 @@ export default class main extends React.Component {
                     id="tau_button"
                     checked_cluster={this.state.checked_cluster}
                     cluster_list={this.state.tau_list}
+                  />
+                </div>
+              </div>
+            );
+          } else if(this.state.render_contents === generalConstants.VIEW_TRACE_FLOW) {
+            return (
+              <div>
+                <div style={{position: 'absolute', display: 'inline-block', top: top_relation, left: left_ref}}>
+                  <Chip backgroundColor={white}>
+                    {'Trace Flow view'}
+                  </Chip>
+                </div>
+                <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
+                  <TraceFlowCanvas
+                    id="traceflow_view"
+                    clicked_point={this.state.clicked_point}
+                    traceflow_list={this.state.traceflow_list}
+                    loupe_point={this.state.loupe_point}
                   />
                 </div>
               </div>

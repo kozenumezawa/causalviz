@@ -30,6 +30,7 @@ let checked_cluster = [];
 let tau_list = [];
 let correlation_list = [];
 let criteria_time_series = [];
+let traceflow_list = [];
 
 let maximum_list = [];
 let maxvalue_list = [];   // not to become state variable
@@ -203,7 +204,11 @@ class Store extends EventEmitter {
   getCutTimeSeries() {
     return cut_time_series;
   }
-
+  
+  getTraceflowList() {
+    return traceflow_list;
+  }
+  
   getCutTiffList() {
     let cut_tiff_list = [];
     for(let i = 0, len = all_tiff_list.length - 15; i < len; i++) {

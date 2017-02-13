@@ -1,0 +1,51 @@
+import React from 'react'
+import * as d3_scale from 'd3-scale'
+
+import ClickedCanvas from './clicked_canvas.jsx'
+import EventCanvas from './event_canvas.jsx'
+import * as drawingTool from '../../utils/drawing-tool'
+import * as pairTimeSeries from '../../utils/pair-time-series'
+
+export default class TraceFlowCanvas extends React.Component{
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    this.canvas = document.getElementById(this.props.id);
+    this.ctx = this.canvas.getContext('2d');
+    drawingTool.drawFrame(this.canvas, this.ctx);
+    this.renderData(this.props.traceflow_list, this.props.loupe_point);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.renderData(nextProps.traceflow_list, nextProps.loupe_point);
+  }
+
+  renderData(traceflow_list, loupe_point) {
+    console.log(traceflow_list);
+    if(traceflow_list.length == 0) {
+      return;
+    }
+    console.log(traceflow_list);
+
+    drawingTool.drawLoupeArea(this.canvas, this.ctx, loupe_point);
+  }
+
+  render() {
+    return (
+      <div>
+        <canvas id={this.props.id} width="285" height="130" style={{left: 0, top: 0, zIndex: 0}}></canvas>
+        <ClickedCanvas
+          id={this.props.id}
+          clicked_point={this.props.clicked_point}
+          loupe_point={this.props.loupe_point}
+        />
+        <EventCanvas
+          id={this.props.id}
+          loupe_point={this.props.loupe_point}
+        />
+      </div>
+    );
+  }
+}
