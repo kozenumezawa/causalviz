@@ -12,7 +12,7 @@ export default class ClusterDetailCanvas extends React.Component{
   componentDidMount() {
     this.canvas = document.getElementById(this.props.id);
     this.ctx = this.canvas.getContext('2d');
-    this.drawFrame();
+    drawingTool.drawFrame(this.canvas, this.ctx);
     this.renderData(this.props.cluster_list, this.props.loupe_point, this.props.checked_cluster);
   }
 
@@ -29,7 +29,7 @@ export default class ClusterDetailCanvas extends React.Component{
     const color_map = drawingTool.getColorCategory(n_clusters);
 
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.drawFrame();
+    drawingTool.drawFrame(this.canvas, this.ctx);
     for(let i = 0; i < cluster_list.length; i++) {
       for(let cluster_number = 0; cluster_number < checked_cluster.length; cluster_number++) {
         if(checked_cluster[cluster_number] === false){
@@ -44,19 +44,6 @@ export default class ClusterDetailCanvas extends React.Component{
     }
 
     // drawingTool.drawLoupeArea(this.canvas, this.ctx, loupe_point);
-  }
-
-  drawFrame() {
-    // draw a frame
-    this.ctx.strokeStyle = 'black';
-    this.ctx.lineWidth = 1;
-    this.ctx.beginPath();
-    this.ctx.moveTo(0, 0);
-    this.ctx.lineTo(this.canvas.width, 0);
-    this.ctx.lineTo(this.canvas.width, this.canvas.height);
-    this.ctx.lineTo(0, this.canvas.height);
-    this.ctx.lineTo(0, 0);
-    this.ctx.stroke();
   }
 
   render() {

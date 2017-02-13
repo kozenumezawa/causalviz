@@ -97,3 +97,15 @@ export function getColorCategory(n) {
   color_category = d3_scale.schemeCategory20c;
   return color_category;
 }
+
+export function drawFrame(canvas, ctx) {
+  ctx.strokeStyle = 'black';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(canvas.width, 0);
+  ctx.lineTo(canvas.width, canvas.height);
+  ctx.lineTo(0, canvas.height);
+  ctx.lineTo(0, 0);
+  ctx.stroke();
+}

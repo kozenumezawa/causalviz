@@ -13,7 +13,7 @@ export default class MaximumCanvas extends React.Component{
   componentDidMount() {
     this.canvas = document.getElementById(this.props.id);
     this.ctx = this.canvas.getContext('2d');
-    this.drawFrame();
+    drawingTool.drawFrame(this.canvas, this.ctx);
     this.renderData(this.props.maximum_list, this.props.loupe_point);
   }
 
@@ -32,19 +32,6 @@ export default class MaximumCanvas extends React.Component{
     });
 
     drawingTool.drawLoupeArea(this.canvas, this.ctx, loupe_point);
-  }
-
-  drawFrame() {
-    // draw a frame
-    this.ctx.strokeStyle = 'black';
-    this.ctx.lineWidth = 1;
-    this.ctx.beginPath();
-    this.ctx.moveTo(0, 0);
-    this.ctx.lineTo(this.canvas.width, 0);
-    this.ctx.lineTo(this.canvas.width, this.canvas.height);
-    this.ctx.lineTo(0, this.canvas.height);
-    this.ctx.lineTo(0, 0);
-    this.ctx.stroke();
   }
 
   render() {
