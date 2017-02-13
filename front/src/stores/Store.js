@@ -65,9 +65,6 @@ class Store extends EventEmitter {
         }
         break;
       case eventConstants.HANDLE_CORRELATION_CLICK:
-        if(relation_list.length == 0) {
-          this.createCorrelationMap();
-        }
         break;
       case eventConstants.HANDLE_TIFF_CLICK:
         const width = 285;

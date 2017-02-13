@@ -38,6 +38,7 @@ function getAllState() {
     checked_cluster     : Store.getCheckedCluster(),
     maximum_list        : Store.getMaximumList(),
     tau_list            : Store.getTauList(),
+    correlation_list    : Store.getCorrelationList(),
     criteria_time_series: Store.getCriteriaTimeSeries()
   }
 }
@@ -252,6 +253,22 @@ export default class main extends React.Component {
                     clicked_point={this.state.clicked_point}
                     cluster_list={this.state.tau_list}
                     loupe_point={this.state.loupe_point}
+                  />
+                </div>
+
+                <div style={{position: 'absolute', display: 'inline-block', top: top_control, left: left_ref}}>
+                  <Chip backgroundColor={white}>
+                    {'Relation view'}
+                  </Chip>
+                </div>
+                <div style={{position: 'absolute', display: 'inline-block', top: top_control+40, left: left_ref+30}}>
+                  <RelationCanvas
+                    id="relation_view"
+                    clicked_point={this.state.clicked_point}
+                    loupe_point={this.state.loupe_point}
+                    relation_list={this.state.correlation_list}
+                    tiff_index={this.state.tiff_index}
+                    tiff_list={tiff_list}
                   />
                 </div>
 
