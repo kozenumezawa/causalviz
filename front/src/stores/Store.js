@@ -76,7 +76,12 @@ class Store extends EventEmitter {
         clicked_point.y = action.y;
 
         if(cluster_list.length !== 0) {
-          const selected_cluster = cluster_list[highlighted_line];
+          let selected_cluster;
+          if(render_contents === generalConstants.VIEW_KMEANS) {
+            selected_cluster = cluster_list[highlighted_line];
+          } else if(render_contents === generalConstants.VIEW_CROSS_CORRELATION) {
+            selected_cluster = correlation_list[highlighted_line];
+          }
           checked_cluster[selected_cluster] = !checked_cluster[selected_cluster];
         }
         this.updateRelationList();
@@ -344,7 +349,9 @@ class Store extends EventEmitter {
         cluster_list = labels;
         cluster_time_series = json.average;
 
-        this.updateCheckedCluster(cluster_list);
+        if(render_contents === generalConstants.VIEW_KMEANS) {
+          this.updateCheckedCluster(cluster_list);
+        }
         this.emitChange();
       });
   }
@@ -402,7 +409,9 @@ class Store extends EventEmitter {
 
     corr_time_series = this.getAverageEachTau(n_clusters);
 
-    this.updateCheckedCluster(tau_list);
+    if(render_contents === generalConstants.VIEW_CROSS_CORRELATION) {
+      this.updateCheckedCluster(tau_list);
+    }
     this.emitChange();
   }
 

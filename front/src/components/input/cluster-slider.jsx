@@ -7,7 +7,7 @@ export default class clusterSlider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      slider: 6
+      slider: 10
     };
 
     this.handleSliderChange = this.handleSliderChange.bind(this);
