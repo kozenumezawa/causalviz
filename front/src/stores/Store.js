@@ -27,7 +27,7 @@ let loupe_point = {
 let cluster_list = [];
 let render_contents = generalConstants.VIEW_CROSS_CORRELATION;
 let checked_cluster = [];
-let correlation_list = [];
+let tau_list = [];
 let criteria_time_series = [];
 
 let maximum_list = [];
@@ -182,8 +182,8 @@ class Store extends EventEmitter {
     return maximum_list;
   }
 
-  getCorrelationList() {
-    return correlation_list;
+  getTauList() {
+    return tau_list;
   }
 
   getCriteriaTimeSeries() {
@@ -387,14 +387,14 @@ class Store extends EventEmitter {
     });
 
     // calculate tau which maximizes cross correlation
-    correlation_list = [];
+    tau_list = [];
     cut_time_series.forEach((time_series) => {
-      correlation_list.push(this.getTauMaximizingCorr(criteria_time_series, time_series, n_clusters));
+      tau_list.push(this.getTauMaximizingCorr(criteria_time_series, time_series, n_clusters));
     });
 
     corr_time_series = this.getAverageEachTau(n_clusters);
 
-    this.updateCheckedCluster(correlation_list);
+    this.updateCheckedCluster(tau_list);
     this.emitChange();
   }
 
@@ -425,7 +425,7 @@ class Store extends EventEmitter {
 
     // calculate clustering frequency and total value of each cluster
     cut_time_series.forEach((time_series, idx) => {
-      const cluster_number = correlation_list[idx];
+      const cluster_number = tau_list[idx];
       if(cluster_number === pairTimeSeries.error)
         return;
 

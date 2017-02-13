@@ -37,7 +37,7 @@ function getAllState() {
     render_contents     : Store.getRenderContents(),
     checked_cluster     : Store.getCheckedCluster(),
     maximum_list        : Store.getMaximumList(),
-    correlation_list    : Store.getCorrelationList(),
+    tau_list            : Store.getTauList(),
     criteria_time_series: Store.getCriteriaTimeSeries()
   }
 }
@@ -250,7 +250,7 @@ export default class main extends React.Component {
                   <CorrelationCanvas
                     id="cross_correlation_view"
                     clicked_point={this.state.clicked_point}
-                    cluster_list={this.state.correlation_list}
+                    cluster_list={this.state.tau_list}
                     loupe_point={this.state.loupe_point}
                   />
                 </div>
@@ -260,7 +260,7 @@ export default class main extends React.Component {
                     id="correlation_graph"
                     all_time_series={Store.getCutTimeSeries()}
                     cluster_time_series={this.state.corr_time_series}
-                    cluster_list={this.state.correlation_list}
+                    cluster_list={this.state.tau_list}
                     highlighted_line={this.state.highlighted_line}
                     tiff_index={this.state.tiff_index}
                     tiff_list={tiff_list}
@@ -274,7 +274,7 @@ export default class main extends React.Component {
                   <ClusterButton
                     id="tau_button"
                     checked_cluster={this.state.checked_cluster}
-                    cluster_list={this.state.correlation_list}
+                    cluster_list={this.state.tau_list}
                   />
                 </div>
               </div>
