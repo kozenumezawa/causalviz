@@ -395,7 +395,9 @@ class Store extends EventEmitter {
     tau_list = [];
     correlation_list = [];
     cut_time_series.forEach((time_series, idx) => {
-      this.getTauMaximizingCorr(criteria_time_series, time_series, n_clusters, idx)
+      const corr_data = this.getTauMaximizingCorr(criteria_time_series, time_series, n_clusters);
+      tau_list.push(corr_data.tau);
+      correlation_list.push(corr_data.corr);
     });
 
     corr_time_series = this.getAverageEachTau(n_clusters);
@@ -404,20 +406,25 @@ class Store extends EventEmitter {
     this.emitChange();
   }
 
-  getTauMaximizingCorr(criteria_x, y, n_clusters, idx) {
+  getTauMaximizingCorr(criteria_x, y, n_clusters) {
     let corr_list = [];
     for(let i = 0; i < n_clusters; i++) {
       corr_list.push(pairTimeSeries.getCorrelation(criteria_x, y.slice(i)));
     }
     const max_corr = Math.max.apply(null, corr_list);
     if(max_corr === pairTimeSeries.error) {
-      tau_list.push(pairTimeSeries.error);
-      correlation_list.push(0);
-      return;
+      const corr_data = {
+        tau: pairTimeSeries.error,
+        corr: 0
+      };
+      return corr_data;
     }
 
-    tau_list.push(corr_list.indexOf(max_corr));
-    correlation_list.push(max_corr);
+    const corr_data = {
+      tau: corr_list.indexOf(max_corr),
+      corr: max_corr
+    };
+    return corr_data;
   }
 
   getAverageEachTau(n_clusters) {
