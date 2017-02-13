@@ -13,10 +13,13 @@ export default class clusterSlider extends React.Component {
     this.handleSliderChange = this.handleSliderChange.bind(this);
   }
 
-  handleSliderChange(event, value) {
+  componentWillReceiveProps(nextProps) {
     this.setState({
-      slider: value
+      slider: nextProps.slider_value
     });
+  }
+
+  handleSliderChange(event, value) {
     Actions.handleClusterChange(value);
   }
 

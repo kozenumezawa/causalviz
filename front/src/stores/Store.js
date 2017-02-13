@@ -27,6 +27,7 @@ let loupe_point = {
 let cluster_list = [];
 let render_contents = generalConstants.VIEW_CROSS_CORRELATION;
 let checked_cluster = [];
+let slider_value = 10;
 let tau_list = [];
 let correlation_list = [];
 let criteria_time_series = [];
@@ -57,14 +58,16 @@ class Store extends EventEmitter {
         render_contents = generalConstants.VIEW_DEFAULT;
         break;
       case eventConstants.HANDLE_KMEANS_CLICK:
-        this.updateClusterList(6);
+        slider_value = 6;
+        this.updateClusterList(slider_value);
         render_contents = generalConstants.VIEW_KMEANS;
         break;
       case eventConstants.HANDLE_MAXIMUM_CLICK:
         render_contents = generalConstants.VIEW_MAXIMUM;
         break;
       case eventConstants.HANDLE_CROSS_CORRELATION:
-        this.updateCorrelationList(10);
+        slider_value = 10;
+        this.updateCorrelationList(slider_value);
         render_contents = generalConstants.VIEW_CROSS_CORRELATION;
         break;
       case eventConstants.HANDLE_TRACE_FLOW:
@@ -122,8 +125,13 @@ class Store extends EventEmitter {
         checked_cluster[action.index] = !checked_cluster[action.index];
         break;
       case eventConstants.HANDLE_CLUSTER_CHANGE:
-        this.updateClusterList(action.n_clusters);
-        this.updateCorrelationList(action.n_clusters);
+        slider_value = action.n_clusters;
+        if(render_contents === generalConstants.VIEW_KMEANS) {
+          this.updateClusterList(slider_value);
+        } else if(render_contents === generalConstants.VIEW_CROSS_CORRELATION) {
+          this.updateCorrelationList(slider_value);
+        }
+
         break;
       case eventConstants.HANDLE_LINEHEIGHTS_CHANGE:
         this.updateMaximumList(action.line_heights);
@@ -183,6 +191,10 @@ class Store extends EventEmitter {
 
   getCheckedCluster() {
     return checked_cluster;
+  }
+
+  getSliderValue() {
+    return slider_value;
   }
 
   getMaximumList() {

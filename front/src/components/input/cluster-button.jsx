@@ -141,7 +141,9 @@ export default class clusterButton extends React.Component {
           </form>
         </div>
 
-        <ClusterSlider />
+        <ClusterSlider
+          slider_value = {this.props.slider_value}
+        />
       </div>
     );
   }

@@ -37,6 +37,7 @@ function getAllState() {
     cluster_list        : Store.getClusterList(),
     render_contents     : Store.getRenderContents(),
     checked_cluster     : Store.getCheckedCluster(),
+    slider_value        : Store.getSliderValue(),
     maximum_list        : Store.getMaximumList(),
     tau_list            : Store.getTauList(),
     correlation_list    : Store.getCorrelationList(),
@@ -209,6 +210,7 @@ export default class main extends React.Component {
                     id="cluster_button"
                     checked_cluster={this.state.checked_cluster}
                     cluster_list={this.state.cluster_list}
+                    slider_value={this.state.slider_value}
                   />
                 </div>
               </div>
@@ -294,6 +296,7 @@ export default class main extends React.Component {
                     id="tau_button"
                     checked_cluster={this.state.checked_cluster}
                     cluster_list={this.state.tau_list}
+                    slider_value={this.state.slider_value}
                   />
                 </div>
               </div>
