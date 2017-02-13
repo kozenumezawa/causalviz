@@ -19,12 +19,11 @@ export default class ClickedCanvas extends React.Component {
   }
 
   renderData(props) {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     if(props.clicked_point.x !== -1) {
       // draw a point
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.ctx.fillStyle='red';
       this.ctx.fillRect(props.clicked_point.x, props.clicked_point.y, 3, 3);
-
       drawingTool.drawLoupeArea(this.canvas, this.ctx, props.loupe_point);
     }
   }

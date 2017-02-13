@@ -71,6 +71,10 @@ class Store extends EventEmitter {
         render_contents = generalConstants.VIEW_CROSS_CORRELATION;
         break;
       case eventConstants.HANDLE_TRACE_FLOW:
+        clicked_point = {
+          x : -1,
+          y : -1
+        };
         render_contents = generalConstants.VIEW_TRACE_FLOW;
         break;
       case eventConstants.HANDLE_BEFORE_CLICK:
@@ -103,6 +107,10 @@ class Store extends EventEmitter {
           checked_cluster[selected_cluster] = !checked_cluster[selected_cluster];
         }
         this.updateRelationList();
+
+        if(render_contents === generalConstants.VIEW_TRACE_FLOW) {
+          this.updateTraceflowList(highlighted_line);
+        }
         break;
       case eventConstants.HANDLE_LOUPE_CLICK:
         loupe_point.on = !loupe_point.on;
@@ -484,6 +492,9 @@ class Store extends EventEmitter {
     return average_time_series;
   }
 
+  updateTraceflowList(clicked_index) {
+    this.emitChange();
+  }
 
   // create csv file for Python
   createCsvFromTimeSeries(time_series) {
