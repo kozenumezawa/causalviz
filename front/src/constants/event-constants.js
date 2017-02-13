@@ -1,6 +1,11 @@
 import keyMirror from 'keymirror'
 
 const eventConstant = keyMirror({
+  HANDLE_DEFAULT_CLICK     : null,
+  HANDLE_KMEANS_CLICK      : null,
+  HANDLE_MAXIMUM_CLICK     : null,
+  HANDLE_CROSS_CORRELATION : null,
+  HANDLE_TRACE_FLOW        : null,
   HANDLE_BEFORE_CLICK      : null,
   HANDLE_NEXT_CLICK        : null,
   HANDLE_CORRELATION_CLICK : null,
@@ -8,10 +13,6 @@ const eventConstant = keyMirror({
   HANDLE_LOUPE_MOVE        : null,
   HANDLE_LOUPE_CLICK       : null,
   HANDLE_INDICATOR_MOVE    : null,
-  HANDLE_DEFAULT_CLICK     : null,
-  HANDLE_KMEANS_CLICK      : null,
-  HANDLE_MAXIMUM_CLICK     : null,
-  HANDLE_CROSS_CORRELATION : null,
   HANDLE_CLEAR_SELECTION   : null,
   HANDLE_CHECK_CLICK       : null,
   HANDLE_CLUSTER_CHANGE    : null,

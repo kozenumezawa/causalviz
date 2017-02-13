@@ -2,6 +2,36 @@ import Dispatcher from '../dispatcher/Dispatcher'
 import eventConstants from '../constants/event-constants'
 
 export default {
+  handleDefaultClick: () => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_DEFAULT_CLICK
+    });
+  },
+
+  handleMaximumClick: () => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_MAXIMUM_CLICK
+    });
+  },
+
+  handleKmeansClick: () => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_KMEANS_CLICK
+    });
+  },
+
+  handleCrossCorrelation: () => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_CROSS_CORRELATION
+    });
+  },
+
+  handleTraceFlow: () => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_TRACE_FLOW
+    });
+  },
+  
   handleBeforeClick: () => {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_BEFORE_CLICK
@@ -46,30 +76,6 @@ export default {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_INDICATOR_MOVE,
       new_index : index
-    });
-  },
-
-  handleDefaultClick: () => {
-    Dispatcher.dispatch({
-      actionType: eventConstants.HANDLE_DEFAULT_CLICK
-    });
-  },
-
-  handleKmeansClick: () => {
-    Dispatcher.dispatch({
-      actionType: eventConstants.HANDLE_KMEANS_CLICK
-    });
-  },
-
-  handleMaximumClick: () => {
-    Dispatcher.dispatch({
-      actionType: eventConstants.HANDLE_MAXIMUM_CLICK
-    });
-  },
-
-  handleCrossCorrelation: () => {
-    Dispatcher.dispatch({
-      actionType: eventConstants.HANDLE_CROSS_CORRELATION
     });
   },
 

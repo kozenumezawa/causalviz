@@ -52,6 +52,23 @@ class Store extends EventEmitter {
 
   handler(action) {
     switch(action.actionType) {
+      case eventConstants.HANDLE_DEFAULT_CLICK:
+        render_contents = generalConstants.VIEW_DEFAULT;
+        break;
+      case eventConstants.HANDLE_KMEANS_CLICK:
+        this.updateClusterList(6);
+        render_contents = generalConstants.VIEW_KMEANS;
+        break;
+      case eventConstants.HANDLE_MAXIMUM_CLICK:
+        render_contents = generalConstants.VIEW_MAXIMUM;
+        break;
+      case eventConstants.HANDLE_CROSS_CORRELATION:
+        this.updateCorrelationList(10);
+        render_contents = generalConstants.VIEW_CROSS_CORRELATION;
+        break;
+      case eventConstants.HANDLE_TRACE_FLOW:
+        render_contents = generalConstants.VIEW_TRACE_FLOW;
+        break;
       case eventConstants.HANDLE_BEFORE_CLICK:
         tiff_index--;
         if(tiff_index < 0) {
@@ -96,20 +113,6 @@ class Store extends EventEmitter {
         break;
       case eventConstants.HANDLE_INDICATOR_MOVE:
         tiff_index = action.new_index;
-        break;
-      case eventConstants.HANDLE_DEFAULT_CLICK:
-        render_contents = generalConstants.VIEW_DEFAULT;
-        break;
-      case eventConstants.HANDLE_KMEANS_CLICK:
-        this.updateClusterList(6);
-        render_contents = generalConstants.VIEW_KMEANS;
-        break;
-      case eventConstants.HANDLE_MAXIMUM_CLICK:
-        render_contents = generalConstants.VIEW_MAXIMUM;
-        break;
-      case eventConstants.HANDLE_CROSS_CORRELATION:
-        this.updateCorrelationList(10);
-        render_contents = generalConstants.VIEW_CROSS_CORRELATION;
         break;
       case eventConstants.HANDLE_CLEAR_SELECTION:
         highlighted_line = -1;
