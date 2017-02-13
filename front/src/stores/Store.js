@@ -28,6 +28,7 @@ let cluster_list = [];
 let render_contents = generalConstants.VIEW_CROSS_CORRELATION;
 let checked_cluster = [];
 let tau_list = [];
+let correlation_list = [];
 let criteria_time_series = [];
 
 let maximum_list = [];
@@ -184,6 +185,10 @@ class Store extends EventEmitter {
 
   getTauList() {
     return tau_list;
+  }
+
+  getCorrelationList() {
+    return correlation_list;
   }
 
   getCriteriaTimeSeries() {
@@ -388,8 +393,9 @@ class Store extends EventEmitter {
 
     // calculate tau which maximizes cross correlation
     tau_list = [];
-    cut_time_series.forEach((time_series) => {
-      tau_list.push(this.getTauMaximizingCorr(criteria_time_series, time_series, n_clusters));
+    correlation_list = [];
+    cut_time_series.forEach((time_series, idx) => {
+      this.getTauMaximizingCorr(criteria_time_series, time_series, n_clusters, idx)
     });
 
     corr_time_series = this.getAverageEachTau(n_clusters);
@@ -398,18 +404,20 @@ class Store extends EventEmitter {
     this.emitChange();
   }
 
-  getTauMaximizingCorr(criteria_x, y, n_clusters) {
+  getTauMaximizingCorr(criteria_x, y, n_clusters, idx) {
     let corr_list = [];
     for(let i = 0; i < n_clusters; i++) {
       corr_list.push(pairTimeSeries.getCorrelation(criteria_x, y.slice(i)));
     }
     const max_corr = Math.max.apply(null, corr_list);
     if(max_corr === pairTimeSeries.error) {
-      return pairTimeSeries.error;
+      tau_list.push(pairTimeSeries.error);
+      correlation_list.push(0);
+      return;
     }
 
-    const tau = corr_list.indexOf(max_corr);
-    return tau;
+    tau_list.push(corr_list.indexOf(max_corr));
+    correlation_list.push(max_corr);
   }
 
   getAverageEachTau(n_clusters) {
