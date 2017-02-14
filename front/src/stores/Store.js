@@ -501,7 +501,8 @@ class Store extends EventEmitter {
     return average_time_series;
   }
 
-  getIndexMaximizingCorr(index, width, height) {
+  getIndexMaximizingCorr(index, flow_list) {
+    const width = 285;
     const x = all_time_series[index];
     let corr_list = [];
     let idx_list = [];
@@ -513,7 +514,7 @@ class Store extends EventEmitter {
         }
 
         const idx = index + i + j * width;
-        if(idx < 0 || idx >= all_time_series.length) {
+        if(idx < 0 || idx >= all_time_series.length || flow_list[idx] === true) {
           continue;
         }
 
@@ -522,23 +523,27 @@ class Store extends EventEmitter {
         idx_list.push(idx);
       }
     }
+    if(corr_list.length === 0) {
+      return generalConstants.ERR_REACH_EDGH;
+    }
     const max_corr = Math.max.apply(null, corr_list);
     return idx_list[corr_list.indexOf(max_corr)];
   }
 
   updateTraceflowList(clicked_index) {
-    const width = 285;
-    const height = 130;
     traceflow_list = new Array(all_time_series.length);
-    traceflow_list.fill(0);
+    traceflow_list.fill(false);
 
     let target_index = clicked_index;
-    for(let i = 0; i < 300; i++) {
-      const new_index = this.getIndexMaximizingCorr(target_index, width, height)
-      traceflow_list[new_index] = 1;
+    for(let i = 0; i < 10000; i++) {
+      const new_index = this.getIndexMaximizingCorr(target_index, traceflow_list);
+      if(new_index === generalConstants.ERR_REACH_EDGH) {
+        break;
+      }
+
+      traceflow_list[new_index] = true;
       target_index = new_index;
     }
-
     this.emitChange();
   }
 

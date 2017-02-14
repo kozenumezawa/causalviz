@@ -1,5 +1,4 @@
 import React from 'react'
-import * as d3_scale from 'd3-scale'
 
 import ClickedCanvas from './clicked_canvas.jsx'
 import EventCanvas from './event_canvas.jsx'
@@ -26,11 +25,17 @@ export default class TraceFlowCanvas extends React.Component{
     if(tiff_list.length === 0) {
       return null
     }
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     const canvas = tiff_list[tiff_index];
     this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.canvas.width, this.canvas.height);
 
     if(traceflow_list.length != 0) {
-
+      this.ctx.fillStyle='red';
+      traceflow_list.forEach((trace_flag, idx) => {
+        if (trace_flag === true) {
+          this.ctx.fillRect(idx % this.canvas.width, idx / this.canvas.width, 1, 1);
+        }
+      });
     }
     drawingTool.drawLoupeArea(this.canvas, this.ctx, loupe_point);
   }
