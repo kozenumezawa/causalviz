@@ -501,7 +501,44 @@ class Store extends EventEmitter {
     return average_time_series;
   }
 
+  getIndexMaximizingCorr(index, width, height) {
+    const x = all_time_series[index];
+    let corr_list = [];
+    let idx_list = [];
+
+    for(let i = -1; i < 2; i++) {
+      for(let j = -1; j < 2; j++) {
+        if(i == 0 && j == 0) {
+          continue;
+        }
+
+        const idx = index + i + j * width;
+        if(idx < 0 || idx >= all_time_series.length) {
+          continue;
+        }
+
+        const y = all_time_series[idx];
+        corr_list.push(pairTimeSeries.getCorrelation(x, y));
+        idx_list.push(idx);
+      }
+    }
+    const max_corr = Math.max.apply(null, corr_list);
+    return idx_list[corr_list.indexOf(max_corr)];
+  }
+
   updateTraceflowList(clicked_index) {
+    const width = 285;
+    const height = 130;
+    traceflow_list = new Array(all_time_series.length);
+    traceflow_list.fill(0);
+
+    let target_index = clicked_index;
+    for(let i = 0; i < 300; i++) {
+      const new_index = this.getIndexMaximizingCorr(target_index, width, height)
+      traceflow_list[new_index] = 1;
+      target_index = new_index;
+    }
+
     this.emitChange();
   }
 
