@@ -52,29 +52,38 @@ class Store extends EventEmitter {
     this.on(CHANGE_EVENT, callback);
   }
 
+  setInitialState() {
+    clicked_point = {
+      x : -1,
+      y : -1
+    };
+    highlighted_line = -1;
+  }
+
   handler(action) {
     switch(action.actionType) {
       case eventConstants.HANDLE_DEFAULT_CLICK:
+        this.setInitialState();
         render_contents = generalConstants.VIEW_DEFAULT;
         break;
       case eventConstants.HANDLE_KMEANS_CLICK:
+        this.setInitialState();
         slider_value = 6;
         this.updateClusterList(slider_value);
         render_contents = generalConstants.VIEW_KMEANS;
         break;
       case eventConstants.HANDLE_MAXIMUM_CLICK:
+        this.setInitialState();
         render_contents = generalConstants.VIEW_MAXIMUM;
         break;
       case eventConstants.HANDLE_CROSS_CORRELATION:
+        this.setInitialState();
         slider_value = 10;
         this.updateCorrelationList(slider_value);
         render_contents = generalConstants.VIEW_CROSS_CORRELATION;
         break;
       case eventConstants.HANDLE_TRACE_FLOW:
-        clicked_point = {
-          x : -1,
-          y : -1
-        };
+        this.setInitialState();
         render_contents = generalConstants.VIEW_TRACE_FLOW;
         break;
       case eventConstants.HANDLE_BEFORE_CLICK:
