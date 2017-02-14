@@ -3,7 +3,6 @@ import React from 'react'
 import ClickedCanvas from './clicked_canvas.jsx'
 import EventCanvas from './event_canvas.jsx'
 import * as drawingTool from '../../utils/drawing-tool'
-import * as pairTimeSeries from '../../utils/pair-time-series'
 
 export default class TraceFlowCanvas extends React.Component{
   constructor(props) {

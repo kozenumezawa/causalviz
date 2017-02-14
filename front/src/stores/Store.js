@@ -58,6 +58,7 @@ class Store extends EventEmitter {
       y : -1
     };
     highlighted_line = -1;
+    traceflow_list = [];
   }
 
   handler(action) {
@@ -136,7 +137,7 @@ class Store extends EventEmitter {
         tiff_index = action.new_index;
         break;
       case eventConstants.HANDLE_CLEAR_SELECTION:
-        highlighted_line = -1;
+        this.setInitialState()
         break;
       case eventConstants.HANDLE_CHECK_CLICK:
         checked_cluster[action.index] = !checked_cluster[action.index];
