@@ -503,11 +503,13 @@ class Store extends EventEmitter {
 
   getIndexMaximizingCorr(index, flow_list) {
     const width = 285;
+    const height = 130;
     const x = all_time_series[index];
+    // const x = cut_time_series[index];
     let corr_list = [];
     let idx_list = [];
 
-    for(let i = -1; i < 2; i++) {
+    for(let i = -1; i < 1; i++) {
       for(let j = -1; j < 2; j++) {
         if(i == 0 && j == 0) {
           continue;
@@ -526,7 +528,11 @@ class Store extends EventEmitter {
     if(corr_list.length === 0) {
       return generalConstants.ERR_REACH_EDGH;
     }
+
     const max_corr = Math.max.apply(null, corr_list);
+    if(max_corr == pairTimeSeries.error) {
+      return generalConstants.ERR_REACH_EDGH;
+    }
     return idx_list[corr_list.indexOf(max_corr)];
   }
 
