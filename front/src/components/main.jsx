@@ -246,6 +246,7 @@ export default class main extends React.Component {
           } else if(this.state.render_contents === generalConstants.VIEW_CROSS_CORRELATION) {
             return(
               <div>
+                <div style={{position: 'absolute', display: 'inline-block', top:350, left: 395}}> 8 </div>
                 <div style={{position: 'absolute', display: 'inline-block', top: top_relation, left: left_ref}}>
                   <Chip backgroundColor={white}>
                     {'Cross Correlation view'}
@@ -316,6 +317,18 @@ export default class main extends React.Component {
                     tiff_list={tiff_list}
                     traceflow_list={this.state.traceflow_list}
                     loupe_point={this.state.loupe_point}
+                  />
+                </div>
+
+
+                <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 400}}>
+                  <GraphContainer
+                    id="time_series_graph_1"
+                    highlighted_line={this.state.highlighted_line}
+                    line_color="green"
+                    tiff_index={this.state.tiff_index}
+                    tiff_list={tiff_list}
+                    time_series={this.state.all_time_series}
                   />
                 </div>
               </div>
