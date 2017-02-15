@@ -262,17 +262,16 @@ export default class main extends React.Component {
 
                 <div style={{position: 'absolute', display: 'inline-block', top: top_control, left: left_ref}}>
                   <Chip backgroundColor={white}>
-                    {'Relation view'}
+                    {'Selected Cluster view'}
                   </Chip>
                 </div>
                 <div style={{position: 'absolute', display: 'inline-block', top: top_control+40, left: left_ref+30}}>
-                  <RelationCanvas
-                    id="relation_view"
+                  <ClusterDetailCanvas
+                    id="correlation_detail_view"
+                    checked_cluster={this.state.checked_cluster}
                     clicked_point={this.state.clicked_point}
+                    cluster_list={this.state.tau_list}
                     loupe_point={this.state.loupe_point}
-                    relation_list={this.state.correlation_list}
-                    tiff_index={this.state.tiff_index}
-                    tiff_list={tiff_list}
                   />
                 </div>
 
