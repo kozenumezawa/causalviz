@@ -504,7 +504,7 @@ class Store extends EventEmitter {
 
   getIndexMaximizingCorr(index, flow_list) {
     const width = 285;
-    const height = 130;
+
     const x = all_time_series[index];
     // const x = cut_time_series[index];
     let corr_list = [];
@@ -522,6 +522,7 @@ class Store extends EventEmitter {
         }
 
         const y = all_time_series[idx];
+        // const y = cut_time_series[idx];
         corr_list.push(pairTimeSeries.getCorrelation(x, y));
         idx_list.push(idx);
       }
