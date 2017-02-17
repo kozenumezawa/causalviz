@@ -1,7 +1,6 @@
 import React from 'react'
 
-import ClickedCanvas from './clicked-canvas.jsx'
-import EventCanvas from './event-canvas.jsx'
+import OverlayCanvas from './overlay-canvas.jsx'
 import * as drawingTool from '../../utils/drawing-tool'
 
 export default class ControlPanel extends React.Component{
@@ -49,13 +48,11 @@ export default class ControlPanel extends React.Component{
     return (
       <div>
         <canvas id={this.props.id} width="285" height="130" style={{left: 0, top: 0, zIndex: 0}}></canvas>
-        <ClickedCanvas
+        <OverlayCanvas
           id={this.props.id}
+          canvas_width={this.props.canvas_width}
+          canvas_height={this.props.canvas_height}
           clicked_point={this.props.clicked_point}
-          loupe_point={this.props.loupe_point}
-        />
-        <EventCanvas
-          id={this.props.id}
           loupe_point={this.props.loupe_point}
         />
       </div>
