@@ -1,8 +1,8 @@
 import React from 'react'
 import * as d3_scale from 'd3-scale'
 
-import ClickedCanvas from './clicked_canvas.jsx'
-import EventCanvas from './event_canvas.jsx'
+import ClickedCanvas from './clicked-canvas.jsx'
+import EventCanvas from './event-canvas.jsx'
 import * as drawingTool from '../../utils/drawing-tool'
 import * as pairTimeSeries from '../../utils/pair-time-series'
 

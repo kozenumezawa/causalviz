@@ -1,7 +1,7 @@
 import React from 'react'
 
-import ClickedCanvas from './clicked_canvas.jsx'
-import EventCanvas from './event_canvas.jsx'
+import ClickedCanvas from './clicked-canvas.jsx'
+import EventCanvas from './event-canvas.jsx'
 import * as drawingTool from '../../utils/drawing-tool'
 
 export default class TraceFlowCanvas extends React.Component{
