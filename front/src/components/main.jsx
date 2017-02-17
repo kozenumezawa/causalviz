@@ -109,50 +109,56 @@ export default class main extends React.Component {
         </div>
 
         {(() => {
-          if(this.state.render_contents === generalConstants.VIEW_DEFAULT) {
-            return (
-              <div>
-                <DefaultView
-                  parent_state = {this.state}
-                  tiff_list = {tiff_list}
-                />
-              </div>
-            );
-          } else if(this.state.render_contents === generalConstants.VIEW_KMEANS){
-            return (
-              <div>
-                <KmeansClusteringView
-                  parent_state = {this.state}
-                  tiff_list = {tiff_list}
-                />
-              </div>
-            );
-          } else if(this.state.render_contents === generalConstants.VIEW_MAXIMUM) {
-            return(
-              <div>
-                <MaximumValueClusteringView
-                  parent_state = {this.state}
-                />
-              </div>
-            );
-          } else if(this.state.render_contents === generalConstants.VIEW_CROSS_CORRELATION) {
-            return(
-              <div>
-                <CrossCorrelationView
-                  parent_state = {this.state}
-                  tiff_list = {tiff_list}
-                />
-              </div>
-            );
-          } else if(this.state.render_contents === generalConstants.VIEW_TRACE_FLOW) {
-            return (
-              <div>
-                <TraceFlowView
-                  parent_state = {this.state}
-                  tiff_list = {tiff_list}
-                />
-              </div>
-            );
+          switch(this.state.render_contents) {
+            case generalConstants.VIEW_DEFAULT:
+              return (
+                <div>
+                  <DefaultView
+                    parent_state = {this.state}
+                    tiff_list = {tiff_list}
+                  />
+                </div>
+              );
+              break;
+            case generalConstants.VIEW_KMEANS:
+              return (
+                <div>
+                  <KmeansClusteringView
+                    parent_state = {this.state}
+                    tiff_list = {tiff_list}
+                  />
+                </div>
+              );
+              break;
+            case generalConstants.VIEW_MAXIMUM:
+              return(
+                <div>
+                  <MaximumValueClusteringView
+                    parent_state = {this.state}
+                  />
+                </div>
+              );
+              break;
+            case generalConstants.VIEW_CROSS_CORRELATION:
+              return(
+                <div>
+                  <CrossCorrelationView
+                    parent_state = {this.state}
+                    tiff_list = {tiff_list}
+                  />
+                </div>
+              );
+              break;
+            case generalConstants.VIEW_TRACE_FLOW:
+              return (
+                <div>
+                  <TraceFlowView
+                    parent_state = {this.state}
+                    tiff_list = {tiff_list}
+                  />
+                </div>
+              );
+              break;
           }
         })()}
 
