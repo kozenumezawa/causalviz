@@ -8,19 +8,14 @@ import generalConstants from '../constants/general-constants'
 import TiffContainer from './tiff-container.jsx'
 import AppBar from './app-bar.jsx'
 import StepButton from './input/step-button.jsx'
-import GraphContainer from './graph/graph-container.jsx'
-import ClusterGraphContainer from './graph/cluster-graph-container.jsx'
 import CommandButton from './input/command-button.jsx'
 import LegendContainer from './legend-container.jsx'
-import ControlPanel from './canvas/control-panel.jsx'
-import RelationCanvas from './canvas/relation-canvas.jsx'
-import ClusterCanvas from './canvas/cluster-canvas.jsx'
-import ClusterSelectedCanvas from './canvas/cluster-selected-canvas.jsx'
-import ClusterButton from './input/cluster-button.jsx'
-import MaximumCanvas from './canvas/maximum-canvas.jsx'
-import MaximumSelector from './input/maximum-selector.jsx'
-import CorrelationCanvas from './canvas/correlation-canvas.jsx'
-import TraceFlowCanvas from './canvas/traceflow-canvas.jsx'
+
+import DefaultView from './mainview/default-view.jsx'
+import KmeansClusteringView from './mainview/kmeans-clustering-view.jsx'
+import MaximumValueClusteringView from './mainview/maximum-value-clustering-view.jsx'
+import CrossCorrelationView from './mainview/cross-correlation-view.jsx'
+import TraceFlowView from './mainview/trace-flow-view.jsx'
 
 function getAllState() {
   return {
@@ -117,238 +112,45 @@ export default class main extends React.Component {
           if(this.state.render_contents === generalConstants.VIEW_DEFAULT) {
             return (
               <div>
-                <div>
-                  <div style={{position: 'absolute', display: 'inline-block', top: top_relation, left: left_ref}}>
-                    <Chip backgroundColor={white}>
-                      {'Relation view'}
-                    </Chip>
-                  </div>
-                  <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
-                    <RelationCanvas
-                      id="relation_view"
-                      canvas_width={this.state.canvas_width}
-                      canvas_height={this.state.canvas_height}
-                      clicked_point={this.state.clicked_point}
-                      loupe_point={this.state.loupe_point}
-                      relation_list={this.state.relation_list}
-                      tiff_index={this.state.tiff_index}
-                      tiff_list={tiff_list}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <div style={{position: 'absolute', display: 'inline-block', top: top_control, left: left_ref}}>
-                    <Chip backgroundColor={white}>
-                      {'Control panel'}
-                    </Chip>
-                  </div>
-
-                  <div style={{position: 'absolute', display: 'inline-block', top: top_control+40, left: left_ref+30}}>
-                    <ControlPanel
-                      id="control_panel"
-                      clicked_point={this.state.clicked_point}
-                      loupe_point={this.state.loupe_point}
-                      tiff_index={this.state.tiff_index}
-                      tiff_list={tiff_list}
-                    />
-                  </div>
-                </div>
-
-                <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 400}}>
-                  <GraphContainer
-                    id="time_series_graph_1"
-                    highlighted_line={this.state.highlighted_line}
-                    line_color="green"
-                    tiff_index={this.state.tiff_index}
-                    tiff_list={tiff_list}
-                    time_series={this.state.all_time_series}
-                  />
-                </div>
+                <DefaultView
+                  parent_state = {this.state}
+                  tiff_list = {tiff_list}
+                />
               </div>
             );
           } else if(this.state.render_contents === generalConstants.VIEW_KMEANS){
             return (
               <div>
-                <div style={{position: 'absolute', display: 'inline-block', top: top_relation, left: left_ref}}>
-                  <Chip backgroundColor={white}>
-                    {'Cluster view'}
-                  </Chip>
-                </div>
-                <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
-                  <ClusterCanvas
-                    id="cluster_view"
-                    canvas_width={this.state.canvas_width}
-                    canvas_height={this.state.canvas_height}
-                    clicked_point={this.state.clicked_point}
-                    cluster_list={this.state.cluster_list}
-                    loupe_point={this.state.loupe_point}
-                  />
-                </div>
-                <div style={{position: 'absolute', display: 'inline-block', top: top_control, left: left_ref}}>
-                  <Chip backgroundColor={white}>
-                    {'Selected Cluster view'}
-                  </Chip>
-                </div>
-                <div style={{position: 'absolute', display: 'inline-block', top: top_control+40, left: left_ref+30}}>
-                  <ClusterSelectedCanvas
-                    id="cluster_detail_view"
-                    canvas_width={this.state.canvas_width}
-                    canvas_height={this.state.canvas_height}
-                    checked_cluster={this.state.checked_cluster}
-                    clicked_point={this.state.clicked_point}
-                    cluster_list={this.state.cluster_list}
-                    loupe_point={this.state.loupe_point}
-                  />
-                </div>
-                <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 400}}>
-                  <ClusterGraphContainer
-                    id="cluster_graph"
-                    all_time_series={this.state.all_time_series}
-                    cluster_time_series={this.state.cluster_time_series}
-                    cluster_list={this.state.cluster_list}
-                    highlighted_line={this.state.highlighted_line}
-                    tiff_index={this.state.tiff_index}
-                    tiff_list={tiff_list}
-                  />
-                </div>
-                <div style={{position: 'absolute', display: 'inline-block', top: top_relation+100, left: 400}}>
-                  <Chip backgroundColor={white}>
-                    {'Cluster list'}
-                  </Chip>
-                  <ClusterButton
-                    id="cluster_button"
-                    checked_cluster={this.state.checked_cluster}
-                    cluster_list={this.state.cluster_list}
-                    slider_value={this.state.slider_value}
-                  />
-                </div>
+                <KmeansClusteringView
+                  parent_state = {this.state}
+                  tiff_list = {tiff_list}
+                />
               </div>
             );
           } else if(this.state.render_contents === generalConstants.VIEW_MAXIMUM) {
             return(
               <div>
-                <div style={{position: 'absolute', display: 'inline-block', top: top_relation, left: left_ref}}>
-                  <Chip backgroundColor={white}>
-                    {'Maximum Value Cluster view'}
-                  </Chip>
-                </div>
-                <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
-                  <MaximumCanvas
-                    id="maximum_view"
-                    canvas_width={this.state.canvas_width}
-                    canvas_height={this.state.canvas_height}
-                    clicked_point={this.state.clicked_point}
-                    loupe_point={this.state.loupe_point}
-                    maximum_list={this.state.maximum_list}
-                  />
-                </div>
-                <div style={{position: 'absolute', display: 'inline-block', top: top_relation+100, left: 400}}>
-                  <Chip backgroundColor={white}>
-                    {'Maximum Selector'}
-                  </Chip>
-                </div>
-                <div style={{position: 'absolute', display: 'inline-block', top: top_relation+150, left: 400}}>
-                  <MaximumSelector
-                    id="maximum_selector"
-                  />
-                </div>
+                <MaximumValueClusteringView
+                  parent_state = {this.state}
+                />
               </div>
             );
           } else if(this.state.render_contents === generalConstants.VIEW_CROSS_CORRELATION) {
             return(
               <div>
-                <div style={{position: 'absolute', display: 'inline-block', top:350, left: 395}}> 8 </div>
-                <div style={{position: 'absolute', display: 'inline-block', top: top_relation, left: left_ref}}>
-                  <Chip backgroundColor={white}>
-                    {'Cross Correlation view'}
-                  </Chip>
-                </div>
-                <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
-                  <CorrelationCanvas
-                    id="cross_correlation_view"
-                    canvas_width={this.state.canvas_width}
-                    canvas_height={this.state.canvas_height}
-                    clicked_point={this.state.clicked_point}
-                    cluster_list={this.state.tau_list}
-                    loupe_point={this.state.loupe_point}
-                  />
-                </div>
-
-                <div style={{position: 'absolute', display: 'inline-block', top: top_control, left: left_ref}}>
-                  <Chip backgroundColor={white}>
-                    {'Selected Cluster view'}
-                  </Chip>
-                </div>
-                <div style={{position: 'absolute', display: 'inline-block', top: top_control+40, left: left_ref+30}}>
-                  <ClusterSelectedCanvas
-                    id="correlation_detail_view"
-                    canvas_width={this.state.canvas_width}
-                    canvas_height={this.state.canvas_height}
-                    checked_cluster={this.state.checked_cluster}
-                    clicked_point={this.state.clicked_point}
-                    cluster_list={this.state.tau_list}
-                    loupe_point={this.state.loupe_point}
-                  />
-                </div>
-
-                <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 400}}>
-                  <ClusterGraphContainer
-                    id="correlation_graph"
-                    all_time_series={Store.getCutTimeSeries()}
-                    cluster_time_series={this.state.corr_time_series}
-                    cluster_list={this.state.tau_list}
-                    highlighted_line={this.state.highlighted_line}
-                    tiff_index={this.state.tiff_index}
-                    tiff_list={tiff_list}
-                  />
-                </div>
-
-                <div style={{position: 'absolute', display: 'inline-block', top: top_relation+100, left: 400}}>
-                  <Chip backgroundColor={white}>
-                    {'Tau list'}
-                  </Chip>
-                  <ClusterButton
-                    id="tau_button"
-                    checked_cluster={this.state.checked_cluster}
-                    cluster_list={this.state.tau_list}
-                    slider_value={this.state.slider_value}
-                  />
-                </div>
+                <CrossCorrelationView
+                  parent_state = {this.state}
+                  tiff_list = {tiff_list}
+                />
               </div>
             );
           } else if(this.state.render_contents === generalConstants.VIEW_TRACE_FLOW) {
             return (
               <div>
-                <div style={{position: 'absolute', display: 'inline-block', top: top_relation, left: left_ref}}>
-                  <Chip backgroundColor={white}>
-                    {'Trace Flow view'}
-                  </Chip>
-                </div>
-                <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
-                  <TraceFlowCanvas
-                    id="traceflow_view"
-                    canvas_width={this.state.canvas_width}
-                    canvas_height={this.state.canvas_height}
-                    clicked_point={this.state.clicked_point}
-                    tiff_index={this.state.tiff_index}
-                    tiff_list={tiff_list}
-                    traceflow_list={this.state.traceflow_list}
-                    loupe_point={this.state.loupe_point}
-                  />
-                </div>
-
-
-                <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 400}}>
-                  <GraphContainer
-                    id="time_series_graph_1"
-                    highlighted_line={this.state.highlighted_line}
-                    line_color="green"
-                    tiff_index={this.state.tiff_index}
-                    tiff_list={tiff_list}
-                    time_series={this.state.all_time_series}
-                  />
-                </div>
+                <TraceFlowView
+                  parent_state = {this.state}
+                  tiff_list = {tiff_list}
+                />
               </div>
             );
           }
