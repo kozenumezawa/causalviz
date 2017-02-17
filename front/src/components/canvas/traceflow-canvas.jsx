@@ -42,14 +42,18 @@ export default class TraceFlowCanvas extends React.Component{
   render() {
     return (
       <div>
-        <canvas id={this.props.id} width="285" height="130" style={{left: 0, top: 0, zIndex: 0}}></canvas>
+        <canvas id={this.props.id} width={this.props.canvas_width} height={this.props.canvas_height} style={{left: 0, top: 0, zIndex: 0}}></canvas>
         <ClickedCanvas
           id={this.props.id}
+          canvas_width={this.props.canvas_width}
+          canvas_height={this.props.canvas_height}
           clicked_point={this.props.clicked_point}
           loupe_point={this.props.loupe_point}
         />
         <EventCanvas
           id={this.props.id}
+          canvas_width={this.props.canvas_width}
+          canvas_height={this.props.canvas_height}
           loupe_point={this.props.loupe_point}
         />
       </div>

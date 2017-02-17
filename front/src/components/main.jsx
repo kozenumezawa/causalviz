@@ -15,7 +15,7 @@ import LegendContainer from './legend-container.jsx'
 import ControlPanel from './canvas/control-panel.jsx'
 import RelationCanvas from './canvas/relation-canvas.jsx'
 import ClusterCanvas from './canvas/cluster-canvas.jsx'
-import ClusterDetailCanvas from './canvas/cluster-selected-canvas.jsx'
+import ClusterSelectedCanvas from './canvas/cluster-selected-canvas.jsx'
 import ClusterButton from './input/cluster-button.jsx'
 import MaximumCanvas from './canvas/maximum-canvas.jsx'
 import MaximumSelector from './input/maximum-selector.jsx'
@@ -24,6 +24,8 @@ import TraceFlowCanvas from './canvas/traceflow-canvas.jsx'
 
 function getAllState() {
   return {
+    canvas_width        : Store.getCanvasWidth(),
+    canvas_height       : Store.getCanvasHeight(),
     all_tiff_list       : Store.getAllTiffList(),
     tiff_index          : Store.getTiffIndex(),
     legend_tiff         : Store.getLegendTiff(),
@@ -101,6 +103,8 @@ export default class main extends React.Component {
           <div style={{position: 'absolute', display: 'inline-block', top: top_response+40, left: left_ref+30}}>
             <TiffContainer
               id="tiff_output_1"
+              canvas_width={this.state.canvas_width}
+              canvas_height={this.state.canvas_height}
               clicked_point={this.state.clicked_point}
               loupe_point={this.state.loupe_point}
               tiff_index={this.state.tiff_index}
@@ -122,6 +126,8 @@ export default class main extends React.Component {
                   <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
                     <RelationCanvas
                       id="relation_view"
+                      canvas_width={this.state.canvas_width}
+                      canvas_height={this.state.canvas_height}
                       clicked_point={this.state.clicked_point}
                       loupe_point={this.state.loupe_point}
                       relation_list={this.state.relation_list}
@@ -172,6 +178,8 @@ export default class main extends React.Component {
                 <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
                   <ClusterCanvas
                     id="cluster_view"
+                    canvas_width={this.state.canvas_width}
+                    canvas_height={this.state.canvas_height}
                     clicked_point={this.state.clicked_point}
                     cluster_list={this.state.cluster_list}
                     loupe_point={this.state.loupe_point}
@@ -183,8 +191,10 @@ export default class main extends React.Component {
                   </Chip>
                 </div>
                 <div style={{position: 'absolute', display: 'inline-block', top: top_control+40, left: left_ref+30}}>
-                  <ClusterDetailCanvas
+                  <ClusterSelectedCanvas
                     id="cluster_detail_view"
+                    canvas_width={this.state.canvas_width}
+                    canvas_height={this.state.canvas_height}
                     checked_cluster={this.state.checked_cluster}
                     clicked_point={this.state.clicked_point}
                     cluster_list={this.state.cluster_list}
@@ -226,6 +236,8 @@ export default class main extends React.Component {
                 <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
                   <MaximumCanvas
                     id="maximum_view"
+                    canvas_width={this.state.canvas_width}
+                    canvas_height={this.state.canvas_height}
                     clicked_point={this.state.clicked_point}
                     loupe_point={this.state.loupe_point}
                     maximum_list={this.state.maximum_list}
@@ -255,6 +267,8 @@ export default class main extends React.Component {
                 <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
                   <CorrelationCanvas
                     id="cross_correlation_view"
+                    canvas_width={this.state.canvas_width}
+                    canvas_height={this.state.canvas_height}
                     clicked_point={this.state.clicked_point}
                     cluster_list={this.state.tau_list}
                     loupe_point={this.state.loupe_point}
@@ -267,8 +281,10 @@ export default class main extends React.Component {
                   </Chip>
                 </div>
                 <div style={{position: 'absolute', display: 'inline-block', top: top_control+40, left: left_ref+30}}>
-                  <ClusterDetailCanvas
+                  <ClusterSelectedCanvas
                     id="correlation_detail_view"
+                    canvas_width={this.state.canvas_width}
+                    canvas_height={this.state.canvas_height}
                     checked_cluster={this.state.checked_cluster}
                     clicked_point={this.state.clicked_point}
                     cluster_list={this.state.tau_list}
@@ -312,6 +328,8 @@ export default class main extends React.Component {
                 <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
                   <TraceFlowCanvas
                     id="traceflow_view"
+                    canvas_width={this.state.canvas_width}
+                    canvas_height={this.state.canvas_height}
                     clicked_point={this.state.clicked_point}
                     tiff_index={this.state.tiff_index}
                     tiff_list={tiff_list}

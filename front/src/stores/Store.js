@@ -6,6 +6,9 @@ import * as pairTimeSeries from '../utils/pair-time-series'
 
 const CHANGE_EVENT = 'change';
 
+let canvas_width = 285;
+let canvas_height = 130;
+
 let all_tiff_list = [];
 let all_time_series = [];
 let cluster_time_series = [];
@@ -102,8 +105,7 @@ class Store extends EventEmitter {
       case eventConstants.HANDLE_CORRELATION_CLICK:
         break;
       case eventConstants.HANDLE_TIFF_CLICK:
-        const width = 285;
-        highlighted_line = Math.floor(action.y) * width + Math.floor(action.x);
+        highlighted_line = Math.floor(action.y) * canvas_width + Math.floor(action.x);
         clicked_point.x = action.x;
         clicked_point.y = action.y;
 
@@ -137,7 +139,7 @@ class Store extends EventEmitter {
         tiff_index = action.new_index;
         break;
       case eventConstants.HANDLE_CLEAR_SELECTION:
-        this.setInitialState()
+        this.setInitialState();
         break;
       case eventConstants.HANDLE_CHECK_CLICK:
         checked_cluster[action.index] = !checked_cluster[action.index];
@@ -156,6 +158,14 @@ class Store extends EventEmitter {
       default:
     }
     this.emitChange();
+  }
+
+  getCanvasWidth() {
+    return canvas_width;
+  }
+
+  getCanvasHeight() {
+    return canvas_height;
   }
 
   getAllTiffList() {
@@ -418,8 +428,7 @@ class Store extends EventEmitter {
       }
 
       // add right hand area data to criteria_time_series
-      const width = 285;
-      if(i % width < 250 || cut_time_series[i].indexOf(0) >= 0)
+      if(i % canvas_width < 250 || cut_time_series[i].indexOf(0) >= 0)
         continue;
 
       sum_count += 1;
@@ -503,8 +512,6 @@ class Store extends EventEmitter {
   }
 
   getIndexMaximizingCorr(index, flow_list) {
-    const width = 285;
-
     const x = all_time_series[index];
     // const x = cut_time_series[index];
     let corr_list = [];
@@ -516,7 +523,7 @@ class Store extends EventEmitter {
           continue;
         }
 
-        const idx = index + i + j * width;
+        const idx = index + i + j * canvas_width;
         if(idx < 0 || idx >= all_time_series.length || flow_list[idx] === true) {
           continue;
         }
