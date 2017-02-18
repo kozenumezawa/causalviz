@@ -69,8 +69,7 @@ export default class CausalVisAppBar extends React.Component {
           >
             <AppBar
               title="CausalVis"
-              iconClassNameRight="muidocs-icon-navigation-expand-more"
-              onClick={this.handleIconClick}
+              onLeftIconButtonTouchTap={this.handleIconClick}
             />
             <MenuItem onTouchTap={this.handleDefaultClick}>default view</MenuItem>
             <MenuItem onTouchTap={this.handleKmeansClick}>k-means clustering</MenuItem>
@@ -84,8 +83,7 @@ export default class CausalVisAppBar extends React.Component {
       return (
         <AppBar
           title="CausalVis"
-          iconClassNameRight="muidocs-icon-navigation-expand-more"
-          onClick={this.handleIconClick}
+          onLeftIconButtonTouchTap={this.handleIconClick}
         />
       );
     }
