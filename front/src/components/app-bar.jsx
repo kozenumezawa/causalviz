@@ -6,6 +6,22 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 
 import Action from '../actions/Actions'
 
+const DropDown = (props) => {
+  return(
+    <div>
+      <DropDownMenu
+        value={props.value}
+        onChange={props.onChange}
+        labelStyle={{color: 'white'}}
+        underlineStyle={{display: 'none'}}
+      >
+        <MenuItem value={1} primaryText="wild-type" />
+        <MenuItem value={2} primaryText="trp-3 mutant" />
+      </DropDownMenu>
+    </div>
+  );
+};
+
 export default class CausalVisAppBar extends React.Component {
   constructor(props) {
     super(props);
@@ -77,15 +93,10 @@ export default class CausalVisAppBar extends React.Component {
           <AppBar
             style={{height: 64}}
             iconElementRight={
-            <DropDownMenu
-              value={this.state.dropdown_value}
-              onChange={this.handleDropChange}
-              labelStyle={{color: 'white'}}
-              underlineStyle={{opacity: 0}}
-            >
-              <MenuItem value={1} primaryText="wild-type" />
-              <MenuItem value={2} primaryText="trp-3 mutant" />
-            </DropDownMenu>
+              <DropDown
+                value={this.state.dropdown_value}
+                onChange={this.handleDropChange}
+              />
             }
           />
           <Drawer
@@ -110,15 +121,10 @@ export default class CausalVisAppBar extends React.Component {
           style={{height: 64}}
           onLeftIconButtonTouchTap={this.handleIconClick}
           iconElementRight={
-            <DropDownMenu
+            <DropDown
               value={this.state.dropdown_value}
               onChange={this.handleDropChange}
-              labelStyle={{color: 'white'}}
-              underlineStyle={{display: 'none'}}
-            >
-              <MenuItem value={1} primaryText="wild-type" />
-              <MenuItem value={2} primaryText="trp-3 mutant" />
-            </DropDownMenu>
+            />
           }
         />
       );
