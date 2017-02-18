@@ -2,15 +2,20 @@ import React from 'react'
 import AppBar from 'material-ui/AppBar'
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
+import DropDownMenu from 'material-ui/DropDownMenu';
 
 import Action from '../actions/Actions'
 
 export default class CausalVisAppBar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {open: false};
+    this.state = {
+      open: false,
+      drop_value: 1
+    };
 
     this.handleIconClick = this.handleIconClick.bind(this);
+    this.handleDropChange = this.handleDropChange.bind(this);
     this.handleDefaultClick = this.handleDefaultClick.bind(this);
     this.handleKmeansClick = this.handleKmeansClick.bind(this);
     this.handleMaximumClick = this.handleMaximumClick.bind(this);
@@ -22,6 +27,10 @@ export default class CausalVisAppBar extends React.Component {
     this.setState({
         open: !this.state.open
     });
+  }
+
+  handleDropChange() {
+    console.log('a');
   }
 
   handleDefaultClick() {
@@ -58,7 +67,7 @@ export default class CausalVisAppBar extends React.Component {
     });
     Action.handleTraceFlow();
   }
-  
+
   renderAppBar() {
     if(this.state.open === true) {
       return(
@@ -84,6 +93,21 @@ export default class CausalVisAppBar extends React.Component {
         <AppBar
           title="CausalVis"
           onLeftIconButtonTouchTap={this.handleIconClick}
+          iconElementRight={
+            <DropDownMenu
+              value={this.state.drop_value}
+              onChange={this.handleDropChange}
+              style={{height: 45}}
+              labelStyle={{color: 'white'}}
+              underlineStyle={{opacity: 1}}
+            >
+              <MenuItem value={1} primaryText="Never" />
+              <MenuItem value={2} primaryText="Every Night" />
+              <MenuItem value={3} primaryText="Weeknights" />
+              <MenuItem value={4} primaryText="Weekends" />
+              <MenuItem value={5} primaryText="Weekly" />
+            </DropDownMenu>
+          }
         />
       );
     }
