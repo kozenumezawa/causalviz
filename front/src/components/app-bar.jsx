@@ -11,7 +11,7 @@ export default class CausalVisAppBar extends React.Component {
     super(props);
     this.state = {
       open: false,
-      drop_value: 1
+      dropdown_value: 1
     };
 
     this.handleIconClick = this.handleIconClick.bind(this);
@@ -29,8 +29,10 @@ export default class CausalVisAppBar extends React.Component {
     });
   }
 
-  handleDropChange() {
-    console.log('a');
+  handleDropChange(event, index, value) {
+    this.setState({
+      dropdown_value: value
+    });
   }
 
   handleDefaultClick() {
@@ -72,7 +74,20 @@ export default class CausalVisAppBar extends React.Component {
     if(this.state.open === true) {
       return(
         <div>
-          <AppBar />
+          <AppBar
+            style={{height: 64}}
+            iconElementRight={
+            <DropDownMenu
+              value={this.state.dropdown_value}
+              onChange={this.handleDropChange}
+              labelStyle={{color: 'white'}}
+              underlineStyle={{opacity: 0}}
+            >
+              <MenuItem value={1} primaryText="wild-type" />
+              <MenuItem value={2} primaryText="trp-3 mutant" />
+            </DropDownMenu>
+            }
+          />
           <Drawer
             width={250}
           >
@@ -92,20 +107,17 @@ export default class CausalVisAppBar extends React.Component {
       return (
         <AppBar
           title="CausalVis"
+          style={{height: 64}}
           onLeftIconButtonTouchTap={this.handleIconClick}
           iconElementRight={
             <DropDownMenu
-              value={this.state.drop_value}
+              value={this.state.dropdown_value}
               onChange={this.handleDropChange}
-              style={{height: 45}}
               labelStyle={{color: 'white'}}
-              underlineStyle={{opacity: 1}}
+              underlineStyle={{display: 'none'}}
             >
-              <MenuItem value={1} primaryText="Never" />
-              <MenuItem value={2} primaryText="Every Night" />
-              <MenuItem value={3} primaryText="Weeknights" />
-              <MenuItem value={4} primaryText="Weekends" />
-              <MenuItem value={5} primaryText="Weekly" />
+              <MenuItem value={1} primaryText="wild-type" />
+              <MenuItem value={2} primaryText="trp-3 mutant" />
             </DropDownMenu>
           }
         />
