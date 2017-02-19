@@ -1,9 +1,9 @@
-import React from 'react'
-import FlatButton from 'material-ui/FlatButton'
-import Chip from 'material-ui/Chip'
-import {white} from 'material-ui/styles/colors'
+import React from 'react';
+import FlatButton from 'material-ui/FlatButton';
+import Chip from 'material-ui/Chip';
+import {white} from 'material-ui/styles/colors';
 
-import Actions from '../../actions/Actions'
+import Actions from '../../actions/Actions';
 
 const styles = {
   chip: {

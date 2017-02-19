@@ -1,4 +1,4 @@
-import keyMirror from 'keymirror'
+import keyMirror from 'keymirror';
 
 const generalConstant = keyMirror({
   DATA_WILD_TYPE           : null,
@@ -11,4 +11,4 @@ const generalConstant = keyMirror({
   ERR_REACH_EDGH           : null
 });
 
-export default generalConstant
+export default generalConstant;

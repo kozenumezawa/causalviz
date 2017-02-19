@@ -1,7 +1,7 @@
-import React from 'react'
-import * as d3_scale from 'd3-scale'
+import React from 'react';
+import * as d3_scale from 'd3-scale';
 
-import * as drawingTool from '../../utils/drawing-tool'
+import * as drawingTool from '../../utils/drawing-tool';
 
 const color_map = d3_scale.schemeCategory20;
 

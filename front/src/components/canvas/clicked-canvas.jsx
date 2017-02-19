@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 
-import * as drawingTool from '../../utils/drawing-tool'
+import * as drawingTool from '../../utils/drawing-tool';
 
 export default class ClickedCanvas extends React.Component {
   constructor(props) {

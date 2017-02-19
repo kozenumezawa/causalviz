@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
-import Actions from '../../actions/Actions'
-import ClusterSlider from './cluster-slider.jsx'
-import * as drawingTool from '../../utils/drawing-tool'
+import Actions from '../../actions/Actions';
+import ClusterSlider from './cluster-slider.jsx';
+import * as drawingTool from '../../utils/drawing-tool';
 
 export default class clusterButton extends React.Component {
   constructor(props) {

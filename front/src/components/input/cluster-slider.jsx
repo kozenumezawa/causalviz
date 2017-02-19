@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 import Slider from 'material-ui/Slider';
 
-import Actions from '../../actions/Actions'
+import Actions from '../../actions/Actions';
 
 export default class clusterSlider extends React.Component {
   constructor(props) {

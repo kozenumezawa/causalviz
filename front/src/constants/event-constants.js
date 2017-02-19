@@ -1,4 +1,4 @@
-import keyMirror from 'keymirror'
+import keyMirror from 'keymirror';
 
 const eventConstant = keyMirror({
   HANDLE_DROP_CHANGE       : null,
@@ -20,4 +20,4 @@ const eventConstant = keyMirror({
   HANDLE_LINEHEIGHTS_CHANGE: null
 });
 
-export default eventConstant
+export default eventConstant;

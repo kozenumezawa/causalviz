@@ -1,5 +1,5 @@
-import Dispatcher from '../dispatcher/Dispatcher'
-import eventConstants from '../constants/event-constants'
+import Dispatcher from '../dispatcher/Dispatcher';
+import eventConstants from '../constants/event-constants';
 
 export default {
   handleDropChange: (data_type) => {
@@ -89,27 +89,27 @@ export default {
   handleClearSelection: () => {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_CLEAR_SELECTION
-    })
+    });
   },
 
   handleCheckClick: (index) => {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_CHECK_CLICK,
       index: index
-    })
+    });
   },
 
   handleClusterChange: (n_clusters) => {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_CLUSTER_CHANGE,
       n_clusters: n_clusters
-    })
+    });
   },
 
   handleLineHeightsChange: (line_heights) => {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_LINEHEIGHTS_CHANGE,
       line_heights: line_heights
-    })
+    });
   }
 }

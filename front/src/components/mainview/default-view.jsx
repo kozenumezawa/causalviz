@@ -1,10 +1,10 @@
-import React from 'react'
-import Chip from 'material-ui/Chip'
-import {white} from 'material-ui/styles/colors'
+import React from 'react';
+import Chip from 'material-ui/Chip';
+import {white} from 'material-ui/styles/colors';
 
-import RelationCanvas from '../canvas/relation-canvas.jsx'
-import ControlPanel from '../canvas/control-panel.jsx'
-import GraphContainer from '../graph/graph-container.jsx'
+import RelationCanvas from '../canvas/relation-canvas.jsx';
+import ControlPanel from '../canvas/control-panel.jsx';
+import GraphContainer from '../graph/graph-container.jsx';
 
 export default class DefaultView extends React.Component {
   constructor(props) {

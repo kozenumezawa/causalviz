@@ -1,21 +1,21 @@
-import React from 'react'
-import Chip from 'material-ui/Chip'
-import {white} from 'material-ui/styles/colors'
+import React from 'react';
+import Chip from 'material-ui/Chip';
+import {white} from 'material-ui/styles/colors';
 
-import Store from '../stores/Store'
-import generalConstants from '../constants/general-constants'
+import Store from '../stores/Store';
+import generalConstants from '../constants/general-constants';
 
-import TiffContainer from './tiff-container.jsx'
-import AppBar from './app-bar.jsx'
-import StepButton from './input/step-button.jsx'
-import CommandButton from './input/command-button.jsx'
-import LegendContainer from './legend-container.jsx'
+import TiffContainer from './tiff-container.jsx';
+import AppBar from './app-bar.jsx';
+import StepButton from './input/step-button.jsx';
+import CommandButton from './input/command-button.jsx';
+import LegendContainer from './legend-container.jsx';
 
-import DefaultView from './mainview/default-view.jsx'
-import KmeansClusteringView from './mainview/kmeans-clustering-view.jsx'
-import MaximumValueClusteringView from './mainview/maximum-value-clustering-view.jsx'
-import CrossCorrelationView from './mainview/cross-correlation-view.jsx'
-import TraceFlowView from './mainview/trace-flow-view.jsx'
+import DefaultView from './mainview/default-view.jsx';
+import KmeansClusteringView from './mainview/kmeans-clustering-view.jsx';
+import MaximumValueClusteringView from './mainview/maximum-value-clustering-view.jsx';
+import CrossCorrelationView from './mainview/cross-correlation-view.jsx';
+import TraceFlowView from './mainview/trace-flow-view.jsx';
 
 function getAllState() {
   return {

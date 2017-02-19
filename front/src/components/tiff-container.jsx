@@ -1,10 +1,10 @@
-import React from 'react'
-import FlatButton from 'material-ui/FlatButton'
+import React from 'react';
+import FlatButton from 'material-ui/FlatButton';
 
-import ClickedCanvas from './canvas/clicked-canvas.jsx'
-import EventCanvas from './canvas/event-canvas.jsx'
-import * as drawingTool from '../utils/drawing-tool'
-import Actions from '../actions/Actions'
+import ClickedCanvas from './canvas/clicked-canvas.jsx';
+import EventCanvas from './canvas/event-canvas.jsx';
+import * as drawingTool from '../utils/drawing-tool';
+import Actions from '../actions/Actions';
 
 export default class TiffContainer extends React.Component{
   constructor(props) {

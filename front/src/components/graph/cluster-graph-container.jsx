@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
-import HighlightCanvas from './highlight-canvas.jsx'
-import IndicatorCanvas from './indicator-canvas.jsx'
-import * as drawingTool from '../../utils/drawing-tool'
+import HighlightCanvas from './highlight-canvas.jsx';
+import IndicatorCanvas from './indicator-canvas.jsx';
+import * as drawingTool from '../../utils/drawing-tool';
 
 export default class clusterGraphContainer extends React.Component {
   constructor(props) {

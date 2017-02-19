@@ -1,3 +1,3 @@
-import Flux from 'flux'
+import Flux from 'flux';
 
 module.exports = new Flux.Dispatcher();

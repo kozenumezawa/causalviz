@@ -1,9 +1,9 @@
-import React from 'react'
-import * as d3_scale from 'd3-scale'
+import React from 'react';
+import * as d3_scale from 'd3-scale';
 
-import OverlayCanvas from './overlay-canvas.jsx'
-import * as drawingTool from '../../utils/drawing-tool'
-import * as pairTimeSeries from '../../utils/pair-time-series'
+import OverlayCanvas from './overlay-canvas.jsx';
+import * as drawingTool from '../../utils/drawing-tool';
+import * as pairTimeSeries from '../../utils/pair-time-series';
 
 export default class CorrelationCanvas extends React.Component{
   constructor(props) {

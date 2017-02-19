@@ -1,9 +1,9 @@
-import React from 'react'
-import Chip from 'material-ui/Chip'
-import {white} from 'material-ui/styles/colors'
+import React from 'react';
+import Chip from 'material-ui/Chip';
+import {white} from 'material-ui/styles/colors';
 
-import MaximumCanvas from '../canvas/maximum-canvas.jsx'
-import MaximumSelector from '../input/maximum-selector.jsx'
+import MaximumCanvas from '../canvas/maximum-canvas.jsx';
+import MaximumSelector from '../input/maximum-selector.jsx';
 
 export default class MaximumValueClusteringView extends React.Component {
   constructor(props) {

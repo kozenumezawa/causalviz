@@ -1,12 +1,12 @@
-import React from 'react'
-import Chip from 'material-ui/Chip'
-import {white} from 'material-ui/styles/colors'
+import React from 'react';
+import Chip from 'material-ui/Chip';
+import {white} from 'material-ui/styles/colors';
 
-import Store from '../../stores/Store'
-import CorrelationCanvas from '../canvas/correlation-canvas.jsx'
-import ClusterSelectedCanvas from '../canvas/cluster-selected-canvas.jsx'
-import ClusterGraphContainer from '../graph/cluster-graph-container.jsx'
-import ClusterButton from '../input/cluster-button.jsx'
+import Store from '../../stores/Store';
+import CorrelationCanvas from '../canvas/correlation-canvas.jsx';
+import ClusterSelectedCanvas from '../canvas/cluster-selected-canvas.jsx';
+import ClusterGraphContainer from '../graph/cluster-graph-container.jsx';
+import ClusterButton from '../input/cluster-button.jsx';
 
 export default class CrossCorrelationView extends React.Component {
   constructor(props) {

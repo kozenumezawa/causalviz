@@ -1,12 +1,11 @@
-import React from 'react'
-import AppBar from 'material-ui/AppBar'
+import React from 'react';
+import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
-import MenuItem from 'material-ui/MenuItem';
+import MenuItem from 'material-ui/MenuItem';;
 import DropDownMenu from 'material-ui/DropDownMenu';
 
-import Action from '../actions/Actions'
-import generalConstants from '../constants/general-constants'
-import eventConstants from '../constants/event-constants'
+import Action from '../actions/Actions';
+import generalConstants from '../constants/general-constants';
 
 const DropDown = (props) => {
   return(

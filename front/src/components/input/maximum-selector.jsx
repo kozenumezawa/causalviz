@@ -1,7 +1,7 @@
-import React from 'react'
-import * as d3_scale from 'd3-scale'
+import React from 'react';
+import * as d3_scale from 'd3-scale';
 
-import Actions from '../../actions/Actions'
+import Actions from '../../actions/Actions';
 
 const color_map = d3_scale.schemeCategory20;
 let line_heights = [];

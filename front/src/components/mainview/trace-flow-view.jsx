@@ -1,9 +1,9 @@
-import React from 'react'
-import Chip from 'material-ui/Chip'
-import {white} from 'material-ui/styles/colors'
+import React from 'react';
+import Chip from 'material-ui/Chip';
+import {white} from 'material-ui/styles/colors';
 
-import TraceFlowCanvas from '../canvas/traceflow-canvas.jsx'
-import GraphContainer from '../graph/graph-container.jsx'
+import TraceFlowCanvas from '../canvas/traceflow-canvas.jsx';
+import GraphContainer from '../graph/graph-container.jsx';
 
 export default class TraceFlowView extends React.Component {
   constructor(props) {

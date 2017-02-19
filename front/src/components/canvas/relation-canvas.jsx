@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import OverlayCanvas from './overlay-canvas.jsx'
-import * as drawingTool from '../../utils/drawing-tool'
+import OverlayCanvas from './overlay-canvas.jsx';
+import * as drawingTool from '../../utils/drawing-tool';
 
 export default class RelationCanvas extends React.Component{
   constructor(props) {

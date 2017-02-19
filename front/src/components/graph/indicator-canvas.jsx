@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 
-import Action from '../../actions/Actions'
+import Action from '../../actions/Actions';
 
 export default class indicatorCanvas extends React.Component {
   constructor(props) {

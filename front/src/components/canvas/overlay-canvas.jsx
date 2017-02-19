@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import ClickedCanvas from './clicked-canvas.jsx'
-import EventCanvas from './event-canvas.jsx'
+import ClickedCanvas from './clicked-canvas.jsx';
+import EventCanvas from './event-canvas.jsx';
 
 export default class OverlayCanvas extends React.Component {
   constructor(props) {

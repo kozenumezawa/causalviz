@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 
-import Action from '../../actions/Actions'
+import Action from '../../actions/Actions';
 
 export default class EventCanvas extends React.Component{
   constructor(props) {
