@@ -89,7 +89,7 @@ export default class CausalVisAppBar extends React.Component {
   }
 
   renderAppBar() {
-    if(this.state.open === true) {
+    if (this.state.open === true) {
       return(
         <div>
           <AppBar

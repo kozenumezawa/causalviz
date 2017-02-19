@@ -18,7 +18,7 @@ export default class EventCanvas extends React.Component{
 
   componentWillReceiveProps(nextProps) {
     const loupe_point = nextProps.loupe_point;
-    if(loupe_point.on == true && loupe_point.x != -1) {
+    if (loupe_point.on == true && loupe_point.x != -1) {
       // draw a loupe
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.ctx.strokeStyle = 'white';
@@ -37,7 +37,7 @@ export default class EventCanvas extends React.Component{
   }
 
   mouseMove(e) {
-    if(this.props.loupe_point.on == true) {
+    if (this.props.loupe_point.on == true) {
       const rect = e.target.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;

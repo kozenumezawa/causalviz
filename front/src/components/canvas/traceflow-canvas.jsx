@@ -20,14 +20,14 @@ export default class TraceFlowCanvas extends React.Component{
   }
 
   renderData(tiff_list, tiff_index, traceflow_list, loupe_point) {
-    if(tiff_list.length === 0) {
+    if (tiff_list.length === 0) {
       return null
     }
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     const canvas = tiff_list[tiff_index];
     this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.canvas.width, this.canvas.height);
 
-    if(traceflow_list.length != 0) {
+    if (traceflow_list.length != 0) {
       this.ctx.fillStyle='red';
       traceflow_list.forEach((trace_flag, idx) => {
         if (trace_flag === true) {

@@ -20,7 +20,7 @@ export default class ClickedCanvas extends React.Component {
 
   renderData(props) {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    if(props.clicked_point.x !== -1) {
+    if (props.clicked_point.x !== -1) {
       // draw a point
       this.ctx.fillStyle='red';
       this.ctx.fillRect(props.clicked_point.x, props.clicked_point.y, 3, 3);

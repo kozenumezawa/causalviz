@@ -22,7 +22,7 @@ export default class indicatorCanvas extends React.Component {
       x: 0,
       y: 0
     };
-    if(this.props.tiff_index !== 0) {
+    if (this.props.tiff_index !== 0) {
       pos1.x = this.canvas.width / this.props.tiff_list.length * this.props.tiff_index;
     }
     this.drawVerticalLine(pos1.x, pos1.y, pos1.x, this.canvas.height);

@@ -20,7 +20,7 @@ export default class ClusterCanvas extends React.Component{
   }
 
   renderData(cluster_list, loupe_point) {
-    if(cluster_list.length == 0) {
+    if (cluster_list.length == 0) {
       return;
     }
 

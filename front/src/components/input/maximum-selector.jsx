@@ -55,7 +55,7 @@ export default class maximumSelector extends React.Component {
   }
 
   mouseMove(e) {
-    if(this.mouse_down === false) {
+    if (this.mouse_down === false) {
       return;
     }
     this.updateLineHeightsByMouse(e);
@@ -67,7 +67,7 @@ export default class maximumSelector extends React.Component {
   }
 
   mouseOut(e) {
-    if(this.mouse_down === true) {
+    if (this.mouse_down === true) {
       this.mouse_down = false;
     }
   }
@@ -87,13 +87,13 @@ export default class maximumSelector extends React.Component {
 
     line_heights.forEach((height, idx) => {
       const distance = Math.abs(y - height);
-      if(distance < minimum_distance) {
+      if (distance < minimum_distance) {
         minimum_distance = distance;
         nearest_index = idx;
       }
     });
 
-    if(nearest_index === 0) {
+    if (nearest_index === 0) {
       nearest_index += 1;
     }
     return nearest_index;

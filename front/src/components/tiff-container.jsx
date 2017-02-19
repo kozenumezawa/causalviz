@@ -17,7 +17,7 @@ export default class TiffContainer extends React.Component{
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.tiff_list.length === 0) {
+    if (nextProps.tiff_list.length === 0) {
       return null
     }
 

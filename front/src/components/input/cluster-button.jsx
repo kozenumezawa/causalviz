@@ -26,7 +26,7 @@ export default class clusterButton extends React.Component {
   }
 
   renderClusterLegend(cluster_list) {
-    if(cluster_list.length === 0) {
+    if (cluster_list.length === 0) {
       return;
     }
 
@@ -37,12 +37,12 @@ export default class clusterButton extends React.Component {
     for(let i = 0; i < N_canvas; i++) {
       const id_canvas = this.props.id + i;
       const canvas = document.getElementById(id_canvas);
-      if(canvas === null) {
+      if (canvas === null) {
         return;
       }
       const ctx = canvas.getContext('2d');
 
-      if(i < N_clusters) {
+      if (i < N_clusters) {
         ctx.fillStyle = color_map[i];
         document.checkbox[i].style.visibility = "visible"
       } else {

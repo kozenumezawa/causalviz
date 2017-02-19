@@ -21,7 +21,7 @@ export default class ControlPanel extends React.Component{
   }
 
   renderData(tiff_list, tiff_index) {
-    if(tiff_list.length === 0) {
+    if (tiff_list.length === 0) {
       return null
     }
     const canvas = tiff_list[tiff_index];
@@ -34,7 +34,7 @@ export default class ControlPanel extends React.Component{
       const r = tiff_rgba[i * 4 + 0];
       const g = tiff_rgba[i * 4 + 1];
       const b = tiff_rgba[i * 4 + 2];
-      if(r == 0 && g == 0 && b == 0) {
+      if (r == 0 && g == 0 && b == 0) {
         this.ctx.fillStyle='black';
       } else {
         this.ctx.fillStyle='white';

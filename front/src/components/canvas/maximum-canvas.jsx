@@ -22,7 +22,7 @@ export default class MaximumCanvas extends React.Component{
   }
 
   renderData(maximum_list, loupe_point) {
-    if(maximum_list.length == 0) {
+    if (maximum_list.length == 0) {
       return;
     }
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);

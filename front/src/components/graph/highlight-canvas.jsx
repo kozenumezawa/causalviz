@@ -19,7 +19,7 @@ export default class highlightCanvas extends React.Component {
   }
 
   renderData(time_series) {
-    if(time_series === undefined) {
+    if (time_series === undefined) {
       return;
     }
 

@@ -17,16 +17,16 @@ export default class graphContainer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.already_drawn === true) {
+    if (this.already_drawn === true) {
       return;
     }
-    if(this.props.time_series.toString() !== nextProps.time_series.toString()) {
+    if (this.props.time_series.toString() !== nextProps.time_series.toString()) {
       this.renderData(nextProps.time_series);
     }
   }
 
   renderData(time_series) {
-    if(time_series.length === 0) {
+    if (time_series.length === 0) {
       return;
     }
 

@@ -16,17 +16,17 @@ export default class clusterGraphContainer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.highlighted_line !== nextProps.highlighted_line) {
+    if (this.props.highlighted_line !== nextProps.highlighted_line) {
       this.renderData(nextProps.cluster_time_series, nextProps.cluster_list, nextProps.highlighted_line);
     }
 
-    if(this.props.cluster_time_series.toString() !== nextProps.cluster_time_series.toString()) {
+    if (this.props.cluster_time_series.toString() !== nextProps.cluster_time_series.toString()) {
       this.renderData(nextProps.cluster_time_series, nextProps.cluster_list, nextProps.highlighted_line);
     }
   }
 
   renderData(time_series, cluster_list, highlighted_line) {
-    if(time_series.length === 0) {
+    if (time_series.length === 0) {
       return;
     }
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -34,14 +34,14 @@ export default class clusterGraphContainer extends React.Component {
     const n_clusters= Math.max.apply(null, cluster_list) + 1;
     const color_map = drawingTool.getColorCategory(n_clusters);
     
-    if(highlighted_line !== -1) {
+    if (highlighted_line !== -1) {
       let line_opts = {
         color: 'gray',
         width: 0.1
       };
       const selected_cluster = cluster_list[highlighted_line];
       this.props.all_time_series.forEach((element, idx) => {
-        if(cluster_list[idx] === selected_cluster) {
+        if (cluster_list[idx] === selected_cluster) {
           drawingTool.lineGraph(this.canvas, element, line_opts);
         }
       });

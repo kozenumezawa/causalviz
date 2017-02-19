@@ -16,7 +16,7 @@ export default class RelationCanvas extends React.Component{
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.relation_list.toString() !== nextProps.relation_list.toString()
+    if (this.props.relation_list.toString() !== nextProps.relation_list.toString()
         || nextProps.loupe_point.on === true
     ) {
       this.renderData(nextProps.relation_list);
@@ -30,7 +30,7 @@ export default class RelationCanvas extends React.Component{
   }
 
   renderData(relation_list) {
-    if(relation_list.length == 0) {
+    if (relation_list.length == 0) {
       return;
     }
 

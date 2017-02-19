@@ -29,7 +29,7 @@ export function lineGraph(canvas_obj, time_series_data, line_opts) {
 
 export function drawLoupeArea(canvas, ctx, loupe_point) {
   // magnify the area which is surrounded by a loupe
-  if(loupe_point.on == true && loupe_point.x != -1) {
+  if (loupe_point.on === true && loupe_point.x !== -1) {
     const magnify_length = loupe_point.side * 2;
     const magnify_x = loupe_point.x - loupe_point.side;
     const magnify_y = loupe_point.y - loupe_point.side;
@@ -57,15 +57,15 @@ export function drawLoupeArea(canvas, ctx, loupe_point) {
 export function hslToRgb(h, s, l) {
   let r, g, b;
 
-  if(s == 0){
+  if (s === 0){
     r = g = b = l; // achromatic
-  }else{
+  } else {
     const hue2rgb = function hue2rgb(p, q, t){
-      if(t < 0) t += 1;
-      if(t > 1) t -= 1;
-      if(t < 1/6) return p + (q - p) * 6 * t;
-      if(t < 1/2) return q;
-      if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+      if (t < 0) t += 1;
+      if (t > 1) t -= 1;
+      if (t < 1/6) return p + (q - p) * 6 * t;
+      if (t < 1/2) return q;
+      if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
       return p;
     };
 
@@ -83,7 +83,7 @@ export function getColorCategory(n) {
   const saturation = 0.8;
 
   let color_category = [];
-  for(let i = 0; i < n; i++) {
+  for (let i = 0; i < n; i++) {
     const hue = 1 / (n - 1) * i;
     const rgb = hslToRgb(2 / 3 * (1 - hue), saturation, lightness);
 

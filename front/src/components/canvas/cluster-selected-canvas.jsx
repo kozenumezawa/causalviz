@@ -20,7 +20,7 @@ export default class ClusterDetailCanvas extends React.Component{
   }
 
   renderData(cluster_list, loupe_point, checked_cluster) {
-    if(cluster_list.length == 0) {
+    if (cluster_list.length == 0) {
       return;
     }
 
@@ -31,10 +31,10 @@ export default class ClusterDetailCanvas extends React.Component{
     drawingTool.drawFrame(this.canvas, this.ctx);
     for(let i = 0; i < cluster_list.length; i++) {
       for(let cluster_number = 0; cluster_number < checked_cluster.length; cluster_number++) {
-        if(checked_cluster[cluster_number] === false){
+        if (checked_cluster[cluster_number] === false){
           continue;
         }
-        if(cluster_list[i] === cluster_number) {
+        if (cluster_list[i] === cluster_number) {
           this.ctx.fillStyle = color_map[cluster_list[i]];
           this.ctx.fillRect(i % this.canvas.width, i / this.canvas.width, 1, 1);
           break;
