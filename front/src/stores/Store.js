@@ -70,7 +70,6 @@ class Store extends EventEmitter {
     switch(action.actionType) {
       case eventConstants.HANDLE_DROP_CHANGE:
         data_type = action.data_type;
-        console.log(data_type);
         break;
       case eventConstants.HANDLE_DEFAULT_CLICK:
         this.setInitialState();
