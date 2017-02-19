@@ -16,7 +16,8 @@
     "arrow-parens": ["error", "always"],
     "block-spacing": "error",
     "eqeqeq": "error",
-    "keyword-spacing": "error"
+    "keyword-spacing": "error",
+    "no-var": "error"
   },
   "parserOptions": {
     "sourceType": "module"
