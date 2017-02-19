@@ -21,6 +21,8 @@ function getAllState() {
   return {
     canvas_width        : Store.getCanvasWidth(),
     canvas_height       : Store.getCanvasHeight(),
+    data_type           : Store.getDataType(),
+    render_contents     : Store.getRenderContents(),
     all_tiff_list       : Store.getAllTiffList(),
     tiff_index          : Store.getTiffIndex(),
     legend_tiff         : Store.getLegendTiff(),
@@ -32,7 +34,6 @@ function getAllState() {
     clicked_point       : Store.getClickedPoint(),
     loupe_point         : Store.getLoupePoint(),
     cluster_list        : Store.getClusterList(),
-    render_contents     : Store.getRenderContents(),
     checked_cluster     : Store.getCheckedCluster(),
     slider_value        : Store.getSliderValue(),
     maximum_list        : Store.getMaximumList(),
@@ -70,7 +71,9 @@ export default class main extends React.Component {
 
     return (
       <div>
-        <AppBar />
+        <AppBar
+          data_type={this.state.data_type}
+        />
         <br />
 
         <div>

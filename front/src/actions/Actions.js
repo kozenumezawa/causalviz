@@ -2,6 +2,13 @@ import Dispatcher from '../dispatcher/Dispatcher'
 import eventConstants from '../constants/event-constants'
 
 export default {
+  handleDropChange: (data_type) => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_DROP_CHANGE,
+      data_type: data_type
+    });
+  },
+  
   handleDefaultClick: () => {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_DEFAULT_CLICK

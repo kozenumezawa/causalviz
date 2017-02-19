@@ -5,6 +5,8 @@ import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
 
 import Action from '../actions/Actions'
+import generalConstants from '../constants/general-constants'
+import eventConstants from '../constants/event-constants'
 
 const DropDown = (props) => {
   return(
@@ -15,8 +17,8 @@ const DropDown = (props) => {
         labelStyle={{color: 'white'}}
         underlineStyle={{display: 'none'}}
       >
-        <MenuItem value={1} primaryText="wild-type" />
-        <MenuItem value={2} primaryText="trp-3 mutant" />
+        <MenuItem value={generalConstants.DATA_WILD_TYPE} primaryText="wild-type" />
+        <MenuItem value={generalConstants.DATA_TRP_TYPE} primaryText="trp-3 mutant" />
       </DropDownMenu>
     </div>
   );
@@ -27,7 +29,7 @@ export default class CausalVisAppBar extends React.Component {
     super(props);
     this.state = {
       open: false,
-      dropdown_value: 1
+      dropdown_value: props.data_type
     };
 
     this.handleIconClick = this.handleIconClick.bind(this);
@@ -49,6 +51,7 @@ export default class CausalVisAppBar extends React.Component {
     this.setState({
       dropdown_value: value
     });
+    Action.handleDropChange(value);
   }
 
   handleDefaultClick() {

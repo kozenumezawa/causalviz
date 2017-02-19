@@ -9,6 +9,9 @@ const CHANGE_EVENT = 'change';
 let canvas_width = 285;
 let canvas_height = 130;
 
+let data_type = generalConstants.DATA_WILD_TYPE;
+let render_contents = generalConstants.VIEW_CROSS_CORRELATION;
+
 let all_tiff_list = [];
 let all_time_series = [];
 let cluster_time_series = [];
@@ -28,7 +31,6 @@ let loupe_point = {
   side : 40
 };
 let cluster_list = [];
-let render_contents = generalConstants.VIEW_CROSS_CORRELATION;
 let checked_cluster = [];
 let slider_value = 10;
 let tau_list = [];
@@ -66,6 +68,10 @@ class Store extends EventEmitter {
 
   handler(action) {
     switch(action.actionType) {
+      case eventConstants.HANDLE_DROP_CHANGE:
+        data_type = action.data_type;
+        console.log(data_type);
+        break;
       case eventConstants.HANDLE_DEFAULT_CLICK:
         this.setInitialState();
         render_contents = generalConstants.VIEW_DEFAULT;
@@ -158,6 +164,10 @@ class Store extends EventEmitter {
       default:
     }
     this.emitChange();
+  }
+
+  getDataType() {
+    return data_type;
   }
 
   getCanvasWidth() {

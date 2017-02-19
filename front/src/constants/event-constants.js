@@ -1,6 +1,7 @@
 import keyMirror from 'keymirror'
 
 const eventConstant = keyMirror({
+  HANDLE_DROP_CHANGE       : null,
   HANDLE_DEFAULT_CLICK     : null,
   HANDLE_KMEANS_CLICK      : null,
   HANDLE_MAXIMUM_CLICK     : null,
