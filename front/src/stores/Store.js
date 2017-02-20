@@ -46,7 +46,8 @@ class Store extends EventEmitter {
   constructor() {
     super();
     this.setWidthAndHeight(data_type);
-    this.getTiffData('front/dist/GFBratio-mask-64-255.tif', 'front/dist/2E2_GFB.tif');
+    this.setTiffData();
+
     Dispatcher.register(this.handler.bind(this));
   }
 
@@ -74,7 +75,7 @@ class Store extends EventEmitter {
         canvas_height = 130;
         break;
       case generalConstants.DATA_TRP_TYPE:
-        canvas_height = 128;
+        canvas_width = 128;
         canvas_height = 96;
         break;
       default:
@@ -85,6 +86,9 @@ class Store extends EventEmitter {
   handler(action) {
     switch (action.actionType) {
       case eventConstants.HANDLE_DROP_CHANGE:
+        if (action.data_type === data_type) {
+          break;
+        }
         data_type = action.data_type;
         this.setWidthAndHeight(data_type);
         break;
@@ -282,7 +286,18 @@ class Store extends EventEmitter {
     return cut_tiff_list;
   }
 
-  getTiffData(tiff_name, legend_name) {
+  setTiffData() {
+    let tiff_name, legend_name;
+    switch(data_type) {
+      case generalConstants.DATA_WILD_TYPE:
+        tiff_name = 'front/dist/GFBratio-mask-64-255.tif';
+        legend_name ='front/dist/2E2_GFB.tif';
+        break;
+      case generalConstants.DATA_TRP_TYPE:
+        break;
+      default:
+        break;
+    }
     window.fetch(tiff_name)
       .then((response) => {
         response.arrayBuffer().then((buffer) => {
