@@ -322,7 +322,7 @@ class Store extends EventEmitter {
                   const canvas = tiff.toCanvas();
                   legend_tiff = canvas;
                 }
-                all_time_series = this.createAllTimeSeriesFromTiff();
+                all_time_series = this.createAllTimeSeriesFromTiff(legend_tiff);
                 this.emitChange();
 
                 this.updateClusterList(6);
@@ -341,62 +341,40 @@ class Store extends EventEmitter {
       });
   }
 
-  createTimeSeriesFromTiff(tiff_list) {
-    let time_series_inverse = [];
-    tiff_list.forEach((element, idx) => {
-      const canvas = element;
-      const context = canvas.getContext('2d');
-      const image_data = context.getImageData(0, 0, canvas.width, canvas.height);
-      const image_rgba = image_data.data; // image_rgba = [R, G, B, A, R, G, B, A, ...] (hex data)
-
-      let one_time_series = [];
-      for (let i = 1; i < image_rgba.length; i += 4) {
-        one_time_series.push(50);
-      }
-      time_series_inverse.push(one_time_series);  // console.log(green_time_series_inverse) -> [time][points]
-    });
-
-    // transpose time series data
-    let time_series = [];
-    for (let i = 0; i < time_series_inverse[0].length; i++) {
-      time_series[i] = [];
-      for (let j = 0; j < time_series_inverse.length; j++) {
-        time_series[i][j] = time_series_inverse[j][i];
-      }
-    }
-    return time_series;
-  }
-
-  createAllTimeSeriesFromTiff() {
-    const legend_canvas = legend_tiff;
+  createTimeSeriesInverse(tiff_canvas, legend_canvas) {
     const legend_ctx = legend_canvas.getContext('2d');
     const legend_image = legend_ctx.getImageData(0, 0, legend_canvas.width, legend_canvas.height);
     const legend_rgba = legend_image.data; // image_rgba = [R, G, B, A, R, G, B, A, ...] (hex data)
     const color_map = legend_rgba.slice(0, legend_rgba.length / legend_canvas.height);
 
+    let time_series_inverse = [];
+    const tiff_ctx = tiff_canvas.getContext('2d');
+    const tiff_image = tiff_ctx.getImageData(0, 0, tiff_canvas.width, tiff_canvas.height);
+    const tiff_rgba = tiff_image.data; // image_rgba = [R, G, B, A, R, G, B, A, ...] (hex data)
+
+    // get scalar from data
+    for (let i = 0; i < tiff_rgba.length / 4; i++) {
+      let scalar = 0;
+      for (let j = 0; j < color_map.length / 4; j++) {
+        const r = tiff_rgba[i * 4 + 0];
+        const g = tiff_rgba[i * 4 + 1];
+        const b = tiff_rgba[i * 4 + 2];
+        const a = tiff_rgba[i * 4 + 3];
+        if (r === color_map[j * 4 + 0] && g === color_map[j * 4 + 1] && b === color_map[j * 4 + 2] && a === color_map[j * 4 + 3]) {
+          scalar = j;
+          break;
+        }
+      }
+      time_series_inverse.push(scalar);
+    }
+    return time_series_inverse;
+  }
+
+  createAllTimeSeriesFromTiff(legend_canvas) {
     // create time series data from each time step data
     let all_time_series_inverse = [];
     all_tiff_list.forEach((tiff_canvas, idx) => {
-      let time_series_inverse = [];
-      const tiff_ctx = tiff_canvas.getContext('2d');
-      const tiff_image = tiff_ctx.getImageData(0, 0, tiff_canvas.width, tiff_canvas.height);
-      const tiff_rgba = tiff_image.data; // image_rgba = [R, G, B, A, R, G, B, A, ...] (hex data)
-
-      // get scalar from data
-      for (let i = 0; i < tiff_rgba.length / 4; i++) {
-        let scalar = 0;
-        for (let j = 0; j < color_map.length / 4; j++) {
-          const r = tiff_rgba[i * 4 + 0];
-          const g = tiff_rgba[i * 4 + 1];
-          const b = tiff_rgba[i * 4 + 2];
-          const a = tiff_rgba[i * 4 + 3];
-          if (r === color_map[j * 4 + 0] && g === color_map[j * 4 + 1] && b === color_map[j * 4 + 2] && a === color_map[j * 4 + 3]) {
-            scalar = j;
-            break;
-          }
-        }
-        time_series_inverse.push(scalar);
-      }
+      const time_series_inverse = this.createTimeSeriesInverse(tiff_canvas, legend_canvas);
       all_time_series_inverse.push(time_series_inverse);
     });
 
