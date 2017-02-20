@@ -69,7 +69,7 @@ class Store extends EventEmitter {
   }
 
   setWidthAndHeight(type) {
-    switch(type) {
+    switch (type) {
       case generalConstants.DATA_WILD_TYPE:
         canvas_width = 285;
         canvas_height = 130;
@@ -91,6 +91,7 @@ class Store extends EventEmitter {
         }
         data_type = action.data_type;
         this.setWidthAndHeight(data_type);
+        this.setTiffData();
         break;
       case eventConstants.HANDLE_DEFAULT_CLICK:
         this.setInitialState();
@@ -288,12 +289,14 @@ class Store extends EventEmitter {
 
   setTiffData() {
     let tiff_name, legend_name;
-    switch(data_type) {
+    switch (data_type) {
       case generalConstants.DATA_WILD_TYPE:
         tiff_name = 'front/dist/GFBratio-mask-64-255.tif';
         legend_name ='front/dist/2E2_GFB.tif';
         break;
       case generalConstants.DATA_TRP_TYPE:
+        tiff_name = 'front/dist/trp-3-masked8b.tif';
+        legend_name ='front/dist/2E2_GFB.tif';
         break;
       default:
         break;
