@@ -45,6 +45,7 @@ let cut_time_series = []; // to calculate cross correlation
 class Store extends EventEmitter {
   constructor() {
     super();
+    this.setWidthAndHeight(data_type);
     this.getTiffData('front/dist/GFBratio-mask-64-255.tif', 'front/dist/2E2_GFB.tif');
     Dispatcher.register(this.handler.bind(this));
   }
@@ -66,10 +67,26 @@ class Store extends EventEmitter {
     traceflow_list = [];
   }
 
+  setWidthAndHeight(type) {
+    switch(type) {
+      case generalConstants.DATA_WILD_TYPE:
+        canvas_width = 285;
+        canvas_height = 130;
+        break;
+      case generalConstants.DATA_TRP_TYPE:
+        canvas_height = 128;
+        canvas_height = 96;
+        break;
+      default:
+        break;
+    }
+  }
+
   handler(action) {
     switch (action.actionType) {
       case eventConstants.HANDLE_DROP_CHANGE:
         data_type = action.data_type;
+        this.setWidthAndHeight(data_type);
         break;
       case eventConstants.HANDLE_DEFAULT_CLICK:
         this.setInitialState();
