@@ -306,13 +306,14 @@ class Store extends EventEmitter {
         response.arrayBuffer().then((buffer) => {
           let tiff_list = [];
           const tiff = new Tiff({ buffer: buffer });
-          for (let i = 0, len = tiff.countDirectory() - 50; i < len; i++) {
+          const tiff_len = (data_type === generalConstants.DATA_WILD_TYPE) ? tiff.countDirectory() - 50 : tiff.countDirectory();
+          for (let i = 0; i < tiff_len; i++) {
             tiff.setDirectory(i);
             const canvas = tiff.toCanvas();
             tiff_list.push(canvas);
           }
           all_tiff_list = tiff_list;
-
+          
           window.fetch(legend_name)
             .then((response) => {
               response.arrayBuffer().then((buffer) => {
@@ -322,6 +323,10 @@ class Store extends EventEmitter {
                   const canvas = tiff.toCanvas();
                   legend_tiff = canvas;
                 }
+                if (data_type === generalConstants.DATA_TRP_TYPE) {
+                  all_tiff_list = this.assignColorToTiffList(all_tiff_list, legend_tiff);
+                }
+
                 all_time_series = this.createAllTimeSeriesFromTiff(legend_tiff);
                 this.emitChange();
 
@@ -341,6 +346,12 @@ class Store extends EventEmitter {
       });
   }
 
+  assignColorToTiffList(all_trp_tiff, legend) {
+    console.log(all_trp_tiff[10]);
+    console.log(all_tiff_list.length);
+    return all_tiff_list;
+  }
+
   createTimeSeriesInverse(tiff_canvas, legend_canvas) {
     const legend_ctx = legend_canvas.getContext('2d');
     const legend_image = legend_ctx.getImageData(0, 0, legend_canvas.width, legend_canvas.height);
@@ -355,11 +366,11 @@ class Store extends EventEmitter {
     // get scalar from data
     for (let i = 0; i < tiff_rgba.length / 4; i++) {
       let scalar = 0;
+      const r = tiff_rgba[i * 4 + 0];
+      const g = tiff_rgba[i * 4 + 1];
+      const b = tiff_rgba[i * 4 + 2];
+      const a = tiff_rgba[i * 4 + 3];
       for (let j = 0; j < color_map.length / 4; j++) {
-        const r = tiff_rgba[i * 4 + 0];
-        const g = tiff_rgba[i * 4 + 1];
-        const b = tiff_rgba[i * 4 + 2];
-        const a = tiff_rgba[i * 4 + 3];
         if (r === color_map[j * 4 + 0] && g === color_map[j * 4 + 1] && b === color_map[j * 4 + 2] && a === color_map[j * 4 + 3]) {
           scalar = j;
           break;
