@@ -340,7 +340,7 @@ class Store extends EventEmitter {
                 this.updateMaximumList([0, 51, 102, 153, 204, 255]);
                 this.emitChange();
 
-                this.updateCorrelationList(10);
+                // this.updateCorrelationList(10);
               });
             });
         });
@@ -435,7 +435,7 @@ class Store extends EventEmitter {
   createAllTimeSeriesFromTiff(legend_canvas) {
     // create time series data from each time step data
     let all_time_series_inverse = [];
-    all_tiff_list.forEach((tiff_canvas, idx) => {
+    all_tiff_list.forEach((tiff_canvas) => {
       const time_series_inverse = this.createTimeSeriesInverse(tiff_canvas, legend_canvas);
       all_time_series_inverse.push(time_series_inverse);
     });
