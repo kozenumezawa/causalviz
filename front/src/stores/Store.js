@@ -395,8 +395,8 @@ class Store extends EventEmitter {
             ctx.fillStyle = 'black';
 
           } else {
-            const rgb = [color_map[color_idx*4], color_map[color_idx*4+1], color_map[color_idx*4+2]];
-            ctx.fillStyle = 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')';
+            const rgba = [color_map[color_idx*4], color_map[color_idx*4+1], color_map[color_idx*4+2], color_map[color_idx*4+3]];
+            ctx.fillStyle = 'rgba(' + rgba[0] + ',' + rgba[1] + ',' + rgba[2] + ',' + rgba[3] + ')';
           }
         }
         ctx.fillRect(idx % color_canvas.width, idx / color_canvas.width, 1, 1);
@@ -456,7 +456,7 @@ class Store extends EventEmitter {
     relation_list = [];
     const time_series = all_time_series;
     const x = time_series[highlighted_line];
-    time_series.forEach((y, idx) => {
+    time_series.forEach((y) => {
       relation_list.push(pairTimeSeries.getCorrelation(x, y));
     });
   }
