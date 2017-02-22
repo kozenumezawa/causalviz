@@ -9,8 +9,9 @@ const CHANGE_EVENT = 'change';
 let canvas_width = 285;
 let canvas_height = 130;
 
-let data_type = generalConstants.DATA_WILD_TYPE;
-let render_contents = generalConstants.VIEW_CROSS_CORRELATION;
+let data_type = generalConstants.DATA_TRP_TYPE;
+
+let render_contents = generalConstants.VIEW_DEFAULT;
 
 let all_tiff_list = [];
 let all_time_series = [];
@@ -313,7 +314,7 @@ class Store extends EventEmitter {
             tiff_list.push(canvas);
           }
           all_tiff_list = tiff_list;
-          
+
           window.fetch(legend_name)
             .then((response) => {
               response.arrayBuffer().then((buffer) => {
@@ -346,22 +347,72 @@ class Store extends EventEmitter {
       });
   }
 
-  assignColorToTiffList(all_trp_tiff, legend) {
-    console.log(all_trp_tiff[10]);
-    console.log(all_tiff_list.length);
-    return all_tiff_list;
+  getRGBAFromTiff(canvas) {
+    const ctx = canvas.getContext('2d');
+    const image = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const rgba = image.data; // rgba = [R, G, B, A, R, G, B, A, ...] (hex data)
+    return rgba;
+  }
+
+  getScalarFromGrayCanvas(canvas) {
+    const rgba = this.getRGBAFromTiff(canvas);
+    let scalar_list = [];
+    for (let i = 0; i < rgba.length / 4; i++) {
+      const scalar = rgba[i * 4];  // Use red only because r=g=b in gray scale
+      scalar_list.push(scalar);
+    }
+    return scalar_list;
+  }
+
+  assignColorToTiffList(all_tiff_gray, legend_canvas) {
+    const criteria_scalar_list = this.getScalarFromGrayCanvas(all_tiff_gray[10]);
+
+    let n_zero = 0;
+    const scalar_sum = criteria_scalar_list.reduce((prev, current) => {
+        if (current === 0) {
+          n_zero++;
+        }
+      return prev + current;
+    });
+    const criteria_scalar = scalar_sum / (criteria_scalar_list.length - n_zero);
+    const legend_rgba = this.getRGBAFromTiff(legend_canvas);
+    const color_map = legend_rgba.slice(0, legend_rgba.length / legend_canvas.height);
+    let all_tiff_color = [];
+
+    all_tiff_gray.forEach((tiff_canvas) => {
+      const scalar_list = this.getScalarFromGrayCanvas(tiff_canvas);
+      let color_canvas = tiff_canvas;
+      const ctx = color_canvas.getContext('2d');
+      ctx.clearRect(0, 0, color_canvas.width, color_canvas.height);
+
+      scalar_list.forEach((scalar, idx) => {
+        if (scalar === 0) {
+          ctx.fillStyle = 'black';
+        } else {
+          const ratio = scalar / criteria_scalar;
+          const color_idx = Math.floor((color_map.length / 4) * (ratio - 0.5) / (2 - 0.5)); // assign color : 0.5 to 2 -> -50% to 100%(256bit)
+          if (color_idx < 0) {
+            ctx.fillStyle = 'black';
+
+          } else {
+            const rgb = [color_map[color_idx*4], color_map[color_idx*4+1], color_map[color_idx*4+2]];
+            ctx.fillStyle = 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')';
+          }
+        }
+        ctx.fillRect(idx % color_canvas.width, idx / color_canvas.width, 1, 1);
+      });
+      all_tiff_color.push(color_canvas);
+    });
+
+    return all_tiff_color;
   }
 
   createTimeSeriesInverse(tiff_canvas, legend_canvas) {
-    const legend_ctx = legend_canvas.getContext('2d');
-    const legend_image = legend_ctx.getImageData(0, 0, legend_canvas.width, legend_canvas.height);
-    const legend_rgba = legend_image.data; // image_rgba = [R, G, B, A, R, G, B, A, ...] (hex data)
+    const legend_rgba = this.getRGBAFromTiff(legend_canvas);
     const color_map = legend_rgba.slice(0, legend_rgba.length / legend_canvas.height);
 
     let time_series_inverse = [];
-    const tiff_ctx = tiff_canvas.getContext('2d');
-    const tiff_image = tiff_ctx.getImageData(0, 0, tiff_canvas.width, tiff_canvas.height);
-    const tiff_rgba = tiff_image.data; // image_rgba = [R, G, B, A, R, G, B, A, ...] (hex data)
+    const tiff_rgba = this.getRGBAFromTiff(tiff_canvas);
 
     // get scalar from data
     for (let i = 0; i < tiff_rgba.length / 4; i++) {
