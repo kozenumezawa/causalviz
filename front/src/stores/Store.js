@@ -367,7 +367,7 @@ class Store extends EventEmitter {
   assignColorToTiffList(all_tiff_gray, legend_canvas) {
     const criteria_scalar_list = this.getScalarFromGrayCanvas(all_tiff_gray[10]);
 
-    let n_zero = 0;
+    let n_zero = 1; // because the upper left corner is 0
     const scalar_sum = criteria_scalar_list.reduce((prev, current) => {
         if (current === 0) {
           n_zero++;
