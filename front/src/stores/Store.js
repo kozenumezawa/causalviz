@@ -3,6 +3,7 @@ import Dispatcher from '../dispatcher/Dispatcher';
 import eventConstants from '../constants/event-constants';
 import generalConstants from '../constants/general-constants';
 import * as pairTimeSeries from '../utils/pair-time-series';
+import * as storeUtils from './store-utils'
 
 const CHANGE_EVENT = 'change';
 
@@ -44,7 +45,7 @@ let maxvalue_list = [];   // not to become state variable
 let cut_time_series = []; // to calculate cross correlation
 
 class Store extends EventEmitter {
-  constructor() {
+  constructor () {
     super();
     this.setWidthAndHeight(data_type);
     this.setTiffData();
@@ -52,24 +53,24 @@ class Store extends EventEmitter {
     Dispatcher.register(this.handler.bind(this));
   }
 
-  emitChange() {
+  emitChange () {
     this.emit(CHANGE_EVENT);
   }
 
-  addChangeListener(callback) {
+  addChangeListener (callback) {
     this.on(CHANGE_EVENT, callback);
   }
 
-  setInitialState() {
+  setInitialState () {
     clicked_point = {
-      x : -1,
-      y : -1
+      x: -1,
+      y: -1
     };
     highlighted_line = -1;
     traceflow_list = [];
   }
 
-  setWidthAndHeight(type) {
+  setWidthAndHeight (type) {
     switch (type) {
       case generalConstants.DATA_WILD_TYPE:
         canvas_width = 285;
@@ -84,7 +85,7 @@ class Store extends EventEmitter {
     }
   }
 
-  handler(action) {
+  handler (action) {
     switch (action.actionType) {
       case eventConstants.HANDLE_DROP_CHANGE:
         if (action.data_type === data_type) {
@@ -140,11 +141,11 @@ class Store extends EventEmitter {
         if (cluster_list.length !== 0) {
           let selected_cluster;
           if (render_contents === generalConstants.VIEW_KMEANS) {
-            selected_cluster = cluster_list[highlighted_line];
+            selected_cluster = cluster_list[ highlighted_line ];
           } else if (render_contents === generalConstants.VIEW_CROSS_CORRELATION) {
-            selected_cluster = correlation_list[highlighted_line];
+            selected_cluster = correlation_list[ highlighted_line ];
           }
-          checked_cluster[selected_cluster] = !checked_cluster[selected_cluster];
+          checked_cluster[ selected_cluster ] = !checked_cluster[ selected_cluster ];
         }
         this.updateRelationList();
 
@@ -170,7 +171,7 @@ class Store extends EventEmitter {
         this.setInitialState();
         break;
       case eventConstants.HANDLE_CHECK_CLICK:
-        checked_cluster[action.index] = !checked_cluster[action.index];
+        checked_cluster[ action.index ] = !checked_cluster[ action.index ];
         break;
       case eventConstants.HANDLE_CLUSTER_CHANGE:
         slider_value = action.n_clusters;
@@ -188,116 +189,116 @@ class Store extends EventEmitter {
     this.emitChange();
   }
 
-  getDataType() {
+  getDataType () {
     return data_type;
   }
 
-  getCanvasWidth() {
+  getCanvasWidth () {
     return canvas_width;
   }
 
-  getCanvasHeight() {
+  getCanvasHeight () {
     return canvas_height;
   }
 
-  getAllTiffList() {
+  getAllTiffList () {
     return all_tiff_list;
   }
 
-  getTiffIndex() {
+  getTiffIndex () {
     return tiff_index;
   }
 
-  getLegendTiff() {
+  getLegendTiff () {
     return legend_tiff;
   }
 
-  getAllTimeSeries() {
+  getAllTimeSeries () {
     return all_time_series;
   }
 
-  getClusterTimeSeries() {
+  getClusterTimeSeries () {
     return cluster_time_series;
   }
 
-  getCorrTimeSeries() {
+  getCorrTimeSeries () {
     return corr_time_series;
   }
 
-  getRelationList() {
+  getRelationList () {
     return relation_list;
   }
 
-  getHighlightedLine() {
+  getHighlightedLine () {
     return highlighted_line;
   }
 
-  getClickedPoint() {
+  getClickedPoint () {
     return clicked_point;
   }
 
-  getLoupePoint() {
+  getLoupePoint () {
     return loupe_point;
   }
 
-  getClusterList() {
+  getClusterList () {
     return cluster_list;
   }
 
-  getRenderContents() {
+  getRenderContents () {
     return render_contents;
   }
 
-  getCheckedCluster() {
+  getCheckedCluster () {
     return checked_cluster;
   }
 
-  getSliderValue() {
+  getSliderValue () {
     return slider_value;
   }
 
-  getMaximumList() {
+  getMaximumList () {
     return maximum_list;
   }
 
-  getTauList() {
+  getTauList () {
     return tau_list;
   }
 
-  getCorrelationList() {
+  getCorrelationList () {
     return correlation_list;
   }
 
-  getCriteriaTimeSeries() {
+  getCriteriaTimeSeries () {
     return criteria_time_series;
   }
 
-  getCutTimeSeries() {
+  getCutTimeSeries () {
     return cut_time_series;
   }
-  
-  getTraceflowList() {
+
+  getTraceflowList () {
     return traceflow_list;
   }
-  
-  getCutTiffList() {
+
+  getCutTiffList () {
     let cut_tiff_list = [];
     for (let i = 0, len = all_tiff_list.length - 15; i < len; i++) {
-      cut_tiff_list[i] = all_tiff_list[i + 15];
+      cut_tiff_list[ i ] = all_tiff_list[ i + 15 ];
     }
     return cut_tiff_list;
   }
 
-  setTiffData() {
+  setTiffData () {
     let tiff_name, legend_name;
     switch (data_type) {
       case generalConstants.DATA_WILD_TYPE:
         tiff_name = 'front/dist/GFBratio-mask-64-255.tif';
-        legend_name ='front/dist/2E2_GFB.tif';
+        legend_name = 'front/dist/2E2_GFB.tif';
         break;
       case generalConstants.DATA_TRP_TYPE:
         tiff_name = 'front/dist/trp-3-masked8b.tif';
-        legend_name ='front/dist/2E2_GFB.tif';
+        legend_name = 'front/dist/2E2_GFB.tif';
         break;
       default:
         break;
@@ -335,9 +336,9 @@ class Store extends EventEmitter {
 
                 // calculate maximum values
                 for (let i = 0, len = all_time_series.length; i < len; i++) {
-                  maxvalue_list[i] = Math.max.apply(null, all_time_series[i]);
+                  maxvalue_list[ i ] = Math.max.apply(null, all_time_series[ i ]);
                 }
-                this.updateMaximumList([0, 51, 102, 153, 204, 255]);
+                this.updateMaximumList([ 0, 51, 102, 153, 204, 255 ]);
                 this.emitChange();
 
                 // this.updateCorrelationList(10);
@@ -347,42 +348,25 @@ class Store extends EventEmitter {
       });
   }
 
-  getRGBAFromTiff(canvas) {
-    const ctx = canvas.getContext('2d');
-    const image = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const rgba = image.data; // rgba = [R, G, B, A, R, G, B, A, ...] (hex data)
-    return rgba;
-  }
-
-  getScalarFromGrayCanvas(canvas) {
-    const rgba = this.getRGBAFromTiff(canvas);
-    let scalar_list = [];
-    for (let i = 0; i < rgba.length / 4; i++) {
-      const scalar = rgba[i * 4];  // Use red only because r=g=b in gray scale
-      scalar_list.push(scalar);
-    }
-    return scalar_list;
-  }
-
-  assignColorToTiffList(all_tiff_gray, legend_canvas) {
-    const criteria_scalar_list = this.getScalarFromGrayCanvas(all_tiff_gray[10]);
+  assignColorToTiffList (all_tiff_gray, legend_canvas) {
+    const criteria_scalar_list = storeUtils.getScalarFromGrayCanvas(all_tiff_gray[ 10 ]);
 
     let n_zero = 1; // because the upper left corner is 0
     const scalar_sum = criteria_scalar_list.reduce((prev, current) => {
-        if (current === 0) {
-          n_zero++;
-        }
+      if (current === 0) {
+        n_zero++;
+      }
       return prev + current;
     });
     const criteria_scalar = scalar_sum / (criteria_scalar_list.length - n_zero);
-    const legend_rgba = this.getRGBAFromTiff(legend_canvas);
+    const legend_rgba = storeUtils.getRGBAFromTiff(legend_canvas);
     const color_map = legend_rgba.slice(0, legend_rgba.length / legend_canvas.height);
     let all_tiff_color = [];
 
     let all_time_series_inverse = [];
     all_tiff_gray.forEach((tiff_canvas) => {
       let time_series_inverse = [];
-      const scalar_list = this.getScalarFromGrayCanvas(tiff_canvas);
+      const scalar_list = storeUtils.getScalarFromGrayCanvas(tiff_canvas);
       let color_canvas = tiff_canvas;
       const ctx = color_canvas.getContext('2d');
       ctx.clearRect(0, 0, color_canvas.width, color_canvas.height);
@@ -398,8 +382,8 @@ class Store extends EventEmitter {
             ctx.fillStyle = 'black';
             time_series_inverse.push(0);
           } else {
-            const rgba = [color_map[color_idx*4], color_map[color_idx*4+1], color_map[color_idx*4+2], color_map[color_idx*4+3]];
-            ctx.fillStyle = 'rgba(' + rgba[0] + ',' + rgba[1] + ',' + rgba[2] + ',' + rgba[3] + ')';
+            const rgba = [ color_map[ color_idx * 4 ], color_map[ color_idx * 4 + 1 ], color_map[ color_idx * 4 + 2 ], color_map[ color_idx * 4 + 3 ] ];
+            ctx.fillStyle = 'rgba(' + rgba[ 0 ] + ',' + rgba[ 1 ] + ',' + rgba[ 2 ] + ',' + rgba[ 3 ] + ')';
             time_series_inverse.push(color_idx);
           }
         }
@@ -408,74 +392,38 @@ class Store extends EventEmitter {
       all_tiff_color.push(color_canvas);
       all_time_series_inverse.push(time_series_inverse);
     });
-    
-    all_time_series = this.transposeTimeSeries(all_time_series_inverse);
+
+    all_time_series = storeUtils.transposeTimeSeries(all_time_series_inverse);
     return all_tiff_color;
   }
 
-  transposeTimeSeries(all_time_series_inverse) {
-    let time_series = [];
-    for (let i = 0; i < all_time_series_inverse[0].length; i++) {
-      time_series[i] = [];
-      for (let j = 0; j < all_time_series_inverse.length; j++) {
-        time_series[i][j] = all_time_series_inverse[j][i];
-      }
-    }
-    return time_series;
-  }
-
-  createTimeSeriesInverse(tiff_canvas, legend_canvas) {
-    const legend_rgba = this.getRGBAFromTiff(legend_canvas);
-    const color_map = legend_rgba.slice(0, legend_rgba.length / legend_canvas.height);
-
-    let time_series_inverse = [];
-    const tiff_rgba = this.getRGBAFromTiff(tiff_canvas);
-
-    // get scalar from data
-    for (let i = 0; i < tiff_rgba.length / 4; i++) {
-      let scalar = 0;
-      const r = tiff_rgba[i * 4 + 0];
-      const g = tiff_rgba[i * 4 + 1];
-      const b = tiff_rgba[i * 4 + 2];
-      const a = tiff_rgba[i * 4 + 3];
-      for (let j = 0; j < color_map.length / 4; j++) {
-        if (r === color_map[j * 4 + 0] && g === color_map[j * 4 + 1] && b === color_map[j * 4 + 2] && a === color_map[j * 4 + 3]) {
-          scalar = j;
-          break;
-        }
-      }
-      time_series_inverse.push(scalar);
-    }
-    return time_series_inverse;
-  }
-
-  createAllTimeSeriesFromTiff(legend_canvas) {
+  createAllTimeSeriesFromTiff (legend_canvas) {
     // create time series data from each time step data
     let all_time_series_inverse = [];
     all_tiff_list.forEach((tiff_canvas) => {
-      const time_series_inverse = this.createTimeSeriesInverse(tiff_canvas, legend_canvas);
+      const time_series_inverse = storeUtils.createTimeSeriesInverse(tiff_canvas, legend_canvas);
       all_time_series_inverse.push(time_series_inverse);
     });
 
-    // this.createCsvFromTimeSeries(this.transposeTimeSeries(all_time_series_inverse));
-    return this.transposeTimeSeries(all_time_series_inverse);
+    // storeUtils.createCsvFromTimeSeries(this.transposeTimeSeries(all_time_series_inverse));
+    return storeUtils.transposeTimeSeries(all_time_series_inverse);
   }
 
-  updateRelationList() {
+  updateRelationList () {
     relation_list = [];
     const time_series = all_time_series;
-    const x = time_series[highlighted_line];
+    const x = time_series[ highlighted_line ];
     time_series.forEach((y) => {
       relation_list.push(pairTimeSeries.getCorrelation(x, y));
     });
   }
 
-  updateCheckedCluster(list) {
+  updateCheckedCluster (list) {
     checked_cluster = new Array(Math.max.apply(null, list) + 1);
     checked_cluster.fill(false);
   }
 
-  updateClusterList(n_clusters) {
+  updateClusterList (n_clusters) {
     const file_name = 'front/dist/cluster/k_means_' + n_clusters + '.json'
     window.fetch(file_name)
       .then((response) => {
@@ -493,20 +441,20 @@ class Store extends EventEmitter {
       });
   }
 
-  updateMaximumList(line_heights) {
+  updateMaximumList (line_heights) {
     maxvalue_list.forEach((max, idx) => {
       for (let i = 0, len = line_heights.length; i < len; i++) {
-        const scalar = 255 - line_heights[i];
+        const scalar = 255 - line_heights[ i ];
         if (max > scalar) {
-          maximum_list[idx] = i;
+          maximum_list[ idx ] = i;
           break;
         }
       }
     });
   }
 
-  updateCorrelationList(n_clusters) {
-    const len_time = all_time_series[0].length - 15;
+  updateCorrelationList (n_clusters) {
+    const len_time = all_time_series[ 0 ].length - 15;
 
     criteria_time_series = new Array(len_time);
     criteria_time_series.fill(0);
@@ -514,19 +462,19 @@ class Store extends EventEmitter {
 
     // create cut_time_series and criteria_time_series
     for (let i = 0, len_area = all_time_series.length; i < len_area; i++) {
-      cut_time_series[i] = [];
+      cut_time_series[ i ] = [];
       // cut first 15 time steps because they are meaningless
       for (let j = 0; j < len_time; j++) {
-        cut_time_series[i][j] = all_time_series[i][j + 15];
+        cut_time_series[ i ][ j ] = all_time_series[ i ][ j + 15 ];
       }
 
       // add right hand area data to criteria_time_series
-      if (i % canvas_width < 250 || cut_time_series[i].indexOf(0) >= 0)
+      if (i % canvas_width < 250 || cut_time_series[ i ].indexOf(0) >= 0)
         continue;
 
       sum_count += 1;
-      cut_time_series[i].forEach((scalar, idx) => {
-        criteria_time_series[idx] += scalar;
+      cut_time_series[ i ].forEach((scalar, idx) => {
+        criteria_time_series[ idx ] += scalar;
       });
     }
 
@@ -551,7 +499,7 @@ class Store extends EventEmitter {
     this.emitChange();
   }
 
-  getTauMaximizingCorr(criteria_x, y, n_clusters) {
+  getTauMaximizingCorr (criteria_x, y, n_clusters) {
     let corr_list = [];
     for (let i = 0; i < n_clusters; i++) {
       corr_list.push(pairTimeSeries.getCorrelation(criteria_x, y.slice(i)));
@@ -572,40 +520,40 @@ class Store extends EventEmitter {
     return corr_data;
   }
 
-  getAverageEachTau(n_clusters) {
+  getAverageEachTau (n_clusters) {
     // initialize
     let average_time_series = [];
     let tau_frequency = new Array(n_clusters); // count the number of elements in each tau
     tau_frequency.fill(0);
 
     for (let i = 0; i < n_clusters; i++) {
-      average_time_series[i] = new Array(criteria_time_series.length);
-      average_time_series[i].fill(0);
+      average_time_series[ i ] = new Array(criteria_time_series.length);
+      average_time_series[ i ].fill(0);
     }
 
     // calculate clustering frequency and total value of each cluster
     cut_time_series.forEach((time_series, idx) => {
-      const cluster_number = tau_list[idx];
+      const cluster_number = tau_list[ idx ];
       if (cluster_number === pairTimeSeries.error)
         return;
 
-      tau_frequency[cluster_number] += 1;
+      tau_frequency[ cluster_number ] += 1;
       time_series.forEach((scalar, j) => {
-        average_time_series[cluster_number][j] += scalar;
+        average_time_series[ cluster_number ][ j ] += scalar;
       });
     });
 
     // calculate average
     for (let i = 0; i < average_time_series.length; i++) {
-      average_time_series[i] = average_time_series[i].map((element) => {
-        return element / tau_frequency[i];
+      average_time_series[ i ] = average_time_series[ i ].map((element) => {
+        return element / tau_frequency[ i ];
       });
     }
     return average_time_series;
   }
 
-  getIndexMaximizingCorr(index, flow_list) {
-    const x = all_time_series[index];
+  getIndexMaximizingCorr (index, flow_list) {
+    const x = all_time_series[ index ];
     // const x = cut_time_series[index];
     let corr_list = [];
     let idx_list = [];
@@ -617,11 +565,11 @@ class Store extends EventEmitter {
         }
 
         const idx = index + i + j * canvas_width;
-        if (idx < 0 || idx >= all_time_series.length || flow_list[idx] === true) {
+        if (idx < 0 || idx >= all_time_series.length || flow_list[ idx ] === true) {
           continue;
         }
 
-        const y = all_time_series[idx];
+        const y = all_time_series[ idx ];
         // const y = cut_time_series[idx];
         corr_list.push(pairTimeSeries.getCorrelation(x, y));
         idx_list.push(idx);
@@ -635,10 +583,10 @@ class Store extends EventEmitter {
     if (max_corr === pairTimeSeries.error) {
       return generalConstants.ERR_REACH_EDGH;
     }
-    return idx_list[corr_list.indexOf(max_corr)];
+    return idx_list[ corr_list.indexOf(max_corr) ];
   }
 
-  updateTraceflowList(clicked_index) {
+  updateTraceflowList (clicked_index) {
     traceflow_list = new Array(all_time_series.length);
     traceflow_list.fill(false);
 
@@ -649,56 +597,12 @@ class Store extends EventEmitter {
         break;
       }
 
-      traceflow_list[new_index] = true;
+      traceflow_list[ new_index ] = true;
       target_index = new_index;
     }
     this.emitChange();
   }
-
-  // create csv file for Python
-  createCsvFromTimeSeries(time_series) {
-    const tableToCsvString = function(table, index) {
-      const N_DATA = table.length;
-      let str = '';
-      const imax = N_DATA / 15 * (index + 1);
-      for (let i = N_DATA / 15 * index; i < imax; ++i) {
-        let row = table[i];
-        for (let j = 0, jmax = row.length - 1; j <= jmax; ++j) {
-          str += String(row[j]);
-          if (j !== jmax) {
-            str += ',';
-          }
-        }
-        str += '\n';
-      }
-      return str;
-    };
-
-    const createDataUriFromString = function(str) {
-      return 'data:text/csv,' + encodeURIComponent(str);
-    };
-
-    const downloadDataUri = function(uri, filename) {
-      let link = document.createElement('a');
-      link.download = filename;
-      link.href = uri;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    };
-
-    const downloadCsv = function(table) {
-      for (let i = 0; i < 15; i++) {
-        const filename = 'timeseries_' + String(i) + '.csv';
-        const uri = createDataUriFromString(tableToCsvString(table, i));
-        downloadDataUri(uri, filename);
-      }
-    };
-    downloadCsv(time_series);
-    // console.log(time_series.length); -> 37050
-  }
 }
-
 const store = new Store();
 
 export default store;
