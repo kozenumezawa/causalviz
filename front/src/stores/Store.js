@@ -326,9 +326,9 @@ class Store extends EventEmitter {
                 }
                 if (data_type === generalConstants.DATA_TRP_TYPE) {
                   all_tiff_list = this.assignColorToTiffList(all_tiff_list, legend_tiff);
+                } else {
+                  all_time_series = this.createAllTimeSeriesFromTiff(legend_tiff);
                 }
-
-                all_time_series = this.createAllTimeSeriesFromTiff(legend_tiff);
                 this.emitChange();
 
                 this.updateClusterList(6);
@@ -379,7 +379,9 @@ class Store extends EventEmitter {
     const color_map = legend_rgba.slice(0, legend_rgba.length / legend_canvas.height);
     let all_tiff_color = [];
 
+    let all_time_series_inverse = [];
     all_tiff_gray.forEach((tiff_canvas) => {
+      let time_series_inverse = [];
       const scalar_list = this.getScalarFromGrayCanvas(tiff_canvas);
       let color_canvas = tiff_canvas;
       const ctx = color_canvas.getContext('2d');
@@ -388,23 +390,38 @@ class Store extends EventEmitter {
       scalar_list.forEach((scalar, idx) => {
         if (scalar === 0) {
           ctx.fillStyle = 'black';
+          time_series_inverse.push(0);
         } else {
           const ratio = scalar / criteria_scalar;
           const color_idx = Math.floor((color_map.length / 4) * (ratio - 0.5) / (2 - 0.5)); // assign color : 0.5 to 2 -> -50% to 100%(256bit)
           if (color_idx < 0) {
             ctx.fillStyle = 'black';
-
+            time_series_inverse.push(0);
           } else {
             const rgba = [color_map[color_idx*4], color_map[color_idx*4+1], color_map[color_idx*4+2], color_map[color_idx*4+3]];
             ctx.fillStyle = 'rgba(' + rgba[0] + ',' + rgba[1] + ',' + rgba[2] + ',' + rgba[3] + ')';
+            time_series_inverse.push(color_idx);
           }
         }
         ctx.fillRect(idx % color_canvas.width, idx / color_canvas.width, 1, 1);
       });
       all_tiff_color.push(color_canvas);
+      all_time_series_inverse.push(time_series_inverse);
     });
-
+    
+    all_time_series = this.transposeTimeSeries(all_time_series_inverse);
     return all_tiff_color;
+  }
+
+  transposeTimeSeries(all_time_series_inverse) {
+    let time_series = [];
+    for (let i = 0; i < all_time_series_inverse[0].length; i++) {
+      time_series[i] = [];
+      for (let j = 0; j < all_time_series_inverse.length; j++) {
+        time_series[i][j] = all_time_series_inverse[j][i];
+      }
+    }
+    return time_series;
   }
 
   createTimeSeriesInverse(tiff_canvas, legend_canvas) {
@@ -440,16 +457,8 @@ class Store extends EventEmitter {
       all_time_series_inverse.push(time_series_inverse);
     });
 
-    // transpose time series data
-    let time_series = [];
-    for (let i = 0; i < all_time_series_inverse[0].length; i++) {
-      time_series[i] = [];
-      for (let j = 0; j < all_time_series_inverse.length; j++) {
-        time_series[i][j] = all_time_series_inverse[j][i];
-      }
-    }
-    // this.createCsvFromTimeSeries(time_series);
-    return time_series;
+    // this.createCsvFromTimeSeries(this.transposeTimeSeries(all_time_series_inverse));
+    return this.transposeTimeSeries(all_time_series_inverse);
   }
 
   updateRelationList() {
