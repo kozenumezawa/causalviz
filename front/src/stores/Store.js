@@ -141,11 +141,11 @@ class Store extends EventEmitter {
         if (cluster_list.length !== 0) {
           let selected_cluster;
           if (render_contents === generalConstants.VIEW_KMEANS) {
-            selected_cluster = cluster_list[ highlighted_line ];
+            selected_cluster = cluster_list[highlighted_line];
           } else if (render_contents === generalConstants.VIEW_CROSS_CORRELATION) {
-            selected_cluster = correlation_list[ highlighted_line ];
+            selected_cluster = correlation_list[highlighted_line];
           }
-          checked_cluster[ selected_cluster ] = !checked_cluster[ selected_cluster ];
+          checked_cluster[selected_cluster] = !checked_cluster[selected_cluster];
         }
         this.updateRelationList();
 
@@ -171,7 +171,7 @@ class Store extends EventEmitter {
         this.setInitialState();
         break;
       case eventConstants.HANDLE_CHECK_CLICK:
-        checked_cluster[ action.index ] = !checked_cluster[ action.index ];
+        checked_cluster[action.index] = !checked_cluster[action.index];
         break;
       case eventConstants.HANDLE_CLUSTER_CHANGE:
         slider_value = action.n_clusters;
@@ -284,7 +284,7 @@ class Store extends EventEmitter {
   getCutTiffList () {
     let cut_tiff_list = [];
     for (let i = 0, len = all_tiff_list.length - 15; i < len; i++) {
-      cut_tiff_list[ i ] = all_tiff_list[ i + 15 ];
+      cut_tiff_list[i] = all_tiff_list[i + 15];
     }
     return cut_tiff_list;
   }
@@ -336,9 +336,9 @@ class Store extends EventEmitter {
 
                 // calculate maximum values
                 for (let i = 0, len = all_time_series.length; i < len; i++) {
-                  maxvalue_list[ i ] = Math.max.apply(null, all_time_series[ i ]);
+                  maxvalue_list[i] = Math.max.apply(null, all_time_series[i]);
                 }
-                this.updateMaximumList([ 0, 51, 102, 153, 204, 255 ]);
+                this.updateMaximumList([0, 51, 102, 153, 204, 255]);
                 this.emitChange();
 
                 // this.updateCorrelationList(10);
@@ -349,7 +349,7 @@ class Store extends EventEmitter {
   }
 
   assignColorToTiffList (all_tiff_gray, legend_canvas) {
-    const criteria_scalar_list = storeUtils.getScalarFromGrayCanvas(all_tiff_gray[ 10 ]);
+    const criteria_scalar_list = storeUtils.getScalarFromGrayCanvas(all_tiff_gray[10]);
 
     let n_zero = 1; // because the upper left corner is 0
     const scalar_sum = criteria_scalar_list.reduce((prev, current) => {
@@ -382,8 +382,8 @@ class Store extends EventEmitter {
             ctx.fillStyle = 'black';
             time_series_inverse.push(0);
           } else {
-            const rgba = [ color_map[ color_idx * 4 ], color_map[ color_idx * 4 + 1 ], color_map[ color_idx * 4 + 2 ], color_map[ color_idx * 4 + 3 ] ];
-            ctx.fillStyle = 'rgba(' + rgba[ 0 ] + ',' + rgba[ 1 ] + ',' + rgba[ 2 ] + ',' + rgba[ 3 ] + ')';
+            const rgba = [color_map[color_idx * 4], color_map[color_idx * 4 + 1], color_map[color_idx * 4 + 2], color_map[color_idx * 4 + 3]];
+            ctx.fillStyle = 'rgba(' + rgba[0] + ',' + rgba[1] + ',' + rgba[2] + ',' + rgba[3] + ')';
             time_series_inverse.push(color_idx);
           }
         }
@@ -412,7 +412,7 @@ class Store extends EventEmitter {
   updateRelationList () {
     relation_list = [];
     const time_series = all_time_series;
-    const x = time_series[ highlighted_line ];
+    const x = time_series[highlighted_line];
     time_series.forEach((y) => {
       relation_list.push(pairTimeSeries.getCorrelation(x, y));
     });
@@ -444,9 +444,9 @@ class Store extends EventEmitter {
   updateMaximumList (line_heights) {
     maxvalue_list.forEach((max, idx) => {
       for (let i = 0, len = line_heights.length; i < len; i++) {
-        const scalar = 255 - line_heights[ i ];
+        const scalar = 255 - line_heights[i];
         if (max > scalar) {
-          maximum_list[ idx ] = i;
+          maximum_list[idx] = i;
           break;
         }
       }
@@ -454,7 +454,7 @@ class Store extends EventEmitter {
   }
 
   updateCorrelationList (n_clusters) {
-    const len_time = all_time_series[ 0 ].length - 15;
+    const len_time = all_time_series[0].length - 15;
 
     criteria_time_series = new Array(len_time);
     criteria_time_series.fill(0);
@@ -462,19 +462,19 @@ class Store extends EventEmitter {
 
     // create cut_time_series and criteria_time_series
     for (let i = 0, len_area = all_time_series.length; i < len_area; i++) {
-      cut_time_series[ i ] = [];
+      cut_time_series[i] = [];
       // cut first 15 time steps because they are meaningless
       for (let j = 0; j < len_time; j++) {
-        cut_time_series[ i ][ j ] = all_time_series[ i ][ j + 15 ];
+        cut_time_series[i][j] = all_time_series[i][j + 15];
       }
 
       // add right hand area data to criteria_time_series
-      if (i % canvas_width < 250 || cut_time_series[ i ].indexOf(0) >= 0)
+      if (i % canvas_width < 250 || cut_time_series[i].indexOf(0) >= 0)
         continue;
 
       sum_count += 1;
-      cut_time_series[ i ].forEach((scalar, idx) => {
-        criteria_time_series[ idx ] += scalar;
+      cut_time_series[i].forEach((scalar, idx) => {
+        criteria_time_series[idx] += scalar;
       });
     }
 
@@ -527,33 +527,33 @@ class Store extends EventEmitter {
     tau_frequency.fill(0);
 
     for (let i = 0; i < n_clusters; i++) {
-      average_time_series[ i ] = new Array(criteria_time_series.length);
-      average_time_series[ i ].fill(0);
+      average_time_series[i] = new Array(criteria_time_series.length);
+      average_time_series[i].fill(0);
     }
 
     // calculate clustering frequency and total value of each cluster
     cut_time_series.forEach((time_series, idx) => {
-      const cluster_number = tau_list[ idx ];
+      const cluster_number = tau_list[idx];
       if (cluster_number === pairTimeSeries.error)
         return;
 
-      tau_frequency[ cluster_number ] += 1;
+      tau_frequency[cluster_number] += 1;
       time_series.forEach((scalar, j) => {
-        average_time_series[ cluster_number ][ j ] += scalar;
+        average_time_series[cluster_number][j] += scalar;
       });
     });
 
     // calculate average
     for (let i = 0; i < average_time_series.length; i++) {
-      average_time_series[ i ] = average_time_series[ i ].map((element) => {
-        return element / tau_frequency[ i ];
+      average_time_series[i] = average_time_series[i].map((element) => {
+        return element / tau_frequency[i];
       });
     }
     return average_time_series;
   }
 
   getIndexMaximizingCorr (index, flow_list) {
-    const x = all_time_series[ index ];
+    const x = all_time_series[index];
     // const x = cut_time_series[index];
     let corr_list = [];
     let idx_list = [];
@@ -565,11 +565,11 @@ class Store extends EventEmitter {
         }
 
         const idx = index + i + j * canvas_width;
-        if (idx < 0 || idx >= all_time_series.length || flow_list[ idx ] === true) {
+        if (idx < 0 || idx >= all_time_series.length || flow_list[idx] === true) {
           continue;
         }
 
-        const y = all_time_series[ idx ];
+        const y = all_time_series[idx];
         // const y = cut_time_series[idx];
         corr_list.push(pairTimeSeries.getCorrelation(x, y));
         idx_list.push(idx);
@@ -583,7 +583,7 @@ class Store extends EventEmitter {
     if (max_corr === pairTimeSeries.error) {
       return generalConstants.ERR_REACH_EDGH;
     }
-    return idx_list[ corr_list.indexOf(max_corr) ];
+    return idx_list[corr_list.indexOf(max_corr)];
   }
 
   updateTraceflowList (clicked_index) {
@@ -597,7 +597,7 @@ class Store extends EventEmitter {
         break;
       }
 
-      traceflow_list[ new_index ] = true;
+      traceflow_list[new_index] = true;
       target_index = new_index;
     }
     this.emitChange();
