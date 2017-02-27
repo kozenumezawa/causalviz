@@ -112,7 +112,9 @@ class Store extends EventEmitter {
       case eventConstants.HANDLE_CROSS_CORRELATION:
         this.setInitialState();
         slider_value = 10;
-        this.updateCorrelationList(slider_value);
+        if (data_type === generalConstants.DATA_WILD_TYPE) {
+          this.updateCorrelationList(slider_value);
+        }
         render_contents = generalConstants.VIEW_CROSS_CORRELATION;
         break;
       case eventConstants.HANDLE_TRACE_FLOW:
@@ -341,7 +343,9 @@ class Store extends EventEmitter {
                 this.updateMaximumList([0, 51, 102, 153, 204, 255]);
                 this.emitChange();
 
-                // this.updateCorrelationList(10);
+                if (data_type === generalConstants.DATA_WILD_TYPE) {
+                  this.updateCorrelationList(slider_value);
+                }
               });
             });
         });
