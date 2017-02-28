@@ -3,7 +3,7 @@ import React from 'react';
 import OverlayCanvas from './overlay-canvas.jsx';
 import * as drawingTool from '../../utils/drawing-tool';
 
-export default class ControlPanel extends React.Component{
+export default class ControlpanelCanvas extends React.Component{
   constructor(props) {
     super(props);
   }

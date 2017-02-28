@@ -3,7 +3,7 @@ import Chip from 'material-ui/Chip';
 import {white} from 'material-ui/styles/colors';
 
 import RelationCanvas from '../canvas/relation-canvas.jsx';
-import ControlPanel from '../canvas/control-panel.jsx';
+import ControlpanelCanvas from '../canvas/controlpanel-canvas.jsx';
 import GraphContainer from '../graph/graph-container.jsx';
 
 export default class DefaultView extends React.Component {
@@ -46,7 +46,7 @@ export default class DefaultView extends React.Component {
           </div>
 
           <div style={{position: 'absolute', display: 'inline-block', top: top_control+40, left: left_ref+30}}>
-            <ControlPanel
+            <ControlpanelCanvas
               id="control_panel"
               clicked_point={this.props.parent_state.clicked_point}
               loupe_point={this.props.parent_state.loupe_point}
