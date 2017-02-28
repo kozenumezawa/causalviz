@@ -48,6 +48,8 @@ export default class DefaultView extends React.Component {
           <div style={{position: 'absolute', display: 'inline-block', top: top_control+40, left: left_ref+30}}>
             <ControlpanelCanvas
               id="control_panel"
+              canvas_width={this.props.parent_state.canvas_width}
+              canvas_height={this.props.parent_state.canvas_height}
               clicked_point={this.props.parent_state.clicked_point}
               loupe_point={this.props.parent_state.loupe_point}
               tiff_index={this.props.parent_state.tiff_index}

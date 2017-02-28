@@ -47,7 +47,7 @@ export default class ControlpanelCanvas extends React.Component{
   render() {
     return (
       <div>
-        <canvas id={this.props.id} width="285" height="130" style={{left: 0, top: 0, zIndex: 0}}></canvas>
+        <canvas id={this.props.id} width={this.props.canvas_width} height={this.props.canvas_height} style={{left: 0, top: 0, zIndex: 0}}></canvas>
         <OverlayCanvas
           id={this.props.id}
           canvas_width={this.props.canvas_width}
