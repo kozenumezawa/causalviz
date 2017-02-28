@@ -292,6 +292,7 @@ class Store extends EventEmitter {
   }
 
   setTiffData () {
+    Tiff.initialize({TOTAL_MEMORY: 16777216 * 10});
     let tiff_name, legend_name;
     switch (data_type) {
       case generalConstants.DATA_WILD_TYPE:
