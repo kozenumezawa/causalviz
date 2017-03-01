@@ -1,5 +1,6 @@
 import React from 'react';
 
+import GraphLegend from './graph-legend.jsx'
 import HighlightCanvas from './highlight-canvas.jsx';
 import IndicatorCanvas from './indicator-canvas.jsx';
 import * as drawingTool from '../../utils/drawing-tool';
@@ -74,6 +75,8 @@ export default class clusterGraphContainer extends React.Component {
           tiff_list={this.props.tiff_list}
           tiff_index={this.props.tiff_index}
         />
+
+        <GraphLegend />
       </div>
     );
   }
