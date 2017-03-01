@@ -169,14 +169,6 @@ export default class main extends React.Component {
           <CommandButton />
         </div>
 
-        <div>
-          <div style={{position: 'absolute', display: 'inline-block', top:190, left: 370}}> 100 </div>
-          <div style={{position: 'absolute', display: 'inline-block', top:340, left: 375}}> -50 </div>
-
-          <div style={{position: 'absolute', display: 'inline-block', top:350, left: 395}}> 0 </div>
-          <div style={{position: 'absolute', display: 'inline-block', top:350, left: 565}}> Time (seconds) </div>
-          <div style={{position: 'absolute', display: 'inline-block', top:350, left: 810}}> 40 </div>
-        </div>
       </div>
     );
   }
