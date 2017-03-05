@@ -20,7 +20,6 @@ export default class CrossCorrelationView extends React.Component {
     const top_control = 550;
     return (
       <div>
-        <div style={{position: 'absolute', display: 'inline-block', top:350, left: 395}}> 8 </div>
         <div style={{position: 'absolute', display: 'inline-block', top: top_relation, left: left_ref}}>
           <Chip backgroundColor={white}>
             {'Cross Correlation view'}

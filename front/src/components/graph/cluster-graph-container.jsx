@@ -13,6 +13,7 @@ export default class clusterGraphContainer extends React.Component {
   componentDidMount() {
     this.canvas = document.getElementById(this.props.id);
     this.ctx = this.canvas.getContext('2d');
+    drawingTool.drawFrame(this.canvas, this.ctx);
     this.renderData(this.props.cluster_time_series, this.props.cluster_list, this.props.highlighted_line);
   }
 
@@ -31,6 +32,7 @@ export default class clusterGraphContainer extends React.Component {
       return;
     }
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    drawingTool.drawFrame(this.canvas, this.ctx);
 
     const n_clusters= Math.max.apply(null, cluster_list) + 1;
     const color_map = drawingTool.getColorCategory(n_clusters);
