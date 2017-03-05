@@ -459,12 +459,12 @@ class Store extends EventEmitter {
   updateCriteriaTimeSeries() {
     const len_time = (data_type === generalConstants.DATA_WILD_TYPE) ?
                                           all_time_series[0].length - 15 : all_time_series[0].length;
-
     criteria_time_series = new Array(len_time);
     criteria_time_series.fill(0);
     let sum_count = 0;
 
     // create cut_time_series and criteria_time_series
+    cut_time_series = [];
     for (let i = 0, len_area = all_time_series.length; i < len_area; i++) {
       cut_time_series[i] = [];
 
@@ -482,7 +482,7 @@ class Store extends EventEmitter {
         continue;
 
       // add right hand area data to criteria_time_series if data type is wild type
-      if (data_type === generalConstants.DATA_TRP_TYPE && (i % canvas_width < 85 || cut_time_series[i].indexOf(0) >= 0))
+      if (data_type === generalConstants.DATA_TRP_TYPE && (i % canvas_width < 75 || cut_time_series[i].indexOf(0) >= 0))
         continue;
 
       sum_count += 1;
@@ -509,7 +509,6 @@ class Store extends EventEmitter {
     });
 
     corr_time_series = this.getAverageEachTau(n_clusters);
-
     if (render_contents === generalConstants.VIEW_CROSS_CORRELATION) {
       this.updateCheckedCluster(tau_list);
     }
@@ -547,8 +546,7 @@ class Store extends EventEmitter {
       average_time_series[i] = new Array(criteria_time_series.length);
       average_time_series[i].fill(0);
     }
-
-    // calculate clustering frequency and total value of each cluster
+    // calculate clustering frequency and average value of each cluster
     cut_time_series.forEach((time_series, idx) => {
       const cluster_number = tau_list[idx];
       if (cluster_number === pairTimeSeries.error)
