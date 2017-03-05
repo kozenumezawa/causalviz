@@ -68,6 +68,7 @@ class Store extends EventEmitter {
     };
     highlighted_line = -1;
     traceflow_list = [];
+    tiff_index = 0;
   }
 
   setWidthAndHeight (type) {
