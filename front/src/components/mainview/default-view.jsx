@@ -2,6 +2,7 @@ import React from 'react';
 import Chip from 'material-ui/Chip';
 import {white} from 'material-ui/styles/colors';
 
+import layoutConst from '../../constants/layout-constants'
 import RelationCanvas from '../canvas/relation-canvas.jsx';
 import ControlpanelCanvas from '../canvas/controlpanel-canvas.jsx';
 import GraphContainer from '../graph/graph-container.jsx';
@@ -12,19 +13,15 @@ export default class DefaultView extends React.Component {
   }
 
   render() {
-    const left_ref = 30;
-    const top_response = 150;
-    const top_relation = 350;
-    const top_control = 550;
     return (
       <div>
         <div>
-          <div style={{position: 'absolute', display: 'inline-block', top: top_relation, left: left_ref}}>
+          <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.SECOND_STAGE, left: layoutConst.LEFT_REF}}>
             <Chip backgroundColor={white}>
               {'Relation view'}
             </Chip>
           </div>
-          <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
+          <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.SECOND_STAGE+40, left: layoutConst.LEFT_REF+30}}>
             <RelationCanvas
               id="relation_view"
               canvas_width={this.props.parent_state.canvas_width}
@@ -39,13 +36,13 @@ export default class DefaultView extends React.Component {
         </div>
 
         <div>
-          <div style={{position: 'absolute', display: 'inline-block', top: top_control, left: left_ref}}>
+          <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.THIRD_STAGE, left: layoutConst.LEFT_REF}}>
             <Chip backgroundColor={white}>
               {'Control panel'}
             </Chip>
           </div>
 
-          <div style={{position: 'absolute', display: 'inline-block', top: top_control+40, left: left_ref+30}}>
+          <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.THIRD_STAGE+40, left: layoutConst.LEFT_REF+30}}>
             <ControlpanelCanvas
               id="control_panel"
               canvas_width={this.props.parent_state.canvas_width}

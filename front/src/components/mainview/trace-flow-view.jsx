@@ -2,6 +2,7 @@ import React from 'react';
 import Chip from 'material-ui/Chip';
 import {white} from 'material-ui/styles/colors';
 
+import layoutConst from '../../constants/layout-constants'
 import TraceFlowCanvas from '../canvas/traceflow-canvas.jsx';
 import GraphContainer from '../graph/graph-container.jsx';
 
@@ -11,18 +12,14 @@ export default class TraceFlowView extends React.Component {
   }
 
   render() {
-    const left_ref = 30;
-    const top_response = 150;
-    const top_relation = 350;
-    const top_control = 550;
     return (
       <div>
-        <div style={{position: 'absolute', display: 'inline-block', top: top_relation, left: left_ref}}>
+        <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.SECOND_STAGE, left: layoutConst.LEFT_REF}}>
           <Chip backgroundColor={white}>
             {'Trace Flow view'}
           </Chip>
         </div>
-        <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
+        <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.SECOND_STAGE+40, left: layoutConst.LEFT_REF+30}}>
           <TraceFlowCanvas
             id="traceflow_view"
             canvas_width={this.props.parent_state.canvas_width}

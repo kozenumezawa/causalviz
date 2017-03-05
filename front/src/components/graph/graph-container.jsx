@@ -58,7 +58,9 @@ export default class graphContainer extends React.Component {
           tiff_index={this.props.tiff_index}
         />
 
-        <GraphLegend />
+        <GraphLegend
+          tiff_list={this.props.tiff_list}
+        />
       </div>
     );
   }

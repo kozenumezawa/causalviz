@@ -2,6 +2,7 @@ import React from 'react';
 import Chip from 'material-ui/Chip';
 import {white} from 'material-ui/styles/colors';
 
+import layoutConst from '../../constants/layout-constants'
 import ClusterCanvas from '../canvas/cluster-canvas.jsx';
 import ClusterSelectedCanvas from '../canvas/cluster-selected-canvas.jsx';
 import ClusterGraphContainer from '../graph/cluster-graph-container.jsx';
@@ -13,18 +14,14 @@ export default class KmeansClusteringView extends React.Component {
   }
 
   render() {
-    const left_ref = 30;
-    const top_response = 150;
-    const top_relation = 350;
-    const top_control = 550;
     return (
       <div>
-        <div style={{position: 'absolute', display: 'inline-block', top: top_relation, left: left_ref}}>
+        <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.SECOND_STAGE, left: layoutConst.LEFT_REF}}>
           <Chip backgroundColor={white}>
             {'Cluster view'}
           </Chip>
         </div>
-        <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
+        <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.SECOND_STAGE+40, left: layoutConst.LEFT_REF+30}}>
           <ClusterCanvas
             id="cluster_view"
             canvas_width={this.props.parent_state.canvas_width}
@@ -34,12 +31,12 @@ export default class KmeansClusteringView extends React.Component {
             loupe_point={this.props.parent_state.loupe_point}
           />
         </div>
-        <div style={{position: 'absolute', display: 'inline-block', top: top_control, left: left_ref}}>
+        <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.THIRD_STAGE, left: layoutConst.LEFT_REF}}>
           <Chip backgroundColor={white}>
             {'Selected Cluster view'}
           </Chip>
         </div>
-        <div style={{position: 'absolute', display: 'inline-block', top: top_control+40, left: left_ref+30}}>
+        <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.THIRD_STAGE+40, left: layoutConst.LEFT_REF+30}}>
           <ClusterSelectedCanvas
             id="cluster_detail_view"
             canvas_width={this.props.parent_state.canvas_width}
@@ -61,7 +58,7 @@ export default class KmeansClusteringView extends React.Component {
             tiff_list={this.props.tiff_list}
           />
         </div>
-        <div style={{position: 'absolute', display: 'inline-block', top: top_relation+100, left: 400}}>
+        <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.SECOND_STAGE+100, left: 400}}>
           <Chip backgroundColor={white}>
             {'Cluster list'}
           </Chip>

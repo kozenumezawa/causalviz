@@ -4,6 +4,7 @@ import {white} from 'material-ui/styles/colors';
 
 import Store from '../stores/Store';
 import generalConstants from '../constants/general-constants';
+import layoutConst from '../constants/layout-constants'
 
 import TiffContainer from './tiff-container.jsx';
 import AppBar from './app-bar.jsx';
@@ -59,11 +60,6 @@ export default class main extends React.Component {
   }
 
   render() {
-    const left_ref = 30;
-    const top_response = 150;
-    const top_relation = 350;
-    const top_control = 550;
-
     let tiff_list = this.state.all_tiff_list;
     if (this.state.render_contents === generalConstants.VIEW_CROSS_CORRELATION) {
       tiff_list = Store.getCutTiffList();
@@ -77,7 +73,7 @@ export default class main extends React.Component {
         <br />
 
         <div>
-          <div style={{position: 'absolute', display: 'inline-block', top: 100, left: left_ref}}>
+          <div style={{position: 'absolute', display: 'inline-block', top: 100, left: layoutConst.LEFT_REF}}>
             <LegendContainer
               id="legend_output"
               legend_tiff={this.state.legend_tiff}
@@ -85,7 +81,7 @@ export default class main extends React.Component {
           </div>
         </div>
 
-        <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: 480}}>
+        <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.SECOND_STAGE+40, left: 480}}>
           <StepButton
             tiff_index={this.state.tiff_index}
             tiff_list={tiff_list}
@@ -93,12 +89,12 @@ export default class main extends React.Component {
         </div>
 
         <div>
-          <div style={{position: 'absolute', display: 'inline-block', top: top_response, left: left_ref}}>
+          <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.FIRST_STAGE, left: layoutConst.LEFT_REF}}>
             <Chip backgroundColor={white}>
               {'Ca2+ Response'}
             </Chip>
           </div>
-          <div style={{position: 'absolute', display: 'inline-block', top: top_response+40, left: left_ref+30}}>
+          <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.FIRST_STAGE+40, left: layoutConst.LEFT_REF+30}}>
             <TiffContainer
               id="tiff_output_1"
               canvas_width={this.state.canvas_width}

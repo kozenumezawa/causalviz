@@ -3,6 +3,7 @@ import Chip from 'material-ui/Chip';
 import {white} from 'material-ui/styles/colors';
 
 import Store from '../../stores/Store';
+import layoutConst from '../../constants/layout-constants'
 import CorrelationCanvas from '../canvas/correlation-canvas.jsx';
 import ClusterSelectedCanvas from '../canvas/cluster-selected-canvas.jsx';
 import ClusterGraphContainer from '../graph/cluster-graph-container.jsx';
@@ -14,18 +15,14 @@ export default class CrossCorrelationView extends React.Component {
   }
 
   render() {
-    const left_ref = 30;
-    const top_response = 150;
-    const top_relation = 350;
-    const top_control = 550;
     return (
       <div>
-        <div style={{position: 'absolute', display: 'inline-block', top: top_relation, left: left_ref}}>
+        <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.SECOND_STAGE, left: layoutConst.LEFT_REF}}>
           <Chip backgroundColor={white}>
             {'Cross Correlation view'}
           </Chip>
         </div>
-        <div style={{position: 'absolute', display: 'inline-block', top: top_relation+40, left: left_ref+30}}>
+        <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.SECOND_STAGE+40, left: layoutConst.LEFT_REF+30}}>
           <CorrelationCanvas
             id="cross_correlation_view"
             canvas_width={this.props.parent_state.canvas_width}
@@ -36,12 +33,12 @@ export default class CrossCorrelationView extends React.Component {
           />
         </div>
 
-        <div style={{position: 'absolute', display: 'inline-block', top: top_control, left: left_ref}}>
+        <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.THIRD_STAGE, left: layoutConst.LEFT_REF}}>
           <Chip backgroundColor={white}>
             {'Selected Cluster view'}
           </Chip>
         </div>
-        <div style={{position: 'absolute', display: 'inline-block', top: top_control+40, left: left_ref+30}}>
+        <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.THIRD_STAGE+40, left: layoutConst.LEFT_REF+30}}>
           <ClusterSelectedCanvas
             id="correlation_detail_view"
             canvas_width={this.props.parent_state.canvas_width}
@@ -65,7 +62,7 @@ export default class CrossCorrelationView extends React.Component {
           />
         </div>
 
-        <div style={{position: 'absolute', display: 'inline-block', top: top_relation+100, left: 400}}>
+        <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.SECOND_STAGE+100, left: 400}}>
           <Chip backgroundColor={white}>
             {'Tau list'}
           </Chip>
