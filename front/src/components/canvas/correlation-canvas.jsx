@@ -11,7 +11,7 @@ export default class CorrelationCanvas extends React.Component{
   }
 
   componentDidMount() {
-    this.canvas = document.getElementById(this.props.id);``
+    this.canvas = document.getElementById(this.props.id);
     this.ctx = this.canvas.getContext('2d');
     drawingTool.drawFrame(this.canvas, this.ctx);
     this.renderData(this.props.cluster_list, this.props.loupe_point);

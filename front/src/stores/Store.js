@@ -10,9 +10,9 @@ const CHANGE_EVENT = 'change';
 let canvas_width = 285;
 let canvas_height = 130;
 
-let data_type = generalConstants.DATA_TRP_TYPE;
+let data_type = generalConstants.DATA_WILD_TYPE;
 
-let render_contents = generalConstants.VIEW_DEFAULT;
+let render_contents = generalConstants.VIEW_CROSS_CORRELATION;
 
 let all_tiff_list = [];
 let all_time_series = [];
@@ -114,9 +114,7 @@ class Store extends EventEmitter {
       case eventConstants.HANDLE_CROSS_CORRELATION:
         this.setInitialState();
         slider_value = 10;
-        if (data_type === generalConstants.DATA_WILD_TYPE) {
-          this.updateCorrelationList(slider_value);
-        }
+        this.updateCorrelationList(slider_value);
         render_contents = generalConstants.VIEW_CROSS_CORRELATION;
         break;
       case eventConstants.HANDLE_TRACE_FLOW:
@@ -346,9 +344,7 @@ class Store extends EventEmitter {
                 this.updateMaximumList([0, 51, 102, 153, 204, 255]);
                 this.emitChange();
 
-                if (data_type === generalConstants.DATA_WILD_TYPE) {
-                  this.updateCorrelationList(slider_value);
-                }
+                this.updateCorrelationList(slider_value);
               });
             });
         });
@@ -460,8 +456,9 @@ class Store extends EventEmitter {
     });
   }
 
-  updateCorrelationList (n_clusters) {
-    const len_time = all_time_series[0].length - 15;
+  updateCriteriaTimeSeries() {
+    const len_time = (data_type === generalConstants.DATA_WILD_TYPE) ?
+                                          all_time_series[0].length - 15 : all_time_series[0].length;
 
     criteria_time_series = new Array(len_time);
     criteria_time_series.fill(0);
@@ -470,13 +467,22 @@ class Store extends EventEmitter {
     // create cut_time_series and criteria_time_series
     for (let i = 0, len_area = all_time_series.length; i < len_area; i++) {
       cut_time_series[i] = [];
-      // cut first 15 time steps because they are meaningless
+
       for (let j = 0; j < len_time; j++) {
-        cut_time_series[i][j] = all_time_series[i][j + 15];
+        if (data_type === generalConstants.DATA_WILD_TYPE) {
+          // cut first 15 time steps because they are meaningless
+          cut_time_series[i][j] = all_time_series[i][j + 15];
+        } else if (data_type === generalConstants.DATA_TRP_TYPE) {
+          cut_time_series[i][j] = all_time_series[i][j];
+        }
       }
 
-      // add right hand area data to criteria_time_series
-      if (i % canvas_width < 250 || cut_time_series[i].indexOf(0) >= 0)
+      // add right hand area data to criteria_time_series if data type is wild type
+      if (data_type === generalConstants.DATA_WILD_TYPE && (i % canvas_width < 250 || cut_time_series[i].indexOf(0) >= 0))
+        continue;
+
+      // add right hand area data to criteria_time_series if data type is wild type
+      if (data_type === generalConstants.DATA_TRP_TYPE && (i % canvas_width < 85 || cut_time_series[i].indexOf(0) >= 0))
         continue;
 
       sum_count += 1;
@@ -488,6 +494,10 @@ class Store extends EventEmitter {
     criteria_time_series = criteria_time_series.map((element) => {
       return element / sum_count;
     });
+  }
+
+  updateCorrelationList (n_clusters) {
+    this.updateCriteriaTimeSeries();
 
     // calculate tau which maximizes cross correlation
     tau_list = [];

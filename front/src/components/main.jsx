@@ -61,7 +61,7 @@ export default class main extends React.Component {
 
   render() {
     let tiff_list = this.state.all_tiff_list;
-    if (this.state.render_contents === generalConstants.VIEW_CROSS_CORRELATION) {
+    if (this.state.data_type === generalConstants.DATA_WILD_TYPE && this.state.render_contents === generalConstants.VIEW_CROSS_CORRELATION) {
       tiff_list = Store.getCutTiffList();
     }
 
