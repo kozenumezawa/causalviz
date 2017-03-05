@@ -92,6 +92,7 @@ class Store extends EventEmitter {
         if (action.data_type === data_type) {
           break;
         }
+        this.setInitialState();
         data_type = action.data_type;
         this.setWidthAndHeight(data_type);
         this.setTiffData();
