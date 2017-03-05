@@ -10,7 +10,7 @@ const CHANGE_EVENT = 'change';
 let canvas_width = 285;
 let canvas_height = 130;
 
-let data_type = generalConstants.DATA_WILD_TYPE;
+let data_type = generalConstants.DATA_TRP_TYPE;
 
 let render_contents = generalConstants.VIEW_CROSS_CORRELATION;
 
@@ -482,7 +482,7 @@ class Store extends EventEmitter {
         continue;
 
       // add right hand area data to criteria_time_series if data type is wild type
-      if (data_type === generalConstants.DATA_TRP_TYPE && (i % canvas_width < 75 || cut_time_series[i].indexOf(0) >= 0))
+      if (data_type === generalConstants.DATA_TRP_TYPE && (i % canvas_width < 65 || i / canvas_width > 68 || cut_time_series[i].indexOf(0) >= 0))
         continue;
 
       sum_count += 1;
