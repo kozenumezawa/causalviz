@@ -482,7 +482,7 @@ class Store extends EventEmitter {
         continue;
 
       // add right hand area data to criteria_time_series if data type is wild type
-      if (data_type === generalConstants.DATA_TRP_TYPE && (i % canvas_width < 65 || i / canvas_width > 68 || cut_time_series[i].indexOf(0) >= 0))
+      if (data_type === generalConstants.DATA_TRP_TYPE && (i % canvas_width > 65 || i / canvas_width > 89 || cut_time_series[i].indexOf(0) >= 0))
         continue;
 
       sum_count += 1;

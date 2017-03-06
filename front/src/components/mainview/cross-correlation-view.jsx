@@ -29,6 +29,7 @@ export default class CrossCorrelationView extends React.Component {
             canvas_height={this.props.parent_state.canvas_height}
             clicked_point={this.props.parent_state.clicked_point}
             cluster_list={this.props.parent_state.tau_list}
+            data_type={this.props.parent_state.data_type}
             loupe_point={this.props.parent_state.loupe_point}
           />
         </div>

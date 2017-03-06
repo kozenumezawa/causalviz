@@ -4,6 +4,7 @@ import * as d3_scale from 'd3-scale';
 import OverlayCanvas from './overlay-canvas.jsx';
 import * as drawingTool from '../../utils/drawing-tool';
 import * as pairTimeSeries from '../../utils/pair-time-series';
+import generalConst from '../../constants/general-constants'
 
 export default class CorrelationCanvas extends React.Component{
   constructor(props) {
@@ -28,7 +29,9 @@ export default class CorrelationCanvas extends React.Component{
 
     const color_map = d3_scale.schemeCategory20c;
     for(let i = 0; i < cluster_list.length; i++) {
-      if (i % this.canvas.width > 250 && cluster_list[i] !== pairTimeSeries.error) {
+      if (this.props.data_type === generalConst.DATA_WILD_TYPE && i % this.canvas.width > 250 && cluster_list[i] !== pairTimeSeries.error) {
+        this.ctx.fillStyle = 'white'
+      } else if (this.props.data_type === generalConst.DATA_TRP_TYPE && i % this.canvas.width >= 65 && i / this.canvas.height >= 88 && cluster_list[i] !== pairTimeSeries.error) {
         this.ctx.fillStyle = 'white'
       } else if (cluster_list[i] === pairTimeSeries.error) {
         this.ctx.fillStyle = 'black'
