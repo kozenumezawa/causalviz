@@ -23,6 +23,7 @@ function getAllState() {
     canvas_width        : Store.getCanvasWidth(),
     canvas_height       : Store.getCanvasHeight(),
     data_type           : Store.getDataType(),
+    data_pixel          : Store.getDataPixel(),
     render_contents     : Store.getRenderContents(),
     all_tiff_list       : Store.getAllTiffList(),
     tiff_index          : Store.getTiffIndex(),
@@ -162,7 +163,9 @@ export default class main extends React.Component {
         })()}
 
         <div style={{position: 'absolute', display: 'inline-block', top: 100, left: 480}}>
-          <CommandButton />
+          <CommandButton
+            data_pixel={this.state.data_pixel}
+          />
         </div>
 
       </div>

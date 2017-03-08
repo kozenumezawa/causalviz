@@ -11,6 +11,7 @@ let canvas_width = 285;
 let canvas_height = 130;
 
 let data_type = generalConstants.DATA_TRP_TYPE;
+let data_pixel = 1;
 
 let render_contents = generalConstants.VIEW_CROSS_CORRELATION;
 
@@ -134,7 +135,10 @@ class Store extends EventEmitter {
         }
         break;
       case eventConstants.HANDLE_DATA_PIXEL_CHANGE:
-        console.log(action.data_pixel);
+        if (action.data_pixel === data_pixel) {
+          break;
+        }
+        data_pixel = action.data_pixel;
         break;
       case eventConstants.HANDLE_CORRELATION_CLICK:
         break;
@@ -196,6 +200,10 @@ class Store extends EventEmitter {
 
   getDataType () {
     return data_type;
+  }
+
+  getDataPixel () {
+    return data_pixel;
   }
 
   getCanvasWidth () {

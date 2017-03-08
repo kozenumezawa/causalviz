@@ -18,7 +18,7 @@ export default class commandButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dropdown_value: 1
+      dropdown_value: props.data_pixel
     };
 
     this.handleDropChange = this.handleDropChange.bind(this);
@@ -75,7 +75,7 @@ export default class commandButton extends React.Component {
           underlineStyle={{display: 'none'}}
         >
           <MenuItem value={1} primaryText="1pixel/data" />
-          <MenuItem value={2} primaryText="4pixel/data" />
+          <MenuItem value={4} primaryText="4pixel/data" />
         </DropDownMenu>
       </div>
     );
