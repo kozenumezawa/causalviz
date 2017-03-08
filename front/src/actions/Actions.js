@@ -51,6 +51,13 @@ export default {
     });
   },
 
+  handleDataPixelChange: (data_pixel) => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_DATA_PIXEL_CHANGE,
+      data_pixel: data_pixel
+    });
+  },
+
   handleCorrelationClick: () => {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_CORRELATION_CLICK

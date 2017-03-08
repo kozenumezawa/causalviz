@@ -133,6 +133,9 @@ class Store extends EventEmitter {
           tiff_index = 0;
         }
         break;
+      case eventConstants.HANDLE_DATA_PIXEL_CHANGE:
+        console.log(action.data_pixel);
+        break;
       case eventConstants.HANDLE_CORRELATION_CLICK:
         break;
       case eventConstants.HANDLE_TIFF_CLICK:
