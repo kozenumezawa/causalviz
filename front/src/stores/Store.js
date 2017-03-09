@@ -339,27 +339,29 @@ class Store extends EventEmitter {
                   const canvas = tiff.toCanvas();
                   legend_tiff = canvas;
                 }
-                if (data_type === generalConstants.DATA_TRP_TYPE) {
-                  all_tiff_list = this.assignColorToTiffList(all_tiff_list, legend_tiff);
-                } else {
-                  all_time_series = this.createAllTimeSeriesFromTiff(legend_tiff);
-                }
-                this.emitChange();
 
-                this.updateClusterList(6);
-
-                // calculate maximum values
-                for (let i = 0, len = all_time_series.length; i < len; i++) {
-                  maxvalue_list[i] = Math.max.apply(null, all_time_series[i]);
-                }
-                this.updateMaximumList([0, 51, 102, 153, 204, 255]);
-                this.emitChange();
-
-                this.updateCorrelationList(slider_value);
+                this.updateTimeSeriesAndCluster();
               });
             });
         });
       });
+  }
+
+  updateTimeSeriesAndCluster() {
+    if (data_type === generalConstants.DATA_TRP_TYPE) {
+      all_tiff_list = this.assignColorToTiffList(all_tiff_list, legend_tiff);
+    } else {
+      all_time_series = this.createAllTimeSeriesFromTiff(legend_tiff);
+    }
+
+    this.updateClusterList(6);
+
+    // calculate maximum values
+    for (let i = 0, len = all_time_series.length; i < len; i++) {
+      maxvalue_list[i] = Math.max.apply(null, all_time_series[i]);
+    }
+    this.updateMaximumList([0, 51, 102, 153, 204, 255]);
+    this.updateCorrelationList(slider_value);
   }
 
   assignColorToTiffList (all_tiff_gray, legend_canvas) {
