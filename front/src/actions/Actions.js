@@ -51,10 +51,10 @@ export default {
     });
   },
 
-  handleDataPixelChange: (data_pixel) => {
+  handleFilterTypeChange: (filter_type) => {
     Dispatcher.dispatch({
-      actionType: eventConstants.HANDLE_DATA_PIXEL_CHANGE,
-      data_pixel: data_pixel
+      actionType: eventConstants.HANDLE_FILTER_TYPE_CHANGE,
+      filter_type: filter_type
     });
   },
 

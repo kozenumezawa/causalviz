@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import Dispatcher from '../dispatcher/Dispatcher';
 import eventConstants from '../constants/event-constants';
-import generalConstants from '../constants/general-constants';
+import generalConst from '../constants/general-constants';
 import * as pairTimeSeries from '../utils/pair-time-series';
 import * as storeUtils from './store-utils'
 
@@ -10,10 +10,10 @@ const CHANGE_EVENT = 'change';
 let canvas_width = 285;
 let canvas_height = 130;
 
-let data_type = generalConstants.DATA_TRP_TYPE;
-let data_pixel = 1;
+let data_type = generalConst.DATA_TRP_TYPE;
+let filter_type = generalConst.FILTER_NONE;
 
-let render_contents = generalConstants.VIEW_CROSS_CORRELATION;
+let render_contents = generalConst.VIEW_CROSS_CORRELATION;
 
 let all_tiff_list = [];
 let all_time_series = [];
@@ -74,11 +74,11 @@ class Store extends EventEmitter {
 
   setWidthAndHeight (type) {
     switch (type) {
-      case generalConstants.DATA_WILD_TYPE:
+      case generalConst.DATA_WILD_TYPE:
         canvas_width = 285;
         canvas_height = 130;
         break;
-      case generalConstants.DATA_TRP_TYPE:
+      case generalConst.DATA_TRP_TYPE:
         canvas_width = 128;
         canvas_height = 96;
         break;
@@ -100,27 +100,27 @@ class Store extends EventEmitter {
         break;
       case eventConstants.HANDLE_DEFAULT_CLICK:
         this.setInitialState();
-        render_contents = generalConstants.VIEW_DEFAULT;
+        render_contents = generalConst.VIEW_DEFAULT;
         break;
       case eventConstants.HANDLE_KMEANS_CLICK:
         this.setInitialState();
         slider_value = 6;
         this.updateClusterList(slider_value);
-        render_contents = generalConstants.VIEW_KMEANS;
+        render_contents = generalConst.VIEW_KMEANS;
         break;
       case eventConstants.HANDLE_MAXIMUM_CLICK:
         this.setInitialState();
-        render_contents = generalConstants.VIEW_MAXIMUM;
+        render_contents = generalConst.VIEW_MAXIMUM;
         break;
       case eventConstants.HANDLE_CROSS_CORRELATION:
         this.setInitialState();
         slider_value = 10;
         this.updateCorrelationList(slider_value);
-        render_contents = generalConstants.VIEW_CROSS_CORRELATION;
+        render_contents = generalConst.VIEW_CROSS_CORRELATION;
         break;
       case eventConstants.HANDLE_TRACE_FLOW:
         this.setInitialState();
-        render_contents = generalConstants.VIEW_TRACE_FLOW;
+        render_contents = generalConst.VIEW_TRACE_FLOW;
         break;
       case eventConstants.HANDLE_BEFORE_CLICK:
         tiff_index--;
@@ -134,11 +134,12 @@ class Store extends EventEmitter {
           tiff_index = 0;
         }
         break;
-      case eventConstants.HANDLE_DATA_PIXEL_CHANGE:
-        if (action.data_pixel === data_pixel) {
+      case eventConstants.HANDLE_FILTER_TYPE_CHANGE:
+        if (action.filter_type === filter_type) {
           break;
         }
-        data_pixel = action.data_pixel;
+        filter_type = action.filter_type;
+        this.setTiffData();
         break;
       case eventConstants.HANDLE_CORRELATION_CLICK:
         break;
@@ -149,16 +150,16 @@ class Store extends EventEmitter {
 
         if (cluster_list.length !== 0) {
           let selected_cluster;
-          if (render_contents === generalConstants.VIEW_KMEANS) {
+          if (render_contents === generalConst.VIEW_KMEANS) {
             selected_cluster = cluster_list[highlighted_line];
-          } else if (render_contents === generalConstants.VIEW_CROSS_CORRELATION) {
+          } else if (render_contents === generalConst.VIEW_CROSS_CORRELATION) {
             selected_cluster = correlation_list[highlighted_line];
           }
           checked_cluster[selected_cluster] = !checked_cluster[selected_cluster];
         }
         this.updateRelationList();
 
-        if (render_contents === generalConstants.VIEW_TRACE_FLOW) {
+        if (render_contents === generalConst.VIEW_TRACE_FLOW) {
           this.updateTraceflowList(highlighted_line);
         }
         break;
@@ -184,9 +185,9 @@ class Store extends EventEmitter {
         break;
       case eventConstants.HANDLE_CLUSTER_CHANGE:
         slider_value = action.n_clusters;
-        if (render_contents === generalConstants.VIEW_KMEANS) {
+        if (render_contents === generalConst.VIEW_KMEANS) {
           this.updateClusterList(slider_value);
-        } else if (render_contents === generalConstants.VIEW_CROSS_CORRELATION) {
+        } else if (render_contents === generalConst.VIEW_CROSS_CORRELATION) {
           this.updateCorrelationList(slider_value);
         }
         break;
@@ -202,8 +203,8 @@ class Store extends EventEmitter {
     return data_type;
   }
 
-  getDataPixel () {
-    return data_pixel;
+  getFilterType () {
+    return filter_type;
   }
 
   getCanvasWidth () {
@@ -306,11 +307,11 @@ class Store extends EventEmitter {
     Tiff.initialize({TOTAL_MEMORY: 16777216 * 10});
     let tiff_name, legend_name;
     switch (data_type) {
-      case generalConstants.DATA_WILD_TYPE:
+      case generalConst.DATA_WILD_TYPE:
         tiff_name = 'front/dist/GFBratio-mask-64-255.tif';
         legend_name = 'front/dist/2E2_GFB.tif';
         break;
-      case generalConstants.DATA_TRP_TYPE:
+      case generalConst.DATA_TRP_TYPE:
         tiff_name = 'front/dist/trp-3-masked8b.tif';
         legend_name = 'front/dist/2E2_GFB.tif';
         break;
@@ -322,7 +323,7 @@ class Store extends EventEmitter {
         response.arrayBuffer().then((buffer) => {
           let tiff_list = [];
           const tiff = new Tiff({ buffer: buffer });
-          const tiff_len = (data_type === generalConstants.DATA_WILD_TYPE) ? tiff.countDirectory() - 50 : tiff.countDirectory();
+          const tiff_len = (data_type === generalConst.DATA_WILD_TYPE) ? tiff.countDirectory() - 50 : tiff.countDirectory();
           for (let i = 0; i < tiff_len; i++) {
             tiff.setDirectory(i);
             const canvas = tiff.toCanvas();
@@ -340,6 +341,10 @@ class Store extends EventEmitter {
                   legend_tiff = canvas;
                 }
 
+                if (filter_type !== 1) {
+                  this.updateTiffListUsingDataPixel();
+                }
+
                 this.updateTimeSeriesAndCluster();
               });
             });
@@ -347,8 +352,12 @@ class Store extends EventEmitter {
       });
   }
 
+  updateTiffListUsingDataPixel() {
+    console.log('a');
+  }
+
   updateTimeSeriesAndCluster() {
-    if (data_type === generalConstants.DATA_TRP_TYPE) {
+    if (data_type === generalConst.DATA_TRP_TYPE) {
       all_tiff_list = this.assignColorToTiffList(all_tiff_list, legend_tiff);
     } else {
       all_time_series = this.createAllTimeSeriesFromTiff(legend_tiff);
@@ -450,7 +459,7 @@ class Store extends EventEmitter {
         cluster_list = labels;
         cluster_time_series = json.average;
 
-        if (render_contents === generalConstants.VIEW_KMEANS) {
+        if (render_contents === generalConst.VIEW_KMEANS) {
           this.updateCheckedCluster(cluster_list);
         }
         this.emitChange();
@@ -470,7 +479,7 @@ class Store extends EventEmitter {
   }
 
   updateCriteriaTimeSeries() {
-    const len_time = (data_type === generalConstants.DATA_WILD_TYPE) ?
+    const len_time = (data_type === generalConst.DATA_WILD_TYPE) ?
                                           all_time_series[0].length - 15 : all_time_series[0].length;
     criteria_time_series = new Array(len_time);
     criteria_time_series.fill(0);
@@ -482,20 +491,20 @@ class Store extends EventEmitter {
       cut_time_series[i] = [];
 
       for (let j = 0; j < len_time; j++) {
-        if (data_type === generalConstants.DATA_WILD_TYPE) {
+        if (data_type === generalConst.DATA_WILD_TYPE) {
           // cut first 15 time steps because they are meaningless
           cut_time_series[i][j] = all_time_series[i][j + 15];
-        } else if (data_type === generalConstants.DATA_TRP_TYPE) {
+        } else if (data_type === generalConst.DATA_TRP_TYPE) {
           cut_time_series[i][j] = all_time_series[i][j];
         }
       }
 
       // add right hand area data to criteria_time_series if data type is wild type
-      if (data_type === generalConstants.DATA_WILD_TYPE && (i % canvas_width < 250 || cut_time_series[i].indexOf(0) >= 0))
+      if (data_type === generalConst.DATA_WILD_TYPE && (i % canvas_width < 250 || cut_time_series[i].indexOf(0) >= 0))
         continue;
 
       // add right hand area data to criteria_time_series if data type is wild type
-      if (data_type === generalConstants.DATA_TRP_TYPE && (i % canvas_width > 65 || i / canvas_width > 89 || cut_time_series[i].indexOf(0) >= 0))
+      if (data_type === generalConst.DATA_TRP_TYPE && (i % canvas_width > 65 || i / canvas_width > 89 || cut_time_series[i].indexOf(0) >= 0))
         continue;
 
       sum_count += 1;
@@ -522,7 +531,7 @@ class Store extends EventEmitter {
     });
 
     corr_time_series = this.getAverageEachTau(n_clusters);
-    if (render_contents === generalConstants.VIEW_CROSS_CORRELATION) {
+    if (render_contents === generalConst.VIEW_CROSS_CORRELATION) {
       this.updateCheckedCluster(tau_list);
     }
     this.emitChange();
@@ -604,12 +613,12 @@ class Store extends EventEmitter {
       }
     }
     if (corr_list.length === 0) {
-      return generalConstants.ERR_REACH_EDGH;
+      return generalConst.ERR_REACH_EDGH;
     }
 
     const max_corr = Math.max.apply(null, corr_list);
     if (max_corr === pairTimeSeries.error) {
-      return generalConstants.ERR_REACH_EDGH;
+      return generalConst.ERR_REACH_EDGH;
     }
     return idx_list[corr_list.indexOf(max_corr)];
   }
@@ -621,7 +630,7 @@ class Store extends EventEmitter {
     let target_index = clicked_index;
     for (let i = 0; i < 10000; i++) {
       const new_index = this.getIndexMaximizingCorr(target_index, traceflow_list);
-      if (new_index === generalConstants.ERR_REACH_EDGH) {
+      if (new_index === generalConst.ERR_REACH_EDGH) {
         break;
       }
 

@@ -8,7 +8,9 @@ const generalConstant = keyMirror({
   VIEW_MAXIMUM             : null,
   VIEW_CROSS_CORRELATION   : null,
   VIEW_TRACE_FLOW          : null,
-  ERR_REACH_EDGH           : null
+  ERR_REACH_EDGH           : null,
+  FILTER_NONE              : null,
+  FILTER_MEAN              : null
 });
 
 export default generalConstant;

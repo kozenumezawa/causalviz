@@ -3,7 +3,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Toggle from 'material-ui/Toggle';
 import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
-
+import generalConst from '../../constants/general-constants'
 
 import Actions from '../../actions/Actions';
 
@@ -18,9 +18,8 @@ export default class commandButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dropdown_value: props.data_pixel
+      dropdown_value: props.filter_type
     };
-
     this.handleDropChange = this.handleDropChange.bind(this);
   }
 
@@ -36,11 +35,11 @@ export default class commandButton extends React.Component {
     Actions.handleLoupeClick();
   }
 
-  handleDropChange(event, index, data_pixel) {
+  handleDropChange(event, index, filter_type) {
     this.setState({
-      dropdown_value: data_pixel
+      dropdown_value: filter_type
     });
-    Actions.handleDataPixelChange(data_pixel)
+    Actions.handleDataPixelChange(filter_type);
   }
 
   render() {
@@ -74,8 +73,8 @@ export default class commandButton extends React.Component {
             }}
           underlineStyle={{display: 'none'}}
         >
-          <MenuItem value={1} primaryText="1pixel/data" />
-          <MenuItem value={4} primaryText="4pixel/data" />
+          <MenuItem value={generalConst.FILTER_NONE} primaryText="FILTER: None" />
+          <MenuItem value={generalConst.FILTER_MEAN} primaryText="FILTER: MEAN" />
         </DropDownMenu>
       </div>
     );

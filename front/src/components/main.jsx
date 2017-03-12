@@ -3,7 +3,7 @@ import Chip from 'material-ui/Chip';
 import {white} from 'material-ui/styles/colors';
 
 import Store from '../stores/Store';
-import generalConstants from '../constants/general-constants';
+import generalConst from '../constants/general-constants';
 import layoutConst from '../constants/layout-constants'
 
 import TiffContainer from './tiff-container.jsx';
@@ -23,7 +23,7 @@ function getAllState() {
     canvas_width        : Store.getCanvasWidth(),
     canvas_height       : Store.getCanvasHeight(),
     data_type           : Store.getDataType(),
-    data_pixel          : Store.getDataPixel(),
+    filter_type         : Store.getFilterType(),
     render_contents     : Store.getRenderContents(),
     all_tiff_list       : Store.getAllTiffList(),
     tiff_index          : Store.getTiffIndex(),
@@ -62,7 +62,7 @@ export default class main extends React.Component {
 
   render() {
     let tiff_list = this.state.all_tiff_list;
-    if (this.state.data_type === generalConstants.DATA_WILD_TYPE && this.state.render_contents === generalConstants.VIEW_CROSS_CORRELATION) {
+    if (this.state.data_type === generalConst.DATA_WILD_TYPE && this.state.render_contents === generalConst.VIEW_CROSS_CORRELATION) {
       tiff_list = Store.getCutTiffList();
     }
 
@@ -110,7 +110,7 @@ export default class main extends React.Component {
 
         {(() => {
           switch(this.state.render_contents) {
-            case generalConstants.VIEW_DEFAULT:
+            case generalConst.VIEW_DEFAULT:
               return (
                 <div>
                   <DefaultView
@@ -120,7 +120,7 @@ export default class main extends React.Component {
                 </div>
               );
               break;
-            case generalConstants.VIEW_KMEANS:
+            case generalConst.VIEW_KMEANS:
               return (
                 <div>
                   <KmeansClusteringView
@@ -130,7 +130,7 @@ export default class main extends React.Component {
                 </div>
               );
               break;
-            case generalConstants.VIEW_MAXIMUM:
+            case generalConst.VIEW_MAXIMUM:
               return(
                 <div>
                   <MaximumValueClusteringView
@@ -139,7 +139,7 @@ export default class main extends React.Component {
                 </div>
               );
               break;
-            case generalConstants.VIEW_CROSS_CORRELATION:
+            case generalConst.VIEW_CROSS_CORRELATION:
               return(
                 <div>
                   <CrossCorrelationView
@@ -149,7 +149,7 @@ export default class main extends React.Component {
                 </div>
               );
               break;
-            case generalConstants.VIEW_TRACE_FLOW:
+            case generalConst.VIEW_TRACE_FLOW:
               return (
                 <div>
                   <TraceFlowView
@@ -164,7 +164,7 @@ export default class main extends React.Component {
 
         <div style={{position: 'absolute', display: 'inline-block', top: 100, left: 480}}>
           <CommandButton
-            data_pixel={this.state.data_pixel}
+            filter_type={this.state.filter_type}
           />
         </div>
 
