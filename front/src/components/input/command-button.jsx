@@ -39,7 +39,7 @@ export default class commandButton extends React.Component {
     this.setState({
       dropdown_value: filter_type
     });
-    Actions.handleDataPixelChange(filter_type);
+    Actions.handleFilterTypeChange(filter_type);
   }
 
   render() {

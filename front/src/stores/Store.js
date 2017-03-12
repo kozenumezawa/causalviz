@@ -308,11 +308,19 @@ class Store extends EventEmitter {
     let tiff_name, legend_name;
     switch (data_type) {
       case generalConst.DATA_WILD_TYPE:
-        tiff_name = 'front/dist/GFBratio-mask-64-255.tif';
+        if (filter_type === generalConst.FILTER_NONE) {
+          tiff_name = 'front/dist/GFBratio-mask-64-255.tif';
+        } else if (filter_type === generalConst.FILTER_MEAN) {
+          tiff_name = 'front/dist/GFBratio-mask-64-255_mean.tif';
+        }
         legend_name = 'front/dist/2E2_GFB.tif';
         break;
       case generalConst.DATA_TRP_TYPE:
-        tiff_name = 'front/dist/trp-3-masked8b.tif';
+        if (filter_type === generalConst.FILTER_NONE) {
+          tiff_name = 'front/dist/trp-3-masked8b.tif';
+        } else if (filter_type === generalConst.FILTER_MEAN) {
+          tiff_name = 'front/dist/trp-3-masked8b_mean.tif';
+        }
         legend_name = 'front/dist/2E2_GFB.tif';
         break;
       default:
@@ -341,19 +349,11 @@ class Store extends EventEmitter {
                   legend_tiff = canvas;
                 }
 
-                if (filter_type !== 1) {
-                  this.updateTiffListUsingDataPixel();
-                }
-
                 this.updateTimeSeriesAndCluster();
               });
             });
         });
       });
-  }
-
-  updateTiffListUsingDataPixel() {
-    console.log('a');
   }
 
   updateTimeSeriesAndCluster() {
