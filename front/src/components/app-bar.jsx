@@ -38,6 +38,7 @@ export default class CausalVisAppBar extends React.Component {
     this.handleMaximumClick = this.handleMaximumClick.bind(this);
     this.handleCrossCorrelation = this.handleCrossCorrelation.bind(this);
     this.handleTraceFlow = this.handleTraceFlow.bind(this);
+    this.handleThreeDim = this.handleThreeDim.bind(this);
   }
 
   handleIconClick() {
@@ -88,6 +89,13 @@ export default class CausalVisAppBar extends React.Component {
     Action.handleTraceFlow();
   }
 
+  handleThreeDim() {
+    this.setState({
+      open: !this.state.open
+    });
+    Action.handleThreeDim();
+  }
+
   renderAppBar() {
     if (this.state.open === true) {
       return(
@@ -113,6 +121,7 @@ export default class CausalVisAppBar extends React.Component {
             <MenuItem onTouchTap={this.handleMaximumClick}>maximum value clustering</MenuItem>
             <MenuItem onTouchTap={this.handleCrossCorrelation}>Cross Correlation</MenuItem>
             <MenuItem onTouchTap={this.handleTraceFlow}>Trace Flow</MenuItem>
+            <MenuItem onTouchTap={this.handleThreeDim}>3D View</MenuItem>
           </Drawer>
         </div>
       );

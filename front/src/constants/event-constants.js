@@ -7,6 +7,7 @@ const eventConstant = keyMirror({
   HANDLE_MAXIMUM_CLICK      : null,
   HANDLE_CROSS_CORRELATION  : null,
   HANDLE_TRACE_FLOW         : null,
+  HANDLE_THREE_DIM          : null,
   HANDLE_BEFORE_CLICK       : null,
   HANDLE_NEXT_CLICK         : null,
   HANDLE_CORRELATION_CLICK  : null,

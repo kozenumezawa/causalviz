@@ -17,6 +17,7 @@ import KmeansClusteringView from './mainview/kmeans-clustering-view.jsx';
 import MaximumValueClusteringView from './mainview/maximum-value-clustering-view.jsx';
 import CrossCorrelationView from './mainview/cross-correlation-view.jsx';
 import TraceFlowView from './mainview/trace-flow-view.jsx';
+import ThreeDimView from './mainview/three-dim-view.jsx';
 
 function getAllState() {
   return {
@@ -153,6 +154,16 @@ export default class main extends React.Component {
               return (
                 <div>
                   <TraceFlowView
+                    parent_state = {this.state}
+                    tiff_list = {tiff_list}
+                  />
+                </div>
+              );
+              break;
+            case generalConst.VIEW_THREE_DIM:
+              return (
+                <div>
+                  <ThreeDimView
                     parent_state = {this.state}
                     tiff_list = {tiff_list}
                   />

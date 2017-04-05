@@ -38,6 +38,12 @@ export default {
       actionType: eventConstants.HANDLE_TRACE_FLOW
     });
   },
+
+  handleThreeDim: () => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_THREE_DIM
+    });
+  },
   
   handleBeforeClick: () => {
     Dispatcher.dispatch({
