@@ -13,7 +13,7 @@ let canvas_height = 130;
 let data_type = generalConst.DATA_TRP_TYPE;
 let filter_type = generalConst.FILTER_NONE;
 
-let render_contents = generalConst.VIEW_CROSS_CORRELATION;
+let render_contents = generalConst.VIEW_THREE_DIM;
 
 let all_tiff_list = [];
 let all_time_series = [];
