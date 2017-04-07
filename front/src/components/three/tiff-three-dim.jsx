@@ -7,6 +7,8 @@ export default class TiffThreeDim extends React.Component{
   constructor(props) {
     super(props);
 
+    this.geometries = [];
+    this.materials = [];
     this.boxes = [];
 
     const width = 500;
@@ -58,6 +60,8 @@ export default class TiffThreeDim extends React.Component{
     const tiff_rgba = tiff_image.data; // image_rgba = [R, G, B, A, R, G, B, A, ...] (hex data)
 
     for (let i = 0; i < height; i++) {
+      this.geometries[i] = [];
+      this.materials[i] = [];
       this.boxes[i] = [];
 
       for (let j = 0; j < width; j++) {
@@ -70,9 +74,9 @@ export default class TiffThreeDim extends React.Component{
         const pixel_color = new THREE.Color(r, g, b);
 
         const length = time_series[i * width + j][tiff_index] / 10;
-        const geometry = new THREE.BoxGeometry(1, 1, length);
-        const material = new THREE.MeshBasicMaterial({ color: pixel_color });
-        this.boxes[i][j] = new THREE.Mesh(geometry, material);
+        this.geometries[i][j] = new THREE.BoxGeometry(1, 1, length);
+        this.materials[i][j] = new THREE.MeshBasicMaterial({ color: pixel_color });
+        this.boxes[i][j] = new THREE.Mesh(this.geometries[i][j], this.materials[i][j]);
         this.boxes[i][j].position.x = j;
         this.boxes[i][j].position.y = -i;
         this.boxes[i][j].position.z = length / 2;
@@ -87,6 +91,13 @@ export default class TiffThreeDim extends React.Component{
       for (let i = 0; i < this.boxes.length; i++) {
         for (let j = 0; j < this.boxes[i].length; j++) {
           this.scene.remove(this.boxes[i][j]);
+
+          if (typeof(this.geometries[i][j]) === 'function') {
+            this.geometries[i][j].dispose();
+            this.materials[i][j].dispose();
+          }
+
+          // this.boxes[i][j].dispose();
         }
       }
       this.boxes = [];
