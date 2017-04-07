@@ -41,6 +41,7 @@ export default class TiffThreeDim extends React.Component{
   }
 
   componentWillReceiveProps(nextProps) {
+    this.removeAllBox();
     this.createBox(nextProps.canvas_width, nextProps.canvas_height, nextProps.tiff_list, nextProps.tiff_index, nextProps.time_series);
   }
 
@@ -68,7 +69,7 @@ export default class TiffThreeDim extends React.Component{
         }
         const pixel_color = new THREE.Color(r, g, b);
 
-        const length = time_series[i * width + j][tiff_index];
+        const length = time_series[i * width + j][tiff_index] / 10;
         const geometry = new THREE.BoxGeometry(1, 1, length);
         const material = new THREE.MeshBasicMaterial({ color: pixel_color });
         this.boxes[i][j] = new THREE.Mesh(geometry, material);
@@ -78,6 +79,17 @@ export default class TiffThreeDim extends React.Component{
 
         this.scene.add(this.boxes[i][j]);
       }
+    }
+  }
+
+  removeAllBox() {
+    if (this.boxes.length !== 0) {
+      for (let i = 0; i < this.boxes.length; i++) {
+        for (let j = 0; j < this.boxes[i].length; j++) {
+          this.scene.remove(this.boxes[i][j]);
+        }
+      }
+      this.boxes = [];
     }
   }
 
