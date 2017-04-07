@@ -59,6 +59,52 @@ export default class TiffThreeDim extends React.Component{
     const tiff_image = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const tiff_rgba = tiff_image.data; // image_rgba = [R, G, B, A, R, G, B, A, ...] (hex data)
 
+    this.geometry = new THREE.Geometry();
+    this.geometry.vertices.push(new THREE.Vector3(0, 0, 0));
+    this.geometry.vertices.push(new THREE.Vector3(10, 0, 0));
+    this.geometry.vertices.push(new THREE.Vector3(10, 10, 0));
+    this.geometry.vertices.push(new THREE.Vector3(0, 10, 0));
+    this.geometry.vertices.push(new THREE.Vector3(0, 0, 10));
+    this.geometry.vertices.push(new THREE.Vector3(10, 0, 10));
+    this.geometry.vertices.push(new THREE.Vector3(10, 10, 10));
+    this.geometry.vertices.push(new THREE.Vector3(0, 10, 10));
+
+    this.geometry.faces.push(new THREE.Face3(0, 2, 1, null, new THREE.Color(1, 0, 0)));
+    this.geometry.faces.push(new THREE.Face3(0, 3, 2, null, new THREE.Color(1, 0, 0)));
+
+    this.geometry.faces.push(new THREE.Face3(1, 6, 5, null, new THREE.Color(1, 0, 0)));
+    this.geometry.faces.push(new THREE.Face3(1, 2, 6, null, new THREE.Color(1, 0, 0)));
+
+    this.geometry.faces.push(new THREE.Face3(0, 5, 4, null, new THREE.Color(1, 0, 0)));
+    this.geometry.faces.push(new THREE.Face3(0, 1, 5, null, new THREE.Color(1, 0, 0)));
+
+    this.geometry.faces.push(new THREE.Face3(0, 7, 3, null, new THREE.Color(1, 0, 0)));
+    this.geometry.faces.push(new THREE.Face3(0, 4, 7, null, new THREE.Color(1, 0, 0)));
+
+    this.geometry.faces.push(new THREE.Face3(3, 6, 2, null, new THREE.Color(1, 0, 0)));
+    this.geometry.faces.push(new THREE.Face3(3, 7, 6, null, new THREE.Color(1, 0, 0)));
+
+    this.geometry.faces.push(new THREE.Face3(4, 6, 7, null, new THREE.Color(1, 0, 0)));
+    this.geometry.faces.push(new THREE.Face3(4, 5, 6, null, new THREE.Color(1, 0, 0)));
+
+    // this.geometry.faces.push(new THREE.Face3(0, 3, 7));
+    // this.geometry.faces.push(new THREE.Face3(0, 7, 4));
+    //
+    // this.geometry.faces.push(new THREE.Face3(3, 2, 6));
+    // this.geometry.faces.push(new THREE.Face3(3, 6, 7));
+    //
+    // this.geometry.faces.push(new THREE.Face3(4, 7, 6));
+    // this.geometry.faces.push(new THREE.Face3(4, 6, 5));
+
+    this.geometry.computeFaceNormals();
+    this.geometry.computeVertexNormals();
+
+    this.material = new THREE.MeshBasicMaterial({ vertexColors: THREE.FaceColors });
+
+    this.mesh = new THREE.Mesh(this.geometry, this.material);
+    this.scene.add(this.mesh);
+
+
     for (let i = 0; i < height; i++) {
       this.geometries[i] = [];
       this.materials[i] = [];
