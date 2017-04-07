@@ -92,12 +92,10 @@ export default class TiffThreeDim extends React.Component{
         for (let j = 0; j < this.boxes[i].length; j++) {
           this.scene.remove(this.boxes[i][j]);
 
-          if (typeof(this.geometries[i][j]) === 'function') {
+          if (this.geometries[i][j] != null) {
             this.geometries[i][j].dispose();
             this.materials[i][j].dispose();
           }
-
-          // this.boxes[i][j].dispose();
         }
       }
       this.boxes = [];
