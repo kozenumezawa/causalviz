@@ -6,10 +6,7 @@ const OrbitControls = require('three-orbit-controls')(THREE);
 export default class TiffThreeDim extends React.Component{
   constructor(props) {
     super(props);
-
-    this.geometries = [];
-    this.materials = [];
-    this.boxes = [];
+    this.mesh = null;
 
     const width = 500;
     const height = 500;
@@ -18,14 +15,14 @@ export default class TiffThreeDim extends React.Component{
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
-    this.camera.position.x = 100;
-    this.camera.position.y = -70;
-    this.camera.position.z = 450;
+    this.camera.position.x = 63;
+    this.camera.position.y = -147;
+    this.camera.position.z = 180;
 
     this.renderer.render(this.scene, this.camera);
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
-    this.controls.target = new THREE.Vector3(this.camera.position.x, this.camera.position.y, 0);
+    this.controls.target = new THREE.Vector3(this.camera.position.x, -50, 0);
 
     this.animate = this.animate.bind(this);
 
@@ -60,41 +57,21 @@ export default class TiffThreeDim extends React.Component{
     const tiff_rgba = tiff_image.data; // image_rgba = [R, G, B, A, R, G, B, A, ...] (hex data)
 
     this.geometry = new THREE.Geometry();
-    this.geometry.vertices.push(new THREE.Vector3(0, 0, 0));
-    this.geometry.vertices.push(new THREE.Vector3(10, 0, 0));
-    this.geometry.vertices.push(new THREE.Vector3(10, 10, 0));
-    this.geometry.vertices.push(new THREE.Vector3(0, 10, 0));
-    this.geometry.vertices.push(new THREE.Vector3(0, 0, 10));
-    this.geometry.vertices.push(new THREE.Vector3(10, 0, 10));
-    this.geometry.vertices.push(new THREE.Vector3(10, 10, 10));
-    this.geometry.vertices.push(new THREE.Vector3(0, 10, 10));
 
-    this.geometry.faces.push(new THREE.Face3(0, 2, 1, null, new THREE.Color(1, 0, 0)));
-    this.geometry.faces.push(new THREE.Face3(0, 3, 2, null, new THREE.Color(1, 0, 0)));
+    for (let i = 0; i < height; i++) {
+      for (let j = 0; j < width; j++) {
+        const r = tiff_rgba[(i * width + j ) * 4 + 0] / 255;
+        const g = tiff_rgba[(i * width + j ) * 4 + 1] / 255;
+        const b = tiff_rgba[(i * width + j ) * 4 + 2] /  255;
+        if (r === 0 && g === 0 && b === 0) {
+          continue;
+        }
+        const pixel_color = new THREE.Color(r, g, b);
 
-    this.geometry.faces.push(new THREE.Face3(1, 6, 5, null, new THREE.Color(1, 0, 0)));
-    this.geometry.faces.push(new THREE.Face3(1, 2, 6, null, new THREE.Color(1, 0, 0)));
-
-    this.geometry.faces.push(new THREE.Face3(0, 5, 4, null, new THREE.Color(1, 0, 0)));
-    this.geometry.faces.push(new THREE.Face3(0, 1, 5, null, new THREE.Color(1, 0, 0)));
-
-    this.geometry.faces.push(new THREE.Face3(0, 7, 3, null, new THREE.Color(1, 0, 0)));
-    this.geometry.faces.push(new THREE.Face3(0, 4, 7, null, new THREE.Color(1, 0, 0)));
-
-    this.geometry.faces.push(new THREE.Face3(3, 6, 2, null, new THREE.Color(1, 0, 0)));
-    this.geometry.faces.push(new THREE.Face3(3, 7, 6, null, new THREE.Color(1, 0, 0)));
-
-    this.geometry.faces.push(new THREE.Face3(4, 6, 7, null, new THREE.Color(1, 0, 0)));
-    this.geometry.faces.push(new THREE.Face3(4, 5, 6, null, new THREE.Color(1, 0, 0)));
-
-    // this.geometry.faces.push(new THREE.Face3(0, 3, 7));
-    // this.geometry.faces.push(new THREE.Face3(0, 7, 4));
-    //
-    // this.geometry.faces.push(new THREE.Face3(3, 2, 6));
-    // this.geometry.faces.push(new THREE.Face3(3, 6, 7));
-    //
-    // this.geometry.faces.push(new THREE.Face3(4, 7, 6));
-    // this.geometry.faces.push(new THREE.Face3(4, 6, 5));
+        const length = time_series[i * width + j][tiff_index] / 5;
+        this.addBoxToGeometry(j, -i, 0, 1, 1, length, pixel_color);
+      }
+    }
 
     this.geometry.computeFaceNormals();
     this.geometry.computeVertexNormals();
@@ -103,49 +80,46 @@ export default class TiffThreeDim extends React.Component{
 
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.scene.add(this.mesh);
+  }
 
+  addBoxToGeometry(x, y, z, width , height, length, color) {
+    const vertex_0 = this.geometry.vertices.push(new THREE.Vector3(x        , y         , z)) - 1;
+    const vertex_1 = this.geometry.vertices.push(new THREE.Vector3(x + width, y         , z)) - 1;
+    const vertex_2 = this.geometry.vertices.push(new THREE.Vector3(x + width, y + height, z)) - 1;
+    const vertex_3 = this.geometry.vertices.push(new THREE.Vector3(x        , y + height, z)) - 1;
+    const vertex_4 = this.geometry.vertices.push(new THREE.Vector3(x        , y         , length)) - 1;
+    const vertex_5 = this.geometry.vertices.push(new THREE.Vector3(x + width, y         , length)) - 1;
+    const vertex_6 = this.geometry.vertices.push(new THREE.Vector3(x + width, y + height, length)) - 1;
+    const vertex_7 = this.geometry.vertices.push(new THREE.Vector3(x        , y + height, length)) - 1;
 
-    for (let i = 0; i < height; i++) {
-      this.geometries[i] = [];
-      this.materials[i] = [];
-      this.boxes[i] = [];
+    this.geometry.faces.push(new THREE.Face3(vertex_0, vertex_2, vertex_1, null, color));
+    this.geometry.faces.push(new THREE.Face3(vertex_0, vertex_3, vertex_2, null, color));
 
-      for (let j = 0; j < width; j++) {
-        const r = tiff_rgba[(i * width + j ) * 4 + 0] / 255;
-        const g = tiff_rgba[(i * width + j ) * 4 + 1] / 255;
-        const b = tiff_rgba[(i * width + j ) * 4 + 2] / 255;
-        if (r === 0 && g === 0 && b === 0) {
-          continue;
-        }
-        const pixel_color = new THREE.Color(r, g, b);
+    this.geometry.faces.push(new THREE.Face3(vertex_1, vertex_6, vertex_5, null, color));
+    this.geometry.faces.push(new THREE.Face3(vertex_1, vertex_2, vertex_6, null, color));
 
-        const length = time_series[i * width + j][tiff_index] / 10;
-        this.geometries[i][j] = new THREE.BoxGeometry(1, 1, length);
-        this.materials[i][j] = new THREE.MeshBasicMaterial({ color: pixel_color });
-        this.boxes[i][j] = new THREE.Mesh(this.geometries[i][j], this.materials[i][j]);
-        this.boxes[i][j].position.x = j;
-        this.boxes[i][j].position.y = -i;
-        this.boxes[i][j].position.z = length / 2;
+    this.geometry.faces.push(new THREE.Face3(vertex_0, vertex_5, vertex_4, null, color));
+    this.geometry.faces.push(new THREE.Face3(vertex_0, vertex_1, vertex_5, null, color));
 
-        this.scene.add(this.boxes[i][j]);
-      }
-    }
+    this.geometry.faces.push(new THREE.Face3(vertex_0, vertex_7, vertex_3, null, color));
+    this.geometry.faces.push(new THREE.Face3(vertex_0, vertex_4, vertex_7, null, color));
+
+    this.geometry.faces.push(new THREE.Face3(vertex_3, vertex_6, vertex_2, null, color));
+    this.geometry.faces.push(new THREE.Face3(vertex_3, vertex_7, vertex_6, null, color));
+
+    this.geometry.faces.push(new THREE.Face3(vertex_4, vertex_6, vertex_7, null, color));
+    this.geometry.faces.push(new THREE.Face3(vertex_4, vertex_5, vertex_6, null, color));
   }
 
   removeAllBox() {
-    if (this.boxes.length !== 0) {
-      for (let i = 0; i < this.boxes.length; i++) {
-        for (let j = 0; j < this.boxes[i].length; j++) {
-          this.scene.remove(this.boxes[i][j]);
-
-          if (this.geometries[i][j] != null) {
-            this.geometries[i][j].dispose();
-            this.materials[i][j].dispose();
-          }
-        }
-      }
-      this.boxes = [];
+    if (this.mesh === null) {
+      return;
     }
+
+    this.scene.remove(this.mesh);
+    this.geometry.dispose();
+    this.material.dispose();
+    this.mesh = null;
   }
 
   render() {
