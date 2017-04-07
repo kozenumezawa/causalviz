@@ -7,6 +7,8 @@ export default class TiffThreeDim extends React.Component{
   constructor(props) {
     super(props);
 
+    this.boxes = [];
+
     const width = 500;
     const height = 500;
     this.renderer = new THREE.WebGLRenderer();
@@ -22,6 +24,9 @@ export default class TiffThreeDim extends React.Component{
 
     this.animate = this.animate.bind(this);
 
+    this.axis = new THREE.AxisHelper(1000);
+    this.scene.add(this.axis);
+
     this.createBox();
   }
 
@@ -34,19 +39,34 @@ export default class TiffThreeDim extends React.Component{
   componentWillUnmount() {
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.createBox(nextProps.canvas_width, nextProps.canvas_height);
+  }
+
   animate() {
     requestAnimationFrame(this.animate);
     this.controls.update();
     this.renderer.render(this.scene, this.camera);
   }
 
-  createBox() {
-    this.geometry = new THREE.BoxGeometry(1, 1, 1);
-    this.material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
-    this.box = new THREE.Mesh(this.geometry, this.material);
-    this.box.position.z = 0;
+  createBox(width, height) {
+    for (let i = 0; i < height; i++) {
+      this.boxes[i] = [];
 
-    this.scene.add(this.box);
+      for (let j = 0; j < width; j++) {
+        const length = i;
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const c = 0x0000ff * (i / height);
+        const material = new THREE.MeshBasicMaterial({ color: c });
+        this.boxes[i][j] = new THREE.Mesh(geometry, material);
+
+        this.boxes[i][j].position.x = j;
+        this.boxes[i][j].position.y = -i;
+        this.boxes[i][j].position.z = length / 2;
+
+        this.scene.add(this.boxes[i][j]);
+      }
+    }
   }
 
   render() {

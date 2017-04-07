@@ -10,7 +10,12 @@ export default class ThreeDimView extends React.Component {
   render() {
     return (
       <div>
-        <TiffThreeDim />
+        <TiffThreeDim
+          canvas_width={this.props.parent_state.canvas_width}
+          canvas_height={this.props.parent_state.canvas_height}
+          tiff_list={this.props.tiff_list}
+          tiff_index={this.props.parent_state.tiff_index}
+        />
       </div>
     );
   }
