@@ -313,19 +313,19 @@ class Store extends EventEmitter {
     switch (data_type) {
       case generalConst.DATA_WILD_TYPE:
         if (filter_type === generalConst.FILTER_NONE) {
-          tiff_name = 'front/dist/GFBratio-mask-64-255.tif';
+          tiff_name = 'GFBratio-mask-64-255.tif';
         } else if (filter_type === generalConst.FILTER_MEAN) {
-          tiff_name = 'front/dist/GFBratio-mask-64-255_mean.tif';
+          tiff_name = 'GFBratio-mask-64-255_mean.tif';
         }
-        legend_name = 'front/dist/2E2_GFB.tif';
+        legend_name = '2E2_GFB.tif';
         break;
       case generalConst.DATA_TRP_TYPE:
         if (filter_type === generalConst.FILTER_NONE) {
-          tiff_name = 'front/dist/trp-3-masked8b.tif';
+          tiff_name = 'trp-3-masked8b.tif';
         } else if (filter_type === generalConst.FILTER_MEAN) {
-          tiff_name = 'front/dist/trp-3-masked8b_mean.tif';
+          tiff_name = 'trp-3-masked8b_mean.tif';
         }
-        legend_name = 'front/dist/2E2_GFB.tif';
+        legend_name = '2E2_GFB.tif';
         break;
       default:
         break;
@@ -453,7 +453,7 @@ class Store extends EventEmitter {
   }
 
   updateClusterList (n_clusters) {
-    const file_name = 'front/dist/cluster/k_means_' + n_clusters + '.json'
+    const file_name = 'cluster/k_means_' + n_clusters + '.json'
     window.fetch(file_name)
       .then((response) => {
         return response.json();
