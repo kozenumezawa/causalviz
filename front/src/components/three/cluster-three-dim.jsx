@@ -1,9 +1,12 @@
 import React from 'react';
+import * as d3_scale from 'd3-scale';
+
+import * as pairTimeSeries from '../../utils/pair-time-series'
 
 const THREE = require('three');
 const OrbitControls = require('three-orbit-controls')(THREE);
 
-export default class TiffThreeDim extends React.Component{
+export default class ClusterThreeDim extends React.Component{
   constructor(props) {
     super(props);
     this.mesh = null;
@@ -41,7 +44,7 @@ export default class TiffThreeDim extends React.Component{
 
   componentWillReceiveProps(nextProps) {
     this.removeAllBox();
-    this.createBox(nextProps.canvas_width, nextProps.canvas_height, nextProps.tiff_list, nextProps.tiff_index, nextProps.time_series);
+    this.createBox(nextProps.canvas_width, nextProps.canvas_height, nextProps.cluster_list);
   }
 
   animate() {
@@ -50,27 +53,17 @@ export default class TiffThreeDim extends React.Component{
     this.renderer.render(this.scene, this.camera);
   }
 
-  createBox(width, height, tiff_list, tiff_index, time_series) {
-    const canvas = tiff_list[tiff_index];
-    const ctx = canvas.getContext('2d');
-    const tiff_image = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const tiff_rgba = tiff_image.data; // image_rgba = [R, G, B, A, R, G, B, A, ...] (hex data)
-
+  createBox(width, height, cluster_list) {
     this.geometry = new THREE.Geometry();
+    const color_map = d3_scale.schemeCategory20c;
 
-    for (let i = 0; i < height; i++) {
-      for (let j = 0; j < width; j++) {
-        const r = tiff_rgba[(i * width + j ) * 4 + 0] / 255;
-        const g = tiff_rgba[(i * width + j ) * 4 + 1] / 255;
-        const b = tiff_rgba[(i * width + j ) * 4 + 2] /  255;
-        if (r === 0 && g === 0 && b === 0) {
-          continue;
-        }
-        const pixel_color = new THREE.Color(r, g, b);
-
-        const length = time_series[i * width + j][tiff_index] / 5;
-        this.addBoxToGeometry(j, -i, 0, 1, 1, length, pixel_color);
+    for(let i = 0; i < cluster_list.length; i++) {
+      if (cluster_list[i] === pairTimeSeries.error) {
+        continue;
       }
+      const pixel_color = new THREE.Color(parseInt((color_map[cluster_list[i]].slice(1)), 16));
+      const length = cluster_list[i];
+      this.addBoxToGeometry(i % width, - (i / width), 0, 1, 1, length, pixel_color);
     }
 
     this.geometry.computeFaceNormals();
@@ -124,7 +117,7 @@ export default class TiffThreeDim extends React.Component{
 
   render() {
     return (
-      <div id="three-view" style={{position: 'absolute', display: 'inline-block', top: 500, left: 50}}>
+      <div id="three-view" style={{position: 'absolute', display: 'inline-block', top: 400, left: 50}}>
       </div>
     );
   }

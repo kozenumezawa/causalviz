@@ -2,6 +2,8 @@ import React from 'react';
 import * as d3_scale from 'd3-scale';
 
 import OverlayCanvas from './overlay-canvas.jsx';
+import ClusterThreeDim from '../three/cluster-three-dim.jsx'
+
 import * as drawingTool from '../../utils/drawing-tool';
 import * as pairTimeSeries from '../../utils/pair-time-series';
 import generalConst from '../../constants/general-constants'
@@ -54,6 +56,12 @@ export default class CorrelationCanvas extends React.Component{
           canvas_height={this.props.canvas_height}
           clicked_point={this.props.clicked_point}
           loupe_point={this.props.loupe_point}
+        />
+
+        <ClusterThreeDim
+          canvas_width={this.props.canvas_width}
+          canvas_height={this.props.canvas_height}
+          cluster_list={this.props.cluster_list}
         />
       </div>
     );

@@ -1,8 +1,9 @@
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
-import MenuItem from 'material-ui/MenuItem';;
+import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
+import Divider from 'material-ui/Divider';
 
 import Action from '../actions/Actions';
 import generalConstants from '../constants/general-constants';
@@ -121,6 +122,8 @@ export default class CausalVisAppBar extends React.Component {
             <MenuItem onTouchTap={this.handleMaximumClick}>maximum value clustering</MenuItem>
             <MenuItem onTouchTap={this.handleCrossCorrelation}>Cross Correlation</MenuItem>
             <MenuItem onTouchTap={this.handleTraceFlow}>Trace Flow</MenuItem>
+
+            <Divider />
             <MenuItem onTouchTap={this.handleThreeDim}>3D View</MenuItem>
           </Drawer>
         </div>
