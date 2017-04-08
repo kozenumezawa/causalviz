@@ -337,6 +337,9 @@ class Store extends EventEmitter {
           const tiff = new Tiff({ buffer: buffer });
           const tiff_len = (data_type === generalConst.DATA_WILD_TYPE) ? tiff.countDirectory() - 50 : tiff.countDirectory();
           for (let i = 0; i < tiff_len; i++) {
+            if (data_type === generalConst.DATA_TRP_TYPE && i < 50) {
+              continue;
+            }
             tiff.setDirectory(i);
             const canvas = tiff.toCanvas();
             tiff_list.push(canvas);
