@@ -10,7 +10,6 @@ export default class ClusterThreeDim extends React.Component{
   constructor(props) {
     super(props);
     this.mesh = null;
-
     const width = 500;
     const height = 500;
     this.renderer = new THREE.WebGLRenderer();
@@ -31,6 +30,7 @@ export default class ClusterThreeDim extends React.Component{
 
     this.axis = new THREE.AxisHelper(1000);
     this.scene.add(this.axis);
+    this.createBox(props.canvas_width, props.canvas_height, props.cluster_list);
   }
 
 

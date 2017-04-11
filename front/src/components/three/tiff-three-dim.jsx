@@ -28,6 +28,7 @@ export default class TiffThreeDim extends React.Component{
 
     this.axis = new THREE.AxisHelper(1000);
     this.scene.add(this.axis);
+    this.createBox(props.canvas_width, props.canvas_height, props.tiff_list, props.tiff_index, props.time_series);
   }
 
 
