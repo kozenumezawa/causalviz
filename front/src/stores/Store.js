@@ -321,7 +321,7 @@ class Store extends EventEmitter {
         break;
       case generalConst.DATA_TRP_TYPE:
         if (filter_type === generalConst.FILTER_NONE) {
-          tiff_name = 'front/dist/trp-3-masked8b.tif';
+          tiff_name = 'front/dist/trp-3-masked8b_color.tif';
         } else if (filter_type === generalConst.FILTER_MEAN) {
           tiff_name = 'front/dist/trp-3-masked8b_mean.tif';
         }
@@ -364,12 +364,7 @@ class Store extends EventEmitter {
   }
 
   updateTimeSeriesAndCluster() {
-    if (data_type === generalConst.DATA_TRP_TYPE) {
-      all_tiff_list = this.assignColorToTiffList(all_tiff_list, legend_tiff);
-    } else {
-      all_time_series = this.createAllTimeSeriesFromTiff(legend_tiff);
-    }
-
+    all_time_series = this.createAllTimeSeriesFromTiff(legend_tiff);
     this.updateClusterList(6);
 
     // calculate maximum values
