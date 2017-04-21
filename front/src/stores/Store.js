@@ -323,7 +323,7 @@ class Store extends EventEmitter {
         if (filter_type === generalConst.FILTER_NONE) {
           tiff_name = 'front/dist/trp-3-masked8b_color.tif';
         } else if (filter_type === generalConst.FILTER_MEAN) {
-          tiff_name = 'front/dist/trp-3-masked8b_mean.tif';
+          tiff_name = 'front/dist/trp-3-masked8b_color_mean.tif';
         }
         legend_name = 'front/dist/2E2_GFB.tif';
         break;
