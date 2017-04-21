@@ -52,6 +52,9 @@ export default class TiffThreeDim extends React.Component{
   }
 
   createBox(width, height, tiff_list, tiff_index, time_series) {
+    if (tiff_list.length === 0) {
+      return;
+    }
     const canvas = tiff_list[tiff_index];
     const ctx = canvas.getContext('2d');
     const tiff_image = ctx.getImageData(0, 0, canvas.width, canvas.height);
