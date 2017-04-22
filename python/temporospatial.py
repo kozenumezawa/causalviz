@@ -19,8 +19,46 @@ def circular_window(k):
                     win[i, j] = 1
     return win
 
+def matlab_find(np_array, value):
+    if np_array.ndim == 1:
+        x_list = []
+        y_list = []
+        for (i, x) in enumerate(np_array):
+            if x == value:
+                x_list.append(i)
+                y_list.append(0)
+        x = np.array(x_list)
+        y = np.array(y_list)
+    else:
+        [y, x] = np.where(np.transpose(np_array) == value)
+    return [x, y]
+
 def temporo_spatial(k, corr_win, frames, max_lag):
+    dim1 = 285
+    dim2 = 130
     win = circular_window(k)
+
+    k_half = int(math.ceil((k + 1.0) / 2.0))
+
+    a1 = np.array([])
+    if k % 2 == 0:
+        a1 = win[:k_half - 1]
+    else:
+        a1 = win[:k_half]
+
+    a1flip = np.flipud(a1)
+    [x1, y1] = matlab_find(a1flip, 1)
+
+    a2 = win[k + k_half:]
+    [x2, y2] = matlab_find(a2, 1)
+
+    a3 = np.transpose(win[0][k_half : k + k_half])
+    [x3, y3] = matlab_find(a3, 1)
+
+    a4 = np.transpose(win[win.shape[1] - 1][k_half : k + k_half])
+    [x4, y4] = matlab_find(a4, 1)
+
+
     return win
 
 if __name__ == "__main__":
@@ -35,9 +73,9 @@ if __name__ == "__main__":
     all_time_series = np.array(all_time_series)
     # print(all_time_series.shape)  #-> (37050, 80)
 
-    corr_win_pixels = 4
+    corr_win_pixels = 1
     corr_win_frames = 20
     target_frames = math.floor(corr_win_frames / 2)
     max_lag = 10
 
-    print (temporo_spatial(corr_win_pixels, corr_win_frames, target_frames, max_lag))
+    temporo_spatial(corr_win_pixels, corr_win_frames, target_frames, max_lag)
