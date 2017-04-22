@@ -4,7 +4,20 @@ import csv
 import math
 
 def circular_window(k):
-    return 1
+    import scipy.spatial.distance as distance
+    n_col = 2 * k + 1
+    win = np.zeros((n_col, n_col))
+
+    for i in range(n_col):
+        for j in range(n_col):
+            a = distance.pdist(np.array([[i + 1, j + 1], [k + 1, k + 1]]))
+            if k % 2 == 0:
+                if a > min(math.sqrt(5 * k * k / 4 - 3 * k + 2), k) and a <= math.sqrt(5 * k * k / 4 - k + 1):
+                    win[i, j] = 1
+            else:
+                if a >= min(math.sqrt(2) * (k - 1), k) and a <= math.sqrt(5 * k * k / 4 - k / 2 + 1 / 4):
+                    win[i, j] = 1
+    return win
 
 def temporo_spatial(k, corr_win, frames, max_lag):
     win = circular_window(k)
@@ -22,7 +35,7 @@ if __name__ == "__main__":
     all_time_series = np.array(all_time_series)
     # print(all_time_series.shape)  #-> (37050, 80)
 
-    corr_win_pixels = 3
+    corr_win_pixels = 4
     corr_win_frames = 20
     target_frames = math.floor(corr_win_frames / 2)
     max_lag = 10
