@@ -33,6 +33,10 @@ def matlab_find(np_array, value):
         [y, x] = np.where(np.transpose(np_array) == value)
     return [x, y]
 
+def templates(k, points):
+    points_dim = points.ndim
+    direction = np.zeros(points.ndim, 1)
+
 def temporo_spatial(k, corr_win, frames, max_lag):
     dim1 = 285
     dim2 = 130
@@ -58,7 +62,15 @@ def temporo_spatial(k, corr_win, frames, max_lag):
     a4 = np.transpose(win[win.shape[1] - 1][k_half : k + k_half])
     [x4, y4] = matlab_find(a4, 1)
 
+    points = np.array([[k + k_half + np.flipud(x2), np.flipud(y2)],
+                       [k_half + np.flipud(x3), y3],
+                       [k_half + 1 - x1, y1],
+                       [k_half + x4, 2 * k + y4]])
 
+    # a = np.zeros((2 * k + 1, 2 * k + 1))
+    # for i in range(points.ndim):
+    #     a[points[i][0]][points[i][1]] = 1
+    [T1, T2, T3, T4] = templates(k, points)
     return win
 
 if __name__ == "__main__":
@@ -73,7 +85,7 @@ if __name__ == "__main__":
     all_time_series = np.array(all_time_series)
     # print(all_time_series.shape)  #-> (37050, 80)
 
-    corr_win_pixels = 1
+    corr_win_pixels = 2
     corr_win_frames = 20
     target_frames = math.floor(corr_win_frames / 2)
     max_lag = 10
