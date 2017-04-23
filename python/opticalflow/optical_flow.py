@@ -3,10 +3,13 @@ import numpy as np
 import csv
 import math
 
+
 def get_lag_maximizing_corr(frame, target_pixel, all_time_series, win_frames, max_lag, width, height):
     if np.sum(all_time_series[target_pixel]) == 0:
         return 0
-    n_frames = width * height
+    n_frames = all_time_series.shape[1]
+    n_pixels = width * height
+
     win_frames = int(2 * math.floor(win_frames / 2))
     start_frame = max(0, frame - win_frames / 2)
     stop_frame = min(n_frames - 1, frame + win_frames / 2)
@@ -15,8 +18,6 @@ def get_lag_maximizing_corr(frame, target_pixel, all_time_series, win_frames, ma
     elif stop_frame == width * height - 1:
         start_frame = n_frames - win_frames
 
-    target_time_series = all_time_series[target_pixel][start_frame:stop_frame]
-
     corr_list = []
     idx_list = []
     for x in [-1, 0, 1]:
@@ -24,15 +25,20 @@ def get_lag_maximizing_corr(frame, target_pixel, all_time_series, win_frames, ma
             if x == 0 and y == 0:
                 continue
             idx = target_pixel + x + y * width
-            if idx < 0 or idx >= width * height:
+            if idx < 0 or idx >= n_pixels:
                 continue
             # Todo: shift time series
             y_time_series = all_time_series[idx][start_frame:stop_frame]
-            corr_list.append(np.corrcoef(target_time_series, y_time_series)[0][1])
-            idx_list.append([idx)
+            if np.sum(y_time_series) == 0:
+                return 0
 
-
-
+            lag_range = int(math.floor(max_lag / 2))
+            for lag in range(-lag_range, lag_range):
+                if start_frame + lag < 0 or stop_frame + lag >= n_frames:
+                    continue
+                target_time_series = all_time_series[target_pixel][start_frame + lag : stop_frame + lag]
+                corr_list.append(np.corrcoef(target_time_series, y_time_series)[0][1])
+                idx_list.append([idx, lag])
 
     return 1
 
