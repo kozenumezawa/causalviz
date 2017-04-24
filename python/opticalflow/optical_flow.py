@@ -19,27 +19,36 @@ def get_lag_maximizing_corr(frame, target_pixel, all_time_series, win_frames, ma
         start_frame = n_frames - win_frames
 
     corr_list = []
-    idx_list = []
+    pixel_list = []
+    lag_list = []
     for x in [-1, 0, 1]:
         for y in [-1, 0, 1]:
             if x == 0 and y == 0:
                 continue
-            idx = target_pixel + x + y * width
-            if idx < 0 or idx >= n_pixels:
+            pixel = target_pixel + x + y * width
+            if pixel < 0 or pixel >= n_pixels:
                 continue
-            # Todo: shift time series
-            y_time_series = all_time_series[idx][start_frame:stop_frame]
+            y_time_series = all_time_series[pixel][start_frame:stop_frame]
             if np.sum(y_time_series) == 0:
                 return 0
 
             lag_range = int(math.floor(max_lag / 2))
-            for lag in range(-lag_range, lag_range):
+            # for lag in range(-lag_range, lag_range):
+            for lag in range(0, lag_range):
                 if start_frame + lag < 0 or stop_frame + lag >= n_frames:
                     continue
                 target_time_series = all_time_series[target_pixel][start_frame + lag : stop_frame + lag]
                 corr_list.append(np.corrcoef(target_time_series, y_time_series)[0][1])
-                idx_list.append([idx, lag])
+                pixel_list.append(pixel)
+                lag_list.append(lag)
 
+    max_corr = np.max(corr_list)
+    max_index = np.argmax(np.array(corr_list))
+    maximum_pixel = pixel_list[max_index]
+    maximum_lag = lag_list[max_index]
+
+    if maximum_lag > 0:
+        print(frame, max_corr, maximum_pixel, maximum_lag)
     return 1
 
 if __name__ == "__main__":
