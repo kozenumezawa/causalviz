@@ -335,7 +335,7 @@ class Store extends EventEmitter {
         response.arrayBuffer().then((buffer) => {
           let tiff_list = [];
           const tiff = new Tiff({ buffer: buffer });
-          const tiff_len = (data_type === generalConst.DATA_WILD_TYPE) ? tiff.countDirectory() - 50 : tiff.countDirectory();
+          const tiff_len = (data_type === generalConst.DATA_WILD_TYPE) ? tiff.countDirectory() - 50 : tiff.countDirectory() - 100;
           for (let i = 0; i < tiff_len; i++) {
             if (data_type === generalConst.DATA_TRP_TYPE && i < 50) {
               continue;
@@ -541,8 +541,16 @@ class Store extends EventEmitter {
 
   getTauMaximizingCorr (criteria_x, y, n_clusters) {
     let corr_list = [];
-    for (let i = 0; i < n_clusters; i++) {
-      corr_list.push(pairTimeSeries.getCorrelation(criteria_x, y.slice(i)));
+    if (data_type === generalConst.DATA_WILD_TYPE) {
+      // because 1 time step = 0.5s
+      for (let i = 0; i < n_clusters * 2; i += 2) {
+        corr_list.push(pairTimeSeries.getCorrelation(criteria_x, y.slice(i)));
+      }
+    } else {
+      // because 1 time step = 0.2s
+      for (let i = 0; i < n_clusters * 5; i += 5) {
+        corr_list.push(pairTimeSeries.getCorrelation(criteria_x, y.slice(i)));
+      }
     }
     const max_corr = Math.max.apply(null, corr_list);
     if (max_corr === pairTimeSeries.error) {

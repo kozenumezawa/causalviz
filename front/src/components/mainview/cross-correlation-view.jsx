@@ -65,7 +65,7 @@ export default class CrossCorrelationView extends React.Component {
 
         <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.SECOND_STAGE+100, left: 400}}>
           <Chip backgroundColor={white}>
-            {'Tau list'}
+            {'lag list'}
           </Chip>
           <ClusterButton
             id="tau_button"
