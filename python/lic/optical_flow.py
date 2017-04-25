@@ -8,7 +8,7 @@ import lic_internal
 
 def get_lag_maximizing_corr(frame, center_pixel, all_time_series, win_frames, max_lag, width, height):
     if np.sum(all_time_series[center_pixel]) == 0:
-        return np.array([0.001, 0.001])
+        return np.array([0, 0]).astype(np.float64)
     n_frames = all_time_series.shape[1]
     n_pixels = width * height
 
@@ -34,11 +34,11 @@ def get_lag_maximizing_corr(frame, center_pixel, all_time_series, win_frames, ma
                 continue
             y_time_series = all_time_series[pixel][start_frame:stop_frame]
             if np.sum(y_time_series) == 0:
-                return np.array([0.001, 0.001])
+                return np.array([0, 0]).astype(np.float64)
 
             lag_range = int(math.floor(max_lag / 2))
-            # for lag in range(-lag_range, lag_range):
-            for lag in range(0, lag_range):
+            for lag in range(-lag_range, lag_range):
+            # for lag in range(0, lag_range):
                 if start_frame + lag < 0 or stop_frame + lag >= n_frames:
                     continue
                 center_time_series = all_time_series[center_pixel][start_frame + lag : stop_frame + lag]
@@ -48,17 +48,17 @@ def get_lag_maximizing_corr(frame, center_pixel, all_time_series, win_frames, ma
                 if [x, y] == [-1, -1]:
                     vec_list.append(np.array([-ROOT_INV, -ROOT_INV]))
                 elif [x, y] == [-1, 0]:
-                    vec_list.append(np.array([-1, 0.001]))
+                    vec_list.append(np.array([-1, 0]))
                 elif [x, y] == [-1, 1]:
                     vec_list.append(np.array([-ROOT_INV, ROOT_INV]))
                 elif [x, y] == [0, -1]:
-                    vec_list.append(np.array([0.001, -1]))
+                    vec_list.append(np.array([0, -1]))
                 elif [x, y] == [0, 1]:
-                    vec_list.append(np.array([0.001, 1]))
+                    vec_list.append(np.array([0, 1]))
                 elif [x, y] == [1, -1]:
                     vec_list.append(np.array([ROOT_INV, -ROOT_INV]))
                 elif [x, y] == [1, 0]:
-                    vec_list.append(np.array([1, 0.001]))
+                    vec_list.append(np.array([1, 0]))
                 elif [x, y] == [1, 1]:
                     vec_list.append(np.array([ROOT_INV, ROOT_INV]))
 
@@ -69,13 +69,13 @@ def get_lag_maximizing_corr(frame, center_pixel, all_time_series, win_frames, ma
     vector = np.array(vec_list[max_index])
 
     if max_lag <= 0:
-        return np.array([0.001, 0.001])
+        return np.array([0, 0]).astype(np.float64)
 
     # Calculate the magnitude of vector
     target_value = all_time_series[max_pixel][frame + max_lag]
     center_value = all_time_series[center_pixel][frame]
     vector = vector * (target_value - center_value) / max_lag
-    return vector
+    return vector.astype(np.float64)
 
 
 if __name__ == "__main__":
