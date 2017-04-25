@@ -11,3 +11,5 @@ python/timeseries_data
 memo.md
 python/build
 *.so
+python/lic/*.png
+python/lic/result/*.png
