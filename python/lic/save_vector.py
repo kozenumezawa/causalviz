@@ -95,9 +95,11 @@ if __name__ == "__main__":
     width = 285
     height = 130
     vectors = np.zeros((height, width, 2), dtype=np.float64)
-    # for frame in range(all_time_series.shape[1]):
-    for frame in range(1):
+    all_vectors = []
+    for frame in range(all_time_series.shape[1]):
+    # for frame in range(2):
         for (center_pixel, time_series) in enumerate(all_time_series):
             vector = get_lag_maximizing_corr(frame, center_pixel, all_time_series, win_frames, max_lag, width, height)
             vectors[center_pixel / width][center_pixel % width] = vector
-        np.save('./npy/flow_vectors_' + str(frame), vectors)
+        all_vectors.append(vectors)
+    np.save('./npy/flow_vectors', np.array(all_vectors))
