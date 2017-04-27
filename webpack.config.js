@@ -30,5 +30,6 @@ module.exports = {
   },
   eslint: {
     configFile: './.eslintrc'
-  }
+  },
+  devtool: 'inline-source-map'
 };
