@@ -1,6 +1,7 @@
 const path = require('path');
+const webpack = require('webpack');
 
-module.exports = {
+const options = {
   entry: {
     bundle: './front/src/index.jsx'
   },
@@ -9,27 +10,44 @@ module.exports = {
     filename: '[name].js'
   },
   module: {
-    preLoaders: [
+    rules: [
       {
         test: /\.js$/,
+        enforce: "pre",
         exclude: /node_modules/,
-        loader: "eslint-loader"
-      }
-    ],
-    loaders: [
+        use: [
+          {
+            loader: "eslint-loader"
+          }
+        ]
+      },
       {
-        loader: 'babel',
-        exclude: /node_modules/,
         test: /\.js[x]?$/,
-        query: {
-          cacheDirectory: true,
-          presets: ['react', 'es2015']
-        }
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              cacheDirectory: true,
+              presets: ['react', 'es2015']
+            }
+          }
+        ],
+        exclude: /node_modules/
       }
     ]
-  },
-  eslint: {
-    configFile: './.eslintrc'
-  },
-  devtool: 'inline-source-map'
+  }
 };
+
+if (process.env.NODE_ENV === 'production') {
+  options.plugins.push(new webpack.optimize.UglifyJsPlugin({
+    compress: {
+      warnings: false
+    }
+  }));
+} else {
+  Object.assign(options, {
+    devtool: 'inline-source-map'
+  });
+}
+
+module.exports = options;
