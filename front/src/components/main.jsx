@@ -1,7 +1,7 @@
 import React from 'react';
 import Chip from 'material-ui/Chip';
-import {white} from 'material-ui/styles/colors';
-
+import { white } from 'material-ui/styles/colors';
+import { Switch, Route } from 'react-router-dom'
 import Store from '../stores/Store';
 import generalConst from '../constants/general-constants';
 import layoutConst from '../constants/layout-constants'
@@ -109,69 +109,44 @@ export default class main extends React.Component {
           </div>
         </div>
 
-        {(() => {
-          switch(this.state.render_contents) {
-            case generalConst.VIEW_DEFAULT:
-              return (
-                <div>
-                  <DefaultView
-                    parent_state = {this.state}
-                    tiff_list = {tiff_list}
-                  />
-                </div>
-              );
-              break;
-            case generalConst.VIEW_KMEANS:
-              return (
-                <div>
-                  <KmeansClusteringView
-                    parent_state = {this.state}
-                    tiff_list = {tiff_list}
-                  />
-                </div>
-              );
-              break;
-            case generalConst.VIEW_MAXIMUM:
-              return(
-                <div>
-                  <MaximumValueClusteringView
-                    parent_state = {this.state}
-                  />
-                </div>
-              );
-              break;
-            case generalConst.VIEW_CROSS_CORRELATION:
-              return(
-                <div>
-                  <CrossCorrelationView
-                    parent_state = {this.state}
-                    tiff_list = {tiff_list}
-                  />
-                </div>
-              );
-              break;
-            case generalConst.VIEW_TRACE_FLOW:
-              return (
-                <div>
-                  <TraceFlowView
-                    parent_state = {this.state}
-                    tiff_list = {tiff_list}
-                  />
-                </div>
-              );
-              break;
-            case generalConst.VIEW_THREE_DIM:
-              return (
-                <div>
-                  <ThreeDimView
-                    parent_state = {this.state}
-                    tiff_list = {tiff_list}
-                  />
-                </div>
-              );
-              break;
-          }
-        })()}
+        <Switch>
+          {/*<Route path='/abc' component={DefaultView} />*/}
+          <Route exact path='/' render={(props) => (
+              <DefaultView
+                  parent_state = {this.state}
+                  tiff_list = {tiff_list}
+              />
+          )} />
+          <Route path='/kmeans' render={(props) => (
+              <KmeansClusteringView
+                  parent_state = {this.state}
+                  tiff_list = {tiff_list}
+              />
+          )} />
+          <Route path='/maximum' render={(props) => (
+            <MaximumValueClusteringView
+                parent_state = {this.state}
+            />
+          )} />
+          <Route path='/cross' render={(props) => (
+              <CrossCorrelationView
+                  parent_state = {this.state}
+                  tiff_list = {tiff_list}
+              />
+          )} />
+          <Route path='/trace' render={(props) => (
+              <TraceFlowView
+                  parent_state = {this.state}
+                  tiff_list = {tiff_list}
+              />
+          )} />
+          <Route path='/threedim' render={(props) => (
+              <ThreeDimView
+                  parent_state = {this.state}
+                  tiff_list = {tiff_list}
+              />
+          )} />
+        </Switch>
 
         <div style={{position: 'absolute', display: 'inline-block', top: 100, left: 480}}>
           <CommandButton

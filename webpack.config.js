@@ -12,6 +12,7 @@ const options = {
   devServer: {
     open: false,
     contentBase: path.join(__dirname, 'front/dist'),
+    historyApiFallback: true
   },
   module: {
     rules: [

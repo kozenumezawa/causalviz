@@ -4,6 +4,7 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import Divider from 'material-ui/Divider';
+import { Link } from 'react-router-dom'
 
 import Action from '../actions/Actions';
 import generalConstants from '../constants/general-constants';
@@ -56,6 +57,7 @@ export default class CausalVisAppBar extends React.Component {
   }
 
   handleDefaultClick() {
+    console.log('a');
     this.setState({
       open: !this.state.open
     });
@@ -63,6 +65,7 @@ export default class CausalVisAppBar extends React.Component {
   }
 
   handleKmeansClick() {
+    console.log('a');
     this.setState({
       open: !this.state.open
     });
@@ -117,14 +120,24 @@ export default class CausalVisAppBar extends React.Component {
               title="CausalVis"
               onLeftIconButtonTouchTap={this.handleIconClick}
             />
-            <MenuItem onTouchTap={this.handleDefaultClick}>default view</MenuItem>
-            <MenuItem onTouchTap={this.handleKmeansClick}>k-means clustering</MenuItem>
-            <MenuItem onTouchTap={this.handleMaximumClick}>maximum value clustering</MenuItem>
-            <MenuItem onTouchTap={this.handleCrossCorrelation}>Cross Correlation</MenuItem>
-            <MenuItem onTouchTap={this.handleTraceFlow}>Trace Flow</MenuItem>
-
-            <Divider />
-            <MenuItem onTouchTap={this.handleThreeDim}>3D View</MenuItem>
+            <Link to='/' onClick={this.handleDefaultClick}>
+              <MenuItem>default view</MenuItem>
+            </Link>
+            <Link to='/kmeans' onClick={this.handleKmeansClick}>
+              <MenuItem>k-means clustering</MenuItem>
+            </Link>
+            <Link to='/maximum' onClick={this.handleMaximumClick}>
+              <MenuItem>maximum value clustering</MenuItem>
+            </Link>
+            <Link to='/cross' onClick={this.handleCrossCorrelation}>
+              <MenuItem>Cross Correlation</MenuItem>
+            </Link>
+            <Link to='/trace' onClick={this.handleTraceFlow}>
+              <MenuItem>Trace Flow</MenuItem>
+            </Link>
+            <Link to='/threedim' onClick={this.handleThreeDim}>
+              <MenuItem>3D View</MenuItem>
+            </Link>
           </Drawer>
         </div>
       );
