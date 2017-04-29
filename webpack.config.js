@@ -9,6 +9,10 @@ const options = {
     path: path.join(__dirname, 'front/dist'),
     filename: '[name].js'
   },
+  devServer: {
+    open: false,
+    contentBase: path.join(__dirname, 'front/dist'),
+  },
   module: {
     rules: [
       {

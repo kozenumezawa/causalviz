@@ -9,7 +9,7 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 
-	r.StaticFile("/", "index.html")
-	r.Static("/front/dist", "front/dist")
+	//r.StaticFile("/", "front/dist/index.html")
+	r.Static("/", "front/dist")
 	r.Run("127.0.0.1:3000")
 }
