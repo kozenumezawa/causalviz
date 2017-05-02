@@ -39,10 +39,7 @@ let slider_value = 10;
 let tau_list = [];
 let correlation_list = [];
 let criteria_time_series = [];
-let traceflow_list = [];
 
-let maximum_list = [];
-let maxvalue_list = [];   // not to become state variable
 let cut_time_series = []; // to calculate cross correlation
 
 class Store extends EventEmitter {
@@ -68,7 +65,6 @@ class Store extends EventEmitter {
       y: -1
     };
     highlighted_line = -1;
-    traceflow_list = [];
     tiff_index = 0;
   }
 
@@ -108,19 +104,11 @@ class Store extends EventEmitter {
         this.updateClusterList(slider_value);
         render_contents = generalConst.VIEW_KMEANS;
         break;
-      case eventConstants.HANDLE_MAXIMUM_CLICK:
-        this.setInitialState();
-        render_contents = generalConst.VIEW_MAXIMUM;
-        break;
       case eventConstants.HANDLE_CROSS_CORRELATION:
         this.setInitialState();
         slider_value = 10;
         this.updateCorrelationList(slider_value);
         render_contents = generalConst.VIEW_CROSS_CORRELATION;
-        break;
-      case eventConstants.HANDLE_TRACE_FLOW:
-        this.setInitialState();
-        render_contents = generalConst.VIEW_TRACE_FLOW;
         break;
       case eventConstants.HANDLE_THREE_DIM:
         this.setInitialState();
@@ -163,9 +151,6 @@ class Store extends EventEmitter {
         }
         this.updateRelationList();
 
-        if (render_contents === generalConst.VIEW_TRACE_FLOW) {
-          this.updateTraceflowList(highlighted_line);
-        }
         break;
       case eventConstants.HANDLE_LOUPE_CLICK:
         loupe_point.on = !loupe_point.on;
@@ -194,9 +179,6 @@ class Store extends EventEmitter {
         } else if (render_contents === generalConst.VIEW_CROSS_CORRELATION) {
           this.updateCorrelationList(slider_value);
         }
-        break;
-      case eventConstants.HANDLE_LINEHEIGHTS_CHANGE:
-        this.updateMaximumList(action.line_heights);
         break;
       default:
     }
@@ -275,10 +257,6 @@ class Store extends EventEmitter {
     return slider_value;
   }
 
-  getMaximumList () {
-    return maximum_list;
-  }
-
   getTauList () {
     return tau_list;
   }
@@ -293,10 +271,6 @@ class Store extends EventEmitter {
 
   getCutTimeSeries () {
     return cut_time_series;
-  }
-
-  getTraceflowList () {
-    return traceflow_list;
   }
 
   getCutTiffList () {
@@ -367,11 +341,6 @@ class Store extends EventEmitter {
     all_time_series = this.createAllTimeSeriesFromTiff(legend_tiff);
     this.updateClusterList(6);
 
-    // calculate maximum values
-    for (let i = 0, len = all_time_series.length; i < len; i++) {
-      maxvalue_list[i] = Math.max.apply(null, all_time_series[i]);
-    }
-    this.updateMaximumList([0, 51, 102, 153, 204, 255]);
     this.updateCorrelationList(slider_value);
   }
 
@@ -466,18 +435,6 @@ class Store extends EventEmitter {
         }
         this.emitChange();
       });
-  }
-
-  updateMaximumList (line_heights) {
-    maxvalue_list.forEach((max, idx) => {
-      for (let i = 0, len = line_heights.length; i < len; i++) {
-        const scalar = 255 - line_heights[i];
-        if (max > scalar) {
-          maximum_list[idx] = i;
-          break;
-        }
-      }
-    });
   }
 
   updateCriteriaTimeSeries() {
@@ -631,23 +588,6 @@ class Store extends EventEmitter {
       return generalConst.ERR_REACH_EDGH;
     }
     return idx_list[corr_list.indexOf(max_corr)];
-  }
-
-  updateTraceflowList (clicked_index) {
-    traceflow_list = new Array(all_time_series.length);
-    traceflow_list.fill(false);
-
-    let target_index = clicked_index;
-    for (let i = 0; i < 10000; i++) {
-      const new_index = this.getIndexMaximizingCorr(target_index, traceflow_list);
-      if (new_index === generalConst.ERR_REACH_EDGH) {
-        break;
-      }
-
-      traceflow_list[new_index] = true;
-      target_index = new_index;
-    }
-    this.emitChange();
   }
 }
 const store = new Store();

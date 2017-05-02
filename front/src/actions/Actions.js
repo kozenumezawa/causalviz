@@ -15,12 +15,6 @@ export default {
     });
   },
 
-  handleMaximumClick: () => {
-    Dispatcher.dispatch({
-      actionType: eventConstants.HANDLE_MAXIMUM_CLICK
-    });
-  },
-
   handleKmeansClick: () => {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_KMEANS_CLICK
@@ -30,12 +24,6 @@ export default {
   handleCrossCorrelation: () => {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_CROSS_CORRELATION
-    });
-  },
-
-  handleTraceFlow: () => {
-    Dispatcher.dispatch({
-      actionType: eventConstants.HANDLE_TRACE_FLOW
     });
   },
 

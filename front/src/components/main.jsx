@@ -14,9 +14,7 @@ import LegendContainer from './legend-container.jsx';
 
 import DefaultView from './mainview/default-view.jsx';
 import KmeansClusteringView from './mainview/kmeans-clustering-view.jsx';
-import MaximumValueClusteringView from './mainview/maximum-value-clustering-view.jsx';
 import CrossCorrelationView from './mainview/cross-correlation-view.jsx';
-import TraceFlowView from './mainview/trace-flow-view.jsx';
 import ThreeDimView from './mainview/three-dim-view.jsx';
 
 function getAllState() {
@@ -39,11 +37,9 @@ function getAllState() {
     cluster_list        : Store.getClusterList(),
     checked_cluster     : Store.getCheckedCluster(),
     slider_value        : Store.getSliderValue(),
-    maximum_list        : Store.getMaximumList(),
     tau_list            : Store.getTauList(),
     correlation_list    : Store.getCorrelationList(),
     criteria_time_series: Store.getCriteriaTimeSeries(),
-    traceflow_list      : Store.getTraceflowList()
   }
 }
 
@@ -123,19 +119,8 @@ export default class main extends React.Component {
                   tiff_list = {tiff_list}
               />
           )} />
-          <Route path='/maximum' render={(props) => (
-            <MaximumValueClusteringView
-                parent_state = {this.state}
-            />
-          )} />
           <Route path='/cross' render={(props) => (
               <CrossCorrelationView
-                  parent_state = {this.state}
-                  tiff_list = {tiff_list}
-              />
-          )} />
-          <Route path='/trace' render={(props) => (
-              <TraceFlowView
                   parent_state = {this.state}
                   tiff_list = {tiff_list}
               />
