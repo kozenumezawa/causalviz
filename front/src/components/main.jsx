@@ -87,9 +87,14 @@ export default class main extends React.Component {
           />
         </div>
 
+        <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.FIRST_STAGE, left: layoutConst.LEFT_REF}}>
+          <Chip backgroundColor={white}>
+            {'Ca2+ Response'}
+          </Chip>
+        </div>
         <div>
-          <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.FIRST_STAGE, left: layoutConst.LEFT_REF+30}}>
-            <TiffContainerCard
+          <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.FIRST_STAGE + 40, left: layoutConst.LEFT_REF+30}}>
+            <TiffContainer
               id="tiff_output_1"
               canvas_width={this.state.canvas_width}
               canvas_height={this.state.canvas_height}
