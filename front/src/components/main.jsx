@@ -7,6 +7,7 @@ import generalConst from '../constants/general-constants';
 import layoutConst from '../constants/layout-constants'
 
 import TiffContainer from './tiff-container.jsx';
+import TiffContainerCard from './tiff-container-card.jsx'
 import AppBar from './app-bar.jsx';
 import StepButton from './input/step-button.jsx';
 import CommandButton from './input/command-button.jsx';
@@ -87,13 +88,8 @@ export default class main extends React.Component {
         </div>
 
         <div>
-          <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.FIRST_STAGE, left: layoutConst.LEFT_REF}}>
-            <Chip backgroundColor={white}>
-              {'Ca2+ Response'}
-            </Chip>
-          </div>
-          <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.FIRST_STAGE+40, left: layoutConst.LEFT_REF+30}}>
-            <TiffContainer
+          <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.FIRST_STAGE, left: layoutConst.LEFT_REF+30}}>
+            <TiffContainerCard
               id="tiff_output_1"
               canvas_width={this.state.canvas_width}
               canvas_height={this.state.canvas_height}
@@ -106,7 +102,6 @@ export default class main extends React.Component {
         </div>
 
         <Switch>
-          {/*<Route path='/abc' component={DefaultView} />*/}
           <Route exact path='/' render={(props) => (
               <DefaultView
                   parent_state = {this.state}
