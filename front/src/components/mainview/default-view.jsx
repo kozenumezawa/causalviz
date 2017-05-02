@@ -4,7 +4,6 @@ import {white} from 'material-ui/styles/colors';
 
 import layoutConst from '../../constants/layout-constants'
 import RelationCanvas from '../canvas/relation-canvas.jsx';
-import ControlpanelCanvas from '../canvas/controlpanel-canvas.jsx';
 import GraphContainer from '../graph/graph-container.jsx';
 
 export default class DefaultView extends React.Component {
@@ -29,26 +28,6 @@ export default class DefaultView extends React.Component {
               clicked_point={this.props.parent_state.clicked_point}
               loupe_point={this.props.parent_state.loupe_point}
               relation_list={this.props.parent_state.relation_list}
-              tiff_index={this.props.parent_state.tiff_index}
-              tiff_list={this.props.tiff_list}
-            />
-          </div>
-        </div>
-
-        <div>
-          <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.THIRD_STAGE, left: layoutConst.LEFT_REF}}>
-            <Chip backgroundColor={white}>
-              {'Control panel'}
-            </Chip>
-          </div>
-
-          <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.THIRD_STAGE+40, left: layoutConst.LEFT_REF+30}}>
-            <ControlpanelCanvas
-              id="control_panel"
-              canvas_width={this.props.parent_state.canvas_width}
-              canvas_height={this.props.parent_state.canvas_height}
-              clicked_point={this.props.parent_state.clicked_point}
-              loupe_point={this.props.parent_state.loupe_point}
               tiff_index={this.props.parent_state.tiff_index}
               tiff_list={this.props.tiff_list}
             />
