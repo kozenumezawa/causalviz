@@ -36,23 +36,38 @@ export default class TiffContainerCard extends React.Component{
     return (
       <div>
         <Card
-          containerStyle={{width: '250px'}}
+          containerStyle={{width: '200px'}}
         >
           <CardHeader
             title="Ca2+ Response"
+            textStyle={{paddingRight: "0px"}}
           />
           <CardMedia>
-            <canvas id={this.props.id} width={this.props.canvas_width} height={this.props.canvas_height} style={{left: 0, top: 0, zIndex: 0}}></canvas>
+            <canvas id={this.props.id} width={this.props.canvas_width} height={this.props.canvas_height} style={{width: this.props.canvas_width, minWidth: "0%", left: 0, top: 0, zIndex: 0}}></canvas>
+            <ClickedCanvas
+              id={this.props.id}
+              canvas_width={this.props.canvas_width}
+              canvas_height={this.props.canvas_height}
+              clicked_point={this.props.clicked_point}
+              loupe_point={this.props.loupe_point}
+            />
+            <EventCanvas
+              id={this.props.id}
+              canvas_width={this.props.canvas_width}
+              canvas_height={this.props.canvas_height}
+              clicked_point={this.props.clicked_point}
+              loupe_point={this.props.loupe_point}
+            />
           </CardMedia>
-          {/*<CardActions>*/}
-            {/*<IconButton tooltip="Before">*/}
-              {/*<SkipPrevious />*/}
-            {/*</IconButton>*/}
-            {/*<PlayArrow />*/}
-            {/*<IconButton tooltip="Next">*/}
-              {/*<SkipNext />*/}
-            {/*</IconButton>*/}
-          {/*</CardActions>*/}
+          <CardActions>
+            <IconButton tooltip="Before">
+              <SkipPrevious />
+            </IconButton>
+            <PlayArrow />
+            <IconButton tooltip="Next">
+              <SkipNext />
+            </IconButton>
+          </CardActions>
         </Card>
       </div>
     );
