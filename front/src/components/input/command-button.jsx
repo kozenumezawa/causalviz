@@ -23,14 +23,6 @@ export default class commandButton extends React.Component {
     this.handleDropChange = this.handleDropChange.bind(this);
   }
 
-  handleCorrelationClick() {
-    Actions.handleCorrelationClick();
-  }
-
-  handleGrangerClick() {
-    console.log('a');
-  }
-
   handleLoupeClick() {
     Actions.handleLoupeClick();
   }
@@ -51,15 +43,6 @@ export default class commandButton extends React.Component {
           />
           <span className="glyphicon glyphicon-search" ></span>
         </div>
-        <FlatButton
-          label="correlation"
-          disabled={true}
-          onClick={this.handleCorrelationClick}
-        />
-        <FlatButton
-          label="Granger"
-          onClick={this.handleGrangerClick}
-        />
         <DropDownMenu
           value={this.state.dropdown_value}
           onChange={this.handleDropChange}
