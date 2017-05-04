@@ -1,12 +1,16 @@
 import React from 'react';
-import FlatButton from 'material-ui/FlatButton';
+import {Card, CardHeader, CardMedia, CardText} from 'material-ui/Card';
+import IconButton from 'material-ui/IconButton'
+import PlayArrow from 'material-ui/svg-icons/AV/play-arrow';
+import SkipNext from 'material-ui/svg-icons/AV/skip-next';
+import SkipPrevious from 'material-ui/svg-icons/AV/skip-previous';
 
-import ClickedCanvas from './canvas/clicked-canvas.jsx';
-import EventCanvas from './canvas/event-canvas.jsx';
 import * as drawingTool from '../utils/drawing-tool';
 import Actions from '../actions/Actions';
 
-export default class TiffContainer extends React.Component{
+import OverlayCanvas from './canvas/overlay-canvas.jsx'
+
+export default class TiffContainerCard extends React.Component{
   constructor(props) {
     super(props);
   }
@@ -28,29 +32,62 @@ export default class TiffContainer extends React.Component{
     drawingTool.drawLoupeArea(this.canvas, this.ctx, nextProps.loupe_point)
   }
 
+  handleBeforeClick() {
+    Actions.handleBeforeClick();
+  }
+
+  handleNextClick() {
+    Actions.handleNextClick();
+  }
+
   render() {
+    let frames = '- / -';
+    if (this.props.tiff_list !== undefined) {
+      frames = (this.props.tiff_index + 1) + ' / ' + this.props.tiff_list.length;
+    }
+    const card_width = (this.props.canvas_width > 190) ? this.props.canvas_width : 190;
     return (
       <div>
-        <canvas id={this.props.id} width={this.props.canvas_width} height={this.props.canvas_height} style={{left: 0, top: 0, zIndex: 0}}></canvas>
-        <ClickedCanvas
-          id={this.props.id}
-          canvas_width={this.props.canvas_width}
-          canvas_height={this.props.canvas_height}
-          clicked_point={this.props.clicked_point}
-          loupe_point={this.props.loupe_point}
-        />
-        <EventCanvas
-          id={this.props.id}
-          canvas_width={this.props.canvas_width}
-          canvas_height={this.props.canvas_height}
-          loupe_point={this.props.loupe_point}
-        />
-        <FlatButton
-          label="Clear selection"
-          style={{width: '50%'}}
-          labelStyle={{fontSize: '10px'}}
-          onClick={Actions.handleClearSelection}
-        />
+        <Card
+          containerStyle={{width: card_width}}
+        >
+          <CardHeader
+            title="Ca2+ Response"
+            textStyle={{paddingRight: "0px"}}
+          />
+          <CardMedia
+            //style={{textAlign:"center"}}
+          >
+            <canvas id={this.props.id} width={this.props.canvas_width} height={this.props.canvas_height} style={{width: this.props.canvas_width, minWidth: "0%", left: 0, top: 0, zIndex: 0}}></canvas>
+            <OverlayCanvas
+              id={this.props.id}
+              canvas_width={this.props.canvas_width}
+              canvas_height={this.props.canvas_height}
+              clicked_point={this.props.clicked_point}
+              loupe_point={this.props.loupe_point}
+            />
+          </CardMedia>
+          <CardText
+            style={{padding: '0px'}}
+          >
+            <IconButton
+              tooltip="Before"
+              style={{top: '5px'}}
+              onClick={this.handleBeforeClick}
+            >
+              <SkipPrevious />
+            </IconButton>
+            {/*<PlayArrow />*/}
+            { frames }
+            <IconButton
+              tooltip="Next"
+              style={{top: '5px'}}
+              onClick={this.handleNextClick}
+            >
+              <SkipNext />
+            </IconButton>
+          </CardText>
+        </Card>
       </div>
     );
   }

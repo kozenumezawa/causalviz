@@ -7,9 +7,7 @@ import generalConst from '../constants/general-constants';
 import layoutConst from '../constants/layout-constants'
 
 import TiffContainer from './tiff-container.jsx';
-import TiffContainerCard from './tiff-container-card.jsx'
 import AppBar from './app-bar.jsx';
-import StepButton from './input/step-button.jsx';
 import CommandButton from './input/command-button.jsx';
 import LegendContainer from './legend-container.jsx';
 
@@ -80,16 +78,9 @@ export default class main extends React.Component {
           </div>
         </div>
 
-        <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.SECOND_STAGE+40, left: 480}}>
-          <StepButton
-            tiff_index={this.state.tiff_index}
-            tiff_list={tiff_list}
-          />
-        </div>
-
         <div>
           <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.FIRST_STAGE, left: layoutConst.LEFT_REF+30}}>
-            <TiffContainerCard
+            <TiffContainer
               id="tiff_output_1"
               canvas_width={this.state.canvas_width}
               canvas_height={this.state.canvas_height}
