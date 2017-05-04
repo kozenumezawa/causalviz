@@ -33,10 +33,15 @@ export default class TiffContainerCard extends React.Component{
   }
 
   render() {
+    let frames = '- / -';
+    if (this.props.tiff_list !== undefined) {
+      frames = (this.props.tiff_index + 1) + ' / ' + this.props.tiff_list.length;
+    }
+
     return (
       <div>
         <Card
-          containerStyle={{width: this.props.canvas_width}}
+          containerStyle={{width: 285}}
         >
           <CardHeader
             title="Ca2+ Response"
@@ -61,15 +66,24 @@ export default class TiffContainerCard extends React.Component{
               loupe_point={this.props.loupe_point}
             />
           </CardMedia>
-          <CardActions>
-            <IconButton tooltip="Before">
+          <CardText
+            style={{padding: '0px'}}
+          >
+            <IconButton
+              tooltip="Before"
+              style={{top: '5px'}}
+            >
               <SkipPrevious />
             </IconButton>
             {/*<PlayArrow />*/}
-            <IconButton tooltip="Next">
+            { frames }
+            <IconButton
+              tooltip="Next"
+              style={{top: '5px'}}
+            >
               <SkipNext />
             </IconButton>
-          </CardActions>
+          </CardText>
         </Card>
       </div>
     );
