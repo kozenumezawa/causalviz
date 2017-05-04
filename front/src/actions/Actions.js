@@ -112,5 +112,15 @@ export default {
       actionType: eventConstants.HANDLE_LINEHEIGHTS_CHANGE,
       line_heights: line_heights
     });
+  },
+
+  handleSelectArea: (rect_x, rect_y, x, y) => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_SELECT_AREA,
+      rect_x: rect_x,
+      rect_y: rect_y,
+      x: x,
+      y: y
+    });
   }
 }

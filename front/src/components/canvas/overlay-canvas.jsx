@@ -7,7 +7,14 @@ export default class OverlayCanvas extends React.Component {
   constructor(props) {
     super(props);
 
-    this.mouseMove = this.mouseMove.bind(this);
+    this.mouse_down = false;
+    this.rect_x = 0;
+    this.rect_y = 0;
+
+    this.onMouseMove = this.onMouseMove.bind(this);
+    this.onMouseUp = this.onMouseUp.bind(this);
+    this.onMouseDown = this.onMouseDown.bind(this);
+    this.onMouseOut = this.onMouseOut.bind(this);
   }
 
   componentDidMount() {
@@ -17,7 +24,10 @@ export default class OverlayCanvas extends React.Component {
     this.renderData(this.props);
 
     this.canvas.addEventListener('click', this.onClickCanvas, false);
-    this.canvas.addEventListener('mousemove', this.mouseMove)
+    this.canvas.addEventListener('mousedown', this.onMouseDown, false);
+    this.canvas.addEventListener('mouseup', this.onMouseUp, false);
+    this.canvas.addEventListener('mousemove', this.onMouseMove);
+    this.canvas.addEventListener('mouseout', this.onMouseOut);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -39,10 +49,9 @@ export default class OverlayCanvas extends React.Component {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     if (props.clicked_point.x !== -1) {
       // draw a point
-      this.ctx.fillStyle='red';
+      this.ctx.fillStyle = 'red';
       this.ctx.fillRect(props.clicked_point.x, props.clicked_point.y, 3, 3);
       drawingTool.drawLoupeArea(this.canvas, this.ctx, props.loupe_point);
-      debugger;
     }
   }
 
@@ -53,12 +62,57 @@ export default class OverlayCanvas extends React.Component {
     Action.handleTiffClick(x, y);
   }
 
-  mouseMove(e) {
-    if (this.props.loupe_point.on == true) {
+  onMouseDown(e) {
+    this.mouse_down = true;
+    const rect = e.target.getBoundingClientRect();
+    this.rect_x = e.clientX - rect.left;
+    this.rect_y = e.clientY - rect.top;
+  }
+
+  onMouseUp(e) {
+    if (this.mouse_down === true) {
       const rect = e.target.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
+      Action.handleSelectArea(this.rect_x, this.rect_y, x, y);
+      this.mouse_down = false;
+    }
+  }
+
+  onMouseMove(e) {
+    const rect = e.target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    if (this.mouse_down === true) {
+      this.renderData(this.props);
+
+      this.ctx.strokeStyle = 'yellow';
+      this.ctx.beginPath();
+
+      this.ctx.moveTo(this.rect_x, this.rect_y);
+      this.ctx.lineTo(x, this.rect_y);
+
+      this.ctx.moveTo(this.rect_x, y);
+      this.ctx.lineTo(x, y);
+
+      this.ctx.moveTo(x, this.rect_y);
+      this.ctx.lineTo(x, y);
+
+      this.ctx.moveTo(this.rect_x, this.rect_y);
+      this.ctx.lineTo(this.rect_x, y);
+
+      this.ctx.stroke();
+    }
+
+    if (this.props.loupe_point.on == true) {
       Action.handleLoupeMove(x, y);
+    }
+  }
+
+  onMouseOut(e) {
+    if (this.mouse_down === true) {
+      this.mouse_down = false;
     }
   }
 

@@ -42,6 +42,13 @@ let criteria_time_series = [];
 
 let cut_time_series = []; // to calculate cross correlation
 
+let selected_area = {
+  rect_x : -1,
+  rect_y : -1,
+  x : -1,
+  y : -1
+};
+
 class Store extends EventEmitter {
   constructor () {
     super();
@@ -180,6 +187,9 @@ class Store extends EventEmitter {
           this.updateCorrelationList(slider_value);
         }
         break;
+      case eventConstants.HANDLE_SELECT_AREA:
+        console.log(action);
+        break;
       default:
     }
     this.emitChange();
@@ -223,10 +233,6 @@ class Store extends EventEmitter {
 
   getCorrTimeSeries () {
     return corr_time_series;
-  }
-
-  getRelationList () {
-    return relation_list;
   }
 
   getHighlightedLine () {
@@ -273,13 +279,17 @@ class Store extends EventEmitter {
     return cut_time_series;
   }
 
-  getCutTiffList () {
-    let cut_tiff_list = [];
-    for (let i = 0, len = all_tiff_list.length - 15; i < len; i++) {
-      cut_tiff_list[i] = all_tiff_list[i + 15];
-    }
-    return cut_tiff_list;
+  getSelectedArea () {
+    return selected_area;
   }
+  //
+  // getCutTiffList () {
+  //   let cut_tiff_list = [];
+  //   for (let i = 0, len = all_tiff_list.length - 15; i < len; i++) {
+  //     cut_tiff_list[i] = all_tiff_list[i + 15];
+  //   }
+  //   return cut_tiff_list;
+  // }
 
   setTiffData () {
     Tiff.initialize({TOTAL_MEMORY: 16777216 * 10});
@@ -403,15 +413,6 @@ class Store extends EventEmitter {
 
     // storeUtils.createCsvFromTimeSeries(this.transposeTimeSeries(all_time_series_inverse));
     return storeUtils.transposeTimeSeries(all_time_series_inverse);
-  }
-
-  updateRelationList () {
-    relation_list = [];
-    const time_series = all_time_series;
-    const x = time_series[highlighted_line];
-    time_series.forEach((y) => {
-      relation_list.push(pairTimeSeries.getCorrelation(x, y));
-    });
   }
 
   updateCheckedCluster (list) {

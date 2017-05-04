@@ -29,7 +29,6 @@ function getAllState() {
     all_time_series     : Store.getAllTimeSeries(),
     cluster_time_series : Store.getClusterTimeSeries(),
     corr_time_series    : Store.getCorrTimeSeries(),
-    relation_list       : Store.getRelationList(),
     highlighted_line    : Store.getHighlightedLine(),
     clicked_point       : Store.getClickedPoint(),
     loupe_point         : Store.getLoupePoint(),
