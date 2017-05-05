@@ -1,5 +1,6 @@
 import React from 'react';
 import * as d3_scale from 'd3-scale';
+import {Card, CardHeader, CardMedia} from 'material-ui/Card';
 
 import * as pairTimeSeries from '../../utils/pair-time-series'
 
@@ -11,7 +12,7 @@ export default class ClusterThreeDim extends React.Component{
     super(props);
     this.mesh = null;
     const width = 500;
-    const height = 500;
+    const height = 400;
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(width, height);
 
@@ -117,7 +118,20 @@ export default class ClusterThreeDim extends React.Component{
 
   render() {
     return (
-      <div id="three-view" style={{position: 'absolute', display: 'inline-block', top: 400, left: 50}}>
+      <div style={{position: 'absolute', display: 'inline-block', top: 250, left: 50}}>
+        <Card
+          containerStyle={{width: 500}}
+        >
+          <CardHeader
+            title="Time lag 3D view"
+            textStyle={{paddingRight: "0px"}}
+          />
+          <CardMedia
+            //style={{textAlign:"center"}}
+          >
+            <div id="three-view"></div>
+          </CardMedia>
+        </Card>
       </div>
     );
   }
