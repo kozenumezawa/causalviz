@@ -1,4 +1,5 @@
 import React from 'react';
+import {Card, CardHeader, CardMedia} from 'material-ui/Card';
 
 import OverlayCanvas from './overlay-canvas.jsx';
 import * as drawingTool from '../../utils/drawing-tool';
@@ -36,17 +37,30 @@ export default class ClusterCanvas extends React.Component{
   }
 
   render() {
+    const card_width = (this.props.canvas_width > 190) ? this.props.canvas_width : 190;
     return (
       <div>
-        <canvas id={this.props.id} width={this.props.canvas_width} height={this.props.canvas_height} style={{left: 0, top: 0, zIndex: 0}}></canvas>
-        <OverlayCanvas
-          id={this.props.id}
-          canvas_width={this.props.canvas_width}
-          canvas_height={this.props.canvas_height}
-          clicked_point={this.props.clicked_point}
-          loupe_point={this.props.loupe_point}
-          selected_area={this.props.selected_area}
-        />
+        <Card
+          containerStyle={{width: card_width}}
+        >
+          <CardHeader
+            title={this.props.title_text}
+            textStyle={{paddingRight: "0px"}}
+          />
+          <CardMedia
+            //style={{textAlign:"center"}}
+          >
+            <canvas id={this.props.id} width={this.props.canvas_width} height={this.props.canvas_height} style={{width: this.props.canvas_width, minWidth: "0%", left: 0, top: 0, zIndex: 0}}></canvas>
+            <OverlayCanvas
+              id={this.props.id}
+              canvas_width={this.props.canvas_width}
+              canvas_height={this.props.canvas_height}
+              clicked_point={this.props.clicked_point}
+              loupe_point={this.props.loupe_point}
+              selected_area={this.props.selected_area}
+            />
+          </CardMedia>
+        </Card>
       </div>
     );
   }

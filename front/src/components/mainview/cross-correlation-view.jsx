@@ -16,11 +16,6 @@ export default class CrossCorrelationView extends React.Component {
   render() {
     return (
       <div>
-        <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.SECOND_STAGE, left: layoutConst.LEFT_REF}}>
-          <Chip backgroundColor={white}>
-            {'Cross Correlation view'}
-          </Chip>
-        </div>
         <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.SECOND_STAGE+40, left: layoutConst.LEFT_REF+30}}>
           <CorrelationCanvas
             id="cross_correlation_view"
@@ -29,6 +24,7 @@ export default class CrossCorrelationView extends React.Component {
             clicked_point={this.props.parent_state.clicked_point}
             cluster_list={this.props.parent_state.tau_list}
             data_type={this.props.parent_state.data_type}
+            title_text={"Time lag view"}
             selected_area={this.props.parent_state.selected_area}
             loupe_point={this.props.parent_state.loupe_point}
           />

@@ -15,11 +15,6 @@ export default class KmeansClusteringView extends React.Component {
   render() {
     return (
       <div>
-        <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.SECOND_STAGE, left: layoutConst.LEFT_REF}}>
-          <Chip backgroundColor={white}>
-            {'Cluster view'}
-          </Chip>
-        </div>
         <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.SECOND_STAGE+40, left: layoutConst.LEFT_REF+30}}>
           <ClusterCanvas
             id="cluster_view"
@@ -29,6 +24,7 @@ export default class KmeansClusteringView extends React.Component {
             cluster_list={this.props.parent_state.cluster_list}
             loupe_point={this.props.parent_state.loupe_point}
             selected_area={this.props.parent_state.selected_area}
+            title_text={"k-means"}
           />
         </div>
         <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 400}}>
