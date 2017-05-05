@@ -22,7 +22,7 @@ let corr_time_series = [];
 let tiff_index = 0;       // indicate the tiff file which should be displayed
 let legend_tiff = null;
 let relation_list = [];
-let highlighted_line = -1;
+let highlighted_lines = [];
 let clicked_point = {
   x : -1,
   y : -1
@@ -71,7 +71,7 @@ class Store extends EventEmitter {
       x: -1,
       y: -1
     };
-    highlighted_line = -1;
+    highlighted_lines = [];
     tiff_index = 0;
   }
 
@@ -143,21 +143,21 @@ class Store extends EventEmitter {
       case eventConstants.HANDLE_CORRELATION_CLICK:
         break;
       case eventConstants.HANDLE_TIFF_CLICK:
-        highlighted_line = Math.floor(action.y) * canvas_width + Math.floor(action.x);
-        clicked_point.x = action.x;
-        clicked_point.y = action.y;
-
-        if (cluster_list.length !== 0) {
-          let selected_cluster;
-          if (render_contents === generalConst.VIEW_KMEANS) {
-            selected_cluster = cluster_list[highlighted_line];
-          } else if (render_contents === generalConst.VIEW_CROSS_CORRELATION) {
-            selected_cluster = correlation_list[highlighted_line];
-          }
-          checked_cluster[selected_cluster] = !checked_cluster[selected_cluster];
-        }
-        this.updateRelationList();
-
+        // highlighted_lines.push(Math.floor(action.y) * canvas_width + Math.floor(action.x));
+        // clicked_point.x = action.x;
+        // clicked_point.y = action.y;
+        //
+        // if (cluster_list.length !== 0) {
+        //   highlighted_lines.forEach((highlighted_line) => {
+        //     let selected_cluster;
+        //     if (render_contents === generalConst.VIEW_KMEANS) {
+        //       selected_cluster = cluster_list[highlighted_line];
+        //     } else if (render_contents === generalConst.VIEW_CROSS_CORRELATION) {
+        //       selected_cluster = correlation_list[highlighted_line];
+        //     }
+        //     checked_cluster[selected_cluster] = !checked_cluster[selected_cluster];
+        //   });
+        // }
         break;
       case eventConstants.HANDLE_LOUPE_CLICK:
         loupe_point.on = !loupe_point.on;
@@ -188,7 +188,7 @@ class Store extends EventEmitter {
         }
         break;
       case eventConstants.HANDLE_SELECT_AREA:
-        console.log(action);
+        this.setHighlightedLines(action.rect_x, action.rect_y, action.x, action.y);
         break;
       default:
     }
@@ -235,8 +235,8 @@ class Store extends EventEmitter {
     return corr_time_series;
   }
 
-  getHighlightedLine () {
-    return highlighted_line;
+  getHighlightedLines () {
+    return highlighted_lines;
   }
 
   getClickedPoint () {
@@ -589,6 +589,27 @@ class Store extends EventEmitter {
       return generalConst.ERR_REACH_EDGH;
     }
     return idx_list[corr_list.indexOf(max_corr)];
+  }
+
+  setHighlightedLines(rect_x, rect_y, x, y) {
+    highlighted_lines = [];
+    selected_area.rect_x = rect_x;
+    selected_area.rect_y = rect_y;
+    selected_area.x = x;
+    selected_area.y = y;
+
+    // select area
+    const left_x = (rect_x < x) ? rect_x : x;
+    const right_x = (rect_x < x) ? x : rect_x;
+    const above_y = (rect_y < y) ? rect_y : y;
+    const below_y = (rect_y < y) ? y : rect_y;
+
+    for (let i = left_x; i <= right_x; i++) {
+      for (let j = above_y; j <= below_y; j++) {
+        highlighted_lines.push(Math.floor(j) * canvas_width + Math.floor(i));
+      }
+    }
+    this.emitChange();
   }
 }
 const store = new Store();

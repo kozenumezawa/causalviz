@@ -57,7 +57,7 @@ export default class CrossCorrelationView extends React.Component {
             all_time_series={Store.getCutTimeSeries()}
             cluster_time_series={this.props.parent_state.corr_time_series}
             cluster_list={this.props.parent_state.tau_list}
-            highlighted_line={this.props.parent_state.highlighted_line}
+            highlighted_lines={this.props.parent_state.highlighted_lines}
             tiff_index={this.props.parent_state.tiff_index}
             tiff_list={this.props.tiff_list}
           />

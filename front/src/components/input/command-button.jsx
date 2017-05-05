@@ -1,8 +1,10 @@
 import React from 'react';
-import FlatButton from 'material-ui/FlatButton';
 import Toggle from 'material-ui/Toggle';
 import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
+import IconButton from 'material-ui/IconButton'
+import Crop from 'material-ui/svg-icons/Image/crop';
+
 import generalConst from '../../constants/general-constants'
 
 import Actions from '../../actions/Actions';
@@ -37,6 +39,13 @@ export default class commandButton extends React.Component {
   render() {
     return (
       <div style={styles.wrapper}>
+        <IconButton
+          tooltip="Select area"
+          style={{top: '5px'}}
+          onClick={this.handleNextClick}
+        >
+          <Crop />
+        </IconButton>
         <div className="btn btn-link">
           <Toggle
             onToggle={this.handleLoupeClick}

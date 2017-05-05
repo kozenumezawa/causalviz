@@ -67,6 +67,7 @@ export default class TiffContainerCard extends React.Component{
               canvas_width={this.props.canvas_width}
               canvas_height={this.props.canvas_height}
               clicked_point={this.props.clicked_point}
+              selected_area={this.props.selected_area}
               loupe_point={this.props.loupe_point}
             />
           </CardMedia>
@@ -76,6 +77,7 @@ export default class TiffContainerCard extends React.Component{
             <IconButton
               tooltip="Before"
               style={{top: '5px'}}
+              disabled={true}
               onClick={this.handleBeforeClick}
             >
               <SkipPrevious />

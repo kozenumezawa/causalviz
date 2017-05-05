@@ -53,6 +53,11 @@ export default class OverlayCanvas extends React.Component {
       this.ctx.fillRect(props.clicked_point.x, props.clicked_point.y, 3, 3);
       drawingTool.drawLoupeArea(this.canvas, this.ctx, props.loupe_point);
     }
+    if (props.selected_area.x != -1) {
+      this.ctx.fillStyle = 'yellow';
+      // draw rect
+
+    }
   }
 
   onClickCanvas(e) {
@@ -103,6 +108,7 @@ export default class OverlayCanvas extends React.Component {
       this.ctx.lineTo(this.rect_x, y);
 
       this.ctx.stroke();
+
     }
 
     if (this.props.loupe_point.on == true) {

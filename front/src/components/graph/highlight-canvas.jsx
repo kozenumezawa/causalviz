@@ -11,15 +11,15 @@ export default class highlightCanvas extends React.Component {
     this.canvas = document.getElementById(this.props.id + '_highlight');
     this.ctx = this.canvas.getContext('2d');
 
-    this.renderData(this.props.highlight_time_series);
+    this.renderData(this.props.highlighted_lines, this.props.all_time_series);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.renderData(nextProps.highlight_time_series);
+    this.renderData(nextProps.highlighted_lines, nextProps.all_time_series);
   }
 
-  renderData(time_series) {
-    if (time_series === undefined) {
+  renderData(highlighted_lines, all_time_series) {
+    if (highlighted_lines == null || highlighted_lines.length === 0) {
       return;
     }
 
@@ -29,7 +29,11 @@ export default class highlightCanvas extends React.Component {
       width: this.props.line_width
     };
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    drawingTool.lineGraph(this.canvas, time_series, line_opts)
+    highlighted_lines.forEach((highlighted_line) => {
+      const time_series = all_time_series[highlighted_line];
+      drawingTool.lineGraph(this.canvas, time_series, line_opts)
+    });
+
   }
 
   render() {

@@ -29,7 +29,7 @@ function getAllState() {
     all_time_series     : Store.getAllTimeSeries(),
     cluster_time_series : Store.getClusterTimeSeries(),
     corr_time_series    : Store.getCorrTimeSeries(),
-    highlighted_line    : Store.getHighlightedLine(),
+    highlighted_lines   : Store.getHighlightedLines(),
     clicked_point       : Store.getClickedPoint(),
     loupe_point         : Store.getLoupePoint(),
     cluster_list        : Store.getClusterList(),
@@ -38,6 +38,7 @@ function getAllState() {
     tau_list            : Store.getTauList(),
     correlation_list    : Store.getCorrelationList(),
     criteria_time_series: Store.getCriteriaTimeSeries(),
+    selected_area       : Store.getSelectedArea()
   }
 }
 
@@ -57,9 +58,9 @@ export default class main extends React.Component {
 
   render() {
     let tiff_list = this.state.all_tiff_list;
-    if (this.state.data_type === generalConst.DATA_WILD_TYPE && this.state.render_contents === generalConst.VIEW_CROSS_CORRELATION) {
-      tiff_list = Store.getCutTiffList();
-    }
+    // if (this.state.data_type === generalConst.DATA_WILD_TYPE && this.state.render_contents === generalConst.VIEW_CROSS_CORRELATION) {
+    //   tiff_list = Store.getCutTiffList();
+    // }
 
     return (
       <div>
@@ -85,6 +86,7 @@ export default class main extends React.Component {
               canvas_height={this.state.canvas_height}
               clicked_point={this.state.clicked_point}
               loupe_point={this.state.loupe_point}
+              selected_area={this.state.selected_area}
               tiff_index={this.state.tiff_index}
               tiff_list={tiff_list}
             />

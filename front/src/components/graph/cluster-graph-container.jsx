@@ -14,20 +14,20 @@ export default class clusterGraphContainer extends React.Component {
     this.canvas = document.getElementById(this.props.id);
     this.ctx = this.canvas.getContext('2d');
     drawingTool.drawFrame(this.canvas, this.ctx);
-    this.renderData(this.props.cluster_time_series, this.props.cluster_list, this.props.highlighted_line);
+    this.renderData(this.props.cluster_time_series, this.props.cluster_list, this.props.highlighted_lines);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.highlighted_line !== nextProps.highlighted_line) {
-      this.renderData(nextProps.cluster_time_series, nextProps.cluster_list, nextProps.highlighted_line);
+    if (this.props.highlighted_lines !== nextProps.highlighted_lines) {
+      this.renderData(nextProps.cluster_time_series, nextProps.cluster_list, nextProps.highlighted_lines);
     }
 
     if (this.props.cluster_time_series.toString() !== nextProps.cluster_time_series.toString()) {
-      this.renderData(nextProps.cluster_time_series, nextProps.cluster_list, nextProps.highlighted_line);
+      this.renderData(nextProps.cluster_time_series, nextProps.cluster_list, nextProps.highlighted_lines);
     }
   }
 
-  renderData(time_series, cluster_list, highlighted_line) {
+  renderData(time_series, cluster_list, highlighted_lines) {
     if (time_series.length === 0) {
       return;
     }
@@ -42,7 +42,7 @@ export default class clusterGraphContainer extends React.Component {
         color: 'gray',
         width: 0.1
       };
-      const selected_cluster = cluster_list[highlighted_line];
+      const selected_cluster = cluster_list[highlighted_lines];
       this.props.all_time_series.forEach((element, idx) => {
         if (cluster_list[idx] === selected_cluster) {
           drawingTool.lineGraph(this.canvas, element, line_opts);
@@ -70,7 +70,7 @@ export default class clusterGraphContainer extends React.Component {
           id={this.props.id}
           line_color={'black'}
           line_width={2}
-          highlight_time_series={this.props.cluster_time_series[this.props.highlighted_line]}
+          highlight_time_series={this.props.cluster_time_series[this.props.highlighted_lines]}
         />
         <IndicatorCanvas
           id={this.props.id}
