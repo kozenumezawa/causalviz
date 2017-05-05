@@ -80,6 +80,12 @@ export default {
     });
   },
 
+  handleCropClick: () => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_CROP_CLICK
+    });
+  },
+
   handleIndicatorMove: (index) => {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_INDICATOR_MOVE,

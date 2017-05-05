@@ -13,6 +13,7 @@ const eventConstant = keyMirror({
   HANDLE_TIFF_CLICK         : null,
   HANDLE_LOUPE_MOVE         : null,
   HANDLE_LOUPE_CLICK        : null,
+  HANDLE_CROP_CLICK         : null,
   HANDLE_INDICATOR_MOVE     : null,
   HANDLE_CLEAR_SELECTION    : null,
   HANDLE_CHECK_CLICK        : null,

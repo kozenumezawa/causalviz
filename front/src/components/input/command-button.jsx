@@ -30,6 +30,10 @@ export default class commandButton extends React.Component {
     Actions.handleLoupeClick();
   }
 
+  handleCropClick() {
+    Actions.handleCropClick();
+  }
+
   render() {
     return (
       <div>
@@ -41,7 +45,6 @@ export default class commandButton extends React.Component {
                 tooltip="Select area"
                 iconStyle={styles.icon_style}
                 style={styles.icon_button}
-                onClick={this.handleNextClick}
               >
                 <Search />
               </IconButton>
@@ -50,12 +53,12 @@ export default class commandButton extends React.Component {
           />
 
           <Toggle
+            onToggle={this.handleCropClick}
             label={
               <IconButton
                 tooltip="Select area"
                 iconStyle={styles.icon_style}
                 style={styles.icon_button}
-                onClick={this.handleNextClick}
               >
                 <Crop />
               </IconButton>

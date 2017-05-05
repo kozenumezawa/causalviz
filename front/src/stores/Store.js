@@ -46,7 +46,8 @@ let selected_area = {
   rect_x : -1,
   rect_y : -1,
   x : -1,
-  y : -1
+  y : -1,
+  on : false
 };
 
 class Store extends EventEmitter {
@@ -165,6 +166,16 @@ class Store extends EventEmitter {
           loupe_point.x = -1;
           loupe_point.y = -1;
         }
+        break;
+      case eventConstants.HANDLE_CROP_CLICK:
+        selected_area.on = !selected_area.on;
+        if (selected_area.on === false) {
+          selected_area.rect_x = -1;
+          selected_area.rect_y = -1;
+          selected_area.x = -1;
+          selected_area.y = -1;
+        }
+        console.log(selected_area.on);
         break;
       case eventConstants.HANDLE_LOUPE_MOVE:
         loupe_point.x = action.x;
