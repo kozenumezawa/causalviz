@@ -31,7 +31,7 @@ export default class CrossCorrelationView extends React.Component {
           />
         </div>
 
-        <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 400}}>
+        <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 250 + this.props.parent_state.canvas_width}}>
           <ClusterGraphContainer
             id="correlation_graph"
             all_time_series={Store.getCutTimeSeries()}

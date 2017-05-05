@@ -10,7 +10,7 @@ export default class DefaultView extends React.Component {
   render() {
     return (
       <div>
-        <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 400}}>
+        <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 250 + this.props.parent_state.canvas_width}}>
           <GraphContainer
             id="time_series_graph_1"
             highlighted_lines={this.props.parent_state.highlighted_lines}

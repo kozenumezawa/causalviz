@@ -71,7 +71,7 @@ export default class main extends React.Component {
         <br />
 
         <div>
-          <div style={{position: 'absolute', display: 'inline-block', top: 100, left: layoutConst.LEFT_REF}}>
+          <div style={{position: 'absolute', display: 'inline-block', top: 200, left: layoutConst.LEFT_REF + this.state.canvas_width}}>
             <LegendContainer
               id="legend_output"
               legend_tiff={this.state.legend_tiff}
@@ -121,7 +121,7 @@ export default class main extends React.Component {
           )} />
         </Switch>
 
-        <div style={{position: 'absolute', display: 'inline-block', top: 100, left: 480}}>
+        <div style={{position: 'absolute', display: 'inline-block', top: 100, left: 220 + this.state.canvas_width}}>
           <CommandButton
             filter_type={this.state.filter_type}
           />

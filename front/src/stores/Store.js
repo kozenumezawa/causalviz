@@ -71,6 +71,13 @@ class Store extends EventEmitter {
       x: -1,
       y: -1
     };
+    selected_area = {
+      rect_x : -1,
+      rect_y : -1,
+      x : -1,
+      y : -1,
+      on : false
+    };
     highlighted_lines = [];
     tiff_index = 0;
   }
