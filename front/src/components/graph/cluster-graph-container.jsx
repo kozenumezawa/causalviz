@@ -51,6 +51,13 @@ export default class clusterGraphContainer extends React.Component {
       // line_opts.color = color_map[selected_cluster];
       // line_opts.width = 1.5;
       // drawingTool.lineGraph(this.canvas, time_series[selected_cluster], line_opts);
+      time_series.forEach((element, idx) => {
+        const line_opts = {
+          color: color_map[idx],
+          width: 1.5
+        };
+        drawingTool.lineGraph(this.canvas, element, line_opts);
+      });
     } else {
       time_series.forEach((element, idx) => {
         const line_opts = {

@@ -189,15 +189,16 @@ class Store extends EventEmitter {
           this.setHighlightedLines(action.rect_x, action.rect_y, action.x, action.y);
 
           if (render_contents === generalConst.VIEW_CROSS_CORRELATION) {
-            highlighted_lines.forEach((highlighted_line) => {
-              const time_series = all_time_series[highlighted_line];
-              const scalar_sum = time_series.reduce((prev, current) => {
-                return prev + current;
-              });
-              if (scalar_sum === 0) {
-                console.log(time_series);
-              }
-            });
+            this.updateCorrelationList(checked_cluster.length);
+            // highlighted_lines.forEach((highlighted_line) => {
+            //   const time_series = all_time_series[highlighted_line];
+            //   const scalar_sum = time_series.reduce((prev, current) => {
+            //     return prev + current;
+            //   });
+            //   if (scalar_sum === 0) {
+            //
+            //   }
+            // });
           }
         }
         break;
@@ -386,55 +387,6 @@ class Store extends EventEmitter {
     this.updateCorrelationList(slider_value);
   }
 
-  assignColorToTiffList (all_tiff_gray, legend_canvas) {
-    const criteria_scalar_list = storeUtils.getScalarFromGrayCanvas(all_tiff_gray[10]);
-
-    let n_zero = 1; // because the upper left corner is 0
-    const scalar_sum = criteria_scalar_list.reduce((prev, current) => {
-      if (current === 0) {
-        n_zero++;
-      }
-      return prev + current;
-    });
-    const criteria_scalar = scalar_sum / (criteria_scalar_list.length - n_zero);
-    const legend_rgba = storeUtils.getRGBAFromTiff(legend_canvas);
-    const color_map = legend_rgba.slice(0, legend_rgba.length / legend_canvas.height);
-    let all_tiff_color = [];
-
-    let all_time_series_inverse = [];
-    all_tiff_gray.forEach((tiff_canvas) => {
-      let time_series_inverse = [];
-      const scalar_list = storeUtils.getScalarFromGrayCanvas(tiff_canvas);
-      let color_canvas = tiff_canvas;
-      const ctx = color_canvas.getContext('2d');
-      ctx.clearRect(0, 0, color_canvas.width, color_canvas.height);
-
-      scalar_list.forEach((scalar, idx) => {
-        if (scalar === 0) {
-          ctx.fillStyle = 'black';
-          time_series_inverse.push(0);
-        } else {
-          const ratio = scalar / criteria_scalar;
-          const color_idx = Math.floor((color_map.length / 4) * (ratio - 0.5) / (2 - 0.5)); // assign color : 0.5 to 2 -> -50% to 100%(256bit)
-          if (color_idx < 0) {
-            ctx.fillStyle = 'black';
-            time_series_inverse.push(0);
-          } else {
-            const rgba = [color_map[color_idx * 4], color_map[color_idx * 4 + 1], color_map[color_idx * 4 + 2], color_map[color_idx * 4 + 3]];
-            ctx.fillStyle = 'rgba(' + rgba[0] + ',' + rgba[1] + ',' + rgba[2] + ',' + rgba[3] + ')';
-            time_series_inverse.push(color_idx);
-          }
-        }
-        ctx.fillRect(idx % color_canvas.width, idx / color_canvas.width, 1, 1);
-      });
-      all_tiff_color.push(color_canvas);
-      all_time_series_inverse.push(time_series_inverse);
-    });
-
-    all_time_series = storeUtils.transposeTimeSeries(all_time_series_inverse);
-    return all_tiff_color;
-  }
-
   createAllTimeSeriesFromTiff (legend_canvas) {
     // create time series data from each time step data
     let all_time_series_inverse = [];
@@ -491,18 +443,32 @@ class Store extends EventEmitter {
         }
       }
 
-      // add right hand area data to criteria_time_series if data type is wild type
-      if (data_type === generalConst.DATA_WILD_TYPE && (i % canvas_width < 250 || cut_time_series[i].indexOf(0) >= 0))
-        continue;
+      const x = i % canvas_width;
+      const y = Math.floor(i / canvas_width);
+      if (selected_area.on === false) {
+        // add right hand area data to criteria_time_series if data type is wild type
+        if (data_type === generalConst.DATA_WILD_TYPE && (x < 250 || cut_time_series[i].indexOf(0) >= 0))
+          continue;
 
-      // add right hand area data to criteria_time_series if data type is wild type
-      if (data_type === generalConst.DATA_TRP_TYPE && (i % canvas_width > 65 || i / canvas_width > 89 || cut_time_series[i].indexOf(0) >= 0))
-        continue;
+        // add right hand area data to criteria_time_series if data type is wild type
+        if (data_type === generalConst.DATA_TRP_TYPE && (x > 65 || y > 89 || cut_time_series[i].indexOf(0) >= 0))
+          continue;
 
-      sum_count += 1;
-      cut_time_series[i].forEach((scalar, idx) => {
-        criteria_time_series[idx] += scalar;
-      });
+        sum_count += 1;
+        cut_time_series[i].forEach((scalar, idx) => {
+          criteria_time_series[idx] += scalar;
+        });
+
+      } else {
+        highlighted_lines.forEach((highlighted_line) => {
+          if (i === highlighted_line) {
+            sum_count += 1;
+            cut_time_series[i].forEach((scalar, idx) => {
+              criteria_time_series[idx] += scalar;
+            });
+          }
+        });
+      }
     }
 
     criteria_time_series = criteria_time_series.map((element) => {
