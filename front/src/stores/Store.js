@@ -144,21 +144,27 @@ class Store extends EventEmitter {
       case eventConstants.HANDLE_CORRELATION_CLICK:
         break;
       case eventConstants.HANDLE_TIFF_CLICK:
-        // highlighted_lines.push(Math.floor(action.y) * canvas_width + Math.floor(action.x));
-        // clicked_point.x = action.x;
-        // clicked_point.y = action.y;
-        //
-        // if (cluster_list.length !== 0) {
-        //   highlighted_lines.forEach((highlighted_line) => {
-        //     let selected_cluster;
-        //     if (render_contents === generalConst.VIEW_KMEANS) {
-        //       selected_cluster = cluster_list[highlighted_line];
-        //     } else if (render_contents === generalConst.VIEW_CROSS_CORRELATION) {
-        //       selected_cluster = correlation_list[highlighted_line];
-        //     }
-        //     checked_cluster[selected_cluster] = !checked_cluster[selected_cluster];
-        //   });
-        // }
+        if (selected_area.on === true) {
+          clicked_point.x = -1;
+          clicked_point.y = -1;
+          break;
+        }
+        highlighted_lines = [];
+        highlighted_lines.push(Math.floor(action.y) * canvas_width + Math.floor(action.x));
+        clicked_point.x = action.x;
+        clicked_point.y = action.y;
+
+        if (cluster_list.length !== 0) {
+          highlighted_lines.forEach((highlighted_line) => {
+            let selected_cluster;
+            if (render_contents === generalConst.VIEW_KMEANS) {
+              selected_cluster = cluster_list[highlighted_line];
+            } else if (render_contents === generalConst.VIEW_CROSS_CORRELATION) {
+              selected_cluster = correlation_list[highlighted_line];
+            }
+            checked_cluster[selected_cluster] = !checked_cluster[selected_cluster];
+          });
+        }
         break;
       case eventConstants.HANDLE_LOUPE_CLICK:
         loupe_point.on = !loupe_point.on;
@@ -175,7 +181,6 @@ class Store extends EventEmitter {
           selected_area.x = -1;
           selected_area.y = -1;
         }
-        console.log(selected_area.on);
         break;
       case eventConstants.HANDLE_LOUPE_MOVE:
         loupe_point.x = action.x;
