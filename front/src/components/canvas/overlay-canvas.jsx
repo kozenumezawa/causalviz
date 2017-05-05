@@ -53,10 +53,10 @@ export default class OverlayCanvas extends React.Component {
       this.ctx.fillRect(props.clicked_point.x, props.clicked_point.y, 3, 3);
       drawingTool.drawLoupeArea(this.canvas, this.ctx, props.loupe_point);
     }
-    if (props.selected_area.x != -1) {
-      this.ctx.fillStyle = 'yellow';
-      // draw rect
 
+
+    if (props.selected_area.x != -1) {
+      this.drawSelectedArea(props.selected_area.on, props.selected_area.rect_x, props.selected_area.rect_y, props.selected_area.x, props.selected_area.y);
     }
   }
 
@@ -91,24 +91,7 @@ export default class OverlayCanvas extends React.Component {
 
     if (this.mouse_down === true) {
       this.renderData(this.props);
-
-      this.ctx.strokeStyle = 'yellow';
-      this.ctx.beginPath();
-
-      this.ctx.moveTo(this.rect_x, this.rect_y);
-      this.ctx.lineTo(x, this.rect_y);
-
-      this.ctx.moveTo(this.rect_x, y);
-      this.ctx.lineTo(x, y);
-
-      this.ctx.moveTo(x, this.rect_y);
-      this.ctx.lineTo(x, y);
-
-      this.ctx.moveTo(this.rect_x, this.rect_y);
-      this.ctx.lineTo(this.rect_x, y);
-
-      this.ctx.stroke();
-
+      this.drawSelectedArea(this.props.selected_area.on, this.rect_x, this.rect_y, x, y);
     }
 
     if (this.props.loupe_point.on == true) {
@@ -119,6 +102,27 @@ export default class OverlayCanvas extends React.Component {
   onMouseOut(e) {
     if (this.mouse_down === true) {
       this.mouse_down = false;
+    }
+  }
+
+  drawSelectedArea(on, rect_x, rect_y, x, y) {
+    if (on === true) {
+      this.ctx.strokeStyle = 'yellow';
+      this.ctx.beginPath();
+
+      this.ctx.moveTo(rect_x, rect_y);
+      this.ctx.lineTo(x, rect_y);
+
+      this.ctx.moveTo(rect_x, y);
+      this.ctx.lineTo(x, y);
+
+      this.ctx.moveTo(x, rect_y);
+      this.ctx.lineTo(x, y);
+
+      this.ctx.moveTo(rect_x, rect_y);
+      this.ctx.lineTo(rect_x, y);
+
+      this.ctx.stroke();
     }
   }
 

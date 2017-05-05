@@ -77,7 +77,6 @@ export default class TiffContainerCard extends React.Component{
             <IconButton
               tooltip="Before"
               style={{top: '5px'}}
-              disabled={true}
               onClick={this.handleBeforeClick}
             >
               <SkipPrevious />

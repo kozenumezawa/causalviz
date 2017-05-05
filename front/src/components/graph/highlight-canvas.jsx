@@ -19,7 +19,7 @@ export default class highlightCanvas extends React.Component {
   }
 
   renderData(highlighted_lines, all_time_series) {
-    if (highlighted_lines == null || highlighted_lines.length === 0) {
+    if (highlighted_lines == null) {
       return;
     }
 

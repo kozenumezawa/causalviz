@@ -21,7 +21,6 @@ let cluster_time_series = [];
 let corr_time_series = [];
 let tiff_index = 0;       // indicate the tiff file which should be displayed
 let legend_tiff = null;
-let relation_list = [];
 let highlighted_lines = [];
 let clicked_point = {
   x : -1,
@@ -180,6 +179,15 @@ class Store extends EventEmitter {
           selected_area.rect_y = -1;
           selected_area.x = -1;
           selected_area.y = -1;
+
+          highlighted_lines = [];
+          console.log(highlighted_lines);
+          this.emitChange();
+        }
+        break;
+      case eventConstants.HANDLE_SELECT_AREA:
+        if (selected_area.on === true) {
+          this.setHighlightedLines(action.rect_x, action.rect_y, action.x, action.y);
         }
         break;
       case eventConstants.HANDLE_LOUPE_MOVE:
@@ -202,9 +210,6 @@ class Store extends EventEmitter {
         } else if (render_contents === generalConst.VIEW_CROSS_CORRELATION) {
           this.updateCorrelationList(slider_value);
         }
-        break;
-      case eventConstants.HANDLE_SELECT_AREA:
-        this.setHighlightedLines(action.rect_x, action.rect_y, action.x, action.y);
         break;
       default:
     }
