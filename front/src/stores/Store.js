@@ -460,13 +460,13 @@ class Store extends EventEmitter {
         });
 
       } else {
-        highlighted_lines.forEach((highlighted_line) => {
-          if (i === highlighted_line) {
-            sum_count += 1;
-            cut_time_series[i].forEach((scalar, idx) => {
-              criteria_time_series[idx] += scalar;
-            });
-          }
+        const idx_highlight = highlighted_lines.indexOf(i);
+        if (idx_highlight === -1) {
+          continue;
+        }
+        sum_count += 1;
+        cut_time_series[i].forEach((scalar, idx) => {
+          criteria_time_series[idx] += scalar;
         });
       }
     }

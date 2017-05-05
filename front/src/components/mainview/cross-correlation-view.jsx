@@ -24,6 +24,7 @@ export default class CrossCorrelationView extends React.Component {
             clicked_point={this.props.parent_state.clicked_point}
             cluster_list={this.props.parent_state.tau_list}
             data_type={this.props.parent_state.data_type}
+            highlighted_lines={this.props.parent_state.highlighted_lines}
             title_text={"Time lag view"}
             selected_area={this.props.parent_state.selected_area}
             loupe_point={this.props.parent_state.loupe_point}

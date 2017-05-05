@@ -18,26 +18,28 @@ export default class CorrelationCanvas extends React.Component{
     this.canvas = document.getElementById(this.props.id);
     this.ctx = this.canvas.getContext('2d');
     drawingTool.drawFrame(this.canvas, this.ctx);
-    this.renderData(this.props.cluster_list, this.props.loupe_point);
+    this.renderData(this.props.cluster_list, this.props.loupe_point, this.props.selected_area, this.props.highlighted_lines);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.renderData(nextProps.cluster_list, nextProps.loupe_point);
+    this.renderData(nextProps.cluster_list, nextProps.loupe_point, nextProps.selected_area, nextProps.highlighted_lines);
   }
 
-  renderData(cluster_list, loupe_point) {
+  renderData(cluster_list, loupe_point, selected_area, highlighted_lines) {
     if (cluster_list.length == 0) {
       return;
     }
 
     const color_map = d3_scale.schemeCategory20c;
     for(let i = 0; i < cluster_list.length; i++) {
-      if (this.props.data_type === generalConst.DATA_WILD_TYPE && i % this.canvas.width > 250 && cluster_list[i] !== pairTimeSeries.error) {
-        this.ctx.fillStyle = 'white'
-      } else if (this.props.data_type === generalConst.DATA_TRP_TYPE && i % this.canvas.width >= 65 && i / this.canvas.height >= 88 && cluster_list[i] !== pairTimeSeries.error) {
-        this.ctx.fillStyle = 'white'
-      } else if (cluster_list[i] === pairTimeSeries.error) {
+      if (cluster_list[i] === pairTimeSeries.error) {
         this.ctx.fillStyle = 'black'
+      } else if (selected_area.on === false && this.props.data_type === generalConst.DATA_WILD_TYPE && i % this.canvas.width > 250 && cluster_list[i] !== pairTimeSeries.error) {
+        this.ctx.fillStyle = 'white'
+      } else if (selected_area.on === false && this.props.data_type === generalConst.DATA_TRP_TYPE && i % this.canvas.width >= 65 && i / this.canvas.height >= 88 && cluster_list[i] !== pairTimeSeries.error) {
+        this.ctx.fillStyle = 'white'
+      } else if (selected_area.on === true && highlighted_lines.indexOf(i) !== -1) {
+        this.ctx.fillStyle = 'white'
       } else {
         this.ctx.fillStyle = color_map[cluster_list[i]];
       }
