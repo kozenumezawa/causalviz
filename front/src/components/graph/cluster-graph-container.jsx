@@ -36,21 +36,21 @@ export default class clusterGraphContainer extends React.Component {
 
     const n_clusters= Math.max.apply(null, cluster_list) + 1;
     const color_map = drawingTool.getColorCategory(n_clusters);
-    
-    if (highlighted_line !== -1) {
-      let line_opts = {
-        color: 'gray',
-        width: 0.1
-      };
-      const selected_cluster = cluster_list[highlighted_lines];
-      this.props.all_time_series.forEach((element, idx) => {
-        if (cluster_list[idx] === selected_cluster) {
-          drawingTool.lineGraph(this.canvas, element, line_opts);
-        }
-      });
-      line_opts.color = color_map[selected_cluster];
-      line_opts.width = 1.5;
-      drawingTool.lineGraph(this.canvas, time_series[selected_cluster], line_opts);
+    if (highlighted_lines.length !== 0) {
+      // Selected cluster must be displayed
+      // let line_opts = {
+      //   color: 'gray',
+      //   width: 0.1
+      // };
+      // const selected_cluster = cluster_list[highlighted_lines[0]];
+      // this.props.all_time_series.forEach((element, idx) => {
+      //   if (cluster_list[idx] === selected_cluster) {
+      //     drawingTool.lineGraph(this.canvas, element, line_opts);
+      //   }
+      // });
+      // line_opts.color = color_map[selected_cluster];
+      // line_opts.width = 1.5;
+      // drawingTool.lineGraph(this.canvas, time_series[selected_cluster], line_opts);
     } else {
       time_series.forEach((element, idx) => {
         const line_opts = {

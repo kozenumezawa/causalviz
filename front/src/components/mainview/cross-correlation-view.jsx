@@ -5,7 +5,6 @@ import {white} from 'material-ui/styles/colors';
 import Store from '../../stores/Store';
 import layoutConst from '../../constants/layout-constants'
 import CorrelationCanvas from '../canvas/correlation-canvas.jsx';
-import ClusterSelectedCanvas from '../canvas/cluster-selected-canvas.jsx';
 import ClusterGraphContainer from '../graph/cluster-graph-container.jsx';
 import ClusterButton from '../input/cluster-button.jsx';
 
@@ -30,23 +29,7 @@ export default class CrossCorrelationView extends React.Component {
             clicked_point={this.props.parent_state.clicked_point}
             cluster_list={this.props.parent_state.tau_list}
             data_type={this.props.parent_state.data_type}
-            loupe_point={this.props.parent_state.loupe_point}
-          />
-        </div>
-
-        <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.THIRD_STAGE, left: layoutConst.LEFT_REF}}>
-          <Chip backgroundColor={white}>
-            {'Selected Cluster view'}
-          </Chip>
-        </div>
-        <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.THIRD_STAGE+40, left: layoutConst.LEFT_REF+30}}>
-          <ClusterSelectedCanvas
-            id="correlation_detail_view"
-            canvas_width={this.props.parent_state.canvas_width}
-            canvas_height={this.props.parent_state.canvas_height}
-            checked_cluster={this.props.parent_state.checked_cluster}
-            clicked_point={this.props.parent_state.clicked_point}
-            cluster_list={this.props.parent_state.tau_list}
+            selected_area={this.props.parent_state.selected_area}
             loupe_point={this.props.parent_state.loupe_point}
           />
         </div>

@@ -55,6 +55,7 @@ export default class ClusterDetailCanvas extends React.Component{
           canvas_height={this.props.canvas_height}
           clicked_point={this.props.clicked_point}
           loupe_point={this.props.loupe_point}
+          selected_area={this.props.selected_area}
         />
       </div>
     );
