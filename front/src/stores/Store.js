@@ -181,13 +181,24 @@ class Store extends EventEmitter {
           selected_area.y = -1;
 
           highlighted_lines = [];
-          console.log(highlighted_lines);
           this.emitChange();
         }
         break;
       case eventConstants.HANDLE_SELECT_AREA:
         if (selected_area.on === true) {
           this.setHighlightedLines(action.rect_x, action.rect_y, action.x, action.y);
+
+          if (render_contents === generalConst.VIEW_CROSS_CORRELATION) {
+            highlighted_lines.forEach((highlighted_line) => {
+              const time_series = all_time_series[highlighted_line];
+              const scalar_sum = time_series.reduce((prev, current) => {
+                return prev + current;
+              });
+              if (scalar_sum === 0) {
+                console.log(time_series);
+              }
+            });
+          }
         }
         break;
       case eventConstants.HANDLE_LOUPE_MOVE:
