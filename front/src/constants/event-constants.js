@@ -1,7 +1,8 @@
 import keyMirror from 'keymirror';
 
 const eventConstant = keyMirror({
-  HANDLE_DROP_CHANGE        : null,
+  HANDLE_DATA_CHANGE        : null,
+  HANDLE_FILTER_CHANGE      : null,
   HANDLE_DEFAULT_CLICK      : null,
   HANDLE_KMEANS_CLICK       : null,
   HANDLE_CROSS_CORRELATION  : null,
@@ -17,7 +18,6 @@ const eventConstant = keyMirror({
   HANDLE_CHECK_CLICK        : null,
   HANDLE_CLUSTER_CHANGE     : null,
   HANDLE_LINEHEIGHTS_CHANGE : null,
-  HANDLE_FILTER_TYPE_CHANGE : null,
   HANDLE_SELECT_AREA        : null
 });
 

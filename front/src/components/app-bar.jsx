@@ -7,19 +7,29 @@ import Divider from 'material-ui/Divider';
 import { Link } from 'react-router-dom'
 
 import Action from '../actions/Actions';
-import generalConstants from '../constants/general-constants';
+import generalConst from '../constants/general-constants';
 
 const DropDown = (props) => {
   return(
     <div>
       <DropDownMenu
-        value={props.value}
-        onChange={props.onChange}
+        value={props.filter_type}
+        onChange={props.handleFilterChange}
         labelStyle={{color: 'white'}}
         underlineStyle={{display: 'none'}}
       >
-        <MenuItem value={generalConstants.DATA_WILD_TYPE} primaryText="wild-type" />
-        <MenuItem value={generalConstants.DATA_TRP_TYPE} primaryText="trp-3 mutant" />
+        <MenuItem value={generalConst.FILTER_NONE} primaryText="FILTER: None" />
+        <MenuItem value={generalConst.FILTER_MEAN} primaryText="FILTER: MEAN" />
+      </DropDownMenu>
+
+      <DropDownMenu
+        value={props.data_type}
+        onChange={props.handleDataChange}
+        labelStyle={{color: 'white'}}
+        underlineStyle={{display: 'none'}}
+      >
+        <MenuItem value={generalConst.DATA_WILD_TYPE} primaryText="wild-type" />
+        <MenuItem value={generalConst.DATA_TRP_TYPE} primaryText="trp-3 mutant" />
       </DropDownMenu>
     </div>
   );
@@ -30,11 +40,13 @@ export default class CausalVisAppBar extends React.Component {
     super(props);
     this.state = {
       open: false,
-      dropdown_value: props.data_type
+      data_type: props.data_type,
+      filter_type: props.filter_type
     };
 
     this.handleIconClick = this.handleIconClick.bind(this);
-    this.handleDropChange = this.handleDropChange.bind(this);
+    this.handleDataChange = this.handleDataChange.bind(this);
+    this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handleDefaultClick = this.handleDefaultClick.bind(this);
     this.handleKmeansClick = this.handleKmeansClick.bind(this);
     this.handleCrossCorrelation = this.handleCrossCorrelation.bind(this);
@@ -47,12 +59,20 @@ export default class CausalVisAppBar extends React.Component {
     });
   }
 
-  handleDropChange(event, index, value) {
+  handleDataChange(event, index, data_type) {
     this.setState({
-      dropdown_value: value
+      data_type: data_type
     });
-    Action.handleDropChange(value);
+    Action.handleDataChange(data_type);
   }
+
+  handleFilterChange(event, index, filter_type) {
+    this.setState({
+      filter_type: filter_type
+    });
+    Action.handleFilterChange(filter_type);
+  }
+
 
   handleDefaultClick() {
     this.setState({
@@ -90,8 +110,10 @@ export default class CausalVisAppBar extends React.Component {
             style={{height: 64}}
             iconElementRight={
               <DropDown
-                value={this.state.dropdown_value}
-                onChange={this.handleDropChange}
+                data_type={this.state.data_type}
+                filter_type={this.state.filter_type}
+                handleDataChange={this.handleDataChange}
+                handleFilterChange={this.handleFilterChange}
               />
             }
           />
@@ -125,8 +147,11 @@ export default class CausalVisAppBar extends React.Component {
           onLeftIconButtonTouchTap={this.handleIconClick}
           iconElementRight={
             <DropDown
-              value={this.state.dropdown_value}
+              data_type={this.state.data_type}
+              filter_type={this.state.filter_type}
               onChange={this.handleDropChange}
+              handleDataChange={this.handleDataChange}
+              handleFilterChange={this.handleFilterChange}
             />
           }
         />

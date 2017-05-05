@@ -66,6 +66,7 @@ export default class main extends React.Component {
       <div>
         <AppBar
           data_type={this.state.data_type}
+          filter_type={this.state.filter_type}
         />
         <br />
 

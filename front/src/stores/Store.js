@@ -92,13 +92,20 @@ class Store extends EventEmitter {
 
   handler (action) {
     switch (action.actionType) {
-      case eventConstants.HANDLE_DROP_CHANGE:
+      case eventConstants.HANDLE_DATA_CHANGE:
         if (action.data_type === data_type) {
           break;
         }
         this.setInitialState();
         data_type = action.data_type;
         this.setWidthAndHeight(data_type);
+        this.setTiffData();
+        break;
+      case eventConstants.HANDLE_FILTER_CHANGE:
+        if (action.filter_type === filter_type) {
+          break;
+        }
+        filter_type = action.filter_type;
         this.setTiffData();
         break;
       case eventConstants.HANDLE_DEFAULT_CLICK:
@@ -132,13 +139,6 @@ class Store extends EventEmitter {
         if (tiff_index === all_tiff_list.length) {
           tiff_index = 0;
         }
-        break;
-      case eventConstants.HANDLE_FILTER_TYPE_CHANGE:
-        if (action.filter_type === filter_type) {
-          break;
-        }
-        filter_type = action.filter_type;
-        this.setTiffData();
         break;
       case eventConstants.HANDLE_CORRELATION_CLICK:
         break;

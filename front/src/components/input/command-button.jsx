@@ -1,73 +1,68 @@
 import React from 'react';
 import Toggle from 'material-ui/Toggle';
-import MenuItem from 'material-ui/MenuItem';
-import DropDownMenu from 'material-ui/DropDownMenu';
 import IconButton from 'material-ui/IconButton'
 import Crop from 'material-ui/svg-icons/Image/crop';
-
-import generalConst from '../../constants/general-constants'
+import Search from 'material-ui/svg-icons/Action/search';
 
 import Actions from '../../actions/Actions';
 
 const styles = {
-  wrapper: {
-    display: 'flex',
-    flexWrap: 'wrap'
-  }
+  icon_style: {
+    width: 20,
+    height: 20
+  },
+  icon_button: {
+    width: 40,
+    height: 40,
+    padding: 0
+  },
+  block: {
+    maxWidth: 250,
+  },
 };
 
 export default class commandButton extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      dropdown_value: props.filter_type
-    };
-    this.handleDropChange = this.handleDropChange.bind(this);
   }
 
   handleLoupeClick() {
     Actions.handleLoupeClick();
   }
 
-  handleDropChange(event, index, filter_type) {
-    this.setState({
-      dropdown_value: filter_type
-    });
-    Actions.handleFilterTypeChange(filter_type);
-  }
-
   render() {
     return (
-      <div style={styles.wrapper}>
-        <IconButton
-          tooltip="Select area"
-          style={{top: '5px'}}
-          onClick={this.handleNextClick}
-        >
-          <Crop />
-        </IconButton>
-        <div className="btn btn-link">
+      <div>
+        <div style={styles.block}>
           <Toggle
             onToggle={this.handleLoupeClick}
+            label={
+              <IconButton
+                tooltip="Select area"
+                iconStyle={styles.icon_style}
+                style={styles.icon_button}
+                onClick={this.handleNextClick}
+              >
+                <Search />
+              </IconButton>
+            }
+            style={styles.toggle}
           />
-          <span className="glyphicon glyphicon-search" ></span>
+
+          <Toggle
+            label={
+              <IconButton
+                tooltip="Select area"
+                iconStyle={styles.icon_style}
+                style={styles.icon_button}
+                onClick={this.handleNextClick}
+              >
+                <Crop />
+              </IconButton>
+            }
+            style={styles.toggle}
+          />
         </div>
-        <DropDownMenu
-          value={this.state.dropdown_value}
-          onChange={this.handleDropChange}
-          labelStyle={{
-              color: 'black',
-              lineHeight: '37px'
-            }}
-          iconStyle={{
-              height: '30px',
-              padding: '6px'
-            }}
-          underlineStyle={{display: 'none'}}
-        >
-          <MenuItem value={generalConst.FILTER_NONE} primaryText="FILTER: None" />
-          <MenuItem value={generalConst.FILTER_MEAN} primaryText="FILTER: MEAN" />
-        </DropDownMenu>
       </div>
     );
   }
