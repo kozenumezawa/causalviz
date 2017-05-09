@@ -128,9 +128,7 @@ export default class OverlayCanvas extends React.Component {
 
   render() {
     return (
-      <div>
-        <canvas id={this.props.id+'overlay'} width={this.props.canvas_width} height={this.props.canvas_height}  style={{position: 'absolute', display: 'block', top: 0, zIndex: 1}}></canvas>
-      </div>
+      <canvas id={this.props.id+'overlay'} width={this.props.canvas_width} height={this.props.canvas_height}  style={{position: 'absolute', display: 'block', top: 0, zIndex: 1}}></canvas>
     );
   }
 }
