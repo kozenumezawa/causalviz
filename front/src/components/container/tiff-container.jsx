@@ -5,10 +5,10 @@ import PlayArrow from 'material-ui/svg-icons/AV/play-arrow';
 import SkipNext from 'material-ui/svg-icons/AV/skip-next';
 import SkipPrevious from 'material-ui/svg-icons/AV/skip-previous';
 
-import * as drawingTool from '../utils/drawing-tool';
-import Actions from '../actions/Actions';
+import * as drawingTool from '../../utils/drawing-tool';
+import Actions from '../../actions/Actions';
 
-import OverlayCanvas from './canvas/overlay-canvas.jsx'
+import OverlayCanvas from '../canvas/overlay-canvas.jsx'
 
 export default class TiffContainerCard extends React.Component{
   constructor(props) {

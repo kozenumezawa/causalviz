@@ -6,7 +6,7 @@ import Store from '../stores/Store';
 import generalConst from '../constants/general-constants';
 import layoutConst from '../constants/layout-constants'
 
-import TiffContainer from './tiff-container.jsx';
+import TiffContainer from './container/tiff-container.jsx';
 import AppBar from './app-bar.jsx';
 import CommandButton from './input/command-button.jsx';
 import LegendContainer from './legend-container.jsx';
