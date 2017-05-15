@@ -3,7 +3,6 @@ import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
-import Divider from 'material-ui/Divider';
 import { Link } from 'react-router-dom'
 
 import Action from '../actions/Actions';

@@ -1,5 +1,7 @@
 import React from 'react';
 import Chip from 'material-ui/Chip';
+import Divider from 'material-ui/Divider';
+
 import { white } from 'material-ui/styles/colors';
 import { Switch, Route } from 'react-router-dom'
 import Store from '../stores/Store';
@@ -96,12 +98,11 @@ export default class main extends React.Component {
               </div>
             </div>
 
-            {/*<div style={{position: 'absolute', display: 'inline-block', top: 100, left: 220 + this.state.canvas_width}}>*/}
-            <div style={{position: 'relative', display: 'inline-block', top: 10}}>
-              <CommandButton
-                filter_type={this.state.filter_type}
-              />
-            </div>
+            {/*<div style={{position: 'relative', display: 'inline-block', top: 10}}>*/}
+              {/*<CommandButton*/}
+                {/*filter_type={this.state.filter_type}*/}
+              {/*/>*/}
+            {/*</div>*/}
 
           </div>
           <div style={{width: '30%'}}>
@@ -125,11 +126,17 @@ export default class main extends React.Component {
           </div>
         </div>
 
+        <br />
+        <Divider />
+        <br />
 
         <Switch>
           <Route exact path='/' render={(props) => (
             <div>
-              <ComparisonView />
+              <ComparisonView
+                parent_state = {this.state}
+                tiff_list = {tiff_list}
+              />
             </div>
           )} />
           <Route path='/graph' render={(props) => (
