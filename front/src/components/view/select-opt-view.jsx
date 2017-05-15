@@ -1,6 +1,7 @@
 import React from 'react';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import generalConst from '../../constants/general-constants'
 
@@ -12,9 +13,11 @@ export default class SelectOptView extends React.Component {
   render() {
     return (
       <div>
-        <div className="arrow1" style={{position: 'relative', top: 100}}></div>
+        <RaisedButton label="Run Optical Flow" style={{position: 'relative', margin: 0, top: 40}} />
 
-        <div style={{position: 'relative', top: 120}}>
+        <div className="arrow1" style={{position: 'relative', top: 50, textTransform: 'none'}}></div>
+
+        <div style={{position: 'relative', top: 60}}>
           <div> Algorithm: </div>
           <DropDownMenu
             value={generalConst.FILTER_NONE}
