@@ -2,7 +2,7 @@ import React from 'react';
 
 import GraphContainer from '../graph/graph-container.jsx';
 
-export default class DefaultView extends React.Component {
+export default class GraphView extends React.Component {
   constructor(props) {
     super(props);
   }

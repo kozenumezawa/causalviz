@@ -11,7 +11,7 @@ import AppBar from './app-bar.jsx';
 import CommandButton from './input/command-button.jsx';
 import LegendContainer from './legend-container.jsx';
 
-import DefaultView from './mainview/default-view.jsx';
+import GraphView from './mainview/graph-view.jsx';
 import KmeansClusteringView from './mainview/kmeans-clustering-view.jsx';
 import CrossCorrelationView from './mainview/cross-correlation-view.jsx';
 import ThreeDimView from './mainview/three-dim-view.jsx';
@@ -96,10 +96,15 @@ export default class main extends React.Component {
 
         <Switch>
           <Route exact path='/' render={(props) => (
-              <DefaultView
-                  parent_state = {this.state}
-                  tiff_list = {tiff_list}
-              />
+            <div>
+
+            </div>
+          )} />
+          <Route path='/graph' render={(props) => (
+            <GraphView
+              parent_state = {this.state}
+              tiff_list = {tiff_list}
+            />
           )} />
           <Route path='/kmeans' render={(props) => (
               <KmeansClusteringView
