@@ -2,8 +2,10 @@ import { EventEmitter } from 'events';
 import Dispatcher from '../dispatcher/Dispatcher';
 import eventConstants from '../constants/event-constants';
 import generalConst from '../constants/general-constants';
+
 import * as pairTimeSeries from '../utils/pair-time-series';
 import * as storeUtils from './store-utils'
+import * as OpticalFlow from '../utils/lucas-and-kanade'
 
 const CHANGE_EVENT = 'change';
 
@@ -232,6 +234,9 @@ class Store extends EventEmitter {
         break;
       case eventConstants.HANDLE_RUN_OPT:
         console.log('a');
+        const ctx1 = all_tiff_list[0].getContext('2d');
+        const ctx2 = all_tiff_list[1].getContext('2d');
+        console.log(OpticalFlow.lucasAndKanade(ctx1.getImageData(0, 0, 128, 96).data, ctx2.getImageData(0, 0, 128, 96).data, 128, 96))
         break;
       case eventConstants.HANDLE_OPT_CHANGE:
         console.log(action.opt_type);
