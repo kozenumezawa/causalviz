@@ -230,6 +230,12 @@ class Store extends EventEmitter {
           this.updateCorrelationList(slider_value);
         }
         break;
+      case eventConstants.HANDLE_RUN_OPT:
+        console.log('a');
+        break;
+      case eventConstants.HANDLE_OPT_CHANGE:
+        console.log(action.opt_type);
+        break;
       default:
     }
     this.emitChange();

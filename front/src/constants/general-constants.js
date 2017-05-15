@@ -9,7 +9,9 @@ const generalConstant = keyMirror({
   VIEW_THREE_DIM           : null,
   ERR_REACH_EDGH           : null,
   FILTER_NONE              : null,
-  FILTER_MEAN              : null
+  FILTER_MEAN              : null,
+  OPT_LUCAS                : null,
+  OPT_SPATIO               : null
 });
 
 export default generalConstant;

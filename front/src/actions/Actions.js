@@ -128,5 +128,18 @@ export default {
       x: x,
       y: y
     });
+  },
+
+  handleRunOpt: () => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_RUN_OPT
+    });
+  },
+
+  handleOptChange: (opt_type) => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_OPT_CHANGE,
+      opt_type: opt_type
+    });
   }
 }
