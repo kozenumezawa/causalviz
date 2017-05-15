@@ -52,7 +52,7 @@ export default class TiffContainerCard extends React.Component{
     return (
       <div>
         <Card
-          containerStyle={{width: card_width}}
+          style={{width: card_width}}
         >
           <CardHeader
             title="Ca2+ Response"

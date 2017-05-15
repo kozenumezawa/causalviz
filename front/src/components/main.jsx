@@ -11,6 +11,8 @@ import AppBar from './app-bar.jsx';
 import CommandButton from './input/command-button.jsx';
 import LegendContainer from './legend-container.jsx';
 
+import ComparisonView from './view/comparison-view.jsx'
+
 import GraphView from './mainview/graph-view.jsx';
 import KmeansClusteringView from './mainview/kmeans-clustering-view.jsx';
 import CrossCorrelationView from './mainview/cross-correlation-view.jsx';
@@ -72,35 +74,42 @@ export default class main extends React.Component {
 
         <div style={{marginLeft: 50, marginRight: 200,display: 'flex', justifyContent: 'space-between'}}>
           <div>
-            <div style={{position: 'absolute', display: 'inline-block', top: 320, left: layoutConst.LEFT_REF}}>
-              <LegendContainer
-                id="legend_output"
-                legend_tiff={this.state.legend_tiff}
+            <TiffContainer
+              id="tiff_output_1"
+              canvas_width={this.state.canvas_width}
+              canvas_height={this.state.canvas_height}
+              clicked_point={this.state.clicked_point}
+              loupe_point={this.state.loupe_point}
+              selected_area={this.state.selected_area}
+              tiff_index={this.state.tiff_index}
+              tiff_list={tiff_list}
+            />
+
+            <div>
+              <div style={{positon: 'relative', display: 'inline-block', marginTop: 20}}>
+                <LegendContainer
+                  id="legend_output"
+                  legend_tiff={this.state.legend_tiff}
+                />
+              </div>
+            </div>
+
+            {/*<div style={{position: 'absolute', display: 'inline-block', top: 100, left: 220 + this.state.canvas_width}}>*/}
+            <div style={{position: 'relative', display: 'inline-block', top: 10}}>
+              <CommandButton
+                filter_type={this.state.filter_type}
               />
+            </div>
+
+          </div>
+          <div style={{width: '30%'}}>
+            <div>
+              <div className="arrow1" style={{position: 'relative', top: 100}}></div>
             </div>
           </div>
 
           <div>
-            <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.FIRST_STAGE, left: layoutConst.LEFT_REF+30}}>
-              <TiffContainer
-                id="tiff_output_1"
-                canvas_width={this.state.canvas_width}
-                canvas_height={this.state.canvas_height}
-                clicked_point={this.state.clicked_point}
-                loupe_point={this.state.loupe_point}
-                selected_area={this.state.selected_area}
-                tiff_index={this.state.tiff_index}
-                tiff_list={tiff_list}
-              />
-            </div>
-          </div>
-
-          <div>
-            aaaa
-          </div>
-
-          <div>
-            bbb
+           　right
           </div>
         </div>
 
@@ -108,7 +117,7 @@ export default class main extends React.Component {
         <Switch>
           <Route exact path='/' render={(props) => (
             <div>
-
+              <ComparisonView />
             </div>
           )} />
           <Route path='/graph' render={(props) => (
@@ -136,12 +145,6 @@ export default class main extends React.Component {
               />
           )} />
         </Switch>
-
-        <div style={{position: 'absolute', display: 'inline-block', top: 100, left: 220 + this.state.canvas_width}}>
-          <CommandButton
-            filter_type={this.state.filter_type}
-          />
-        </div>
 
       </div>
     );
