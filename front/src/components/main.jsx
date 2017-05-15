@@ -7,10 +7,12 @@ import generalConst from '../constants/general-constants';
 import layoutConst from '../constants/layout-constants'
 
 import TiffContainer from './container/tiff-container.jsx';
+import ResultContainer from './container/result-container.jsx'
 import AppBar from './app-bar.jsx';
 import CommandButton from './input/command-button.jsx';
 import LegendContainer from './legend-container.jsx';
 
+import SelectOptView from './view/select-opt-view.jsx'
 import ComparisonView from './view/comparison-view.jsx'
 
 import GraphView from './mainview/graph-view.jsx';
@@ -75,7 +77,7 @@ export default class main extends React.Component {
         <div style={{marginLeft: 50, marginRight: 200,display: 'flex', justifyContent: 'space-between'}}>
           <div>
             <TiffContainer
-              id="tiff_output_1"
+              id="tiff_output"
               canvas_width={this.state.canvas_width}
               canvas_height={this.state.canvas_height}
               clicked_point={this.state.clicked_point}
@@ -103,13 +105,23 @@ export default class main extends React.Component {
 
           </div>
           <div style={{width: '30%'}}>
+            <SelectOptView />
             <div>
-              <div className="arrow1" style={{position: 'relative', top: 100}}></div>
+
             </div>
           </div>
 
           <div>
-           　right
+           <ResultContainer
+             id="tiff_output_2"
+             canvas_width={this.state.canvas_width}
+             canvas_height={this.state.canvas_height}
+             clicked_point={this.state.clicked_point}
+             loupe_point={this.state.loupe_point}
+             selected_area={this.state.selected_area}
+             tiff_index={this.state.tiff_index}
+             tiff_list={tiff_list}
+           />
           </div>
         </div>
 
