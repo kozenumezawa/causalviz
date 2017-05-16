@@ -50,13 +50,16 @@ export default class ResultContainer extends React.Component{
       frames = (this.props.tiff_index + 1) + ' / ' + this.props.tiff_list.length;
     }
     const card_width = (this.props.canvas_width > 230) ? this.props.canvas_width : 230;
+
+    const title = this.props.opt_type || "Vector Field";
+
     return (
       <div>
         <Card
           style={{width: card_width}}
         >
           <CardHeader
-            title="Vector Field"
+            title={title}
             textStyle={{paddingRight: "0px"}}
           />
           <CardMedia>

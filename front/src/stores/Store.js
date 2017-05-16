@@ -53,8 +53,14 @@ let selected_area = {
 
 let vector_fields = [];
 let save_vector_fields = {
-  upper: [],
-  lower: []
+  upper: {
+    data: [],
+    opt_type: ""
+  },
+  lower: {
+    data: [],
+    opt_type: ""
+  }
 };
 
 let opt_type = generalConst.OPT_LUCAS;
@@ -245,7 +251,8 @@ class Store extends EventEmitter {
         break;
       case eventConstants.HANDLE_SAVE_CLICK:
         const save_pos = action.save_pos;
-        save_vector_fields[save_pos] = vector_fields;
+        save_vector_fields[save_pos].data = vector_fields;
+        save_vector_fields[save_pos].opt_type = opt_type;
         break;
       default:
     }
