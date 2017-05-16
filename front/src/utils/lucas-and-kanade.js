@@ -1,5 +1,11 @@
 
-export function lucasAndKanade(oldImage, newImage, width, height) {
+// @params
+//
+// all_time_series[area][time_step] : scalar not RGBA format
+// old_time_step
+// new_time_step
+
+export function lucasAndKanade(all_time_series, old_time_step, new_time_step, width, height) {
   let u =0, v = 0, uu = 0, vv = 0;
   let zones = [];
 
@@ -16,10 +22,9 @@ export function lucasAndKanade(oldImage, newImage, width, height) {
       for (let local_y = -step; local_y <= step; local_y++) {
         for (let local_x = -step; local_x <= step; local_x++) {
           const address = (global_y + local_y) * width + global_x + local_x;
-
-          const gradX = (newImage[(address - 1) * 4]) - (newImage[(address + 1) * 4]);
-          const gradY = (newImage[(address - width) * 4]) - (newImage[(address + width) * 4]);
-          const gradT = (oldImage[address * 4]) - (newImage[address * 4]);
+          const gradX = all_time_series[address - 1][new_time_step] - all_time_series[address + 1][new_time_step];
+          const gradY = all_time_series[address - width][new_time_step] - all_time_series[address + width][new_time_step];
+          const gradT = all_time_series[address][old_time_step] - all_time_series[address][new_time_step]
 
           A2 += gradX * gradX;
           A1B2 += gradX * gradY;
@@ -49,7 +54,8 @@ export function lucasAndKanade(oldImage, newImage, width, height) {
           u = (A1B2 + A2) * temp;
           v = (B1 + A1B2) * temp;
         } else {
-          u = v = 0;
+          u = 0;
+          v = 0;
         }
       }
 

@@ -233,10 +233,10 @@ class Store extends EventEmitter {
         }
         break;
       case eventConstants.HANDLE_RUN_OPT:
-        console.log('a');
-        const ctx1 = all_tiff_list[0].getContext('2d');
-        const ctx2 = all_tiff_list[1].getContext('2d');
-        console.log(OpticalFlow.lucasAndKanade(ctx1.getImageData(0, 0, 128, 96).data, ctx2.getImageData(0, 0, 128, 96).data, 128, 96))
+        const opt_result = OpticalFlow.lucasAndKanade(all_time_series, 0, 1, canvas_width, canvas_height);
+        opt_result.zones.forEach((zone) => {
+          console.log(zone.x, zone.y);
+        });
         break;
       case eventConstants.HANDLE_OPT_CHANGE:
         console.log(action.opt_type);
