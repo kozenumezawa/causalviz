@@ -15,7 +15,9 @@ import CommandButton from './input/command-button.jsx';
 import LegendContainer from './legend-container.jsx';
 
 import SelectOptView from './view/select-opt-view.jsx'
+import ResultOptView from './view/result-opt-view.jsx'
 import ComparisonView from './view/comparison-view.jsx'
+
 
 import GraphView from './mainview/graph-view.jsx';
 import CrossCorrelationView from './mainview/cross-correlation-view.jsx';
@@ -116,16 +118,9 @@ export default class main extends React.Component {
           </div>
 
           <div>
-           <ResultContainer
-             id="tiff_output_2"
-             canvas_width={this.state.canvas_width}
-             canvas_height={this.state.canvas_height}
-             clicked_point={this.state.clicked_point}
-             loupe_point={this.state.loupe_point}
-             selected_area={this.state.selected_area}
-             tiff_index={this.state.tiff_index}
-             tiff_list={tiff_list}
-             vector_fields={this.state.vector_fields}
+           <ResultOptView
+             parent_state = {this.state}
+             tiff_list = {tiff_list}
            />
           </div>
         </div>

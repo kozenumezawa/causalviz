@@ -155,8 +155,6 @@ class Store extends EventEmitter {
           this.emitChange();
         }, 100);
         break;
-      case eventConstants.HANDLE_CORRELATION_CLICK:
-        break;
       case eventConstants.HANDLE_TIFF_CLICK:
         if (selected_area.on === true) {
           clicked_point.x = -1;
