@@ -52,7 +52,7 @@ export default class TiffContainerCard extends React.Component{
     if (this.props.tiff_list !== undefined) {
       frames = (this.props.tiff_index + 1) + ' / ' + this.props.tiff_list.length;
     }
-    const card_width = (this.props.canvas_width > 210) ? this.props.canvas_width : 210;
+    const card_width = (this.props.canvas_width > 230) ? this.props.canvas_width : 230;
     return (
       <div>
         <Card
