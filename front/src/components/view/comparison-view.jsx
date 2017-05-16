@@ -26,6 +26,7 @@ export default class ComparisonView extends React.Component {
               tiff_list={this.props.tiff_list}
               vector_fields={this.props.parent_state.vector_fields}
             />
+            <br />
             <ResultContainer
               id="tiff_output_4"
               canvas_width={this.props.parent_state.canvas_width}

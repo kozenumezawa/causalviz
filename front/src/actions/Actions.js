@@ -46,6 +46,12 @@ export default {
     });
   },
 
+  handlePlayClick: () => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_PLAY_CLICK
+    });
+  },
+
   handleCorrelationClick: () => {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_CORRELATION_CLICK

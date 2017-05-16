@@ -40,12 +40,16 @@ export default class ResultContainer extends React.Component{
     Actions.handleNextClick();
   }
 
+  handlePlayClick() {
+    Actions.handlePlayClick();
+  }
+
   render() {
     let frames = '- / -';
     if (this.props.tiff_list !== undefined) {
       frames = (this.props.tiff_index + 1) + ' / ' + this.props.tiff_list.length;
     }
-    const card_width = (this.props.canvas_width > 190) ? this.props.canvas_width : 190;
+    const card_width = (this.props.canvas_width > 210) ? this.props.canvas_width : 210;
     return (
       <div>
         <Card
@@ -80,7 +84,6 @@ export default class ResultContainer extends React.Component{
             >
               <SkipPrevious />
             </IconButton>
-            {/*<PlayArrow />*/}
             { frames }
             <IconButton
               tooltip="Next"
@@ -88,6 +91,14 @@ export default class ResultContainer extends React.Component{
               onClick={this.handleNextClick}
             >
               <SkipNext />
+            </IconButton>
+
+            <IconButton
+              tooltip="Play"
+              style={{top: '5px', right: 0}}
+              onClick={this.handlePlayClick}
+            >
+              <PlayArrow />
             </IconButton>
           </CardText>
         </Card>
