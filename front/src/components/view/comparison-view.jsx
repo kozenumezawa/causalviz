@@ -24,6 +24,7 @@ export default class ComparisonView extends React.Component {
               selected_area={this.props.parent_state.selected_area}
               tiff_index={this.props.parent_state.tiff_index}
               tiff_list={this.props.tiff_list}
+              vector_fields={this.props.parent_state.vector_fields}
             />
             <ResultContainer
               id="tiff_output_4"
@@ -34,6 +35,7 @@ export default class ComparisonView extends React.Component {
               selected_area={this.props.parent_state.selected_area}
               tiff_index={this.props.parent_state.tiff_index}
               tiff_list={this.props.tiff_list}
+              vector_fields={this.props.parent_state.vector_fields}
             />
           </div>
           <div>

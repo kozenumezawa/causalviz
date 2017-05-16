@@ -5,11 +5,10 @@
 // old_time_step
 // new_time_step
 
-export function lucasAndKanade(all_time_series, old_time_step, new_time_step, width, height) {
+export function lucasAndKanade(all_time_series, old_time_step, new_time_step, width, height, step) {
   let u =0, v = 0, uu = 0, vv = 0;
   let zones = [];
 
-  const step = 8;
   const win_step = step * 2 + 1;
 
   const w_max = width - step - 1;

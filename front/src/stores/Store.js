@@ -51,6 +51,8 @@ let selected_area = {
   on : false
 };
 
+let vector_fields = [];
+
 class Store extends EventEmitter {
   constructor () {
     super();
@@ -223,10 +225,18 @@ class Store extends EventEmitter {
         this.updateCorrelationList(slider_value);
         break;
       case eventConstants.HANDLE_RUN_OPT:
-        const opt_result = OpticalFlow.lucasAndKanade(all_time_series, 0, 1, canvas_width, canvas_height);
-        opt_result.zones.forEach((zone) => {
-          console.log(zone.x, zone.y);
-        });
+        vector_fields = [];
+        for (let i = 0; i < all_time_series[0].length - 1; i++) {
+          const step = 2;
+          const opt_result = OpticalFlow.lucasAndKanade(all_time_series, i, i + 1, canvas_width, canvas_height, step);
+          let vector_field = [];
+          opt_result.zones.forEach((zone) => {
+            if (all_time_series[zone.y * canvas_width + zone.x][0] !== 0) {
+              vector_field.push(zone);
+            }
+          });
+          vector_fields.push(vector_field);
+        }
         break;
       case eventConstants.HANDLE_OPT_CHANGE:
         console.log(action.opt_type);
@@ -323,6 +333,12 @@ class Store extends EventEmitter {
   getSelectedArea () {
     return selected_area;
   }
+
+  getVectorFields() {
+    return vector_fields;
+  }
+
+
   //
   // getCutTiffList () {
   //   let cut_tiff_list = [];

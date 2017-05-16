@@ -43,7 +43,8 @@ function getAllState() {
     tau_list            : Store.getTauList(),
     correlation_list    : Store.getCorrelationList(),
     criteria_time_series: Store.getCriteriaTimeSeries(),
-    selected_area       : Store.getSelectedArea()
+    selected_area       : Store.getSelectedArea(),
+    vector_fields       : Store.getVectorFields()
   }
 }
 
@@ -121,6 +122,7 @@ export default class main extends React.Component {
              selected_area={this.state.selected_area}
              tiff_index={this.state.tiff_index}
              tiff_list={tiff_list}
+             vector_fields={this.state.vector_fields}
            />
           </div>
         </div>

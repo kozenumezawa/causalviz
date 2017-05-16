@@ -8,7 +8,7 @@ import SkipPrevious from 'material-ui/svg-icons/AV/skip-previous';
 import * as drawingTool from '../../utils/drawing-tool';
 import Actions from '../../actions/Actions';
 
-import OverlayCanvas from '../canvas/overlay-canvas.jsx'
+import VectorCanvas from '../canvas/vector-canvas.jsx'
 
 export default class ResultContainer extends React.Component{
   constructor(props) {
@@ -18,9 +18,6 @@ export default class ResultContainer extends React.Component{
   componentDidMount() {
     this.canvas = document.getElementById(this.props.id);
     this.ctx = this.canvas.getContext('2d');
-
-    // const element = ReactDOM.findDOMNode(this.refs.tiff_canvas);
-    // const rect = element.getBoundingClientRect();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -61,13 +58,15 @@ export default class ResultContainer extends React.Component{
           <CardMedia>
             <div style={{height: this.props.canvas_height, position: 'relative', display: 'flex', justifyContent: 'center'}}>
               <canvas id={this.props.id} width={this.props.canvas_width} height={this.props.canvas_height} style={{position: 'absolute', width: this.props.canvas_width, minWidth: "0%", zIndex: 0}}></canvas>
-              <OverlayCanvas
+              <VectorCanvas
                 id={this.props.id}
                 canvas_width={this.props.canvas_width}
                 canvas_height={this.props.canvas_height}
                 clicked_point={this.props.clicked_point}
-                selected_area={this.props.selected_area}
                 loupe_point={this.props.loupe_point}
+                selected_area={this.props.selected_area}
+                tiff_index={this.props.tiff_index}
+                vector_fields={this.props.vector_fields}
               />
             </div>
           </CardMedia>
