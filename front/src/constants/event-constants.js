@@ -4,7 +4,6 @@ const eventConstant = keyMirror({
   HANDLE_DATA_CHANGE        : null,
   HANDLE_FILTER_CHANGE      : null,
   HANDLE_DEFAULT_CLICK      : null,
-  HANDLE_KMEANS_CLICK       : null,
   HANDLE_CROSS_CORRELATION  : null,
   HANDLE_THREE_DIM          : null,
   HANDLE_BEFORE_CLICK       : null,

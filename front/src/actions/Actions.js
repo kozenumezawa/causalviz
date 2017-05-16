@@ -22,12 +22,6 @@ export default {
     });
   },
 
-  handleKmeansClick: () => {
-    Dispatcher.dispatch({
-      actionType: eventConstants.HANDLE_KMEANS_CLICK
-    });
-  },
-
   handleCrossCorrelation: () => {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_CROSS_CORRELATION

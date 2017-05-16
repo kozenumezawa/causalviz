@@ -18,7 +18,6 @@ import SelectOptView from './view/select-opt-view.jsx'
 import ComparisonView from './view/comparison-view.jsx'
 
 import GraphView from './mainview/graph-view.jsx';
-import KmeansClusteringView from './mainview/kmeans-clustering-view.jsx';
 import CrossCorrelationView from './mainview/cross-correlation-view.jsx';
 import ThreeDimView from './mainview/three-dim-view.jsx';
 
@@ -144,12 +143,6 @@ export default class main extends React.Component {
               parent_state = {this.state}
               tiff_list = {tiff_list}
             />
-          )} />
-          <Route path='/kmeans' render={(props) => (
-              <KmeansClusteringView
-                  parent_state = {this.state}
-                  tiff_list = {tiff_list}
-              />
           )} />
           <Route path='/cross' render={(props) => (
               <CrossCorrelationView

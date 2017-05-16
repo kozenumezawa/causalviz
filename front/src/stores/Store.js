@@ -121,12 +121,6 @@ class Store extends EventEmitter {
         this.setInitialState();
         render_contents = generalConst.VIEW_DEFAULT;
         break;
-      case eventConstants.HANDLE_KMEANS_CLICK:
-        this.setInitialState();
-        slider_value = 6;
-        this.updateClusterList(slider_value);
-        render_contents = generalConst.VIEW_KMEANS;
-        break;
       case eventConstants.HANDLE_CROSS_CORRELATION:
         this.setInitialState();
         slider_value = 10;
@@ -226,11 +220,7 @@ class Store extends EventEmitter {
         break;
       case eventConstants.HANDLE_CLUSTER_CHANGE:
         slider_value = action.n_clusters;
-        if (render_contents === generalConst.VIEW_KMEANS) {
-          this.updateClusterList(slider_value);
-        } else if (render_contents === generalConst.VIEW_CROSS_CORRELATION) {
-          this.updateCorrelationList(slider_value);
-        }
+        this.updateCorrelationList(slider_value);
         break;
       case eventConstants.HANDLE_RUN_OPT:
         const opt_result = OpticalFlow.lucasAndKanade(all_time_series, 0, 1, canvas_width, canvas_height);
@@ -400,7 +390,6 @@ class Store extends EventEmitter {
 
   updateTimeSeriesAndCluster() {
     all_time_series = this.createAllTimeSeriesFromTiff(legend_tiff);
-    this.updateClusterList(6);
 
     this.updateCorrelationList(slider_value);
   }
@@ -420,24 +409,6 @@ class Store extends EventEmitter {
   updateCheckedCluster (list) {
     checked_cluster = new Array(Math.max.apply(null, list) + 1);
     checked_cluster.fill(false);
-  }
-
-  updateClusterList (n_clusters) {
-    const file_name = 'cluster/k_means_' + n_clusters + '.json'
-    window.fetch(file_name)
-      .then((response) => {
-        return response.json();
-      })
-      .then((json) => {
-        const labels = json.labels;
-        cluster_list = labels;
-        cluster_time_series = json.average;
-
-        if (render_contents === generalConst.VIEW_KMEANS) {
-          this.updateCheckedCluster(cluster_list);
-        }
-        this.emitChange();
-      });
   }
 
   updateCriteriaTimeSeries() {
