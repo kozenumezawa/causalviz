@@ -147,15 +147,13 @@ class Store extends EventEmitter {
         }
         break;
       case eventConstants.HANDLE_PLAY_CLICK:
-        const playTiff = () => {
-          const id = setTimeout(playTiff, 50);
-          if (++tiff_index === all_tiff_list.length - 1) {
-            clearTimeout(id);
-            tiff_index = 0;
-          }
+        const playTiff = setInterval(() => {
+            if (++tiff_index === all_tiff_list.length - 1) {
+              clearInterval(playTiff);
+              tiff_index = 0;
+            }
           this.emitChange();
-        };
-        playTiff();
+        }, 100);
         break;
       case eventConstants.HANDLE_CORRELATION_CLICK:
         break;
