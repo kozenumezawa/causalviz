@@ -47,6 +47,7 @@ function getAllState() {
     criteria_time_series: Store.getCriteriaTimeSeries(),
     selected_area       : Store.getSelectedArea(),
     vector_fields       : Store.getVectorFields(),
+    save_vector_fields  : Store.getSaveVectorFields(),
     opt_type            : Store.getOptType()
   }
 }

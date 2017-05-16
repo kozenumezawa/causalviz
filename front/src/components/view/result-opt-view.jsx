@@ -1,10 +1,46 @@
 import React from 'react';
+import RadioButton from 'material-ui/RadioButton';
+import RaisedButton from 'material-ui/RaisedButton';
+
+import Actions from '../../actions/Actions'
 
 import ResultContainer from '../container/result-container.jsx'
+
+const styles = {
+  block: {
+    display: 'flex'
+  },
+  block2: {
+    margin: 0
+  },
+  radio: {
+    fontSize: 12
+  },
+  button: {
+    // width: 12,
+    height: 30,
+    fontSize: 12
+  }
+};
 
 export default class ResultOptView extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      position: 'upper'
+    };
+
+    this.handleSaveClick = this.handleSaveClick.bind(this);
+  }
+
+  setAnchor(position) {
+    this.setState({
+      position: position
+    });
+  }
+
+  handleSaveClick() {
+    Actions.handleSaveClick(this.state.position);
   }
 
   render() {
@@ -21,6 +57,27 @@ export default class ResultOptView extends React.Component {
           tiff_list={this.props.tiff_list}
           vector_fields={this.props.parent_state.vector_fields}
         />
+
+        <div style={styles.block}>
+          <div style={styles.block2}>
+            <span>Save to </span>
+            <RadioButton
+              onClick={this.setAnchor.bind(this, 'upper')}
+              label="Upper" checked={this.state.position === 'upper'}
+              style={styles.radio}
+            />
+            <RadioButton
+              onClick={this.setAnchor.bind(this, 'lower')}
+              label="Lower" checked={this.state.position === 'lower'}
+              style={styles.radio}
+            />
+            <RaisedButton
+              onClick={this.handleSaveClick}
+              label="Save"
+              style={styles.button}
+            />
+          </div>
+        </div>
       </div>
     );
   }

@@ -20,7 +20,8 @@ const eventConstant = keyMirror({
   HANDLE_LINEHEIGHTS_CHANGE : null,
   HANDLE_SELECT_AREA        : null,
   HANDLE_RUN_OPT            : null,
-  HANDLE_OPT_CHANGE         : null
+  HANDLE_OPT_CHANGE         : null,
+  HANDLE_SAVE_CLICK         : null
 });
 
 export default eventConstant;

@@ -135,5 +135,12 @@ export default {
       actionType: eventConstants.HANDLE_OPT_CHANGE,
       opt_type: opt_type
     });
+  },
+
+  handleSaveClick: (save_position) => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_SAVE_CLICK,
+      save_pos: save_position
+    });
   }
 }
