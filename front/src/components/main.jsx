@@ -44,7 +44,8 @@ function getAllState() {
     correlation_list    : Store.getCorrelationList(),
     criteria_time_series: Store.getCriteriaTimeSeries(),
     selected_area       : Store.getSelectedArea(),
-    vector_fields       : Store.getVectorFields()
+    vector_fields       : Store.getVectorFields(),
+    opt_type            : Store.getOptType()
   }
 }
 
@@ -106,7 +107,9 @@ export default class main extends React.Component {
 
           </div>
           <div style={{width: '30%'}}>
-            <SelectOptView />
+            <SelectOptView
+              opt_type={this.state.opt_type}
+            />
             <div>
 
             </div>

@@ -52,6 +52,7 @@ let selected_area = {
 };
 
 let vector_fields = [];
+let opt_type = generalConst.OPT_LUCAS;
 
 class Store extends EventEmitter {
   constructor () {
@@ -225,21 +226,10 @@ class Store extends EventEmitter {
         this.updateCorrelationList(slider_value);
         break;
       case eventConstants.HANDLE_RUN_OPT:
-        vector_fields = [];
-        for (let i = 0; i < all_time_series[0].length - 1; i++) {
-          const step = 2;
-          const opt_result = OpticalFlow.lucasAndKanade(all_time_series, i, i + 1, canvas_width, canvas_height, step);
-          let vector_field = [];
-          opt_result.zones.forEach((zone) => {
-            if (all_time_series[zone.y * canvas_width + zone.x][0] !== 0) {
-              vector_field.push(zone);
-            }
-          });
-          vector_fields.push(vector_field);
-        }
+        this.updateVectorFields();
         break;
       case eventConstants.HANDLE_OPT_CHANGE:
-        console.log(action.opt_type);
+        opt_type = action.opt_type;
         break;
       default:
     }
@@ -338,6 +328,9 @@ class Store extends EventEmitter {
     return vector_fields;
   }
 
+  getOptType() {
+    return opt_type;
+  }
 
   //
   // getCutTiffList () {
@@ -613,6 +606,29 @@ class Store extends EventEmitter {
       }
     }
     this.emitChange();
+  }
+
+  updateVectorFields() {
+    vector_fields = [];
+    switch (opt_type) {
+      case generalConst.OPT_LUCAS:
+        for (let i = 0; i < all_time_series[0].length - 1; i++) {
+          const step = 2;
+          const opt_result = OpticalFlow.lucasAndKanade(all_time_series, i, i + 1, canvas_width, canvas_height, step);
+          let vector_field = [];
+          opt_result.zones.forEach((zone) => {
+            if (all_time_series[zone.y * canvas_width + zone.x][0] !== 0) {
+              vector_field.push(zone);
+            }
+          });
+          vector_fields.push(vector_field);
+        }
+        break;
+      case generalConst.OPT_SPATIO:
+        break;
+      default:
+        break;
+    }
   }
 }
 const store = new Store();

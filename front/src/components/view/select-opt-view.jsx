@@ -10,10 +10,6 @@ export default class SelectOptView extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      opt_type: generalConst.OPT_LUCAS
-    };
-
     this.handleOptChange = this.handleOptChange.bind(this);
   }
 
@@ -22,9 +18,6 @@ export default class SelectOptView extends React.Component {
   }
 
   handleOptChange(event, index, opt_type) {
-    this.setState({
-      opt_type: opt_type
-    });
     Action.handleOptChange(opt_type);
   }
 
@@ -38,7 +31,7 @@ export default class SelectOptView extends React.Component {
         <div style={{position: 'relative', top: 60}}>
           <div> Algorithm: </div>
           <DropDownMenu
-            value={this.state.opt_type}
+            value={this.props.opt_type}
             onChange={this.handleOptChange}
             style={{left: 20, top: -10, fontSize: 13}}
             labelStyle={{color: 'black'}}
