@@ -58,7 +58,12 @@ export default class VectorCanvas extends React.Component {
     this.ctx.beginPath();
     const vector_field = props.vector_fields[props.tiff_index];
     vector_field.forEach((zone) => {
-      this.arrow(zone.x, zone.y, zone.x + 10, zone.y + 10, [0, 1, -6, 1, -6, 3])
+      const r = zone.u * zone.u + zone.v * zone.v;
+      const rad = Math.atan2(zone.v, zone.u);
+      const end_x = Math.floor(zone.x + 10 * r * Math.cos(rad));
+      const end_y = Math.floor(zone.y + 10 * r * Math.sin(rad));
+
+      this.arrow(zone.x, zone.y, end_x, end_y, [0, 1, -6, 1, -6, 3])
     });
     this.ctx.fill();
 
