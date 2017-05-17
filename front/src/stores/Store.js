@@ -250,6 +250,9 @@ class Store extends EventEmitter {
         opt_type = action.opt_type;
         break;
       case eventConstants.HANDLE_SAVE_CLICK:
+        if (vector_fields.length === 0) {
+          break;
+        }
         const save_pos = action.save_pos;
         save_vector_fields[save_pos].data = vector_fields;
         save_vector_fields[save_pos].opt_type = opt_type;
