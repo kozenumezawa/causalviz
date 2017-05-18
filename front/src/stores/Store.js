@@ -63,7 +63,7 @@ let save_vector_fields = {
   }
 };
 
-let opt_type = generalConst.OPT_LUCAS;
+let opt_type = generalConst.CAUSAL_CROSS_CORRELATION;
 
 class Store extends EventEmitter {
   constructor () {

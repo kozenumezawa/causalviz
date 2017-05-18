@@ -24,7 +24,7 @@ export default class SelectOptView extends React.Component {
   render() {
     return (
       <div>
-        <RaisedButton label="Run Optical Flow" onClick={this.handleRunOpt} style={{position: 'relative', margin: 0, top: 40}} />
+        <RaisedButton label="Run Causal Analysis" onClick={this.handleRunOpt} style={{position: 'relative', margin: 0, top: 40}} />
 
         <div className="arrow1" style={{position: 'relative', top: 50, textTransform: 'none'}}></div>
 
@@ -38,6 +38,7 @@ export default class SelectOptView extends React.Component {
           >
             <MenuItem value={generalConst.OPT_LUCAS} primaryText="Lucas & Kanade" />
             <MenuItem value={generalConst.OPT_SPATIO} primaryText="SpatioTemporal" />
+            <MenuItem value={generalConst.CAUSAL_CROSS_CORRELATION} primaryText="Cross Correlation" />
             <MenuItem value={3} disabled={true} primaryText="Causal Flow" />
           </DropDownMenu>
         </div>

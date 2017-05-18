@@ -10,7 +10,8 @@ const generalConstant = keyMirror({
   FILTER_NONE              : null,
   FILTER_MEAN              : null,
   OPT_LUCAS                : null,
-  OPT_SPATIO               : null
+  OPT_SPATIO               : null,
+  CAUSAL_CROSS_CORRELATION : null
 });
 
 export default generalConstant;
