@@ -6,7 +6,7 @@ class RootClass(object):
     # def on_get(self, req, resp):
     def on_post(self, req, resp):
         body = json.loads(req.stream.read().decode('utf-8'))
-        msg = corr_analysis.cross_corr_analysis(body['data'])
+        msg = corr_analysis.cross_corr_analysis(body['data'], body['max_lag'], body['win_pixels'], body['win_frames'], body['width'], body['height'])
         resp.body = json.dumps(msg)
         resp.status = falcon.HTTP_200
 

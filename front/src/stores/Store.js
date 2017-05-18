@@ -66,8 +66,9 @@ let save_vector_fields = {
 let opt_type = generalConst.CAUSAL_CROSS_CORRELATION;
 
 // state (not be transferred to components)
-let cross_tau_range = 10;
-let cross_area_range = 5;
+let cross_max_lag = 10;
+let cross_win_pixels = 5;
+let cross_win_frames = 30;
 
 class Store extends EventEmitter {
   constructor () {
@@ -668,8 +669,12 @@ class Store extends EventEmitter {
             'content-type': 'application/json',
           },
           body: JSON.stringify({
-            n_clusters:10,
-            data: all_time_series
+            data: all_time_series,
+            max_lag: cross_max_lag,
+            win_pixels: cross_win_pixels,
+            win_frames: cross_win_frames,
+            width: canvas_width,
+            height: canvas_height
           })
         })
           .then((response) => {
