@@ -13,6 +13,13 @@ import VectorCanvas from '../canvas/vector-canvas.jsx'
 export default class ResultContainer extends React.Component{
   constructor(props) {
     super(props);
+    this.state = {
+      tiff_index: 0
+    };
+
+    this.handleBeforeClick = this.handleBeforeClick.bind(this);
+    this.handleNextClick = this.handleNextClick.bind(this);
+    this.handlePlayClick = this.handlePlayClick.bind(this);
   }
 
   componentDidMount() {
@@ -21,33 +28,67 @@ export default class ResultContainer extends React.Component{
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.tiff_list.length === 0) {
+    this.drawData(nextProps);
+  }
+
+  handleBeforeClick() {
+    let before = this.state.tiff_index - 1;
+    if (before === -1) {
+      before = this.props.tiff_list.length - 1;
+    }
+    this.setState({
+      tiff_index: before
+    });
+    this.drawData(this.props);
+  }
+
+  handleNextClick() {
+    this.setState({
+        tiff_index: this.getNextTiffIndex()
+    });
+    this.drawData(this.props);
+  }
+
+  handlePlayClick() {
+    const playTiff = setInterval(() => {
+      const next = this.getNextTiffIndex();
+      this.setState({
+        tiff_index: next
+      });
+      if (next === this.props.tiff_list.length - 1) {
+        clearInterval(playTiff);
+        this.setState({
+          tiff_index: 0
+        });
+      }
+      this.drawData(this.props);
+    }, 100);
+  }
+
+  drawData(props) {
+    if (props.tiff_list.length === 0) {
       return null
     }
 
     // draw a base image
-    const canvas = nextProps.tiff_list[nextProps.tiff_index];
+    const canvas = props.tiff_list[this.state.tiff_index];
     this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.canvas.width, this.canvas.height);
 
-    drawingTool.drawLoupeArea(this.canvas, this.ctx, nextProps.loupe_point)
+    drawingTool.drawLoupeArea(this.canvas, this.ctx, props.loupe_point)
   }
 
-  handleBeforeClick() {
-    Actions.handleBeforeClick();
-  }
-
-  handleNextClick() {
-    Actions.handleNextClick();
-  }
-
-  handlePlayClick() {
-    Actions.handlePlayClick();
+  getNextTiffIndex() {
+    const next = this.state.tiff_index + 1;
+    if (next === this.props.tiff_list.length) {
+      return 0;
+    }
+    return next;
   }
 
   render() {
     let frames = '- / -';
     if (this.props.tiff_list !== undefined) {
-      frames = (this.props.tiff_index + 1) + ' / ' + this.props.tiff_list.length;
+      frames = (this.state.tiff_index + 1) + ' / ' + this.props.tiff_list.length;
     }
     const card_width = (this.props.canvas_width > 230) ? this.props.canvas_width : 230;
 
@@ -72,7 +113,7 @@ export default class ResultContainer extends React.Component{
                 clicked_point={this.props.clicked_point}
                 loupe_point={this.props.loupe_point}
                 selected_area={this.props.selected_area}
-                tiff_index={this.props.tiff_index}
+                tiff_index={this.state.tiff_index}
                 vector_fields={this.props.vector_fields}
               />
             </div>
