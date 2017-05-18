@@ -65,6 +65,10 @@ let save_vector_fields = {
 
 let opt_type = generalConst.CAUSAL_CROSS_CORRELATION;
 
+// state (not be transferred to components)
+cross_tau_range = 10;
+cross_area_range = 5;
+
 class Store extends EventEmitter {
   constructor () {
     super();
@@ -655,6 +659,9 @@ class Store extends EventEmitter {
         }
         break;
       case generalConst.OPT_SPATIO:
+        break;
+      case generalConst.CAUSAL_CROSS_CORRELATION:
+        console.log('a');
         break;
       default:
         break;
