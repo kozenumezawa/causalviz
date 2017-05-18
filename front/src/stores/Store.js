@@ -66,8 +66,8 @@ let save_vector_fields = {
 let opt_type = generalConst.CAUSAL_CROSS_CORRELATION;
 
 // state (not be transferred to components)
-cross_tau_range = 10;
-cross_area_range = 5;
+let cross_tau_range = 10;
+let cross_area_range = 5;
 
 class Store extends EventEmitter {
   constructor () {
@@ -661,7 +661,24 @@ class Store extends EventEmitter {
       case generalConst.OPT_SPATIO:
         break;
       case generalConst.CAUSAL_CROSS_CORRELATION:
-        console.log('a');
+        window.fetch('http://localhost:3000/api/v1/corr', {
+          mode: 'cors',
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            n_clusters:10,
+            data: all_time_series
+          })
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((json) => {
+            const labels = json.labels;
+            console.log(labels);
+          });
         break;
       default:
         break;
