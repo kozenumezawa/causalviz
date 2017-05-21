@@ -1,12 +1,13 @@
-def get_lag_maximizing_corr(frame, center_pixel, all_time_series, win_frames, max_lag, width, height):
+def get_lag_maximizing_corr(frame, center_pixel, all_time_series, win_pixels, win_frames, max_lag, width, height):
     import numpy as np
     import math
-    
+
     if np.sum(all_time_series[center_pixel]) == 0:
-        return np.array([0, 0]).astype(np.float64)
+        return False
     n_frames = all_time_series.shape[1]
     n_pixels = width * height
 
+    win_pixels = int(win_pixels)
     win_frames = int(2 * math.floor(win_frames / 2))
     start_frame = max(0, frame - win_frames / 2)
     stop_frame = min(n_frames - 1, frame + win_frames / 2)
@@ -15,13 +16,12 @@ def get_lag_maximizing_corr(frame, center_pixel, all_time_series, win_frames, ma
     elif stop_frame == width * height - 1:
         start_frame = n_frames - win_frames
 
-    corr_list = []
-    lag_list = []
-    pixel_list = []
-    vec_list = []
-    ROOT_INV = 1 / math.sqrt(2)
-    for x in [-1, 0, 1]:
-        for y in [-1, 0, 1]:
+    max_corr = -1
+    causal_pixel = -1
+    causal_lag = 0
+
+    for x in [win_pixels, 0, win_pixels]:
+        for y in [win_pixels, 0, win_pixels]:
             if x == 0 and y == 0:
                 continue
             pixel = center_pixel + x + y * width
@@ -29,7 +29,7 @@ def get_lag_maximizing_corr(frame, center_pixel, all_time_series, win_frames, ma
                 continue
             y_time_series = all_time_series[pixel][start_frame:stop_frame]
             if np.sum(y_time_series) == 0:
-                return np.array([0, 0]).astype(np.float64)
+                return False
 
             lag_range = int(math.floor(max_lag / 2))
             for lag in range(-lag_range, lag_range):
@@ -37,37 +37,29 @@ def get_lag_maximizing_corr(frame, center_pixel, all_time_series, win_frames, ma
                 if start_frame + lag < 0 or stop_frame + lag >= n_frames:
                     continue
                 center_time_series = all_time_series[center_pixel][start_frame + lag : stop_frame + lag]
-                corr_list.append(np.corrcoef(center_time_series, y_time_series)[0][1])
-                lag_list.append(lag)
-                pixel_list.append(pixel)
-                if [x, y] == [-1, -1]:
-                    vec_list.append(np.array([-ROOT_INV, -ROOT_INV]))
-                elif [x, y] == [-1, 0]:
-                    vec_list.append(np.array([-1, 0]))
-                elif [x, y] == [-1, 1]:
-                    vec_list.append(np.array([-ROOT_INV, ROOT_INV]))
-                elif [x, y] == [0, -1]:
-                    vec_list.append(np.array([0, -1]))
-                elif [x, y] == [0, 1]:
-                    vec_list.append(np.array([0, 1]))
-                elif [x, y] == [1, -1]:
-                    vec_list.append(np.array([ROOT_INV, -ROOT_INV]))
-                elif [x, y] == [1, 0]:
-                    vec_list.append(np.array([1, 0]))
-                elif [x, y] == [1, 1]:
-                    vec_list.append(np.array([ROOT_INV, ROOT_INV]))
 
-    max_corr = np.max(corr_list)
-    max_index = np.argmax(np.array(corr_list))
-    max_lag = lag_list[max_index]
-    max_pixel = pixel_list[max_index]
-    vector = np.array(vec_list[max_index])
+                corr = np.corrcoef(center_time_series, y_time_series)[0][1]
+                # Nan check
+                if math.isnan(corr):
+                    continue
 
-    if max_lag <= 0:
-        return np.array([0, 0]).astype(np.float64)
+                minimum_corr = 0.7
+                if corr < minimum_corr or corr < max_corr:
+                    continue
+                max_corr = corr
+                causal_pixel = pixel
+                causal_lag = lag
 
-    vector = vector / max_lag
-    return vector.astype(np.float64)
+    if causal_pixel == -1:
+        return False
+
+    vector = {
+        "center_pixel": center_pixel,
+        "causal_pixel": causal_pixel,
+        "causal_lag": causal_lag,
+        "corr": max_corr
+    }
+    return vector
 
 def cross_corr_analysis(all_time_series, max_lag, win_pixels, win_frames, width, height):
     import numpy as np
@@ -77,18 +69,23 @@ def cross_corr_analysis(all_time_series, max_lag, win_pixels, win_frames, width,
     # print(all_time_series.shape)  #-> (number of pixels, length of time)
 
     vectors = np.zeros((height, width, 2), dtype=np.float64)
-    all_vectors = []
+    data = []
 
     for frame in range(all_time_series.shape[1]):
-        print frame
+        vectors = []
         for (center_pixel, time_series) in enumerate(all_time_series):
-            vector = get_lag_maximizing_corr(frame, center_pixel, all_time_series, win_frames, max_lag, width, height)
-            vectors[center_pixel / width][center_pixel % width] = vector
-        all_vectors.append(vectors)
-    print all_vectors.shape
+            vector = get_lag_maximizing_corr(frame, center_pixel, all_time_series, win_pixels, win_frames, max_lag, width, height)
+            if vector == False:
+                continue
+            vectors.append(vector)
 
-
+        one_frame = {
+            "n_frame": frame,
+            "vectors": vectors
+        }
+        data.append(one_frame)
+        print one_frame["vectors"]
     responseMsg = {
-        "labels": "test"
+        "data": data
     }
     return responseMsg
