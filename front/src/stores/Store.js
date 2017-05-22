@@ -65,10 +65,9 @@ let save_vector_fields = {
 
 let opt_type = generalConst.CAUSAL_CROSS_CORRELATION;
 
-// state (not be transferred to components)
-let cross_max_lag = 10;
 let cross_win_pixels = 5;
 let cross_win_frames = 30;
+let cross_max_lag = 10;
 
 class Store extends EventEmitter {
   constructor () {
@@ -262,6 +261,19 @@ class Store extends EventEmitter {
         save_vector_fields[save_pos].data = vector_fields;
         save_vector_fields[save_pos].opt_type = opt_type;
         break;
+      case eventConstants.HANDLE_PARAMS_CHANGE:
+        switch (action.params_name){
+          case "win_pixels":
+            cross_win_pixels = action.value;
+            break;
+          case "win_frames":
+            cross_win_frames = action.value;
+            break;
+          case "max_lag":
+            cross_max_lag= action.value;
+            break;
+        }
+        break;
       default:
     }
     this.emitChange();
@@ -367,6 +379,17 @@ class Store extends EventEmitter {
     return opt_type;
   }
 
+  getCrossWinPixels() {
+    return cross_win_pixels;
+  }
+
+  getCrossWinFrames() {
+    return cross_win_frames;
+  }
+
+  getCrossMaxLag() {
+    return cross_max_lag;
+  }
   //
   // getCutTiffList () {
   //   let cut_tiff_list = [];
@@ -670,9 +693,9 @@ class Store extends EventEmitter {
           },
           body: JSON.stringify({
             data: all_time_series,
-            max_lag: cross_max_lag,
             win_pixels: cross_win_pixels,
             win_frames: cross_win_frames,
+            max_lag: cross_max_lag,
             width: canvas_width,
             height: canvas_height
           })

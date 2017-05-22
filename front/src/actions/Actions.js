@@ -142,5 +142,13 @@ export default {
       actionType: eventConstants.HANDLE_SAVE_CLICK,
       save_pos: save_position
     });
+  },
+
+  handleParamsChange: (params_name, value) => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_PARAMS_CHANGE,
+      params_name: params_name,
+      value: value
+    });
   }
 }

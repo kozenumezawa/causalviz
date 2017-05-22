@@ -21,7 +21,8 @@ const eventConstant = keyMirror({
   HANDLE_SELECT_AREA        : null,
   HANDLE_RUN_OPT            : null,
   HANDLE_OPT_CHANGE         : null,
-  HANDLE_SAVE_CLICK         : null
+  HANDLE_SAVE_CLICK         : null,
+  HANDLE_PARAMS_CHANGE      : null
 });
 
 export default eventConstant;

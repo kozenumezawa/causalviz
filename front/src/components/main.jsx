@@ -48,7 +48,10 @@ function getAllState() {
     selected_area       : Store.getSelectedArea(),
     vector_fields       : Store.getVectorFields(),
     save_vector_fields  : Store.getSaveVectorFields(),
-    opt_type            : Store.getOptType()
+    opt_type            : Store.getOptType(),
+    cross_win_pixels    : Store.getCrossWinPixels(),
+    cross_win_frames    : Store.getCrossWinFrames(),
+    cross_max_lag       : Store.getCrossMaxLag()
   }
 }
 
@@ -80,7 +83,7 @@ export default class main extends React.Component {
         />
         <br />
 
-        <div style={{marginLeft: 50, marginRight: 200,display: 'flex', justifyContent: 'space-between'}}>
+        <div style={{marginLeft: 50, marginRight: 200, display: 'flex', justifyContent: 'space-between'}}>
           <div>
             <TiffContainer
               id="tiff_output"
@@ -111,7 +114,7 @@ export default class main extends React.Component {
           </div>
           <div style={{width: '30%'}}>
             <SelectOptView
-              opt_type={this.state.opt_type}
+              parent_state={this.state}
             />
             <div>
 
