@@ -32,7 +32,7 @@ def get_lag_maximizing_corr(frame, center_pixel, all_time_series, win_pixels, wi
                 return False
 
             lag_range = int(math.floor(max_lag / 2))
-            for lag in range(-lag_range, lag_range):
+            for lag in xrange(-lag_range, lag_range):
             # for lag in range(0, lag_range):
                 if start_frame + lag < 0 or stop_frame + lag >= n_frames:
                     continue
@@ -68,10 +68,9 @@ def cross_corr_analysis(all_time_series, max_lag, win_pixels, win_frames, width,
     all_time_series = all_time_series.astype(np.float64)
     # print(all_time_series.shape)  #-> (number of pixels, length of time)
 
-    vectors = np.zeros((height, width, 2), dtype=np.float64)
     data = []
 
-    for frame in range(all_time_series.shape[1]):
+    for frame in xrange(all_time_series.shape[1]):
         vectors = []
         for (center_pixel, time_series) in enumerate(all_time_series):
             vector = get_lag_maximizing_corr(frame, center_pixel, all_time_series, win_pixels, win_frames, max_lag, width, height)
@@ -79,6 +78,8 @@ def cross_corr_analysis(all_time_series, max_lag, win_pixels, win_frames, width,
                 continue
             vectors.append(vector)
 
+        if len(vectors) == 0:
+            continue
         one_frame = {
             "n_frame": frame,
             "vectors": vectors
