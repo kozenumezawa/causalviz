@@ -63,6 +63,7 @@ def get_lag_maximizing_corr(frame, center_pixel, all_time_series, win_pixels, wi
 
 def cross_corr_analysis(all_time_series, max_lag, win_pixels, win_frames, width, height):
     import numpy as np
+    import json
 
     all_time_series = np.array(all_time_series)
     all_time_series = all_time_series.astype(np.float64)
@@ -70,7 +71,8 @@ def cross_corr_analysis(all_time_series, max_lag, win_pixels, win_frames, width,
 
     data = []
 
-    for frame in xrange(all_time_series.shape[1]):
+    for frame in xrange(0, all_time_series.shape[1], win_frames):
+        print frame
         vectors = []
         for (center_pixel, time_series) in enumerate(all_time_series):
             vector = get_lag_maximizing_corr(frame, center_pixel, all_time_series, win_pixels, win_frames, max_lag, width, height)
@@ -85,8 +87,11 @@ def cross_corr_analysis(all_time_series, max_lag, win_pixels, win_frames, width,
             "vectors": vectors
         }
         data.append(one_frame)
-        print one_frame["vectors"]
     responseMsg = {
         "data": data
     }
+    # f = open("apiserver/dummy.json", "w")
+    # json.dump(responseMsg, f)
+    # f.close()
+
     return responseMsg

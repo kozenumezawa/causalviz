@@ -704,8 +704,8 @@ class Store extends EventEmitter {
             return response.json();
           })
           .then((json) => {
-            const labels = json.labels;
-            console.log(labels);
+            const result_array = json.data;
+            console.log(result_array);
           });
         break;
       default:
