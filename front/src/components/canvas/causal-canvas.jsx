@@ -55,16 +55,12 @@ export default class CausalCanvas extends React.Component {
       return;
     }
 
-
-    const selected_frame = 120;
     for (let i = 0; i < causal_data.length; i++) {
-      if (causal_data[i].n_frame !== selected_frame) {
+      if (causal_data[i].n_frame !== props.tiff_index) {
         continue;
       }
       const vectors = causal_data[i].vectors;
 
-      this.ctx.fillStyle = 'red';
-      this.ctx.beginPath();
       vectors.forEach((vector) => {
         const center_x = vector.center_pixel % this.canvas.width;
         const center_y = Math.floor(vector.center_pixel / this.canvas.width);
@@ -72,9 +68,20 @@ export default class CausalCanvas extends React.Component {
         const causal_x = vector.causal_pixel % this.canvas.width;
         const causal_y = Math.floor(vector.causal_pixel / this.canvas.width);
 
-          this.arrow(center_x, center_y, causal_x, causal_y, [0, 1, -6, 1, -6, 3])
+        const delta_x = causal_x - center_x;
+        const delta_y = causal_y - center_y;
+
+        if (delta_x >= 0 && delta_y > 0) {
+          this.ctx.fillStyle = 'red';
+        } else if (delta_x >= 0 && delta_y <= 0) {
+          this.ctx.fillStyle = 'yellow';
+        } else if (delta_x < 0 && delta_y <= 0) {
+          this.ctx.fillStyle = 'green';
+        } else if (delta_x < 0 && delta_y > 0) {
+          this.ctx.fillStyle = 'blue';
+        }
+        this.ctx.fillRect(causal_x, causal_y, 1, 1);
       });
-      this.ctx.fill();
     }
   }
 

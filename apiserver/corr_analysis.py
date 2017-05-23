@@ -71,7 +71,8 @@ def cross_corr_analysis(all_time_series, max_lag, win_pixels, win_frames, width,
 
     data = []
 
-    for frame in xrange(0, all_time_series.shape[1], win_frames):
+    # for frame in xrange(0, all_time_series.shape[1], win_frames):
+    for frame in xrange(0, all_time_series.shape[1]):
         print frame
         vectors = []
         for (center_pixel, time_series) in enumerate(all_time_series):
@@ -90,8 +91,8 @@ def cross_corr_analysis(all_time_series, max_lag, win_pixels, win_frames, width,
     responseMsg = {
         "data": data
     }
-    # f = open("apiserver/dummy.json", "w")
-    # json.dump(responseMsg, f)
-    # f.close()
+    f = open("apiserver/dummy.json", "w")
+    json.dump(responseMsg, f)
+    f.close()
 
     return responseMsg
