@@ -68,6 +68,7 @@ let opt_type = generalConst.CAUSAL_CROSS_CORRELATION;
 let cross_win_pixels = 5;
 let cross_win_frames = 30;
 let cross_max_lag = 10;
+let causal_data = [];
 
 class Store extends EventEmitter {
   constructor () {
@@ -390,6 +391,10 @@ class Store extends EventEmitter {
   getCrossMaxLag() {
     return cross_max_lag;
   }
+
+  getCausalData() {
+    return causal_data
+  }
   //
   // getCutTiffList () {
   //   let cut_tiff_list = [];
@@ -704,8 +709,8 @@ class Store extends EventEmitter {
             return response.json();
           })
           .then((json) => {
-            const result_array = json.data;
-            console.log(result_array);
+            causal_data = json.data;
+            this.emitChange();
           });
         break;
       default:

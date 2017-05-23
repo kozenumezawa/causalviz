@@ -16,6 +16,7 @@ import LegendContainer from './legend-container.jsx';
 
 import SelectOptView from './view/select-opt-view.jsx'
 import ResultOptView from './view/result-opt-view.jsx'
+import ResultCausalView from './view/result-causal-view.jsx'
 import ComparisonView from './view/comparison-view.jsx'
 
 
@@ -51,7 +52,8 @@ function getAllState() {
     opt_type            : Store.getOptType(),
     cross_win_pixels    : Store.getCrossWinPixels(),
     cross_win_frames    : Store.getCrossWinFrames(),
-    cross_max_lag       : Store.getCrossMaxLag()
+    cross_max_lag       : Store.getCrossMaxLag(),
+    causal_data         : Store.getCausalData()
   }
 }
 
@@ -122,7 +124,7 @@ export default class main extends React.Component {
           </div>
 
           <div>
-           <ResultOptView
+           <ResultCausalView
              parent_state = {this.state}
              tiff_list = {tiff_list}
            />
