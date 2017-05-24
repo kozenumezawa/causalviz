@@ -5,6 +5,14 @@ import PlayArrow from 'material-ui/svg-icons/AV/play-arrow';
 import SkipNext from 'material-ui/svg-icons/AV/skip-next';
 import SkipPrevious from 'material-ui/svg-icons/AV/skip-previous';
 
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import Divider from 'material-ui/Divider';
+import Download from 'material-ui/svg-icons/file/file-download';
+import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+
+
 import * as drawingTool from '../../utils/drawing-tool';
 import Actions from '../../actions/Actions';
 
@@ -85,6 +93,34 @@ export default class CausalContainer extends React.Component{
     return next;
   }
 
+  getHeaderTitle() {
+    const title = this.props.opt_type || "Vector Field";
+
+    return (
+      <div>
+        {title}
+        <IconMenu
+          iconButtonElement={<IconButton style={{width: 25, height: 25}} iconStyle={{width: 15, height:15}}><MoreVertIcon /></IconButton>}
+          anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+          targetOrigin={{horizontal: 'left', vertical: 'top'}}
+          style={{height: 25}}
+          // iconStyle={{width: 20, height: 20}}
+        >
+          <MenuItem
+            primaryText="View"
+            rightIcon={<ArrowDropRight />}
+            menuItems={[
+              <MenuItem primaryText="direction" />,
+              <MenuItem primaryText="lag" />,
+              <MenuItem primaryText="magnitude" />
+            ]}
+          />
+        </IconMenu>
+      </div>
+    );
+
+  }
+
   render() {
     let frames = '- / -';
     if (this.props.tiff_list !== undefined) {
@@ -92,7 +128,7 @@ export default class CausalContainer extends React.Component{
     }
     const card_width = (this.props.canvas_width > 230) ? this.props.canvas_width : 230;
 
-    const title = this.props.opt_type || "Vector Field";
+
 
     return (
       <div>
@@ -100,9 +136,10 @@ export default class CausalContainer extends React.Component{
           style={{width: card_width}}
         >
           <CardHeader
-            title={title}
+            title={this.getHeaderTitle()}
             textStyle={{paddingRight: "0px"}}
-          />
+          >
+          </CardHeader>
           <CardMedia>
             <div style={{height: this.props.canvas_height, position: 'relative', display: 'flex', justifyContent: 'center'}}>
               <canvas id={this.props.id} width={this.props.canvas_width} height={this.props.canvas_height} style={{position: 'absolute', width: this.props.canvas_width, minWidth: "0%", zIndex: 0}}></canvas>
