@@ -150,5 +150,11 @@ export default {
       params_name: params_name,
       value: value
     });
+  },
+
+  handleCalcClick: () => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_CALC_CLICK
+    });
   }
 }

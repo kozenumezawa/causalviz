@@ -68,6 +68,7 @@ export default class SelectOptView extends React.Component {
             <MenuItem value={generalConst.OPT_LUCAS} primaryText="Lucas & Kanade" />
             <MenuItem value={generalConst.OPT_SPATIO} primaryText="SpatioTemporal" />
             <MenuItem value={generalConst.CAUSAL_CROSS_CORRELATION} primaryText="Cross Correlation" />
+            <MenuItem value={generalConst.CAUSAL_GRANGER} primaryText="Granger Causality" />
             <MenuItem value={3} disabled={true} primaryText="Causal Flow" />
           </DropDownMenu>
         </div>

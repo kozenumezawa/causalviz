@@ -275,6 +275,9 @@ class Store extends EventEmitter {
             break;
         }
         break;
+      case eventConstants.HANDLE_CALC_CLICK:
+        console.log('a');
+        break;
       default:
     }
     this.emitChange();
@@ -712,6 +715,9 @@ class Store extends EventEmitter {
             causal_data = json.data;
             this.emitChange();
           });
+        break;
+      case generalConst.CAUSAL_GRANGER:
+        console.log('a');
         break;
       default:
         break;
