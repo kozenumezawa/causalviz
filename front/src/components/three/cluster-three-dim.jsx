@@ -2,6 +2,7 @@ import React from 'react';
 import * as d3_scale from 'd3-scale';
 import {Card, CardHeader, CardMedia} from 'material-ui/Card';
 
+import * as drawingTool from '../../utils/drawing-tool'
 import * as pairTimeSeries from '../../utils/pair-time-series'
 
 const THREE = require('three');
@@ -11,8 +12,8 @@ export default class ClusterThreeDim extends React.Component{
   constructor(props) {
     super(props);
     this.mesh = null;
-    const width = 500;
-    const height = 400;
+    const width = 300;
+    const height = 300;
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(width, height);
 
@@ -56,10 +57,12 @@ export default class ClusterThreeDim extends React.Component{
 
   createBox(width, height, cluster_list) {
     this.geometry = new THREE.Geometry();
-    const color_map = d3_scale.schemeCategory20c;
+
+    const n_clusters= Math.max.apply(null, cluster_list) + 1;
+    const color_map = drawingTool.getColorCategory(n_clusters);
 
     for(let i = 0; i < cluster_list.length; i++) {
-      if (cluster_list[i] === pairTimeSeries.error) {
+      if (cluster_list[i] === pairTimeSeries.error　|| cluster_list[i] === -10) {
         continue;
       }
       const pixel_color = new THREE.Color(parseInt((color_map[cluster_list[i]].slice(1)), 16));
@@ -120,7 +123,7 @@ export default class ClusterThreeDim extends React.Component{
     return (
       <div style={{position: 'absolute', display: 'inline-block', top: 250, left: 50}}>
         <Card
-          containerStyle={{width: 500}}
+          containerStyle={{width: 300, height: 300}}
         >
           <CardHeader
             title="Time lag 3D view"

@@ -452,13 +452,14 @@ class Store extends EventEmitter {
 
       const x = i % canvas_width;
       const y = Math.floor(i / canvas_width);
+
       if (selected_area.on === false) {
         // add right hand area data to criteria_time_series if data type is wild type
         if (data_type === generalConst.DATA_WILD_TYPE && (x < 250 || cut_time_series[i].indexOf(0) >= 0))
           continue;
 
         // add right hand area data to criteria_time_series if data type is wild type
-        if (data_type === generalConst.DATA_TRP_TYPE && (x > 65 || y > 89 || cut_time_series[i].indexOf(0) >= 0))
+        if (data_type === generalConst.DATA_TRP_TYPE && (x < 65 || y < 76 || cut_time_series[i].indexOf(0) >= 0))
           continue;
 
         sum_count += 1;
@@ -478,6 +479,7 @@ class Store extends EventEmitter {
       }
     }
 
+    console.log(criteria_time_series)
     criteria_time_series = criteria_time_series.map((element) => {
       return element / sum_count;
     });
@@ -524,6 +526,14 @@ class Store extends EventEmitter {
       return corr_data;
     }
 
+    if (max_corr < 0.7) {
+      const corr_data = {
+        tau: -10,
+        corr: 0
+      };
+      return corr_data;
+    }
+
     const corr_data = {
       tau: corr_list.indexOf(max_corr),
       corr: max_corr
@@ -544,7 +554,7 @@ class Store extends EventEmitter {
     // calculate clustering frequency and average value of each cluster
     cut_time_series.forEach((time_series, idx) => {
       const cluster_number = tau_list[idx];
-      if (cluster_number === pairTimeSeries.error)
+      if (cluster_number === pairTimeSeries.error || cluster_number === -10)
         return;
 
       tau_frequency[cluster_number] += 1;

@@ -34,6 +34,7 @@ export default class clusterSlider extends React.Component {
   render() {
     return (
       <div>
+        max lag
         <Slider
           min={1}
           max={20}

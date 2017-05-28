@@ -94,7 +94,7 @@ export function getColorCategory(n) {
     color_category.push(color_string);
   }
 
-  color_category = d3_scale.schemeCategory20c;
+  // color_category = d3_scale.schemeCategory20c;
   return color_category;
 }
 

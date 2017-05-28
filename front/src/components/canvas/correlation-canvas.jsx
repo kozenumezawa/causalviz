@@ -30,16 +30,20 @@ export default class CorrelationCanvas extends React.Component{
       return;
     }
 
-    const color_map = d3_scale.schemeCategory20c;
+    const n_clusters= Math.max.apply(null, cluster_list) + 1;
+    const color_map = drawingTool.getColorCategory(n_clusters);
+
     for(let i = 0; i < cluster_list.length; i++) {
       if (cluster_list[i] === pairTimeSeries.error) {
         this.ctx.fillStyle = 'black'
       } else if (selected_area.on === false && this.props.data_type === generalConst.DATA_WILD_TYPE && i % this.canvas.width > 250 && cluster_list[i] !== pairTimeSeries.error) {
         this.ctx.fillStyle = 'white'
-      } else if (selected_area.on === false && this.props.data_type === generalConst.DATA_TRP_TYPE && i % this.canvas.width >= 65 && i / this.canvas.height >= 88 && cluster_list[i] !== pairTimeSeries.error) {
+      } else if (selected_area.on === false && this.props.data_type === generalConst.DATA_TRP_TYPE && i % this.canvas.width >= 65 && i / this.canvas.height >= 76 && cluster_list[i] !== pairTimeSeries.error) {
         this.ctx.fillStyle = 'white'
       } else if (selected_area.on === true && highlighted_lines.indexOf(i) !== -1) {
         this.ctx.fillStyle = 'white'
+      } else if (cluster_list[i] === -10) {
+        this.ctx.fillStyle = 'black'
       } else {
         this.ctx.fillStyle = color_map[cluster_list[i]];
       }
