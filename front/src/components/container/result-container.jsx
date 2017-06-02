@@ -14,7 +14,8 @@ export default class ResultContainer extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      tiff_index: 0
+      tiff_index: 0,
+      play_state: false
     };
 
     this.handleBeforeClick = this.handleBeforeClick.bind(this);

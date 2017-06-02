@@ -2,6 +2,7 @@ import React from 'react';
 import {Card, CardHeader, CardMedia, CardText} from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton'
 import PlayArrow from 'material-ui/svg-icons/AV/play-arrow';
+import Stop from 'material-ui/svg-icons/AV/stop'
 import SkipNext from 'material-ui/svg-icons/AV/skip-next';
 import SkipPrevious from 'material-ui/svg-icons/AV/skip-previous';
 
@@ -13,14 +14,17 @@ import OverlayCanvas from '../canvas/overlay-canvas.jsx'
 export default class TiffContainerCard extends React.Component{
   constructor(props) {
     super(props);
+
+    this.state = {
+      play_state: false
+    };
+
+    this.handlePlayClick = this.handlePlayClick.bind(this);
   }
 
   componentDidMount() {
     this.canvas = document.getElementById(this.props.id);
     this.ctx = this.canvas.getContext('2d');
-
-    // const element = ReactDOM.findDOMNode(this.refs.tiff_canvas);
-    // const rect = element.getBoundingClientRect();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -44,6 +48,9 @@ export default class TiffContainerCard extends React.Component{
   }
 
   handlePlayClick() {
+    this.setState({
+      play_state: !this.state.play_state
+    });
     Actions.handlePlayClick();
   }
 
@@ -85,7 +92,6 @@ export default class TiffContainerCard extends React.Component{
             >
               <SkipPrevious />
             </IconButton>
-            {/*<PlayArrow />*/}
             { frames }
             <IconButton
               tooltip="Next"
@@ -100,7 +106,13 @@ export default class TiffContainerCard extends React.Component{
               style={{top: '5px', right: 0}}
               onClick={this.handlePlayClick}
             >
-              <PlayArrow />
+              {(() => {
+                if (this.state.play_state === false || this.props.tiff_index === 0) {
+                  return <PlayArrow />;
+                } else {
+                  return <Stop />;
+                }
+              })()}
             </IconButton>
           </CardText>
         </Card>

@@ -69,6 +69,7 @@ let cross_win_pixels = 5;
 let cross_win_frames = 30;
 let cross_max_lag = 10;
 let causal_data = [];
+let play_timer_on = false;
 
 class Store extends EventEmitter {
   constructor () {
@@ -163,13 +164,20 @@ class Store extends EventEmitter {
         }
         break;
       case eventConstants.HANDLE_PLAY_CLICK:
-        const playTiff = setInterval(() => {
-            if (++tiff_index === all_tiff_list.length - 1) {
-              clearInterval(playTiff);
-              tiff_index = 0;
+        if (play_timer_on === false) {
+          play_timer_on = true;
+
+          const play_tiff = setInterval(() => {
+            if (++tiff_index === all_tiff_list.length - 1 || play_timer_on === false) {
+              tiff_index = (tiff_index === all_tiff_list.length - 1) ? 0 : tiff_index;
+              clearInterval(play_tiff);
+              play_timer_on = false;
             }
-          this.emitChange();
-        }, 100);
+            this.emitChange();
+          }, 100);
+        } else {
+          play_timer_on = false;
+        }
         break;
       case eventConstants.HANDLE_TIFF_CLICK:
         if (selected_area.on === true) {
