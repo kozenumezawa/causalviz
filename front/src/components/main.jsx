@@ -85,59 +85,59 @@ export default class main extends React.Component {
         />
         <br />
 
-        <div style={{marginLeft: 50, marginRight: 200, display: 'flex', justifyContent: 'space-between'}}>
-          <div>
-            <TiffContainer
-              id="tiff_output"
-              canvas_width={this.state.canvas_width}
-              canvas_height={this.state.canvas_height}
-              clicked_point={this.state.clicked_point}
-              loupe_point={this.state.loupe_point}
-              selected_area={this.state.selected_area}
-              tiff_index={this.state.tiff_index}
-              tiff_list={tiff_list}
-            />
-
-            <div>
-              <div style={{positon: 'relative', display: 'inline-block', marginTop: 20}}>
-                <LegendContainer
-                  id="legend_output"
-                  legend_tiff={this.state.legend_tiff}
-                />
-              </div>
-            </div>
-
-            {/*<div style={{position: 'relative', display: 'inline-block', top: 10}}>*/}
-              {/*<CommandButton*/}
-                {/*filter_type={this.state.filter_type}*/}
-              {/*/>*/}
-            {/*</div>*/}
-
-          </div>
-          <div style={{width: '30%'}}>
-            <SelectOptView
-              parent_state={this.state}
-            />
-            <div>
-
-            </div>
-          </div>
-
-          <div>
-           <ResultCausalView
-             parent_state = {this.state}
-             tiff_list = {tiff_list}
-           />
-          </div>
-        </div>
-
-        <br />
-        <Divider />
-        <br />
-
         <Switch>
           <Route exact path='/' render={(props) => (
             <div>
+              <div style={{marginLeft: 50, marginRight: 200, display: 'flex', justifyContent: 'space-between'}}>
+                <div>
+                  <TiffContainer
+                    id="tiff_output"
+                    canvas_width={this.state.canvas_width}
+                    canvas_height={this.state.canvas_height}
+                    clicked_point={this.state.clicked_point}
+                    loupe_point={this.state.loupe_point}
+                    selected_area={this.state.selected_area}
+                    tiff_index={this.state.tiff_index}
+                    tiff_list={tiff_list}
+                  />
+
+                  <div>
+                    <div style={{positon: 'relative', display: 'inline-block', marginTop: 20}}>
+                      <LegendContainer
+                        id="legend_output"
+                        legend_tiff={this.state.legend_tiff}
+                      />
+                    </div>
+                  </div>
+
+                  {/*<div style={{position: 'relative', display: 'inline-block', top: 10}}>*/}
+                  {/*<CommandButton*/}
+                  {/*filter_type={this.state.filter_type}*/}
+                  {/*/>*/}
+                  {/*</div>*/}
+
+                </div>
+                <div style={{width: '30%'}}>
+                  <SelectOptView
+                    parent_state={this.state}
+                  />
+                  <div>
+
+                  </div>
+                </div>
+
+                <div>
+                  <ResultCausalView
+                    parent_state = {this.state}
+                    tiff_list = {tiff_list}
+                  />
+                </div>
+              </div>
+
+              <br />
+              <Divider />
+              <br />
+
               <ComparisonView
                 parent_state = {this.state}
                 tiff_list = {tiff_list}

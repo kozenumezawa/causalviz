@@ -536,7 +536,6 @@ class Store extends EventEmitter {
       }
     }
 
-    console.log(criteria_time_series)
     criteria_time_series = criteria_time_series.map((element) => {
       return element / sum_count;
     });
