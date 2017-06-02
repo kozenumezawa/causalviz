@@ -3,7 +3,6 @@ import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
-import Divider from 'material-ui/Divider';
 import { Link } from 'react-router-dom'
 
 import Action from '../actions/Actions';
@@ -48,7 +47,6 @@ export default class CausalVisAppBar extends React.Component {
     this.handleDataChange = this.handleDataChange.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handleDefaultClick = this.handleDefaultClick.bind(this);
-    this.handleKmeansClick = this.handleKmeansClick.bind(this);
     this.handleCrossCorrelation = this.handleCrossCorrelation.bind(this);
     this.handleThreeDim = this.handleThreeDim.bind(this);
   }
@@ -79,13 +77,6 @@ export default class CausalVisAppBar extends React.Component {
       open: !this.state.open
     });
     Action.handleDefaultClick();
-  }
-
-  handleKmeansClick() {
-    this.setState({
-      open: !this.state.open
-    });
-    Action.handleKmeansClick();
   }
 
   handleCrossCorrelation() {
@@ -126,9 +117,6 @@ export default class CausalVisAppBar extends React.Component {
             />
             <Link to='/' onClick={this.handleDefaultClick}>
               <MenuItem>default view</MenuItem>
-            </Link>
-            <Link to='/kmeans' onClick={this.handleKmeansClick}>
-              <MenuItem>k-means clustering</MenuItem>
             </Link>
             <Link to='/cross' onClick={this.handleCrossCorrelation}>
               <MenuItem>Cross Correlation</MenuItem>

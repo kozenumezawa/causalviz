@@ -21,12 +21,13 @@ export default class extends React.Component {
   render() {
     return (
       <div>
-        <canvas id={this.props.id} width="256" height="32" style={{transform: "rotate(-90deg)"}}></canvas>
-        {/*<div style={{position: 'relative', display: 'inline-block', top:0, left: 0}}> { 100 } </div>*/}
-        {/*<div style={{position: 'relative', display: 'inline-block', top:0, left: 300}}> { 50 } </div>*/}
-        {/*<div style={{position: 'relative', display: 'inline-block', top:0, left: 120}}> ΔF/F0(%)</div>*/}
-        {/*<div style={{position: 'relative', display: 'inline-block', top:0, left: 300}}> { 0 } </div>*/}
-        {/*<div style={{position: 'relative', display: 'inline-block', top:0, left: 300}}> { -50 } </div>*/}
+        {/*<canvas id={this.props.id} width="256" height="32" style={{transform: "rotate(-90deg)"}}></canvas>*/}
+        <canvas id={this.props.id} width="256" height="32"></canvas>
+        <div style={{width: 256, display: 'flex', justifyContent: 'space-between'}}>
+          <div> -50 </div>
+          <div> ΔF/F0(%)</div>
+          <div> 100 </div>
+        </div>
       </div>
     );
   }

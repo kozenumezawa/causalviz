@@ -5,10 +5,10 @@ import PlayArrow from 'material-ui/svg-icons/AV/play-arrow';
 import SkipNext from 'material-ui/svg-icons/AV/skip-next';
 import SkipPrevious from 'material-ui/svg-icons/AV/skip-previous';
 
-import * as drawingTool from '../utils/drawing-tool';
-import Actions from '../actions/Actions';
+import * as drawingTool from '../../utils/drawing-tool';
+import Actions from '../../actions/Actions';
 
-import OverlayCanvas from './canvas/overlay-canvas.jsx'
+import OverlayCanvas from '../canvas/overlay-canvas.jsx'
 
 export default class TiffContainerCard extends React.Component{
   constructor(props) {
@@ -43,16 +43,20 @@ export default class TiffContainerCard extends React.Component{
     Actions.handleNextClick();
   }
 
+  handlePlayClick() {
+    Actions.handlePlayClick();
+  }
+
   render() {
     let frames = '- / -';
     if (this.props.tiff_list !== undefined) {
       frames = (this.props.tiff_index + 1) + ' / ' + this.props.tiff_list.length;
     }
-    const card_width = (this.props.canvas_width > 190) ? this.props.canvas_width : 190;
+    const card_width = (this.props.canvas_width > 230) ? this.props.canvas_width : 230;
     return (
       <div>
         <Card
-          containerStyle={{width: card_width}}
+          style={{width: card_width}}
         >
           <CardHeader
             title="Ca2+ Response"
@@ -89,6 +93,14 @@ export default class TiffContainerCard extends React.Component{
               onClick={this.handleNextClick}
             >
               <SkipNext />
+            </IconButton>
+
+            <IconButton
+              tooltip="Play"
+              style={{top: '5px', right: 0}}
+              onClick={this.handlePlayClick}
+            >
+              <PlayArrow />
             </IconButton>
           </CardText>
         </Card>

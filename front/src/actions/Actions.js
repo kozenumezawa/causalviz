@@ -22,12 +22,6 @@ export default {
     });
   },
 
-  handleKmeansClick: () => {
-    Dispatcher.dispatch({
-      actionType: eventConstants.HANDLE_KMEANS_CLICK
-    });
-  },
-
   handleCrossCorrelation: () => {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_CROSS_CORRELATION
@@ -52,9 +46,9 @@ export default {
     });
   },
 
-  handleCorrelationClick: () => {
+  handlePlayClick: () => {
     Dispatcher.dispatch({
-      actionType: eventConstants.HANDLE_CORRELATION_CLICK
+      actionType: eventConstants.HANDLE_PLAY_CLICK
     });
   },
 
@@ -127,6 +121,40 @@ export default {
       rect_y: rect_y,
       x: x,
       y: y
+    });
+  },
+
+  handleRunOpt: () => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_RUN_OPT
+    });
+  },
+
+  handleOptChange: (opt_type) => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_OPT_CHANGE,
+      opt_type: opt_type
+    });
+  },
+
+  handleSaveClick: (save_position) => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_SAVE_CLICK,
+      save_pos: save_position
+    });
+  },
+
+  handleParamsChange: (params_name, value) => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_PARAMS_CHANGE,
+      params_name: params_name,
+      value: value
+    });
+  },
+
+  handleCalcClick: () => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_CALC_CLICK
     });
   }
 }

@@ -2,8 +2,10 @@ import { EventEmitter } from 'events';
 import Dispatcher from '../dispatcher/Dispatcher';
 import eventConstants from '../constants/event-constants';
 import generalConst from '../constants/general-constants';
+
 import * as pairTimeSeries from '../utils/pair-time-series';
 import * as storeUtils from './store-utils'
+import * as OpticalFlow from '../utils/lucas-and-kanade'
 
 const CHANGE_EVENT = 'change';
 
@@ -48,6 +50,25 @@ let selected_area = {
   y : -1,
   on : false
 };
+
+let vector_fields = [];
+let save_vector_fields = {
+  upper: {
+    data: [],
+    opt_type: ""
+  },
+  lower: {
+    data: [],
+    opt_type: ""
+  }
+};
+
+let opt_type = generalConst.CAUSAL_CROSS_CORRELATION;
+
+let cross_win_pixels = 5;
+let cross_win_frames = 30;
+let cross_max_lag = 10;
+let causal_data = [];
 
 class Store extends EventEmitter {
   constructor () {
@@ -119,12 +140,6 @@ class Store extends EventEmitter {
         this.setInitialState();
         render_contents = generalConst.VIEW_DEFAULT;
         break;
-      case eventConstants.HANDLE_KMEANS_CLICK:
-        this.setInitialState();
-        slider_value = 6;
-        this.updateClusterList(slider_value);
-        render_contents = generalConst.VIEW_KMEANS;
-        break;
       case eventConstants.HANDLE_CROSS_CORRELATION:
         this.setInitialState();
         slider_value = 10;
@@ -147,7 +162,14 @@ class Store extends EventEmitter {
           tiff_index = 0;
         }
         break;
-      case eventConstants.HANDLE_CORRELATION_CLICK:
+      case eventConstants.HANDLE_PLAY_CLICK:
+        const playTiff = setInterval(() => {
+            if (++tiff_index === all_tiff_list.length - 1) {
+              clearInterval(playTiff);
+              tiff_index = 0;
+            }
+          this.emitChange();
+        }, 100);
         break;
       case eventConstants.HANDLE_TIFF_CLICK:
         if (selected_area.on === true) {
@@ -224,11 +246,37 @@ class Store extends EventEmitter {
         break;
       case eventConstants.HANDLE_CLUSTER_CHANGE:
         slider_value = action.n_clusters;
-        if (render_contents === generalConst.VIEW_KMEANS) {
-          this.updateClusterList(slider_value);
-        } else if (render_contents === generalConst.VIEW_CROSS_CORRELATION) {
-          this.updateCorrelationList(slider_value);
+        this.updateCorrelationList(slider_value);
+        break;
+      case eventConstants.HANDLE_RUN_OPT:
+        this.updateVectorFields();
+        break;
+      case eventConstants.HANDLE_OPT_CHANGE:
+        opt_type = action.opt_type;
+        break;
+      case eventConstants.HANDLE_SAVE_CLICK:
+        if (vector_fields.length === 0) {
+          break;
         }
+        const save_pos = action.save_pos;
+        save_vector_fields[save_pos].data = vector_fields;
+        save_vector_fields[save_pos].opt_type = opt_type;
+        break;
+      case eventConstants.HANDLE_PARAMS_CHANGE:
+        switch (action.params_name){
+          case "win_pixels":
+            cross_win_pixels = action.value;
+            break;
+          case "win_frames":
+            cross_win_frames = action.value;
+            break;
+          case "max_lag":
+            cross_max_lag= action.value;
+            break;
+        }
+        break;
+      case eventConstants.HANDLE_CALC_CLICK:
+        console.log('a');
         break;
       default:
     }
@@ -322,6 +370,34 @@ class Store extends EventEmitter {
   getSelectedArea () {
     return selected_area;
   }
+
+  getVectorFields() {
+    return vector_fields;
+  }
+
+  getSaveVectorFields() {
+    return save_vector_fields;
+  }
+
+  getOptType() {
+    return opt_type;
+  }
+
+  getCrossWinPixels() {
+    return cross_win_pixels;
+  }
+
+  getCrossWinFrames() {
+    return cross_win_frames;
+  }
+
+  getCrossMaxLag() {
+    return cross_max_lag;
+  }
+
+  getCausalData() {
+    return causal_data
+  }
   //
   // getCutTiffList () {
   //   let cut_tiff_list = [];
@@ -389,7 +465,6 @@ class Store extends EventEmitter {
 
   updateTimeSeriesAndCluster() {
     all_time_series = this.createAllTimeSeriesFromTiff(legend_tiff);
-    this.updateClusterList(6);
 
     this.updateCorrelationList(slider_value);
   }
@@ -409,24 +484,6 @@ class Store extends EventEmitter {
   updateCheckedCluster (list) {
     checked_cluster = new Array(Math.max.apply(null, list) + 1);
     checked_cluster.fill(false);
-  }
-
-  updateClusterList (n_clusters) {
-    const file_name = 'cluster/k_means_' + n_clusters + '.json'
-    window.fetch(file_name)
-      .then((response) => {
-        return response.json();
-      })
-      .then((json) => {
-        const labels = json.labels;
-        cluster_list = labels;
-        cluster_time_series = json.average;
-
-        if (render_contents === generalConst.VIEW_KMEANS) {
-          this.updateCheckedCluster(cluster_list);
-        }
-        this.emitChange();
-      });
   }
 
   updateCriteriaTimeSeries() {
@@ -625,6 +682,56 @@ class Store extends EventEmitter {
       }
     }
     this.emitChange();
+  }
+
+  updateVectorFields() {
+    vector_fields = [];
+    switch (opt_type) {
+      case generalConst.OPT_LUCAS:
+        for (let i = 0; i < all_time_series[0].length - 1; i++) {
+          const step = 2;
+          const opt_result = OpticalFlow.lucasAndKanade(all_time_series, i, i + 1, canvas_width, canvas_height, step);
+          let vector_field = [];
+          opt_result.zones.forEach((zone) => {
+            if (all_time_series[zone.y * canvas_width + zone.x][0] !== 0) {
+              vector_field.push(zone);
+            }
+          });
+          vector_fields.push(vector_field);
+        }
+        break;
+      case generalConst.OPT_SPATIO:
+        break;
+      case generalConst.CAUSAL_CROSS_CORRELATION:
+        window.fetch('http://localhost:3000/api/v1/corr', {
+          mode: 'cors',
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            data: all_time_series,
+            win_pixels: cross_win_pixels,
+            win_frames: cross_win_frames,
+            max_lag: cross_max_lag,
+            width: canvas_width,
+            height: canvas_height
+          })
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((json) => {
+            causal_data = json.data;
+            this.emitChange();
+          });
+        break;
+      case generalConst.CAUSAL_GRANGER:
+        console.log('a');
+        break;
+      default:
+        break;
+    }
   }
 }
 const store = new Store();

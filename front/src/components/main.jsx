@@ -1,18 +1,26 @@
 import React from 'react';
 import Chip from 'material-ui/Chip';
+import Divider from 'material-ui/Divider';
+
 import { white } from 'material-ui/styles/colors';
 import { Switch, Route } from 'react-router-dom'
 import Store from '../stores/Store';
 import generalConst from '../constants/general-constants';
 import layoutConst from '../constants/layout-constants'
 
-import TiffContainer from './tiff-container.jsx';
+import TiffContainer from './container/tiff-container.jsx';
+import ResultContainer from './container/result-container.jsx'
 import AppBar from './app-bar.jsx';
 import CommandButton from './input/command-button.jsx';
 import LegendContainer from './legend-container.jsx';
 
+import SelectOptView from './view/select-opt-view.jsx'
+import ResultOptView from './view/result-opt-view.jsx'
+import ResultCausalView from './view/result-causal-view.jsx'
+import ComparisonView from './view/comparison-view.jsx'
+
+
 import GraphView from './mainview/graph-view.jsx';
-import KmeansClusteringView from './mainview/kmeans-clustering-view.jsx';
 import CrossCorrelationView from './mainview/cross-correlation-view.jsx';
 import ThreeDimView from './mainview/three-dim-view.jsx';
 
@@ -38,7 +46,14 @@ function getAllState() {
     tau_list            : Store.getTauList(),
     correlation_list    : Store.getCorrelationList(),
     criteria_time_series: Store.getCriteriaTimeSeries(),
-    selected_area       : Store.getSelectedArea()
+    selected_area       : Store.getSelectedArea(),
+    vector_fields       : Store.getVectorFields(),
+    save_vector_fields  : Store.getSaveVectorFields(),
+    opt_type            : Store.getOptType(),
+    cross_win_pixels    : Store.getCrossWinPixels(),
+    cross_win_frames    : Store.getCrossWinFrames(),
+    cross_max_lag       : Store.getCrossMaxLag(),
+    causal_data         : Store.getCausalData()
   }
 }
 
@@ -70,19 +85,10 @@ export default class main extends React.Component {
         />
         <br />
 
-        <div>
-          <div style={{position: 'absolute', display: 'inline-block', top: 200, left: layoutConst.LEFT_REF + this.state.canvas_width}}>
-            <LegendContainer
-              id="legend_output"
-              legend_tiff={this.state.legend_tiff}
-            />
-          </div>
-        </div>
-
-        <div>
-          <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.FIRST_STAGE, left: layoutConst.LEFT_REF+30}}>
+        <div style={{marginLeft: 50, marginRight: 200, display: 'flex', justifyContent: 'space-between'}}>
+          <div>
             <TiffContainer
-              id="tiff_output_1"
+              id="tiff_output"
               canvas_width={this.state.canvas_width}
               canvas_height={this.state.canvas_height}
               clicked_point={this.state.clicked_point}
@@ -91,13 +97,51 @@ export default class main extends React.Component {
               tiff_index={this.state.tiff_index}
               tiff_list={tiff_list}
             />
+
+            <div>
+              <div style={{positon: 'relative', display: 'inline-block', marginTop: 20}}>
+                <LegendContainer
+                  id="legend_output"
+                  legend_tiff={this.state.legend_tiff}
+                />
+              </div>
+            </div>
+
+            {/*<div style={{position: 'relative', display: 'inline-block', top: 10}}>*/}
+              {/*<CommandButton*/}
+                {/*filter_type={this.state.filter_type}*/}
+              {/*/>*/}
+            {/*</div>*/}
+
+          </div>
+          <div style={{width: '30%'}}>
+            <SelectOptView
+              parent_state={this.state}
+            />
+            <div>
+
+            </div>
+          </div>
+
+          <div>
+           <ResultCausalView
+             parent_state = {this.state}
+             tiff_list = {tiff_list}
+           />
           </div>
         </div>
+
+        <br />
+        <Divider />
+        <br />
 
         <Switch>
           <Route exact path='/' render={(props) => (
             <div>
-
+              <ComparisonView
+                parent_state = {this.state}
+                tiff_list = {tiff_list}
+              />
             </div>
           )} />
           <Route path='/graph' render={(props) => (
@@ -105,12 +149,6 @@ export default class main extends React.Component {
               parent_state = {this.state}
               tiff_list = {tiff_list}
             />
-          )} />
-          <Route path='/kmeans' render={(props) => (
-              <KmeansClusteringView
-                  parent_state = {this.state}
-                  tiff_list = {tiff_list}
-              />
           )} />
           <Route path='/cross' render={(props) => (
               <CrossCorrelationView
@@ -125,12 +163,6 @@ export default class main extends React.Component {
               />
           )} />
         </Switch>
-
-        <div style={{position: 'absolute', display: 'inline-block', top: 100, left: 220 + this.state.canvas_width}}>
-          <CommandButton
-            filter_type={this.state.filter_type}
-          />
-        </div>
 
       </div>
     );

@@ -13,3 +13,5 @@ python/build
 *.so
 python/lic/*.png
 python/lic/result/*.png
+front/dist/grangertest
+apiserver/dummy.json
