@@ -151,10 +151,23 @@ export default class main extends React.Component {
             />
           )} />
           <Route path='/cross' render={(props) => (
-              <CrossCorrelationView
-                  parent_state = {this.state}
-                  tiff_list = {tiff_list}
-              />
+          <div>
+            <TiffContainer
+              id="tiff_output"
+              canvas_width={this.state.canvas_width}
+              canvas_height={this.state.canvas_height}
+              clicked_point={this.state.clicked_point}
+              loupe_point={this.state.loupe_point}
+              selected_area={this.state.selected_area}
+              tiff_index={this.state.tiff_index}
+              tiff_list={tiff_list}
+            />
+
+            <CrossCorrelationView
+              parent_state = {this.state}
+              tiff_list = {tiff_list}
+            />
+          </div>
           )} />
           <Route path='/threedim' render={(props) => (
               <ThreeDimView
