@@ -71,6 +71,8 @@ let cross_max_lag = 10;
 let causal_data = [];
 let play_timer_on = false;
 
+let all_lag_list = [];
+
 class Store extends EventEmitter {
   constructor () {
     super();
@@ -406,6 +408,10 @@ class Store extends EventEmitter {
   getCausalData() {
     return causal_data
   }
+
+  getAllLagList() {
+    return all_lag_list;
+  }
   //
   // getCutTiffList () {
   //   let cut_tiff_list = [];
@@ -626,6 +632,7 @@ class Store extends EventEmitter {
     // calculate clustering frequency and average value of each cluster
     cut_time_series.forEach((time_series, idx) => {
       const cluster_number = tau_list[idx];
+
       if (cluster_number === pairTimeSeries.error || cluster_number === -10)
         return;
 
@@ -746,7 +753,31 @@ class Store extends EventEmitter {
         console.log('a');
         break;
       case generalConst.CAUSAL_LAG_ANALYSIS:
-        console.log('b');
+        this.updateCriteriaTimeSeries();
+
+        for (let frame = 0; frame < all_time_series[0].length; frame += cross_win_frames) {
+          const win_frames = cross_win_frames;
+          let start_frame = Math.max(0, Math.floor(frame - win_frames / 2));
+          let stop_frame = Math.min(all_time_series[0].length - 1, Math.floor(frame + win_frames / 2));
+          if (start_frame === 0) {
+            stop_frame = win_frames;
+          } else if (stop_frame === all_time_series[0].length - 1) {
+            start_frame = all_time_series[0].length - win_frames;
+          }
+
+          // calculate tau which maximizes cross correlation in each frame
+          let lag_list = [];
+          all_time_series.forEach((time_series) => {
+            const x = criteria_time_series.slice(start_frame, stop_frame);
+            const y = time_series.slice(start_frame, stop_frame);
+            const corr_data = this.getTauMaximizingCorr(x, y, 9);
+
+            lag_list.push(corr_data.tau);
+          });
+
+          all_lag_list.push(lag_list);
+        }
+        this.emitChange();
         break;
       default:
         break;

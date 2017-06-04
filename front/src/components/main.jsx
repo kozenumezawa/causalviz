@@ -53,7 +53,8 @@ function getAllState() {
     cross_win_pixels    : Store.getCrossWinPixels(),
     cross_win_frames    : Store.getCrossWinFrames(),
     cross_max_lag       : Store.getCrossMaxLag(),
-    causal_data         : Store.getCausalData()
+    causal_data         : Store.getCausalData(),
+    all_lag_list        : Store.getAllLagList()
   }
 }
 
