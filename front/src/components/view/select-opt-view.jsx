@@ -6,6 +6,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import generalConst from '../../constants/general-constants'
 import Action from '../../actions/Actions'
 
+import CommandButton from '../input/command-button.jsx'
+
 export default class SelectOptView extends React.Component {
   constructor(props) {
     super(props);
@@ -69,30 +71,41 @@ export default class SelectOptView extends React.Component {
             <MenuItem value={generalConst.OPT_SPATIO} primaryText="SpatioTemporal" />
             <MenuItem value={generalConst.CAUSAL_CROSS_CORRELATION} primaryText="Cross Correlation" />
             <MenuItem value={generalConst.CAUSAL_GRANGER} primaryText="Granger Causality" />
+            <MenuItem value={generalConst.CAUSAL_LAG_ANALYSIS} primaryText="lag Analysis" />
             <MenuItem value={3} disabled={true} primaryText="Causal Flow" />
           </DropDownMenu>
         </div>
-        <div style={{position: 'relative', top: 80}}>
-          <p style={{textAlign: "right"}}>
-            {"window pixels "}
-            <select name={"win_pixels"} value={this.props.parent_state.cross_win_pixels} onChange={this.setParams}>
-              { this.getWindowPixelsContents() }
-            </select>
-          </p>
 
-          <p style={{textAlign: "right"}}>
-            {"window frames "}
-            <select name={"win_frames"} value={this.props.parent_state.cross_win_frames} onChange={this.setParams}>
-              { this.getWindowFramesContents() }
-            </select>
-          </p>
 
-          <p style={{textAlign: "right"}}>
-            {"max lag "}
-            <select name={"max_lag"} value={this.props.parent_state.cross_max_lag} onChange={this.setParams}>
-              { this.getMaxLagContents() }
-            </select>
-          </p>
+        <div style={{position: 'relative', display: 'flex', top: 80, justifyContent: 'space-between'}}>
+          <div style={{position: 'relative', display: 'inline-block', top: 10}}>
+            <CommandButton
+              filter_type={this.props.parent_state.filter_type}
+            />
+          </div>
+
+          <div>
+            <p style={{textAlign: "right"}}>
+              {"window pixels "}
+              <select name={"win_pixels"} value={this.props.parent_state.cross_win_pixels} onChange={this.setParams}>
+                { this.getWindowPixelsContents() }
+              </select>
+            </p>
+
+            <p style={{textAlign: "right"}}>
+              {"window frames "}
+              <select name={"win_frames"} value={this.props.parent_state.cross_win_frames} onChange={this.setParams}>
+                { this.getWindowFramesContents() }
+              </select>
+            </p>
+
+            <p style={{textAlign: "right"}}>
+              {"max lag "}
+              <select name={"max_lag"} value={this.props.parent_state.cross_max_lag} onChange={this.setParams}>
+                { this.getMaxLagContents() }
+              </select>
+            </p>
+          </div>
         </div>
       </div>
     );

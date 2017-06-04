@@ -12,7 +12,8 @@ const generalConstant = keyMirror({
   OPT_LUCAS                : null,
   OPT_SPATIO               : null,
   CAUSAL_CROSS_CORRELATION : null,
-  CAUSAL_GRANGER           : null
+  CAUSAL_GRANGER           : null,
+  CAUSAL_LAG_ANALYSIS      : null
 });
 
 export default generalConstant;

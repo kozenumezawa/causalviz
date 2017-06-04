@@ -63,7 +63,7 @@ let save_vector_fields = {
   }
 };
 
-let opt_type = generalConst.CAUSAL_CROSS_CORRELATION;
+let opt_type = generalConst.CAUSAL_LAG_ANALYSIS;
 
 let cross_win_pixels = 5;
 let cross_win_frames = 30;
@@ -735,6 +735,9 @@ class Store extends EventEmitter {
         break;
       case generalConst.CAUSAL_GRANGER:
         console.log('a');
+        break;
+      case generalConst.CAUSAL_LAG_ANALYSIS:
+        console.log('b');
         break;
       default:
         break;

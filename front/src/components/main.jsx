@@ -157,6 +157,12 @@ export default class main extends React.Component {
               tiff_list={tiff_list}
             />
 
+            <div style={{position: 'relative', display: 'inline-block', top: 10}}>
+            <CommandButton
+            filter_type={this.state.filter_type}
+            />
+            </div>
+
             <CrossCorrelationView
               parent_state = {this.state}
               tiff_list = {tiff_list}
