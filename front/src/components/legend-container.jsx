@@ -8,13 +8,19 @@ export default class extends React.Component {
   componentDidMount() {
     this.canvas = document.getElementById(this.props.id);
     this.ctx = this.canvas.getContext('2d');
+
+    this.drawData(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.legend_tiff === null) {
+    this.drawData(nextProps);
+  }
+
+  drawData(props) {
+    if (props.legend_tiff === null) {
       return null
     }
-    const canvas = nextProps.legend_tiff;
+    const canvas = props.legend_tiff;
     this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
   }
 

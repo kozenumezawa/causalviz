@@ -15,7 +15,7 @@ let canvas_height = 130;
 let data_type = generalConst.DATA_TRP_TYPE;
 let filter_type = generalConst.FILTER_NONE;
 
-let render_contents = generalConst.VIEW_CROSS_CORRELATION;
+let render_contents = generalConst.VIEW_DEFAULT;
 
 let all_tiff_list = [];
 let all_time_series = [];
@@ -490,7 +490,11 @@ class Store extends EventEmitter {
   }
 
   updateCheckedCluster (list) {
-    checked_cluster = new Array(Math.max.apply(null, list) + 1);
+    const checked_cluster_length = Math.max.apply(null, list) + 1;
+    if (checked_cluster_length <= 0) {
+      return;
+    }
+    checked_cluster = new Array(checked_cluster_length);
     checked_cluster.fill(false);
   }
 
@@ -683,11 +687,12 @@ class Store extends EventEmitter {
     const above_y = (rect_y < y) ? rect_y : y;
     const below_y = (rect_y < y) ? y : rect_y;
 
-    for (let i = left_x; i <= right_x; i++) {
-      for (let j = above_y; j <= below_y; j++) {
-        highlighted_lines.push(Math.floor(j) * canvas_width + Math.floor(i));
+    for (let y = above_y; y <= below_y; y++) {
+      for (let x = left_x; x <= right_x; x++) {
+        highlighted_lines.push(Math.floor(y) * canvas_width + Math.floor(x));
       }
     }
+    
     this.emitChange();
   }
 
