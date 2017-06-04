@@ -35,6 +35,8 @@ export default class CausalContainer extends React.Component{
   componentDidMount() {
     this.canvas = document.getElementById(this.props.id);
     this.ctx = this.canvas.getContext('2d');
+
+    this.drawData(this.props);
   }
 
   componentWillReceiveProps(nextProps) {

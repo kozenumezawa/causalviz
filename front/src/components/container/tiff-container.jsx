@@ -25,18 +25,24 @@ export default class TiffContainerCard extends React.Component{
   componentDidMount() {
     this.canvas = document.getElementById(this.props.id);
     this.ctx = this.canvas.getContext('2d');
+
+    this.drawData(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.tiff_list.length === 0) {
+    this.drawData(nextProps);
+  }
+
+  drawData(props) {
+    if (props.tiff_list.length === 0) {
       return null
     }
 
     // draw a base image
-    const canvas = nextProps.tiff_list[nextProps.tiff_index];
+    const canvas = props.tiff_list[props.tiff_index];
     this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.canvas.width, this.canvas.height);
 
-    drawingTool.drawLoupeArea(this.canvas, this.ctx, nextProps.loupe_point)
+    drawingTool.drawLoupeArea(this.canvas, this.ctx, props.loupe_point)
   }
 
   handleBeforeClick() {

@@ -76,7 +76,6 @@ export default class main extends React.Component {
     // if (this.state.data_type === generalConst.DATA_WILD_TYPE && this.state.render_contents === generalConst.VIEW_CROSS_CORRELATION) {
     //   tiff_list = Store.getCutTiffList();
     // }
-
     return (
       <div>
         <AppBar
