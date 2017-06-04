@@ -2,6 +2,7 @@ import React from 'react';
 import {Card, CardHeader, CardMedia, CardText} from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton'
 import PlayArrow from 'material-ui/svg-icons/AV/play-arrow';
+import Stop from 'material-ui/svg-icons/AV/stop'
 import SkipNext from 'material-ui/svg-icons/AV/skip-next';
 import SkipPrevious from 'material-ui/svg-icons/AV/skip-previous';
 
@@ -51,6 +52,10 @@ export default class ResultContainer extends React.Component{
   }
 
   handlePlayClick() {
+    this.setState({
+      play_state: !this.state.play_state
+    });
+
     const playTiff = setInterval(() => {
       const next = this.getNextTiffIndex();
       this.setState({
@@ -143,7 +148,13 @@ export default class ResultContainer extends React.Component{
               style={{top: '5px', right: 0}}
               onClick={this.handlePlayClick}
             >
-              <PlayArrow />
+              {(() => {
+                if (this.state.play_state === false || this.props.tiff_index === 0) {
+                  return <PlayArrow />;
+                } else {
+                  return <Stop />;
+                }
+              })()}
             </IconButton>
           </CardText>
         </Card>

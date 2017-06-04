@@ -110,12 +110,6 @@ export default class main extends React.Component {
                     </div>
                   </div>
 
-                  {/*<div style={{position: 'relative', display: 'inline-block', top: 10}}>*/}
-                  {/*<CommandButton*/}
-                  {/*filter_type={this.state.filter_type}*/}
-                  {/*/>*/}
-                  {/*</div>*/}
-
                 </div>
                 <div style={{width: '30%'}}>
                   <SelectOptView
