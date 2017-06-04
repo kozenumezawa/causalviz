@@ -15,7 +15,7 @@ let canvas_height = 130;
 let data_type = generalConst.DATA_TRP_TYPE;
 let filter_type = generalConst.FILTER_NONE;
 
-let render_contents = generalConst.VIEW_DEFAULT;
+let render_contents = generalConst.VIEW_CROSS_CORRELATION;
 
 let all_tiff_list = [];
 let all_time_series = [];
@@ -541,6 +541,10 @@ class Store extends EventEmitter {
         if (idx_highlight === -1) {
           continue;
         }
+        if (cut_time_series[i].indexOf(0) >= 0) {
+          continue;
+        }
+
         sum_count += 1;
         cut_time_series[i].forEach((scalar, idx) => {
           criteria_time_series[idx] += scalar;
