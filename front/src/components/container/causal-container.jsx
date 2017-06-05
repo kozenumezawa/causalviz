@@ -18,6 +18,7 @@ import * as drawingTool from '../../utils/drawing-tool';
 import Actions from '../../actions/Actions';
 
 import CausalCanvas from '../canvas/causal-canvas.jsx'
+import CorrelationCanvas from '../canvas/correlation-canvas.jsx'
 
 export default class CausalContainer extends React.Component{
   constructor(props) {
@@ -78,15 +79,15 @@ export default class CausalContainer extends React.Component{
   }
 
   drawData(props) {
-    if (props.tiff_list.length === 0) {
-      return null
-    }
-
-    // draw a base image
-    const canvas = props.tiff_list[this.state.tiff_index];
-    this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.canvas.width, this.canvas.height);
-
-    drawingTool.drawLoupeArea(this.canvas, this.ctx, props.loupe_point)
+    // if (props.tiff_list.length === 0) {
+    //   return null
+    // }
+    //
+    // // draw a base image
+    // const canvas = props.tiff_list[this.state.tiff_index];
+    // this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.canvas.width, this.canvas.height);
+    //
+    // drawingTool.drawLoupeArea(this.canvas, this.ctx, props.loupe_point)
   }
 
   getNextTiffIndex() {
@@ -132,8 +133,6 @@ export default class CausalContainer extends React.Component{
     }
     const card_width = (this.props.canvas_width > 230) ? this.props.canvas_width : 230;
 
-
-
     return (
       <div>
         <Card
@@ -146,16 +145,27 @@ export default class CausalContainer extends React.Component{
           </CardHeader>
           <CardMedia>
             <div style={{height: this.props.canvas_height, position: 'relative', display: 'flex', justifyContent: 'center'}}>
-              <canvas id={this.props.id} width={this.props.canvas_width} height={this.props.canvas_height} style={{position: 'absolute', width: this.props.canvas_width, minWidth: "0%", zIndex: 0}}></canvas>
-              <CausalCanvas
+              {/*<canvas id={this.props.id} width={this.props.canvas_width} height={this.props.canvas_height} style={{position: 'absolute', width: this.props.canvas_width, minWidth: "0%", zIndex: 0}}></canvas>*/}
+              {/*<CausalCanvas*/}
+                {/*id={this.props.id}*/}
+                {/*canvas_width={this.props.canvas_width}*/}
+                {/*canvas_height={this.props.canvas_height}*/}
+                {/*clicked_point={this.props.clicked_point}*/}
+                {/*loupe_point={this.props.loupe_point}*/}
+                {/*selected_area={this.props.selected_area}*/}
+                {/*tiff_index={this.state.tiff_index}*/}
+                {/*causal_data={this.props.causal_data}*/}
+              {/*/>*/}
+              <CorrelationCanvas
                 id={this.props.id}
                 canvas_width={this.props.canvas_width}
                 canvas_height={this.props.canvas_height}
                 clicked_point={this.props.clicked_point}
-                loupe_point={this.props.loupe_point}
+                cluster_list={this.props.all_lag_list[this.state.tiff_index]}
+                data_type={this.props.data_type}
+                highlighted_lines={this.props.highlighted_lines}
                 selected_area={this.props.selected_area}
-                tiff_index={this.state.tiff_index}
-                causal_data={this.props.causal_data}
+                loupe_point={this.props.loupe_point}
               />
             </div>
           </CardMedia>

@@ -9,13 +9,12 @@ import generalConst from '../constants/general-constants';
 import layoutConst from '../constants/layout-constants'
 
 import TiffContainer from './container/tiff-container.jsx';
-import ResultContainer from './container/result-container.jsx'
+
 import AppBar from './app-bar.jsx';
 import CommandButton from './input/command-button.jsx';
 import LegendContainer from './legend-container.jsx';
 
 import SelectOptView from './view/select-opt-view.jsx'
-import ResultOptView from './view/result-opt-view.jsx'
 import ResultCausalView from './view/result-causal-view.jsx'
 import ComparisonView from './view/comparison-view.jsx'
 

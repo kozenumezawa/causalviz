@@ -34,14 +34,12 @@ export default class CorrelationContainer extends React.Component{
                 id={this.props.id}
                 canvas_width={this.props.canvas_width}
                 canvas_height={this.props.canvas_height}
-                data_type={this.props.data_type}
-
                 clicked_point={this.props.clicked_point}
                 cluster_list={this.props.cluster_list}
+                data_type={this.props.data_type}
                 highlighted_lines={this.props.highlighted_lines}
-                selected_area={this.props.selected_area}
                 loupe_point={this.props.loupe_point}
-
+                selected_area={this.props.selected_area}
               />
               <OverlayCanvas
                 id={this.props.id + "_overlay"}

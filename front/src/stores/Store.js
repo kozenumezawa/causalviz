@@ -226,7 +226,7 @@ class Store extends EventEmitter {
       case eventConstants.HANDLE_SELECT_AREA:
         if (selected_area.on === true) {
           this.setHighlightedLines(action.rect_x, action.rect_y, action.x, action.y);
-
+          
           if (render_contents === generalConst.VIEW_CROSS_CORRELATION) {
             this.updateCorrelationList(checked_cluster.length);
             // highlighted_lines.forEach((highlighted_line) => {
@@ -777,7 +777,6 @@ class Store extends EventEmitter {
 
           all_lag_list.push(lag_list);
         }
-        this.emitChange();
         break;
       default:
         break;

@@ -48,9 +48,12 @@ export default class ResultCausalView extends React.Component {
       <div>
         <CausalContainer
           id="tiff_output_2"
+          all_lag_list={this.props.parent_state.all_lag_list}
           canvas_width={this.props.parent_state.canvas_width}
           canvas_height={this.props.parent_state.canvas_height}
           clicked_point={this.props.parent_state.clicked_point}
+          data_type={this.props.parent_state.data_type}
+          highlighted_lines={this.props.parent_state.highlighted_lines}
           loupe_point={this.props.parent_state.loupe_point}
           selected_area={this.props.parent_state.selected_area}
           tiff_index={this.props.parent_state.tiff_index}
