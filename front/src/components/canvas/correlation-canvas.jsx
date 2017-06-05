@@ -26,7 +26,7 @@ export default class CorrelationCanvas extends React.Component{
   }
 
   renderData(cluster_list, loupe_point, selected_area, highlighted_lines) {
-    if (cluster_list.length == 0) {
+    if (cluster_list == null || cluster_list.length === 0) {
       return;
     }
 

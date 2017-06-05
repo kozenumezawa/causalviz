@@ -765,10 +765,10 @@ class Store extends EventEmitter {
             start_frame = all_time_series[0].length - win_frames;
           }
 
-          // calculate tau which maximizes cross correlation in each frame
+          // calculate tau which maximizes cross correlation in each pixel
           let lag_list = [];
+          const x = criteria_time_series.slice(start_frame, stop_frame);
           all_time_series.forEach((time_series) => {
-            const x = criteria_time_series.slice(start_frame, stop_frame);
             const y = time_series.slice(start_frame, stop_frame);
             const corr_data = this.getTauMaximizingCorr(x, y, 9);
 
