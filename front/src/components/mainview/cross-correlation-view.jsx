@@ -4,7 +4,7 @@ import {white} from 'material-ui/styles/colors';
 
 import Store from '../../stores/Store';
 import layoutConst from '../../constants/layout-constants'
-import CorrelationCanvas from '../canvas/correlation-canvas.jsx';
+import CorrelationContainer from '../container/correlation-container.jsx';
 import ClusterGraphContainer from '../graph/cluster-graph-container.jsx';
 import ClusterButton from '../input/cluster-button.jsx';
 
@@ -17,7 +17,7 @@ export default class CrossCorrelationView extends React.Component {
     return (
       <div>
         <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.SECOND_STAGE+40, left: layoutConst.LEFT_REF+30}}>
-          <CorrelationCanvas
+          <CorrelationContainer
             id="cross_correlation_view"
             canvas_width={this.props.parent_state.canvas_width}
             canvas_height={this.props.parent_state.canvas_height}
