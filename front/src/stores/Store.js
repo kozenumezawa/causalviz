@@ -479,6 +479,7 @@ class Store extends EventEmitter {
 
   updateTimeSeriesAndCluster() {
     all_time_series = this.createAllTimeSeriesFromTiff(legend_tiff);
+    // this.saveData();
 
     this.updateCorrelationList(slider_value);
   }
@@ -781,6 +782,19 @@ class Store extends EventEmitter {
       default:
         break;
     }
+  }
+
+  saveData() {
+    window.fetch('http://localhost:3000/api/v1/savedata', {
+      mode: 'cors',
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        data: all_time_series
+      })
+    })
   }
 }
 const store = new Store();
