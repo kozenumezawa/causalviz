@@ -13,6 +13,14 @@ class CorrClass(object):
         resp.body = json.dumps(msg)
         resp.status = falcon.HTTP_200
 
+class GetCorr(object):
+    def on_get(self, req, resp):
+        import json
+        f = open('./apiserver/trp3_corr.json', 'r')
+        jsonData = json.load(f)
+        resp.body = json.dumps(jsonData)
+        resp.status = falcon.HTTP_200
+
 class SaveDataClass(object):
     # def on_get(self, req, resp):
     def on_post(self, req, resp):
@@ -30,6 +38,7 @@ api = falcon.API(middleware=[CORSMiddleware()])
 
 api.add_route('/api/v1/corr', CorrClass())
 api.add_route('/api/v1/savedata', SaveDataClass())
+api.add_route('/api/v1/getcorr', GetCorr())
 
 if __name__ == "__main__":
     from wsgiref import simple_server
