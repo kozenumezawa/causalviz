@@ -33,7 +33,13 @@ export default {
       actionType: eventConstants.HANDLE_THREE_DIM
     });
   },
-  
+
+  handleGraph: () => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_GRAPH
+    });
+  },
+
   handleBeforeClick: () => {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_BEFORE_CLICK

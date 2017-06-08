@@ -153,6 +153,10 @@ class Store extends EventEmitter {
         this.setInitialState();
         render_contents = generalConst.VIEW_THREE_DIM;
         break;
+      case eventConstants.HANDLE_GRAPH:
+        this.setInitialState();
+        render_contents = null;
+        break;
       case eventConstants.HANDLE_BEFORE_CLICK:
         tiff_index--;
         if (tiff_index < 0) {

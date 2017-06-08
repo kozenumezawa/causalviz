@@ -137,12 +137,6 @@ export default class main extends React.Component {
               />
             </div>
           )} />
-          <Route path='/graph' render={(props) => (
-            <GraphView
-              parent_state = {this.state}
-              tiff_list = {tiff_list}
-            />
-          )} />
           <Route path='/cross' render={(props) => (
           <div>
             <TiffContainer
@@ -174,6 +168,10 @@ export default class main extends React.Component {
                   tiff_list = {tiff_list}
               />
           )} />
+          <Route path='/graph' render={(props) => (
+            <div>aaa</div>
+          )} />
+
         </Switch>
 
       </div>

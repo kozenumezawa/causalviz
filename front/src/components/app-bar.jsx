@@ -49,6 +49,7 @@ export default class CausalVisAppBar extends React.Component {
     this.handleDefaultClick = this.handleDefaultClick.bind(this);
     this.handleCrossCorrelation = this.handleCrossCorrelation.bind(this);
     this.handleThreeDim = this.handleThreeDim.bind(this);
+    this.handleGraph = this.handleGraph.bind(this);
   }
 
   handleIconClick() {
@@ -93,6 +94,13 @@ export default class CausalVisAppBar extends React.Component {
     Action.handleThreeDim();
   }
 
+  handleGraph() {
+    this.setState({
+      open: !this.state.open
+    });
+    Action.handleGraph();
+  }
+
   renderAppBar() {
     if (this.state.open === true) {
       return(
@@ -123,6 +131,9 @@ export default class CausalVisAppBar extends React.Component {
             </Link>
             <Link to='/threedim' onClick={this.handleThreeDim}>
               <MenuItem>3D View</MenuItem>
+            </Link>
+            <Link to='/graph' onClick={this.handleGraph}>
+              <MenuItem>Graph View</MenuItem>
             </Link>
           </Drawer>
         </div>
