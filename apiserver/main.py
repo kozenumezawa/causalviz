@@ -2,7 +2,7 @@ import json
 import falcon
 import corr_analysis
 import dummy_response
-import lag_analysis
+import save_data
 
 class CorrClass(object):
     # def on_get(self, req, resp):
@@ -13,10 +13,11 @@ class CorrClass(object):
         resp.body = json.dumps(msg)
         resp.status = falcon.HTTP_200
 
-class LagClass(object):
+class SaveDataClass(object):
+    # def on_get(self, req, resp):
     def on_post(self, req, resp):
         body = json.loads(req.stream.read().decode('utf-8'))
-        msg = lag_analysis.lag_analysis(body['data'], body['criteria_time_series'], body['win_frames'], body['max_lag'])
+        msg = save_data.save_data(body['data'])
         resp.body = json.dumps(msg)
         resp.status = falcon.HTTP_200
 
@@ -28,7 +29,7 @@ class CORSMiddleware:
 api = falcon.API(middleware=[CORSMiddleware()])
 
 api.add_route('/api/v1/corr', CorrClass())
-api.add_route('/api/v1/lag', LagClass())
+api.add_route('/api/v1/savedata', SaveDataClass())
 
 if __name__ == "__main__":
     from wsgiref import simple_server
