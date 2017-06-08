@@ -169,7 +169,10 @@ export default class main extends React.Component {
               />
           )} />
           <Route path='/graph' render={(props) => (
-            <div>aaa</div>
+            <GraphView
+              parent_state = {this.state}
+              tiff_list = {tiff_list}
+            />
           )} />
 
         </Switch>
