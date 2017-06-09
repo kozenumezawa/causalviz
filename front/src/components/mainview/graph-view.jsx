@@ -8,9 +8,22 @@ export default class GraphView extends React.Component {
   }
 
   componentDidMount() {
+    const svg = d3.select("#graphsvg")
+                  .append("svg");
+    svg.attr("width", 640);
+    svg.attr("height", 480);
+
+    const c1 = [100, 90, 30];  // [x, y, r]
+    const c2 = [150, 90, 30];
+    const color = d3.schemeCategory10;
+    const circle = svg.selectAll('circle').data([c1, c2]).enter().append('circle')
+        .attr("cx", (d) => { return d[0] })
+        .attr("cy", (d) => { return d[1] })
+        .attr("r", (d) => { return d[2] })
+        .style("fill", (d, i) => { return color[i] })
+
     this.canvas = document.getElementById("graph");
     this.ctx = this.canvas.getContext('2d');
-
     // window.fetch('http://localhost:3000/api/v1/getcorr', {
     //   mode: 'cors',
     //   method: 'GET',
@@ -74,8 +87,12 @@ export default class GraphView extends React.Component {
   render() {
     const width = this.props.parent_state.canvas_width * 5;
     const height = this.props.parent_state.canvas_height * 5;
+
     return (
+    <div>
+      <div id="graphsvg"></div>
       <canvas id="graph" width={width} height={height}></canvas>
+    </div>
     );
   }
 }
