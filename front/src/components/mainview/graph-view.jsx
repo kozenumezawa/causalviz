@@ -6,6 +6,8 @@ export default class GraphView extends React.Component {
   constructor(props) {
     super(props);
     this.drawSVG = false;
+
+    this.scale = 5;
   }
 
   componentDidMount() {
@@ -53,8 +55,8 @@ export default class GraphView extends React.Component {
     const canvas = props.tiff_list[0];
     const ctx = canvas.getContext('2d');
 
-    const width = canvas.width * 5;
-    const height = canvas.height * 5;
+    const width = canvas.width * this.scale;
+    const height = canvas.height * this.scale;
 
     const tiff_image = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const tiff_rgba = tiff_image.data; // image_rgba = [R, G, B, A, R, G, B, A, ...] (hex data)
@@ -67,15 +69,20 @@ export default class GraphView extends React.Component {
     const pixel_list = [];
     const color_list = [];
     props.parent_state.all_time_series.forEach((time_series, idx) => {
-        const x = idx % canvas.width * 5;
-        const y = Math.floor(idx / canvas.width) * 5;
+        const x = idx % canvas.width * this.scale;
+        const y = Math.floor(idx / canvas.width) * this.scale;
         const circle = [x, y, 2];  // [x, y, r]
         pixel_list.push(circle);
 
         const r = tiff_rgba[idx * 4 + 0];
         const g = tiff_rgba[idx * 4 + 1];
         const b = tiff_rgba[idx * 4 + 2];
-        color_list.push([r, g, b]);
+        if (idx % 5 === 0 && time_series[0] !== 0) {
+          color_list.push([0, 0, 255]);
+        } else {
+          color_list.push([r, g, b]);
+        }
+
       });
 
     const circles = svg.selectAll('circle').data(pixel_list).enter().append('circle')
@@ -89,9 +96,10 @@ export default class GraphView extends React.Component {
         svg.selectAll("line").remove();
 
         // d3.select(this).style("fill", "orange");
-        const x_idx = (selected_pixel[0] / 5 + selected_pixel[1] / 5 * canvas.width);
+        const x_idx = (selected_pixel[0] / this.scale + selected_pixel[1] / this.scale * canvas.width);
         const x = props.parent_state.all_time_series[x_idx];
-        if (x[0] === 0 || x_idx > 3000) {
+        // if (x[0] === 0 || x_idx > 3000) {
+        if (x[0] === 0) {
           return;
         }
 
@@ -116,7 +124,7 @@ export default class GraphView extends React.Component {
             }
           }
         });
-      })
+      });
     this.drawSVG = true;
   }
 
