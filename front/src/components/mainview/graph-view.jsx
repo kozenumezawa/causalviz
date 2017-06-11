@@ -46,6 +46,10 @@ export default class GraphView extends React.Component {
       return null;
     }
 
+    if (this.corr_list == null) {
+      return null
+    }
+
     const canvas = props.tiff_list[0];
     const ctx = canvas.getContext('2d');
 
@@ -74,57 +78,51 @@ export default class GraphView extends React.Component {
         color_list.push([r, g, b]);
       });
 
-    const circle = svg.selectAll('circle').data(pixel_list).enter().append('circle')
+    const circles = svg.selectAll('circle').data(pixel_list).enter().append('circle')
       .attr("cx", (d) => { return d[0] })
       .attr("cy", (d) => { return d[1] })
       .attr("r", (d) => { return d[2] })
       .style("fill", (d, i) => {
         return d3.rgb(color_list[i][0], color_list[i][1], color_list[i][2]);
-      });
+      })
+      .on("mouseover", (selected_pixel) => {
+        svg.selectAll("line").remove();
 
+        // d3.select(this).style("fill", "orange");
+        const x_idx = (selected_pixel[0] / 5 + selected_pixel[1] / 5 * canvas.width);
+        const x = props.parent_state.all_time_series[x_idx];
+        if (x[0] === 0 || x_idx > 3000) {
+          return;
+        }
+
+        props.parent_state.all_time_series.forEach((y, y_idx) => {
+          if (y[0] !== 0 && y_idx % 10 === 0 || this.corr_list[x_idx].length !== 0) {
+            const corr = this.corr_list[x_idx][y_idx];
+            if (corr > 0.7) {
+              svg.append("line").data(pixel_list)
+                .style("stroke", "black")  // colour the line
+                .attr("x1", (d) => {
+                  return selected_pixel[0]
+                })
+                .attr("y1", (d) => {
+                  return selected_pixel[1]
+                })
+                .attr("x2", (d) => {
+                  return pixel_list[y_idx][0]
+                })
+                .attr("y2", (d) => {
+                  return pixel_list[y_idx][1]
+                });
+            }
+          }
+        });
+      })
     this.drawSVG = true;
-
-    this.canvas = document.getElementById("graph");
-    this.ctx = this.canvas.getContext('2d');
-
-
-    // const canvas = props.tiff_list[0];
-    // this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.canvas.width, this.canvas.height);
-    //
-    // if (this.corr_list == null) {
-    //   return null
-    // }
-    //
-    // this.ctx.beginPath();
-    // this.ctx.lineWidth = 0.5;
-    //
-    // props.parent_state.all_time_series.forEach((x, x_idx) => {
-    //   if (x_idx < 3000) {
-    //     if (x[0] !== 0 && x_idx % 10 === 0) {
-    //       props.parent_state.all_time_series.forEach((y, y_idx) => {
-    //         if (y[0] !== 0 && y_idx % 10 === 0) {
-    //           const corr = this.corr_list[x_idx][y_idx];
-    //           if (corr > 0.8) {
-    //             this.ctx.moveTo(x_idx % props.parent_state.canvas_width * 5, Math.floor(x_idx / props.parent_state.canvas_width * 5));
-    //             this.ctx.lineTo(y_idx % props.parent_state.canvas_width * 5, Math.floor(y_idx / props.parent_state.canvas_width * 5));
-    //             this.ctx.stroke();
-    //           }
-    //         }
-    //       });
-    //     }
-    //   }
-    // });
   }
 
   render() {
-    const width = this.props.parent_state.canvas_width * 5;
-    const height = this.props.parent_state.canvas_height * 5;
-
     return (
-    <div>
       <div id="graphsvg"></div>
-      <canvas id="graph" width={width} height={height}></canvas>
-    </div>
     );
   }
 }
