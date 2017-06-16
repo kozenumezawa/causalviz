@@ -20,7 +20,6 @@ def draw_heatmap(data, row_labels, column_labels):
 if __name__ == "__main__":
     import numpy as np
     import json
-    import math
     import matplotlib.pyplot as plt
     import csv
     from sklearn.cluster import spectral_clustering
@@ -40,7 +39,8 @@ if __name__ == "__main__":
     corr_list = json_data["data"]
 
     graph = []
-    for pixel_corr in corr_list:
+    data_pixel_list = []
+    for (i, pixel_corr) in enumerate(corr_list):
         if len(pixel_corr) == 0:
             continue
 
@@ -54,10 +54,11 @@ if __name__ == "__main__":
             else:
                 graph_row.append(corr)
         graph.append(graph_row)
-
+        data_pixel_list.append(i)
     graph = np.array(graph)
 
-    labels = spectral_clustering(graph, n_clusters=4)
+    n_clusters = 4
+    labels = spectral_clustering(graph, n_clusters=n_clusters)
 
     f = open('./data/graph.csv', 'w')
     writer = csv.writer(f)
@@ -65,41 +66,21 @@ if __name__ == "__main__":
         writer.writerows([row])
     f.close()
 
+    f = open('./data/data_pixel.csv', 'w')
+    writer = csv.writer(f)
+    writer.writerows([data_pixel_list])
+    f.close()
+
     f = open('./data/labels.csv', 'w')
     writer = csv.writer(f)
     writer.writerows([labels])
     f.close()
 
-
-
-
-
-
-
-# all_time_series = np.load('./data/trp3data.npy')
-# corr_list = []
-#
-# for (i, x) in enumerate(all_time_series):
-#     x = x.astype(np.float32)
-#     if (0 in x or i % 5 != 0):
-#         corr_list.append([])
-#         continue
-#     corr_list.append([-2 for z in range(len(all_time_series))])
-#
-#     for (j, y) in enumerate(all_time_series):
-#         y = y.astype(np.float32)
-#         if (0 in y or j % 5 != 0):
-#             corr_list[i][j] = -2
-#         else:
-#             corr = np.corrcoef(x, y)[0][1]
-#             if math.isnan(corr):
-#                 corr_list[i][j] = -2
-#             else:
-#                 corr_list[i][j] = np.round(corr, 2)
-#
-# saveJSON = {
-#     "data": corr_list
-# }
-#
-# json.dump(saveJSON, f)
-# f.close()
+    # labesに沿って、グラフをソート
+    f = open('./data/graph_sorted.csv', 'w')
+    writer = csv.writer(f)
+    for i in range(n_clusters):
+        for (row_idx, cluster_idx) in enumerate(labels):
+            if i == cluster_idx:
+                writer.writerows([graph[row_idx]])
+    f.close()
