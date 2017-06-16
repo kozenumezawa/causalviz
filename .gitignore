@@ -14,4 +14,5 @@ python/build
 python/lic/*.png
 python/lic/result/*.png
 front/dist/grangertest
-apiserver/*.json
+apiserver/analysis/data
+*.json
