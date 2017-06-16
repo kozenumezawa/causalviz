@@ -22,6 +22,7 @@ if __name__ == "__main__":
     import json
     import math
     import matplotlib.pyplot as plt
+    import csv
     from sklearn.cluster import spectral_clustering
 
     data_step = 5
@@ -38,19 +39,39 @@ if __name__ == "__main__":
 
     corr_list = json_data["data"]
 
-    # 必要なmatrixのサイズを計算
-    n_matrix = 0
+    graph = []
     for pixel_corr in corr_list:
         if len(pixel_corr) == 0:
             continue
-        n_matrix = n_matrix + 1
 
-    graph = np.zeros((n_matrix, n_matrix))
-    for i in range(n_matrix):
-        for j in range(n_matrix):
-            if i == j:
-                graph[i][j] = 1
-    draw_heatmap(graph, range(n_matrix + 1), range(n_matrix + 1))
+        graph_row = []
+        for (pixel, corr) in enumerate(pixel_corr):
+            if len(corr_list[pixel]) == 0:
+                continue
+
+            if corr == -2 or corr < 0.7:
+                graph_row.append(0)
+            else:
+                graph_row.append(corr)
+        graph.append(graph_row)
+
+    graph = np.array(graph)
+
+    labels = spectral_clustering(graph, n_clusters=4)
+
+    f = open('./data/graph.csv', 'w')
+    writer = csv.writer(f)
+    for row in graph:
+        writer.writerows([row])
+    f.close()
+
+    f = open('./data/labels.csv', 'w')
+    writer = csv.writer(f)
+    writer.writerows([labels])
+    f.close()
+
+
+
 
 
 
