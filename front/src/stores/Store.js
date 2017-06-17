@@ -164,6 +164,7 @@ class Store extends EventEmitter {
         }
         break;
       case eventConstants.HANDLE_NEXT_CLICK:
+        // this.saveData();
         tiff_index++;
         if (tiff_index === all_tiff_list.length) {
           tiff_index = 0;
@@ -483,7 +484,6 @@ class Store extends EventEmitter {
 
   updateTimeSeriesAndCluster() {
     all_time_series = this.createAllTimeSeriesFromTiff(legend_tiff);
-    // this.saveData();
 
     this.updateCorrelationList(slider_value);
   }

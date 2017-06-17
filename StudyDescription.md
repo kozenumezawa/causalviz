@@ -1,3 +1,40 @@
+# 2017/06/17 Spectral Clustering
+## 等間隔でのサンプリング点抽出アルゴリズム
+3X3のmean filterを適用しているデータに対して、等間隔でサンプリングを行いたい。
+サンプリングの仕方の例  
+×◯××◯××◯××◯×  
+××××××××××××  
+××××××××××××  
+×◯××◯××◯××◯×  
+××××××××××××  
+××××××××××××  
+×◯××◯××◯××◯×  
+××××××××××××  
+
+```javascript
+for (let i = 0; i < height; i++) {
+  if (i % 3 == 0) {
+    continue;
+  }
+  for (let j = 0; j < width; j++) {
+    if (j % 3 == 1) {
+      continue;
+    }
+    // sampling
+  }
+}
+```
+
+```javascript
+all_time_series.forEach((time_series, idx) => {
+  const x = idx % canvas.width;
+  const y = Math.floor(idx / canvas.width);
+  if (x % 3 == 1 && y % 3 == 0) {
+    // sampling
+  }
+});
+```
+
 # 2017/05/17 グループミーティング
 頂きたいデータについて
 （各データのタイムステップを知りたい）

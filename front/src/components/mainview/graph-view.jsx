@@ -69,20 +69,20 @@ export default class GraphView extends React.Component {
     const pixel_list = [];
     const color_list = [];
     props.parent_state.all_time_series.forEach((time_series, idx) => {
-        const x = idx % canvas.width * this.scale;
-        const y = Math.floor(idx / canvas.width) * this.scale;
-        const circle = [x, y, 2];  // [x, y, r]
+        const x = idx % canvas.width;
+        const y = Math.floor(idx / canvas.width);
+
+        const circle = [x * this.scale, y * this.scale, 2];  // [x, y, r]
         pixel_list.push(circle);
 
         const r = tiff_rgba[idx * 4 + 0];
         const g = tiff_rgba[idx * 4 + 1];
         const b = tiff_rgba[idx * 4 + 2];
-        if (idx % 5 === 0 && time_series[0] !== 0) {
+        if (x % 3 === 1 && y % 3 === 0 && time_series[0] !== 0) {
           color_list.push([255, 0, 255]);
         } else {
           color_list.push([r, g, b]);
         }
-
       });
 
     const circles = svg.selectAll('circle').data(pixel_list).enter().append('circle')
