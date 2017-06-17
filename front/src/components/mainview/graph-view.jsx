@@ -78,7 +78,7 @@ export default class GraphView extends React.Component {
         const r = tiff_rgba[idx * 4 + 0];
         const g = tiff_rgba[idx * 4 + 1];
         const b = tiff_rgba[idx * 4 + 2];
-        if (x % 3 === 1 && y % 3 === 0 && time_series[0] !== 0) {
+        if (time_series[0] !== 0 && this.isSamplingPoint(idx, canvas.width)) {
           color_list.push([255, 0, 255]);
         } else {
           color_list.push([r, g, b]);
@@ -94,17 +94,16 @@ export default class GraphView extends React.Component {
       })
       .on("mouseover", (selected_pixel) => {
         svg.selectAll("line").remove();
-
+        
         // d3.select(this).style("fill", "orange");
         const x_idx = (selected_pixel[0] / this.scale + selected_pixel[1] / this.scale * canvas.width);
         const x = props.parent_state.all_time_series[x_idx];
-
         if (x[0] === 0) {
           return;
         }
 
         props.parent_state.all_time_series.forEach((y, y_idx) => {
-          if (y[0] !== 0 && y_idx % 10 === 0 || this.corr_list[x_idx].length !== 0) {
+          if (y[0] !== 0 && this.isSamplingPoint(y_idx, canvas.width) && this.corr_list[x_idx].length !== 0) {
             const corr = this.corr_list[x_idx][y_idx];
             if (corr > 0.8) {
               svg.append("line").data(pixel_list)
