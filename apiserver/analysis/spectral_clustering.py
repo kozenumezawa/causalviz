@@ -75,7 +75,9 @@ if __name__ == "__main__":
 
     f = open('./data/labels.csv', 'w')
     writer = csv.writer(f)
-    writer.writerows([labels])
+    writer.writerows([["labels"]])
+    for label in labels:
+        writer.writerows([[label]])
     f.close()
 
     # labesに沿って、グラフをソート
