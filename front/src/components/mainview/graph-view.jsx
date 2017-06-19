@@ -33,6 +33,9 @@ export default class GraphView extends React.Component {
         this.corr_list = json.data
         this.drawData(this.props);
       });
+
+    this.canvas = document.getElementById("cluster_canvas");
+    this.ctx = this.canvas.getContext('2d');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -125,7 +128,6 @@ export default class GraphView extends React.Component {
         });
       });
 
-    
     // Change color according to labels
     // d3.csv('labels.csv', (csv) => { //csvデータの読み込み
     //   color_list = [];
@@ -148,7 +150,43 @@ export default class GraphView extends React.Component {
     //   });
    // });
 
+    // draw data
+    const color = d3.schemeCategory10;
+    d3.csv('labels.csv', (csv) => {
+      // draw a base image
+      this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.canvas.width, this.canvas.height);
 
+      let color_list_idx = 0;
+      props.parent_state.all_time_series.forEach((time_series, idx) => {
+        const x = idx % canvas.width;
+        const y = Math.floor(idx / canvas.width);
+
+        if (time_series.indexOf(0) < 0 && this.isSamplingPoint(idx, canvas.width)) {
+          const mean_step = 3;
+          this.ctx.fillStyle = color[Number(csv[color_list_idx++].labels)];
+          this.ctx.fillRect(x - 1, y - 1, mean_step, mean_step);
+        }
+      });
+    });
+    //   color_list = [];
+    //   let color_list_idx = 0;
+    //   props.parent_state.all_time_series.forEach((time_series, idx) => {
+    //     const r = tiff_rgba[idx * 4 + 0];
+    //     const g = tiff_rgba[idx * 4 + 1];
+    //     const b = tiff_rgba[idx * 4 + 2];
+    //     if (time_series[0] !== 0 && this.isSamplingPoint(idx, canvas.width)) {
+    //       const color = d3.schemeCategory10;
+    //       const rgb = color[Number(csv[color_list_idx++].labels)];
+    //       const r   = parseInt(rgb.substring(1,3), 16);
+    //       const g = parseInt(rgb.substring(3,5), 16);
+    //       const b  = parseInt(rgb.substring(5,7), 16);
+    //       color_list.push([r, g, b]);
+    //     } else {
+    //       // color_list.push([r, g, b]);
+    //       color_list.push([255, 255, 255]);
+    //     }
+    //   });
+    // });
     this.drawSVG = true;
   }
 
@@ -164,7 +202,10 @@ export default class GraphView extends React.Component {
 
   render() {
     return (
+    <div>
       <div id="graphsvg"></div>
+      <canvas id="cluster_canvas" width="128" height="96"></canvas>
+    </div>
     );
   }
 }
