@@ -13,7 +13,7 @@ let canvas_width = 285;
 let canvas_height = 130;
 
 let data_type = generalConst.DATA_TRP_TYPE;
-let filter_type = generalConst.FILTER_NONE;
+let filter_type = generalConst.FILTER_MEAN;
 
 let render_contents = generalConst.VIEW_CROSS_CORRELATION;
 

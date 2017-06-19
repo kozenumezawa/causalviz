@@ -78,7 +78,7 @@ export default class GraphView extends React.Component {
         const r = tiff_rgba[idx * 4 + 0];
         const g = tiff_rgba[idx * 4 + 1];
         const b = tiff_rgba[idx * 4 + 2];
-        if (time_series[0] !== 0 && this.isSamplingPoint(idx, canvas.width)) {
+        if (time_series.indexOf(0) < 0 && this.isSamplingPoint(idx, canvas.width)) {
           color_list.push([255, 0, 255]);
         } else {
           color_list.push([r, g, b]);
