@@ -125,71 +125,41 @@ export default class GraphView extends React.Component {
         });
       });
 
-    const max = 1;
-    const min = -1;
+    
+    // Change color according to labels
+    // d3.csv('labels.csv', (csv) => { //csvデータの読み込み
+    //   color_list = [];
+    //   let color_list_idx = 0;
+    //   props.parent_state.all_time_series.forEach((time_series, idx) => {
+    //     const r = tiff_rgba[idx * 4 + 0];
+    //     const g = tiff_rgba[idx * 4 + 1];
+    //     const b = tiff_rgba[idx * 4 + 2];
+    //     if (time_series[0] !== 0 && this.isSamplingPoint(idx, canvas.width)) {
+    //       const color = d3.schemeCategory10;
+    //       const rgb = color[Number(csv[color_list_idx++].labels)];
+    //       const r   = parseInt(rgb.substring(1,3), 16);
+    //       const g = parseInt(rgb.substring(3,5), 16);
+    //       const b  = parseInt(rgb.substring(5,7), 16);
+    //       color_list.push([r, g, b]);
+    //     } else {
+    //       // color_list.push([r, g, b]);
+    //       color_list.push([255, 255, 255]);
+    //     }
+    //   });
+   // });
 
-    const colorScale = d3.scale.linear().domain([min, max]).range(["#E5F0FF", "#2C14BC"]); //カラースケールを作成
-
-    const  x_range  = d3.range(1 + d3.max(this.corr_list, function(d){ return Number(d.time)}));
-
-    const data = 	d3.nest().key(function(d){return d.type;}).entries(this.corr_list); //CSVから取得したデータをdateフィールドの値でネスト
-
-    const tbody = d3.select('body').append('table').append('tbody'); //table作成
-    const tfoot = d3.select('table').append('tfoot'); //tableにtfootをappend
-
-    tfoot.append('th'); //空th追加
-
-    //tfootに時間thを追加
-    tfoot.selectAll('class')
-      .data(x_range)
-      .enter()
-      .append('th')
-      .attr("class", "hours")
-      .text(function(d){ return d});
-
-
-    //tr追加
-    var trs = tbody.selectAll('tr')
-      .data(data)
-      .enter()
-      .append('tr')
-
-    //thに年月日を追加
-    trs.append('th').text(function(d){
-      return d.key;
-    });
-
-
-    //td追加
-    trs.selectAll('td')
-      .data(function(d){ return d.values} )
-      .enter()
-      .append('td')
-      .style("background-color", function(d){ return colorScale(d.value); })
-      .on('mouseover', function(d){
-        d3.select(this).text(d.value); //mouoverした際に訪問者数を表示
-      })
-      .on("mouseout", function(d){
-        d3.select(this).text("");
-      });
-
-    var svg = d3.select("body").append("svg");
-
-    //凡例
-    var svg = d3.select('svg');
-    //凡例を配置するグループ要素を追加
-    var legendView = svg.append("g")
-      .attr("class", "legendQuant")
-      .attr("transform", "translate(20,20)");
-
-    //スケールを元に凡例を生成する
-    var legend = d3.legend.color().scale(colorScale);
-
-    //凡例を描画する
-    svg.select(".legendQuant")
-      .call(legend);
 
     this.drawSVG = true;
+  }
+
+  isSamplingPoint(idx, width) {
+    const mean_step = 3;
+    const x = idx % width;
+    const y = Math.floor(idx / width);
+    if (x % mean_step === 1 && y % mean_step === 0) {
+      return true;
+    }
+    return false;
   }
 
   render() {
