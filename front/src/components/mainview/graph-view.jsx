@@ -167,32 +167,41 @@ export default class GraphView extends React.Component {
           this.ctx.fillRect(x - 1, y - 1, mean_step, mean_step);
         }
       });
-    });
 
+      // graph sortedに沿って、heat mapを描画
+      window.fetch("graph_sorted.json")
+        .then((response) => {
+          return response.json();
+        })
+        .then((json) => {
+          const graph_sorted = json.data;
+          const n_cluster_list = json.n_cluster_list;
 
-    // graph sortedに沿って、heat mapを描画
-    window.fetch("graph_sorted.json")
-      .then((response) => {
-        return response.json();
-      })
-      .then((json) => {
-        const graph_sorted = json.data
-        const canvas = document.getElementById("heatmap_canvas");
-        const ctx = canvas.getContext('2d');
+          const canvas = document.getElementById("heatmap_canvas");
+          const ctx = canvas.getContext('2d');
 
-        const cell_size = 1;
-        canvas.width = graph_sorted.length * cell_size;
-        canvas.height = graph_sorted.length * cell_size;
+          const cell_size = 1;
+          canvas.width = graph_sorted.length * cell_size;
+          canvas.height = graph_sorted.length * cell_size;
 
-        graph_sorted.forEach((row, row_idx) => {
-          row.forEach((cell, cell_idx) => {
-            if (cell !== 0) {
-              ctx.fillStyle = "blue";
-              ctx.fillRect(cell_idx * cell_size, row_idx * cell_size, cell_size, cell_size);
+          let n_cluster_cnt = 0;
+          let cluster_idx = 0;
+          graph_sorted.forEach((row, row_idx) => {
+            if (n_cluster_cnt < n_cluster_list[cluster_idx]) {
+              ctx.fillStyle = color[cluster_idx];
+            } else {
+              ctx.fillStyle = color[++cluster_idx];
+              n_cluster_cnt = 0;
             }
+            n_cluster_cnt++;
+            row.forEach((cell, cell_idx) => {
+              if (cell !== 0) {
+                ctx.fillRect(cell_idx * cell_size, row_idx * cell_size, cell_size, cell_size);
+              }
+            });
           });
         });
-      });
+    });
 
     this.drawSVG = true;
   }

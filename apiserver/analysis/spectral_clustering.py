@@ -80,6 +80,11 @@ if __name__ == "__main__":
         writer.writerows([[label]])
     f.close()
 
+    # 各クラスタに含まれるデータ数を計算
+    n_cluster_list = []
+    for cluster in range(n_clusters):
+        n_cluster_list.append(labels.tolist().count(cluster))
+
     # labesに沿って、グラフをソート
     # 行をsort
     graph_sorted = []
@@ -111,7 +116,8 @@ if __name__ == "__main__":
     # jsonにも書き込み
     f = open("./data/graph_sorted.json", "w")
     saveJSON = {
-        "data": graph_sorted.tolist()
+        "data": graph_sorted.tolist(),
+        "n_cluster_list": n_cluster_list
     }
     json.dump(saveJSON, f)
     f.close()
@@ -125,4 +131,4 @@ if __name__ == "__main__":
             writer.writerows([[original_idx[i], i, j, value]])
     f.close()
 
-    draw_heatmap(graph_sorted, range(len(graph_sorted)), range(len(graph_sorted)))
+    # draw_heatmap(graph_sorted, range(len(graph_sorted)), range(len(graph_sorted)))
