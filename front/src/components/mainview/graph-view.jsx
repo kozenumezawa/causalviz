@@ -111,7 +111,7 @@ export default class GraphView extends React.Component {
         props.parent_state.all_time_series.forEach((y, y_idx) => {
           if (y[0] !== 0 && this.isSamplingPoint(y_idx, canvas.width) && this.corr_list[x_idx].length !== 0) {
             const corr = this.corr_list[x_idx][y_idx];
-            if (corr > 0.8) {
+            if (corr > 0.9) {
               svg.append("line").data(pixel_list)
                 .style("stroke", "black")  // colour the line
                 .attr("x1", (d) => {
@@ -185,8 +185,9 @@ export default class GraphView extends React.Component {
           const ctx = canvas.getContext('2d');
 
           const cell_size = 1;
-          canvas.width = graph_sorted.length * cell_size;
-          canvas.height = graph_sorted.length * cell_size;
+          const legend_width = 15;
+          canvas.width = graph_sorted.length * cell_size + legend_width;
+          canvas.height = graph_sorted.length * cell_size + legend_width;
 
           // fill color
           let n_cluster_cnt = 0;
@@ -201,27 +202,36 @@ export default class GraphView extends React.Component {
             n_cluster_cnt++;
             row.forEach((cell, cell_idx) => {
               if (cell !== 0) {
-                ctx.fillRect(cell_idx * cell_size, row_idx * cell_size, cell_size, cell_size);
+                ctx.fillRect(cell_idx * cell_size + legend_width, row_idx * cell_size + legend_width, cell_size, cell_size);
               }
             });
           });
 
-          // draw line
+          // draw line and legend to the heat map
           drawingTool.drawFrame(canvas, ctx);
           ctx.line_color = "black";
           ctx.lineWidth = 1;
           ctx.beginPath();
-          let ctx_x = 0;
-          n_cluster_list.forEach((n_cluster) => {
-            ctx_x += n_cluster * cell_size;
-            ctx.moveTo(ctx_x, 0);
-            ctx.lineTo(ctx_x, canvas.height);
+          let ctx_x = legend_width - 1;
+          n_cluster_list.forEach((n_cluster, idx) => {
+            // draw legend
+            ctx.fillStyle = color[idx];
+            ctx.fillRect(ctx_x, 0, n_cluster * cell_size, legend_width);
+            ctx.fillRect(0, ctx_x, legend_width, n_cluster * cell_size);
 
-            ctx.moveTo(0, ctx_x);
+            // draw line
+            ctx_x += n_cluster * cell_size;
+            ctx.moveTo(ctx_x, legend_width);
+            ctx.lineTo(ctx_x, canvas.height );
+
+            ctx.moveTo(legend_width, ctx_x);
             ctx.lineTo(canvas.width, ctx_x);
           });
           ctx.closePath();
           ctx.stroke();
+
+
+
         });
     });
 
