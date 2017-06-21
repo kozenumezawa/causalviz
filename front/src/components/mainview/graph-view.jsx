@@ -1,5 +1,8 @@
 import React from 'react';
 
+import * as drawingTool from '../../utils/drawing-tool'
+
+
 import GraphContainer from '../graph/graph-container.jsx';
 
 export default class GraphView extends React.Component {
@@ -152,6 +155,7 @@ export default class GraphView extends React.Component {
 
     // draw data
     const color = d3.schemeCategory10;
+    // const color = drawingTool.getColorCategory(10);
     d3.csv('labels.csv', (csv) => {
       // draw a base image
       this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.canvas.width, this.canvas.height);
@@ -184,6 +188,7 @@ export default class GraphView extends React.Component {
           canvas.width = graph_sorted.length * cell_size;
           canvas.height = graph_sorted.length * cell_size;
 
+          // fill color
           let n_cluster_cnt = 0;
           let cluster_idx = 0;
           graph_sorted.forEach((row, row_idx) => {
@@ -200,6 +205,23 @@ export default class GraphView extends React.Component {
               }
             });
           });
+
+          // draw line
+          drawingTool.drawFrame(canvas, ctx);
+          ctx.line_color = "black";
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          let ctx_x = 0;
+          n_cluster_list.forEach((n_cluster) => {
+            ctx_x += n_cluster * cell_size;
+            ctx.moveTo(ctx_x, 0);
+            ctx.lineTo(ctx_x, canvas.height);
+
+            ctx.moveTo(0, ctx_x);
+            ctx.lineTo(canvas.width, ctx_x);
+          });
+          ctx.closePath();
+          ctx.stroke();
         });
     });
 
