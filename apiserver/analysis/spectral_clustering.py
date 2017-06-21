@@ -108,6 +108,14 @@ if __name__ == "__main__":
         writer.writerows([row])
     f.close()
 
+    # jsonにも書き込み
+    f = open("./data/graph_sorted.json", "w")
+    saveJSON = {
+        "data": graph_sorted.tolist()
+    }
+    json.dump(saveJSON, f)
+    f.close()
+
     # d3.jsのために書き込み
     f = open('./data/graph_sorted_d3.csv', 'w')
     writer = csv.writer(f)

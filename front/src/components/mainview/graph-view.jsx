@@ -168,25 +168,32 @@ export default class GraphView extends React.Component {
         }
       });
     });
-    //   color_list = [];
-    //   let color_list_idx = 0;
-    //   props.parent_state.all_time_series.forEach((time_series, idx) => {
-    //     const r = tiff_rgba[idx * 4 + 0];
-    //     const g = tiff_rgba[idx * 4 + 1];
-    //     const b = tiff_rgba[idx * 4 + 2];
-    //     if (time_series[0] !== 0 && this.isSamplingPoint(idx, canvas.width)) {
-    //       const color = d3.schemeCategory10;
-    //       const rgb = color[Number(csv[color_list_idx++].labels)];
-    //       const r   = parseInt(rgb.substring(1,3), 16);
-    //       const g = parseInt(rgb.substring(3,5), 16);
-    //       const b  = parseInt(rgb.substring(5,7), 16);
-    //       color_list.push([r, g, b]);
-    //     } else {
-    //       // color_list.push([r, g, b]);
-    //       color_list.push([255, 255, 255]);
-    //     }
-    //   });
-    // });
+
+
+    // graph sortedに沿って、heat mapを描画
+    window.fetch("graph_sorted.json")
+      .then((response) => {
+        return response.json();
+      })
+      .then((json) => {
+        const graph_sorted = json.data
+        const canvas = document.getElementById("heatmap_canvas");
+        const ctx = canvas.getContext('2d');
+
+        const cell_size = 1;
+        canvas.width = graph_sorted.length * cell_size;
+        canvas.height = graph_sorted.length * cell_size;
+
+        graph_sorted.forEach((row, row_idx) => {
+          row.forEach((cell, cell_idx) => {
+            if (cell !== 0) {
+              ctx.fillStyle = "blue";
+              ctx.fillRect(cell_idx * cell_size, row_idx * cell_size, cell_size, cell_size);
+            }
+          });
+        });
+      });
+
     this.drawSVG = true;
   }
 
@@ -205,6 +212,7 @@ export default class GraphView extends React.Component {
     <div>
       <div id="graphsvg"></div>
       <canvas id="cluster_canvas" width="128" height="96"></canvas>
+      <canvas id="heatmap_canvas"></canvas>
     </div>
     );
   }
