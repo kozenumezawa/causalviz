@@ -31,6 +31,6 @@ for (i, x) in enumerate(all_time_series):
 saveJSON = {
     "data": corr_list
 }
-f = open("./trp3_corr.json", "w")
+f = open("./data/trp3_corr.json", "w")
 json.dump(saveJSON, f)
 f.close()

@@ -26,7 +26,7 @@ if __name__ == "__main__":
 
     data_step = 4
 
-    f = open("./trp3_corr.json", "r")
+    f = open("./data/trp3_corr.json", "r")
     json_data = json.load(f)
 
     # corr_listは二次元配列であり、corr_list[全pixel][各ピクセルとのcorrelation]を表す。
