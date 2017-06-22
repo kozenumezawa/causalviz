@@ -161,54 +161,79 @@ export default class GraphView extends React.Component {
           const graph_sorted = json.data;
           const n_cluster_list = json.n_cluster_list;
 
-          const canvas = document.getElementById("heatmap_canvas");
-          const ctx = canvas.getContext('2d');
+          const heatmap_canvas = document.getElementById("heatmap_canvas");
+          const heatmap_ctx = heatmap_canvas.getContext('2d');
 
           const cell_size = 1;
           const legend_width = 15;
-          canvas.width = graph_sorted.length * cell_size + legend_width;
-          canvas.height = graph_sorted.length * cell_size + legend_width;
+          heatmap_canvas.width = graph_sorted.length * cell_size + legend_width;
+          heatmap_canvas.height = graph_sorted.length * cell_size + legend_width;
 
           // fill color
           let n_cluster_cnt = 0;
           let cluster_idx = 0;
           graph_sorted.forEach((row, row_idx) => {
             if (n_cluster_cnt < n_cluster_list[cluster_idx]) {
-              ctx.fillStyle = color[cluster_idx];
+              heatmap_ctx.fillStyle = color[cluster_idx];
             } else {
-              ctx.fillStyle = color[++cluster_idx];
+              heatmap_ctx.fillStyle = color[++cluster_idx];
               n_cluster_cnt = 0;
             }
             n_cluster_cnt++;
             row.forEach((cell, cell_idx) => {
               if (cell !== 0) {
-                ctx.fillRect(cell_idx * cell_size + legend_width, row_idx * cell_size + legend_width, cell_size, cell_size);
+                heatmap_ctx.fillRect(cell_idx * cell_size + legend_width, row_idx * cell_size + legend_width, cell_size, cell_size);
               }
             });
           });
 
           // draw line and legend to the heat map
-          drawingTool.drawFrame(canvas, ctx);
-          ctx.line_color = "black";
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          let ctx_x = legend_width - 1;
+          drawingTool.drawFrame(heatmap_canvas, heatmap_ctx);
+          heatmap_ctx.line_color = "black";
+          heatmap_ctx.lineWidth = 1;
+          heatmap_ctx.beginPath();
+          let heatmap_ctx_x = legend_width - 1;
           n_cluster_list.forEach((n_cluster, idx) => {
             // draw legend
-            ctx.fillStyle = color[idx];
-            ctx.fillRect(ctx_x, 0, n_cluster * cell_size, legend_width);
-            ctx.fillRect(0, ctx_x, legend_width, n_cluster * cell_size);
+            heatmap_ctx.fillStyle = color[idx];
+            heatmap_ctx.fillRect(heatmap_ctx_x, 0, n_cluster * cell_size, legend_width);
+            heatmap_ctx.fillRect(0, heatmap_ctx_x, legend_width, n_cluster * cell_size);
 
             // draw line
-            ctx_x += n_cluster * cell_size;
-            ctx.moveTo(ctx_x, legend_width);
-            ctx.lineTo(ctx_x, canvas.height );
+            heatmap_ctx_x += n_cluster * cell_size;
+            heatmap_ctx.moveTo(heatmap_ctx_x, legend_width);
+            heatmap_ctx.lineTo(heatmap_ctx_x, heatmap_canvas.height );
 
-            ctx.moveTo(legend_width, ctx_x);
-            ctx.lineTo(canvas.width, ctx_x);
+            heatmap_ctx.moveTo(legend_width, heatmap_ctx_x);
+            heatmap_ctx.lineTo(heatmap_canvas.width, heatmap_ctx_x);
           });
-          ctx.closePath();
-          ctx.stroke();
+          heatmap_ctx.closePath();
+          heatmap_ctx.stroke();
+
+
+          const arrow_canvas = document.getElementById("arrow_canvas");
+          const arrow_ctx = arrow_canvas.getContext('2d');
+          arrow_canvas.width = 400;
+          arrow_canvas.height = 400;
+
+          // 極座標を用いて円形に配置
+          const center = arrow_canvas.width / 2;
+          const center_r = arrow_canvas.width / 4;
+          const circle_interval = 2 * Math.PI / n_cluster_list.length;
+
+          n_cluster_list.forEach((data, idx) => {
+            const x = center + center_r * Math.cos(idx * circle_interval);
+            const y = center + center_r * Math.sin(idx * circle_interval);
+
+            const r = arrow_canvas.width / 16;
+            arrow_ctx.beginPath();
+            arrow_ctx.arc(x, y, r, 0, Math.PI * 2);
+            arrow_ctx.stroke();
+            arrow_ctx.closePath();
+            arrow_ctx.fillStyle = color[idx];
+            arrow_ctx.fill();
+          });
+
         });
     });
 
@@ -231,6 +256,7 @@ export default class GraphView extends React.Component {
       <div id="graphsvg"></div>
       <canvas id="cluster_canvas"></canvas>
       <canvas id="heatmap_canvas"></canvas>
+      <div><canvas id="arrow_canvas"></canvas></div>
     </div>
     );
   }
