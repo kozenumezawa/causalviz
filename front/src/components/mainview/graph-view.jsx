@@ -169,17 +169,24 @@ export default class GraphView extends React.Component {
           heatmap_canvas.width = graph_sorted.length * cell_size + legend_width;
           heatmap_canvas.height = graph_sorted.length * cell_size + legend_width;
 
+          // 各クラスターのstartとstopのindexを保存
+          let cluster_range_list = [];
+          n_cluster_list.reduce((prev, current, idx) => {
+            const end_pixel = prev + current;
+            cluster_range_list.push({
+              start: prev,
+              end: end_pixel
+            });
+            return end_pixel;
+          }, 0);
+
           // fill color
-          let n_cluster_cnt = 0;
           let cluster_idx = 0;
           graph_sorted.forEach((row, row_idx) => {
-            if (n_cluster_cnt < n_cluster_list[cluster_idx]) {
-              heatmap_ctx.fillStyle = color[cluster_idx];
-            } else {
-              heatmap_ctx.fillStyle = color[++cluster_idx];
-              n_cluster_cnt = 0;
+            if (row_idx >= cluster_range_list[cluster_idx].end) {
+              cluster_idx++;
             }
-            n_cluster_cnt++;
+            heatmap_ctx.fillStyle = color[cluster_idx];
             row.forEach((cell, cell_idx) => {
               if (cell !== 0) {
                 heatmap_ctx.fillRect(cell_idx * cell_size + legend_width, row_idx * cell_size + legend_width, cell_size, cell_size);
@@ -239,26 +246,43 @@ export default class GraphView extends React.Component {
             arrow_ctx.fill();
           });
 
+          // 因果関係を表すcausal matrixを生成
           let causal_matrix = [];
-          n_cluster_list.forEach((n_cluster, idx) => {
-            let causal_cnt = 0;
+          n_cluster_list.forEach((n_cluster, row_cluster_idx) => {
+            causal_matrix.push([]);
+            const row_range = cluster_range_list[row_cluster_idx];
+
+            cluster_range_list.forEach((range, col_cluster_idx) => {
+              if (row_cluster_idx === col_cluster_idx) {
+                causal_matrix[row_cluster_idx][col_cluster_idx] = 0;
+                return;
+              }
+              const col_range = range;
+              let causal_cnt = 0;
+              for (let row_idx = row_range.start; row_idx < row_range.end; row_idx++) {
+                for (let col_idx = col_range.start; col_idx < col_range.end; col_idx++) {
+                  causal_cnt += Math.ceil(graph_sorted[row_idx][col_idx]);
+                }
+              }
+
+              const area = n_cluster * n_cluster_list[col_cluster_idx];
+              if (causal_cnt > area / 2.5) {
+                causal_matrix[row_cluster_idx][col_cluster_idx] = 1;
+              } else {
+                causal_matrix[row_cluster_idx][col_cluster_idx] = 0;
+              }
+            });
           });
-          causal_matrix = [
-            [0, 0, 0, 0, 0],
-            [1, 0, 0, 0, 0],
-            [0, 1, 0, 1, 1],
-            [0, 1, 0, 0, 0],
-            [0, 1, 0, 0, 0],
-          ];
+          console.log(causal_matrix);
 
           // draw arrows
           arrow_ctx.fillStyle = 'black';
           arrow_ctx.beginPath();
           causal_matrix.forEach((row, row_idx) => {
-            row.forEach((causal_flag, column_idx) => {
+            row.forEach((causal_flag, col_idx) => {
               if (causal_flag === 1) {
                 const origin = circle_coord_list[row_idx];
-                const end = circle_coord_list[column_idx];
+                const end = circle_coord_list[col_idx];
 
                 // 矢印が円の外側に来るように補正
                 const distance = Math.sqrt(Math.pow(end.y - origin.y, 2) * Math.pow(end.x - origin.x, 2));
@@ -272,9 +296,6 @@ export default class GraphView extends React.Component {
 
           });
           arrow_ctx.fill();
-
-
-
         });
     });
 
