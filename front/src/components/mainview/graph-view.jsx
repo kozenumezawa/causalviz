@@ -220,19 +220,60 @@ export default class GraphView extends React.Component {
           const center = arrow_canvas.width / 2;
           const center_r = arrow_canvas.width / 4;
           const circle_interval = 2 * Math.PI / n_cluster_list.length;
+          const circle_r = arrow_canvas.width / 16;
 
-          n_cluster_list.forEach((data, idx) => {
+          let circle_coord_list = [];
+          n_cluster_list.forEach((n_cluster, idx) => {
             const x = center + center_r * Math.cos(idx * circle_interval);
             const y = center + center_r * Math.sin(idx * circle_interval);
+            circle_coord_list.push({
+                x: x,
+                y: y
+              });
 
-            const r = arrow_canvas.width / 16;
             arrow_ctx.beginPath();
-            arrow_ctx.arc(x, y, r, 0, Math.PI * 2);
+            arrow_ctx.arc(x, y, circle_r, 0, Math.PI * 2);
             arrow_ctx.stroke();
             arrow_ctx.closePath();
             arrow_ctx.fillStyle = color[idx];
             arrow_ctx.fill();
           });
+
+          let causal_matrix = [];
+          n_cluster_list.forEach((n_cluster, idx) => {
+            let causal_cnt = 0;
+          });
+          causal_matrix = [
+            [0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0],
+            [0, 1, 0, 1, 1],
+            [0, 1, 0, 0, 0],
+            [0, 1, 0, 0, 0],
+          ];
+
+          // draw arrows
+          arrow_ctx.fillStyle = 'black';
+          arrow_ctx.beginPath();
+          causal_matrix.forEach((row, row_idx) => {
+            row.forEach((causal_flag, column_idx) => {
+              if (causal_flag === 1) {
+                const origin = circle_coord_list[row_idx];
+                const end = circle_coord_list[column_idx];
+
+                // 矢印が円の外側に来るように補正
+                const distance = Math.sqrt(Math.pow(end.y - origin.y, 2) * Math.pow(end.x - origin.x, 2));
+                const theta = Math.acos((end.x - origin.x) / distance);
+                const end_x = end.x - circle_r * Math.cos(theta);
+                const end_y = (end.y > origin.y) ? end.y - circle_r * Math.sin(theta) : end.y + circle_r * Math.sin(theta);
+
+                this.arrow(arrow_ctx, origin.x, origin.y, end_x, end_y, [0, 2, -20, 2, -20, 8]);
+              }
+            });
+
+          });
+          arrow_ctx.fill();
+
+
 
         });
     });
@@ -249,6 +290,35 @@ export default class GraphView extends React.Component {
     }
     return false;
   }
+
+  // ref: http://qiita.com/frogcat/items/2f94b095b4c2d8581ff6
+  arrow(ctx, startX, startY, endX, endY, controlPoints) {
+    const dx = endX - startX;
+    const dy = endY - startY;
+    const len = Math.sqrt(dx * dx + dy * dy);
+    const sin = dy / len;
+    const cos = dx / len;
+    let a = [];
+    a.push(0, 0);
+    for (let i = 0; i < controlPoints.length; i += 2) {
+      const x = controlPoints[i];
+      const y = controlPoints[i + 1];
+      a.push(x < 0 ? len + x : x, y);
+    }
+    a.push(len, 0);
+    for (let i = controlPoints.length; i > 0; i -= 2) {
+      const x = controlPoints[i - 2];
+      const y = controlPoints[i - 1];
+      a.push(x < 0 ? len + x : x, -y);
+    }
+    a.push(0, 0);
+    for (let i = 0; i < a.length; i += 2) {
+      const x = a[i] * cos - a[i + 1] * sin + startX;
+      const y = a[i] * sin + a[i + 1] * cos + startY;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+  };
 
   render() {
     return (
