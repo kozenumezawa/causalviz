@@ -18,8 +18,8 @@ for (i, x) in enumerate(all_time_series):
     corr_list.append([-2 for z in range(len(all_time_series))])
 
     lag = 5
-    back_x = x[:len(x)-lag]
-    front_x = x[lag:]
+    back_x = x[lag:]
+    front_x = x[:len(x)-lag]
     for (j, y) in enumerate(all_time_series):
         y = y.astype(np.float32)
         if (0 in y or (j % width) % mean_step != 1 or math.floor(j / width) % mean_step != 0):
@@ -30,8 +30,8 @@ for (i, x) in enumerate(all_time_series):
                 corr_list[i][j] = -2
                 continue
 
-            back_corr = np.corrcoef(back_x, y[lag:])[0][1]
-            front_corr = np.corrcoef(front_x, y[:len(y)-5])[0][1]
+            back_corr = np.corrcoef(back_x, y[:len(y)-lag])[0][1]
+            front_corr = np.corrcoef(front_x, y[lag:])[0][1]
 
             each_corr = [back_corr, corr, front_corr]
             max_idx = each_corr.index(max(each_corr))
@@ -39,7 +39,7 @@ for (i, x) in enumerate(all_time_series):
             if max_idx == -1:
                 corr_list[i][j] = 0
             elif max_idx == 0:
-                corr_list[i][j] = corr
+                corr_list[i][j] = 0
             else:
                 corr_list[i][j] = front_corr
 
