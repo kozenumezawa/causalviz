@@ -29,6 +29,7 @@ const DropDown = (props) => {
       >
         <MenuItem value={generalConst.DATA_WILD_TYPE} primaryText="wild-type" />
         <MenuItem value={generalConst.DATA_TRP_TYPE} primaryText="trp-3 mutant" />
+        <MenuItem value={generalConst.DATA_GAUSSIAN_WAVE} primaryText="gaussian wave" />
       </DropDownMenu>
     </div>
   );

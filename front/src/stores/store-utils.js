@@ -27,27 +27,40 @@ export function transposeTimeSeries(all_time_series_inverse) {
 }
 
 export function createTimeSeriesInverse(tiff_canvas, legend_canvas) {
-  const legend_rgba = getRGBAFromTiff(legend_canvas);
-  const color_map = legend_rgba.slice(0, legend_rgba.length / legend_canvas.height);
-
   let time_series_inverse = [];
   const tiff_rgba = getRGBAFromTiff(tiff_canvas);
+  if (legend_canvas !== null) {
+    const legend_rgba = getRGBAFromTiff(legend_canvas);
+    const color_map = legend_rgba.slice(0, legend_rgba.length / legend_canvas.height);
 
-  // get scalar from data
-  for (let i = 0; i < tiff_rgba.length / 4; i++) {
-    let scalar = 0;
-    const r = tiff_rgba[i * 4 + 0];
-    const g = tiff_rgba[i * 4 + 1];
-    const b = tiff_rgba[i * 4 + 2];
-    const a = tiff_rgba[i * 4 + 3];
-    for (let j = 0; j < color_map.length / 4; j++) {
-      if (r === color_map[j * 4 + 0] && g === color_map[j * 4 + 1] && b === color_map[j * 4 + 2] && a === color_map[j * 4 + 3]) {
-        scalar = j;
-        break;
+    // get scalar from data
+    for (let i = 0; i < tiff_rgba.length / 4; i++) {
+      let scalar = 0;
+      const r = tiff_rgba[i * 4 + 0];
+      const g = tiff_rgba[i * 4 + 1];
+      const b = tiff_rgba[i * 4 + 2];
+      const a = tiff_rgba[i * 4 + 3];
+      for (let j = 0; j < color_map.length / 4; j++) {
+        if (r === color_map[j * 4 + 0] && g === color_map[j * 4 + 1] && b === color_map[j * 4 + 2] && a === color_map[j * 4 + 3]) {
+          scalar = j;
+          break;
+        }
       }
+      time_series_inverse.push(scalar);
     }
-    time_series_inverse.push(scalar);
+  } else {
+    // get scalar from data
+    for (let i = 0; i < tiff_rgba.length / 4; i++) {
+      let scalar = 0;
+      const r = tiff_rgba[i * 4 + 0];
+      const g = tiff_rgba[i * 4 + 1];
+      const b = tiff_rgba[i * 4 + 2];
+      const a = tiff_rgba[i * 4 + 3];
+      scalar = r;
+      time_series_inverse.push(scalar);
+    }
   }
+
   return time_series_inverse;
 }
 

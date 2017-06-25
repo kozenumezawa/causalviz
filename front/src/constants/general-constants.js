@@ -3,6 +3,7 @@ import keyMirror from 'keymirror';
 const generalConstant = keyMirror({
   DATA_WILD_TYPE           : null,
   DATA_TRP_TYPE            : null,
+  DATA_GAUSSIAN_WAVE       : null,
   VIEW_DEFAULT             : null,
   VIEW_CROSS_CORRELATION   : null,
   VIEW_THREE_DIM           : null,

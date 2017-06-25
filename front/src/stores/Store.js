@@ -12,7 +12,7 @@ const CHANGE_EVENT = 'change';
 let canvas_width = 285;
 let canvas_height = 130;
 
-let data_type = generalConst.DATA_TRP_TYPE;
+let data_type = generalConst.DATA_GAUSSIAN_WAVE;
 let filter_type = generalConst.FILTER_MEAN;
 
 let render_contents = generalConst.VIEW_CROSS_CORRELATION;
@@ -115,6 +115,14 @@ class Store extends EventEmitter {
       case generalConst.DATA_TRP_TYPE:
         canvas_width = 128;
         canvas_height = 96;
+        break;
+      case generalConst.DATA_TRP_TYPE:
+        canvas_width = 128;
+        canvas_height = 96;
+        break;
+      case generalConst.DATA_GAUSSIAN_WAVE:
+        canvas_width = 128;
+        canvas_height = 128;
         break;
       default:
         break;
@@ -446,6 +454,10 @@ class Store extends EventEmitter {
         }
         legend_name = '2E2_GFB.tif';
         break;
+      case generalConst.DATA_GAUSSIAN_WAVE:
+        tiff_name = 'TavellingGaussianWaves.tif';
+        legend_name = '';
+        break;
       default:
         break;
     }
@@ -454,7 +466,13 @@ class Store extends EventEmitter {
         response.arrayBuffer().then((buffer) => {
           let tiff_list = [];
           const tiff = new Tiff({ buffer: buffer });
-          const tiff_len = (data_type === generalConst.DATA_WILD_TYPE) ? tiff.countDirectory() - 50 : tiff.countDirectory() - 100;
+          let tiff_len = tiff.countDirectory();
+          if (data_type === generalConst.DATA_WILD_TYPE) {
+            tiff_len = tiff.countDirectory() - 50;
+          } else if (data_type === generalConst.DATA_TRP_TYPE) {
+            tiff_len = tiff.countDirectory() - 100;
+          }
+
           for (let i = 0; i < tiff_len; i++) {
             if (data_type === generalConst.DATA_TRP_TYPE && i < 50) {
               continue;
@@ -464,20 +482,25 @@ class Store extends EventEmitter {
             tiff_list.push(canvas);
           }
           all_tiff_list = tiff_list;
+          if (legend_name !== '') {
+            window.fetch(legend_name)
+              .then((response) => {
+                response.arrayBuffer().then((buffer) => {
+                  const tiff = new Tiff({ buffer: buffer });
+                  for (let i = 0, len = tiff.countDirectory(); i < len; i++) {
+                    tiff.setDirectory(i);
+                    const canvas = tiff.toCanvas();
+                    legend_tiff = canvas;
+                  }
 
-          window.fetch(legend_name)
-            .then((response) => {
-              response.arrayBuffer().then((buffer) => {
-                const tiff = new Tiff({ buffer: buffer });
-                for (let i = 0, len = tiff.countDirectory(); i < len; i++) {
-                  tiff.setDirectory(i);
-                  const canvas = tiff.toCanvas();
-                  legend_tiff = canvas;
-                }
-
-                this.updateTimeSeriesAndCluster();
+                  this.updateTimeSeriesAndCluster();
+                });
               });
-            });
+          } else {
+            legend_tiff = null;
+            this.updateTimeSeriesAndCluster();
+          }
+
         });
       });
   }
@@ -491,7 +514,7 @@ class Store extends EventEmitter {
   createAllTimeSeriesFromTiff (legend_canvas) {
     // create time series data from each time step data
     let all_time_series_inverse = [];
-    all_tiff_list.forEach((tiff_canvas) => {
+    all_tiff_list.forEach((tiff_canvas, idx) => {
       const time_series_inverse = storeUtils.createTimeSeriesInverse(tiff_canvas, legend_canvas);
       all_time_series_inverse.push(time_series_inverse);
     });
