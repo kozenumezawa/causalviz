@@ -1,60 +1,50 @@
 import React from 'react';
 
 import * as drawingTool from '../../utils/drawing-tool'
-
+import generalConst from '../../constants/general-constants'
 import TiffContainer from '../container/tiff-container.jsx'
 
 export default class GraphView extends React.Component {
   constructor(props) {
     super(props);
-    this.drawSVG = false;
 
+    this.state = {
+      corr_list: []
+    };
     this.scale = 4;
   }
 
   componentDidMount() {
-    // window.fetch('http://localhost:3000/api/v1/getcorr', {
-    //   mode: 'cors',
-    //   method: 'GET',
-    //   headers: {
-    //     'content-type': 'application/json',
-    //   }
-    // })
-    //   .then((response) => {
-    //     return response.json();
-    //   })
-    //   .then((json) => {
-    //     this.corr_list = json.data
-    //     this.drawData(this.props);
-    //   });
-    window.fetch("trp3_corr.json")
-      .then((response) => {
-        return response.json();
-      })
-      .then((json) => {
-        this.corr_list = json.data
-        this.drawData(this.props);
-      });
-
     this.canvas = document.getElementById("cluster_canvas");
     this.ctx = this.canvas.getContext('2d');
   }
 
   componentWillReceiveProps(nextProps) {
-    this.drawData(nextProps);
+    // tiff_listが更新されてから処理をする必要があるので、データの変更が起きたか調べるのはtiff_listを用いる
+    if (this.state.corr_list.length === 0 || this.props.tiff_list.toString() !== nextProps.tiff_list.toString()) {
+      const data_type = nextProps.parent_state.data_type;
+      let name;
+      if (data_type === generalConst.DATA_TRP_TYPE) {
+        name = 'trp3';
+      } else {
+        name = 'gaussian'
+      };
+      window.fetch(name + "_corr.json")
+        .then((response) => {
+          return response.json();
+        })
+        .then((json) => {
+          this.setState({
+            corr_list: json.data
+          });
+          this.drawData(nextProps, name);
+        });
+    }
   }
 
-  drawData(props) {
+  drawData(props, name) {
     if (props.tiff_list.length === 0) {
       return null;
-    }
-
-    if (this.drawSVG === true) {
-      return null;
-    }
-
-    if (this.corr_list == null) {
-      return null
     }
 
     const canvas = props.tiff_list[0];
@@ -134,7 +124,7 @@ export default class GraphView extends React.Component {
     // draw data
     const color = d3.schemeCategory10;
     // const color = drawingTool.getColorCategory(10);
-    d3.csv('trp3_labels.csv', (csv) => {
+    d3.csv(name + '_labels.csv', (csv) => {
       // draw a base image
       this.canvas.width = canvas.width * this.scale;
       this.canvas.height = canvas.height * this.scale;
@@ -153,7 +143,7 @@ export default class GraphView extends React.Component {
       });
 
       // graph sortedに沿って、heat mapを描画
-      window.fetch("trp3_graph_sorted.json")
+      window.fetch(name + '_graph_sorted.json')
         .then((response) => {
           return response.json();
         })
@@ -297,8 +287,6 @@ export default class GraphView extends React.Component {
           arrow_ctx.fill();
         });
     });
-
-    this.drawSVG = true;
   }
 
   isSamplingPoint(idx, width) {

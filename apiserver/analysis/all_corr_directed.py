@@ -3,13 +3,18 @@ import numpy as np
 import json
 import math
 
-input_file_name = "trp3data_mean.npy"
-output_file_name = "trp3_corr.json"
+# input_file_name = "trp3data_mean.npy"
+# output_file_name = "trp3_corr.json"
+# width = 128
+
+input_file_name = "gaussian_wave.npy"
+output_file_name = "gaussian_corr.json"
+width = 128
 
 mean_step = 3
 
 all_time_series = np.load("./data/" + input_file_name)
-width = 128
+
 
 corr_list = []
 

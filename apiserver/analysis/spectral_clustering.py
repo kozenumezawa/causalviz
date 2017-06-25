@@ -24,8 +24,11 @@ if __name__ == "__main__":
     import csv
     from sklearn.cluster import spectral_clustering
 
-    input_file_name = "trp3_corr.json"
-    output_file_name = "trp3_"
+    # input_file_name = "trp3_corr.json"
+    # output_file_name = "trp3"
+
+    input_file_name = "gaussian_corr.json"
+    output_file_name = "gaussian"
 
     data_step = 4
 
@@ -65,18 +68,18 @@ if __name__ == "__main__":
     n_clusters = 5
     labels = spectral_clustering(graph, n_clusters=n_clusters)
 
-    f = open('./data/' + output_file_name + 'graph.csv', 'w')
+    f = open('./data/' + output_file_name + '_graph.csv', 'w')
     writer = csv.writer(f)
     for row in graph:
         writer.writerows([row])
     f.close()
 
-    f = open('./data/' + output_file_name + 'data_pixel.csv', 'w')
+    f = open('./data/' + output_file_name + '_data_pixel.csv', 'w')
     writer = csv.writer(f)
     writer.writerows([data_pixel_list])
     f.close()
 
-    f = open('./data/' + output_file_name + 'labels.csv', 'w')
+    f = open('./data/' + output_file_name + '_labels.csv', 'w')
     writer = csv.writer(f)
     writer.writerows([["labels"]])
     for label in labels:
@@ -110,14 +113,14 @@ if __name__ == "__main__":
     graph_sorted = graph_sorted.transpose()
 
     # sort後のgraphを書き込み
-    f = open('./data/' + output_file_name + 'graph_sorted.csv', 'w')
+    f = open('./data/' + output_file_name + '_graph_sorted.csv', 'w')
     writer = csv.writer(f)
     for row in graph_sorted:
         writer.writerows([row])
     f.close()
 
     # jsonにも書き込み
-    f = open('./data/' + output_file_name + 'graph_sorted.json', "w")
+    f = open('./data/' + output_file_name + '_graph_sorted.json', "w")
     saveJSON = {
         "data": graph_sorted.tolist(),
         "n_cluster_list": n_cluster_list
