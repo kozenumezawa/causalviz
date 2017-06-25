@@ -796,7 +796,8 @@ class Store extends EventEmitter {
         'content-type': 'application/json',
       },
       body: JSON.stringify({
-        data: all_time_series
+        data: all_time_series,
+        file_name: 'gaussian_wave.npy'
       })
     })
   }

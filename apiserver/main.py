@@ -25,7 +25,7 @@ class SaveDataClass(object):
     # def on_get(self, req, resp):
     def on_post(self, req, resp):
         body = json.loads(req.stream.read().decode('utf-8'))
-        msg = save_data.save_data(body['data'])
+        msg = save_data.save_data(body['data'], body['file_name'])
         resp.body = json.dumps(msg)
         resp.status = falcon.HTTP_200
 
