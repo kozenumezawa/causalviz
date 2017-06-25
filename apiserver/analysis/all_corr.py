@@ -12,14 +12,14 @@ corr_list = []
 
 for (i, x) in enumerate(all_time_series):
     x = x.astype(np.float32)
-    if (0 in x or (i % width) % mean_step != 1 or math.floor(i / width) % mean_step != 0):
+    if (sum(x) == 0 or (i % width) % mean_step != 1 or math.floor(i / width) % mean_step != 0):
         corr_list.append([])
         continue
     corr_list.append([-2 for z in range(len(all_time_series))])
 
     for (j, y) in enumerate(all_time_series):
         y = y.astype(np.float32)
-        if (0 in y or (j % width) % mean_step != 1 or math.floor(j / width) % mean_step != 0):
+        if (sum(y) == 0 or (j % width) % mean_step != 1 or math.floor(j / width) % mean_step != 0):
             corr_list[i][j] = -2
         else:
             corr = np.corrcoef(x, y)[0][1]
