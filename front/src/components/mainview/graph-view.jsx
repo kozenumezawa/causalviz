@@ -2,15 +2,14 @@ import React from 'react';
 
 import * as drawingTool from '../../utils/drawing-tool'
 
-
-import GraphContainer from '../graph/graph-container.jsx';
+import TiffContainer from '../container/tiff-container.jsx'
 
 export default class GraphView extends React.Component {
   constructor(props) {
     super(props);
     this.drawSVG = false;
 
-    this.scale = 5;
+    this.scale = 4;
   }
 
   componentDidMount() {
@@ -66,7 +65,7 @@ export default class GraphView extends React.Component {
 
     const tiff_image = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const tiff_rgba = tiff_image.data; // image_rgba = [R, G, B, A, R, G, B, A, ...] (hex data)
-
+    /*
     const svg = d3.select("#graphsvg")
       .append("svg");
     svg.attr("width", width);
@@ -74,6 +73,7 @@ export default class GraphView extends React.Component {
 
     const pixel_list = [];
     const color_list = [];
+
     props.parent_state.all_time_series.forEach((time_series, idx) => {
         const x = idx % canvas.width;
         const y = Math.floor(idx / canvas.width);
@@ -130,7 +130,7 @@ export default class GraphView extends React.Component {
           }
         });
       });
-
+     */
     // draw data
     const color = d3.schemeCategory10;
     // const color = drawingTool.getColorCategory(10);
@@ -273,7 +273,6 @@ export default class GraphView extends React.Component {
               }
             });
           });
-          console.log(causal_matrix);
 
           // draw arrows
           arrow_ctx.fillStyle = 'black';
@@ -344,6 +343,16 @@ export default class GraphView extends React.Component {
   render() {
     return (
     <div>
+      <TiffContainer
+        id="tiff_output"
+        canvas_width={this.props.parent_state.canvas_width}
+        canvas_height={this.props.parent_state.canvas_height}
+        clicked_point={this.props.parent_state.clicked_point}
+        loupe_point={this.props.parent_state.loupe_point}
+        selected_area={this.props.parent_state.selected_area}
+        tiff_index={this.props.parent_state.tiff_index}
+        tiff_list={this.props.tiff_list}
+      />
       <div id="graphsvg"></div>
       <canvas id="cluster_canvas"></canvas>
       <canvas id="heatmap_canvas"></canvas>
