@@ -84,7 +84,7 @@ export default class GraphView extends React.Component {
         const r = tiff_rgba[idx * 4 + 0];
         const g = tiff_rgba[idx * 4 + 1];
         const b = tiff_rgba[idx * 4 + 2];
-        if (time_series.indexOf(0) < 0 && this.isSamplingPoint(idx, canvas.width)) {
+        if (this.sum(time_series) !== 0 && this.isSamplingPoint(idx, canvas.width)) {
           color_list.push([255, 0, 255]);
         } else {
           color_list.push([r, g, b]);
@@ -134,7 +134,7 @@ export default class GraphView extends React.Component {
     // draw data
     const color = d3.schemeCategory10;
     // const color = drawingTool.getColorCategory(10);
-    d3.csv('labels.csv', (csv) => {
+    d3.csv('trp3_labels.csv', (csv) => {
       // draw a base image
       this.canvas.width = canvas.width * this.scale;
       this.canvas.height = canvas.height * this.scale;
@@ -145,7 +145,7 @@ export default class GraphView extends React.Component {
         const x = idx % canvas.width * this.scale;
         const y = Math.floor(idx / canvas.width) * this.scale;
 
-        if (time_series.indexOf(0) < 0 && this.isSamplingPoint(idx, canvas.width)) {
+        if (this.sum(time_series) !== 0 && this.isSamplingPoint(idx, canvas.width)) {
           const mean_step = 3;
           this.ctx.fillStyle = color[Number(csv[color_list_idx++].labels)];
           this.ctx.fillRect(x - 1, y - 1, mean_step * this.scale, mean_step * this.scale);
@@ -153,7 +153,7 @@ export default class GraphView extends React.Component {
       });
 
       // graph sortedに沿って、heat mapを描画
-      window.fetch("graph_sorted.json")
+      window.fetch("trp3_graph_sorted.json")
         .then((response) => {
           return response.json();
         })
@@ -339,6 +339,12 @@ export default class GraphView extends React.Component {
       else ctx.lineTo(x, y);
     }
   };
+
+  sum(arr) {
+    return arr.reduce((prev, current) => {
+      return prev+current;
+    });
+  }
 
   render() {
     return (

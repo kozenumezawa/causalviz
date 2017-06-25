@@ -24,9 +24,12 @@ if __name__ == "__main__":
     import csv
     from sklearn.cluster import spectral_clustering
 
+    input_file_name = "trp3_corr.json"
+    output_file_name = "trp3_"
+
     data_step = 4
 
-    f = open("./data/trp3_corr.json", "r")
+    f = open("./data/" + input_file_name, "r")
     json_data = json.load(f)
 
     # corr_listは二次元配列であり、corr_list[全pixel][各ピクセルとのcorrelation]を表す。
@@ -49,7 +52,7 @@ if __name__ == "__main__":
             if len(corr_list[pixel]) == 0:
                 continue
 
-            if corr == -2 or corr < 0.8:
+            if corr == -2 or corr < 0.9:
                 graph_row.append(0)
             elif i == pixel:
                 graph_row.append(0)  # i == j のとき0
@@ -62,18 +65,18 @@ if __name__ == "__main__":
     n_clusters = 5
     labels = spectral_clustering(graph, n_clusters=n_clusters)
 
-    f = open('./data/graph.csv', 'w')
+    f = open('./data/' + output_file_name + 'graph.csv', 'w')
     writer = csv.writer(f)
     for row in graph:
         writer.writerows([row])
     f.close()
 
-    f = open('./data/data_pixel.csv', 'w')
+    f = open('./data/' + output_file_name + 'data_pixel.csv', 'w')
     writer = csv.writer(f)
     writer.writerows([data_pixel_list])
     f.close()
 
-    f = open('./data/labels.csv', 'w')
+    f = open('./data/' + output_file_name + 'labels.csv', 'w')
     writer = csv.writer(f)
     writer.writerows([["labels"]])
     for label in labels:
@@ -107,14 +110,14 @@ if __name__ == "__main__":
     graph_sorted = graph_sorted.transpose()
 
     # sort後のgraphを書き込み
-    f = open('./data/graph_sorted.csv', 'w')
+    f = open('./data/' + output_file_name + 'graph_sorted.csv', 'w')
     writer = csv.writer(f)
     for row in graph_sorted:
         writer.writerows([row])
     f.close()
 
     # jsonにも書き込み
-    f = open("./data/graph_sorted.json", "w")
+    f = open('./data/' + output_file_name + 'graph_sorted.json', "w")
     saveJSON = {
         "data": graph_sorted.tolist(),
         "n_cluster_list": n_cluster_list
@@ -122,13 +125,5 @@ if __name__ == "__main__":
     json.dump(saveJSON, f)
     f.close()
 
-    # d3.jsのために書き込み
-    f = open('./data/graph_sorted_d3.csv', 'w')
-    writer = csv.writer(f)
-    writer.writerows([["original_idx", "in", "out", "value"]])
-    for (i, row) in enumerate(graph_sorted):
-        for (j, value) in enumerate(row):
-            writer.writerows([[original_idx[i], i, j, value]])
-    f.close()
-
+    # draw_heatmap(graph, range(len(graph_sorted)), range(len(graph_sorted)))
     # draw_heatmap(graph_sorted, range(len(graph_sorted)), range(len(graph_sorted)))
