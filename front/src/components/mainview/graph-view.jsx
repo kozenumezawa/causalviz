@@ -9,7 +9,8 @@ export default class GraphView extends React.Component {
     super(props);
 
     this.state = {
-      corr_list: []
+      corr_list: [],
+      mean_step: 3
     };
     this.scale = 4;
   }
@@ -23,12 +24,14 @@ export default class GraphView extends React.Component {
     // tiff_listが更新されてから処理をする必要があるので、データの変更が起きたか調べるのはtiff_listを用いる
     if (this.state.corr_list.length === 0 || this.props.tiff_list.toString() !== nextProps.tiff_list.toString()) {
       const data_type = nextProps.parent_state.data_type;
-      let name;
-      if (data_type === generalConst.DATA_TRP_TYPE) {
-        name = 'trp3';
-      } else {
-        name = 'gaussian'
-      };
+      const name = this.getName(data_type);
+
+      this.setState({
+        mean_step: (data_type === generalConst.DATA_WILD_TYPE) ? 5 : 3
+      });
+
+      // this.drawData(nextProps, name);
+
       window.fetch(name + "_corr.json")
         .then((response) => {
           return response.json();
@@ -40,6 +43,15 @@ export default class GraphView extends React.Component {
           this.drawData(nextProps, name);
         });
     }
+  }
+
+  getName(data_type) {
+    if (data_type === generalConst.DATA_TRP_TYPE) {
+      return 'trp3';
+    } else if (data_type === generalConst.DATA_WILD_TYPE) {
+      return 'wild';
+    }
+    return 'gaussian';
   }
 
   drawData(props, name) {
@@ -94,13 +106,13 @@ export default class GraphView extends React.Component {
         // d3.select(this).style("fill", "orange");
         const x_idx = (selected_pixel[0] / this.scale + selected_pixel[1] / this.scale * canvas.width);
         const x = props.parent_state.all_time_series[x_idx];
-        if (x[0] === 0) {
+        if (this.sum(x) === 0) {
           return;
         }
 
         props.parent_state.all_time_series.forEach((y, y_idx) => {
-          if (y[0] !== 0 && this.isSamplingPoint(y_idx, canvas.width) && this.corr_list[x_idx].length !== 0) {
-            const corr = this.corr_list[x_idx][y_idx];
+          if (this.sum(y) !== 0 && this.isSamplingPoint(y_idx, canvas.width) && this.state.corr_list[x_idx].length !== 0) {
+            const corr = this.state.corr_list[x_idx][y_idx];
             if (corr > 0.9) {
               svg.append("line").data(pixel_list)
                 .style("stroke", "black")  // colour the line
@@ -136,9 +148,8 @@ export default class GraphView extends React.Component {
         const y = Math.floor(idx / canvas.width) * this.scale;
 
         if (this.sum(time_series) !== 0 && this.isSamplingPoint(idx, canvas.width)) {
-          const mean_step = 3;
           this.ctx.fillStyle = color[Number(csv[color_list_idx++].labels)];
-          this.ctx.fillRect(x - 1, y - 1, mean_step * this.scale, mean_step * this.scale);
+          this.ctx.fillRect(x - 1, y - 1, this.state.mean_step * this.scale, this.state.mean_step * this.scale);
         }
       });
 
@@ -290,10 +301,9 @@ export default class GraphView extends React.Component {
   }
 
   isSamplingPoint(idx, width) {
-    const mean_step = 3;
     const x = idx % width;
     const y = Math.floor(idx / width);
-    if (x % mean_step === 1 && y % mean_step === 0) {
+    if (x % this.state.mean_step === 1 && y % this.state.mean_step === 0) {
       return true;
     }
     return false;
