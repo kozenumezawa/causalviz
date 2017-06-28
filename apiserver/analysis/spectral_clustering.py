@@ -23,6 +23,7 @@ if __name__ == "__main__":
     # import matplotlib.pyplot as plt
     import csv
     from sklearn.cluster import spectral_clustering
+    from sklearn.cluster import SpectralClustering
 
     # input_file_name = "trp3_corr.json"
     # output_file_name = "trp3"
@@ -70,7 +71,9 @@ if __name__ == "__main__":
         data_pixel_list.append(i)
     graph = np.array(graph)
 
-    labels = spectral_clustering(graph, n_clusters=n_clusters)
+    # labels = spectral_clustering(graph, n_clusters=n_clusters, affinity='precomputed')
+    algorithm = SpectralClustering(n_clusters=n_clusters, affinity='precomputed')
+    labels = algorithm.fit_predict(graph)
 
     f = open('./data/' + output_file_name + '_graph.csv', 'w')
     writer = csv.writer(f)
