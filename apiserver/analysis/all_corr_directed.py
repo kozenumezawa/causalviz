@@ -7,14 +7,18 @@ import math
 # output_file_name = "trp3_corr.json"
 # width = 128
 
-input_file_name = "gaussian_wave.npy"
-output_file_name = "gaussian_corr.json"
-width = 128
+input_file_name = "wilddata_mean.npy"
+output_file_name = "wild_corr.json"
+width = 285
+
+# input_file_name = "gaussian_wave.npy"
+# output_file_name = "gaussian_corr.json"
+# width = 128
+
 
 mean_step = 3
 
 all_time_series = np.load("./data/" + input_file_name)
-
 
 corr_list = []
 

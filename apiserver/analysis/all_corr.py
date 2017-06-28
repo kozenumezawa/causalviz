@@ -3,10 +3,22 @@ import numpy as np
 import json
 import math
 
+# input_file_name = "trp3data_mean.npy"
+# output_file_name = "trp3_corr.json"
+# width = 128
+
+input_file_name = "wilddata_mean.npy"
+output_file_name = "wild_corr.json"
+width = 285
+
+# input_file_name = "gaussian_wave.npy"
+# output_file_name = "gaussian_corr.json"
+# width = 128
+
+
 mean_step = 3
 
-all_time_series = np.load('./data/trp3data_mean.npy')
-width = 128
+all_time_series = np.load("./data/" + input_file_name)
 
 corr_list = []
 
@@ -31,6 +43,6 @@ for (i, x) in enumerate(all_time_series):
 saveJSON = {
     "data": corr_list
 }
-f = open("./data/trp3_corr.json", "w")
+f = open("./data/" + output_file_name, "w")
 json.dump(saveJSON, f)
 f.close()

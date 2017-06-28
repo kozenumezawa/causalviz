@@ -20,15 +20,20 @@ def draw_heatmap(data, row_labels, column_labels):
 if __name__ == "__main__":
     import numpy as np
     import json
-    import matplotlib.pyplot as plt
+    # import matplotlib.pyplot as plt
     import csv
     from sklearn.cluster import spectral_clustering
 
     # input_file_name = "trp3_corr.json"
     # output_file_name = "trp3"
 
-    input_file_name = "gaussian_corr.json"
-    output_file_name = "gaussian"
+    input_file_name = "wild_corr.json"
+    output_file_name = "wild"
+
+    # input_file_name = "gaussian_corr.json"
+    # output_file_name = "gaussian"
+
+    n_clusters = 5
 
     data_step = 4
 
@@ -65,7 +70,6 @@ if __name__ == "__main__":
         data_pixel_list.append(i)
     graph = np.array(graph)
 
-    n_clusters = 5
     labels = spectral_clustering(graph, n_clusters=n_clusters)
 
     f = open('./data/' + output_file_name + '_graph.csv', 'w')
