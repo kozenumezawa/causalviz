@@ -25,11 +25,13 @@ if __name__ == "__main__":
     from sklearn.cluster import spectral_clustering
     from sklearn.cluster import SpectralClustering
 
-    # input_file_name = "trp3_corr.json"
-    # output_file_name = "trp3"
+    input_file_name = "trp3_corr.json"
+    output_file_name = "trp3"
+    # input_file_name = "trp3_corr_directed.json"
+    # output_file_name = "trp3_directed"
 
-    input_file_name = "wild_corr.json"
-    output_file_name = "wild"
+    # input_file_name = "wild_corr.json"
+    # output_file_name = "wild"
 
     # input_file_name = "gaussian_corr.json"
     # output_file_name = "gaussian"

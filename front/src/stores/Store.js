@@ -456,7 +456,7 @@ class Store extends EventEmitter {
         legend_name = '2E2_GFB.tif';
         break;
       case generalConst.DATA_GAUSSIAN_WAVE:
-        tiff_name = 'TavellingGaussianWaves.tif';
+        tiff_name = 'TavellingGaussianWaves_sub.tif';
         legend_name = '';
         break;
       default:
@@ -821,7 +821,7 @@ class Store extends EventEmitter {
       },
       body: JSON.stringify({
         data: all_time_series,
-        file_name: 'gaussian_wave.npy'
+        file_name: 'gaussian_wave_sub.npy'
       })
     })
   }
