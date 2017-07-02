@@ -18,12 +18,12 @@ def create_ar_modex(data):
         for i in range(2, min_aic_lag + 2):
             value += data_fit.params[i - 1] * data[t - i + 1]
         fit.append(value)
-    return fit
+    return [fit, data_fit.resid]
 
 if __name__ == "__main__":
     import numpy as np
     import matplotlib.pyplot as plt
-
+    from scikits.statsmodels.tsa import stattools
     from scikits.statsmodels.tsa import ar_model
 
     mean_step = 3
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     x = all_time_series[3000]
     y = all_time_series[8000]
 
-    x_fit = create_ar_modex(x)
+    x_fit, res = create_ar_modex(x)
 
     fig = plt.figure()
     ax = fig.add_subplot(1,1,1)
@@ -56,13 +56,17 @@ if __name__ == "__main__":
     ax.plot(x_fit)
     plt.legend(labels=['X', 'AR model'])
     plt.show()
+    plt.bar(range(len(res)), res)
+    plt.show()
+    acf = stattools.acf(res, nlags=100)
+    plt.bar(range(len(acf)), acf)
 
-
-    y_fit = create_ar_modex(y)
+    y_fit, res = create_ar_modex(y)
     fig = plt.figure()
     ax = fig.add_subplot(1,1,1)
     ax.plot(y)
     ax.plot(y_fit)
     plt.legend(labels=['Y', 'AR model'])
     plt.show()
-
+    plt.bar(range(len(res)), res)
+    plt.show()
