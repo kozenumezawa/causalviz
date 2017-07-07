@@ -13,13 +13,13 @@ def create_ar_modex(data):
     data_fit = model.fit(min_aic_lag)
     # print data_fit.params
 
-    fit = [80] * min_aic_lag
+    fit = [0] * min_aic_lag
     for t in range(min_aic_lag, len(data)):
         value = data_fit.params[0]
         for i in range(2, min_aic_lag + 2):
             value += data_fit.params[i - 1] * data[t - i + 1]
         fit.append(value)
-    return [fit, data_fit.resid]
+    return [fit, data_fit.resid, min_aic_lag]
 
 #
 def normalization(x):
@@ -80,27 +80,36 @@ if __name__ == "__main__":
     plt.legend(labels=['X', 'Y'])
     plt.show()
 
-    # visualize original data
-    fig = plt.figure()
-    ax = fig.add_subplot(1,1,1)
-    ax.plot(x_diff_1)
-    ax.plot(y_diff_1)
-    plt.legend(labels=['X_diff_1', 'Y_diff_1'])
-    plt.show()
-    # print adfuller(x_diff_1, regression="c")   The Augmented Dickey-Fuller test
-
-    # x_fit, res = create_ar_modex(x)
-
+    # visualize difference data
     # fig = plt.figure()
     # ax = fig.add_subplot(1,1,1)
-    # ax.plot(x)
-    # ax.plot(x_fit)
-    # plt.legend(labels=['X', 'AR model'])
+    # ax.plot(x_diff_1)
+    # ax.plot(y_diff_1)
+    # plt.legend(labels=['X_diff_1', 'Y_diff_1'])
     # plt.show()
-    # plt.bar(range(len(res)), res)
+    # print adfuller(x_diff_1, regression="c")   #The Augmented Dickey-Fuller test
+
+    x_fit, res, lag = create_ar_modex(x)
+
+    fig = plt.figure()
+    ax = fig.add_subplot(1,1,1)
+    ax.plot(x[lag:])
+    ax.plot(x_fit[lag:])
+    plt.legend(labels=['X', 'AR model'])
+    plt.show()
+    plt.bar(range(len(res)), res)
+    plt.show()
+
+    # check auto correlation
+    acf = stattools.acf(res, nlags=100)
+    plt.bar(range(len(acf)), acf)
+    plt.show()
+
+    # lbs = stattools.q_stat(acf, len(res[lag:]))
+    # plt.bar(range(len(lbs[1])), lbs[1])
     # plt.show()
-    # acf = stattools.acf(res, nlags=100)
-    # plt.bar(range(len(acf)), acf)
+    # print adfuller(res, regression="c")   # The Augmented Dickey-Fuller test
+
 
     # y_fit, res = create_ar_modex(y)
     # fig = plt.figure()
