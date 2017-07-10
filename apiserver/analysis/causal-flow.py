@@ -7,11 +7,17 @@ from CausalCalculator import CausalCalculator
 def calcCausalFlow(granger_list):
     flow_x = 0
     flow_y = 0
+    intensity = 0
 
     for i in [-1, 0, 1]:
         flow_x += -1 * granger_list[-1 + 1][i + 1] + granger_list[1 + 1][i + 1]
         flow_y += -1 * granger_list[i + 1][-1 + 1] + granger_list[i + 1][1 + 1]
-    return [flow_x, flow_y]
+
+    for i in [-1, 0, 1]:
+        for j in [-1, 0, 1]:
+            intensity += granger_list[i + 1][j + 1]
+    intensity *= math.sqrt(flow_x * flow_x + flow_y * flow_y)
+    return [flow_x, flow_y, intensity]
 
 if __name__ == "__main__":
     mean_step = 3
