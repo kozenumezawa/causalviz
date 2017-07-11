@@ -8,6 +8,7 @@ def normalization(x):
     return x
 
 if __name__ == "__main__":
+    from mpl_toolkits.mplot3d import Axes3D
     import numpy as np
     import matplotlib.pyplot as plt
     from CausalCalculator import CausalCalculator
@@ -34,18 +35,14 @@ if __name__ == "__main__":
     x = all_time_series[7000]
     y = all_time_series[6990]
 
+    # x = all_time_series[3500]
+    # y = all_time_series[3510]
+
     # x = normalization(x)
     # y = normalization(y)
 
     calc_xy = CausalCalculator(X=x[:, np.newaxis], Y_cause=y[:, np.newaxis])
     calc_yx = CausalCalculator(X=y[:, np.newaxis], Y_cause=x[:, np.newaxis])
-
-    k, m = 1, 5
-    Gy_to_x = calc_xy.calcGrangerCausality(k=k, m=m)
-    Gx_to_y = calc_yx.calcGrangerCausality(k=k, m=m)
-
-    print "Granger Causality Y -> X :", Gy_to_x
-    print "Granger Causality X -> Y :", Gx_to_y
 
     # visualize original data
     fig = plt.figure()
@@ -53,4 +50,36 @@ if __name__ == "__main__":
     ax.plot(x)
     ax.plot(y)
     plt.legend(labels=['X', 'Y'])
+    # plt.show()
+
+    k = [2 * i + 1 for i in range(10)]
+    m = [2 * i + 1 for i in range(10)]
+
+    # for i in range(k):
+
+    # x = np.arange(-3, 3, 0.25)
+    # y = np.arange(-3, 3, 0.25)
+    K, M = np.meshgrid(k, m)
+
+    Gyx_list = []
+    Gxy_list = []
+    for idx, i in enumerate(k):
+        Gyx_list.append([])
+        Gxy_list.append([])
+        for j in m:
+            Gyx_list[idx].append(calc_xy.calcGrangerCausality(k=i, m=j))
+            Gxy_list[idx].append(calc_yx.calcGrangerCausality(k=i, m=j))
+
+
+    fig = plt.figure()
+    ax = Axes3D(fig)
+    ax.plot_wireframe(K, M, Gyx_list, color="orange")
+    ax.plot_wireframe(K, M, Gxy_list)
+    ax.set_xlabel('k')
+    ax.set_ylabel('m')
+    ax.set_zlabel('G(y->x)')
+    ax.legend(labels=['G(y->x)', 'G(x->y)'])
     plt.show()
+
+    # print "Granger Causality Y -> X :", Gyx_list[0]
+    # print "Granger Causality X -> Y :", Gxy_list[0]
