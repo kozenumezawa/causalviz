@@ -133,176 +133,178 @@ export default class GraphView extends React.Component {
         });
       });
      */
-    // draw data
-    let color = d3.schemeCategory10;
+    
+    // draw heatmap and canvas according to the graph
+    window.fetch(name + '_graph_sorted.json')
+      .then((response) => {
+        return response.json();
+      })
+      .then((json) => {
+        const graph_sorted = json.data;
+        const n_cluster_list = json.n_cluster_list;
+        const ordering = json.ordering;
+        const not_isolated_list = json.not_isolated_list;
 
-    d3.csv(name + '_labels.csv', (csv) => {
-      // draw a base image
-      this.canvas.width = canvas.width * this.scale;
-      this.canvas.height = canvas.height * this.scale;
-      this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.canvas.width, this.canvas.height);
+        const color = drawingTool.getColorCategory(n_cluster_list.length);
 
-      let color_list_idx = 0;
-      props.parent_state.all_time_series.forEach((time_series, idx) => {
-        const x = idx % canvas.width * this.scale;
-        const y = Math.floor(idx / canvas.width) * this.scale;
+        // draw a canvas
+        this.canvas.width = canvas.width * this.scale;
+        this.canvas.height = canvas.height * this.scale;
+        this.ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, this.canvas.width, this.canvas.height);
 
-        if (this.sum(time_series) !== 0 && this.isSamplingPoint(idx, canvas.width)) {
-          this.ctx.fillStyle = color[Number(csv[color_list_idx++].labels)];
-          this.ctx.fillRect(x - 1, y - 1, this.state.mean_step * this.scale, this.state.mean_step * this.scale);
-        }
-      });
+        const heatmap_canvas = document.getElementById("heatmap_canvas");
+        const heatmap_ctx = heatmap_canvas.getContext('2d');
 
-      // draw heatmap and canvas according to the graph
-      window.fetch(name + '_graph_sorted.json')
-        .then((response) => {
-          return response.json();
-        })
-        .then((json) => {
-          const graph_sorted = json.data;
-          const n_cluster_list = json.n_cluster_list;
-          const ordering = json.ordering;
-          const not_isolated_list = json.not_isolated_list;
-          
-          color = drawingTool.getColorCategory(n_cluster_list.length);
+        const cell_size = 1;
+        const legend_width = 15;
+        heatmap_canvas.width = graph_sorted.length * cell_size + legend_width;
+        heatmap_canvas.height = graph_sorted.length * cell_size + legend_width;
 
-          const heatmap_canvas = document.getElementById("heatmap_canvas");
-          const heatmap_ctx = heatmap_canvas.getContext('2d');
+        // Save the index of sampling points
+        const sampling_idx_list = [];
+        props.parent_state.all_time_series.forEach((time_series, idx) => {
+          if (this.sum(time_series) !== 0 && this.isSamplingPoint(idx, canvas.width)) {
+            sampling_idx_list.push(idx);
+          }
+        });
 
-          const cell_size = 1;
-          const legend_width = 15;
-          heatmap_canvas.width = graph_sorted.length * cell_size + legend_width;
-          heatmap_canvas.height = graph_sorted.length * cell_size + legend_width;
+        // 各クラスターのstartとstopのindexを保存
+        let cluster_range_list = [];
+        n_cluster_list.reduce((prev, current, idx) => {
+          const end_pixel = prev + current;
+          cluster_range_list.push({
+            start: prev,
+            end: end_pixel
+          });
+          return end_pixel;
+        }, 0);
 
-          // 各クラスターのstartとstopのindexを保存
-          let cluster_range_list = [];
-          n_cluster_list.reduce((prev, current, idx) => {
-            const end_pixel = prev + current;
-            cluster_range_list.push({
-              start: prev,
-              end: end_pixel
-            });
-            return end_pixel;
-          }, 0);
+        // fill color
+        let cluster_idx = 0;
+        graph_sorted.forEach((row, row_idx) => {
+          if (row_idx >= cluster_range_list[cluster_idx].end) {
+            cluster_idx++;
+          }
 
-          // fill color
-          let cluster_idx = 0;
-          graph_sorted.forEach((row, row_idx) => {
-            if (row_idx >= cluster_range_list[cluster_idx].end) {
-              cluster_idx++;
+          // draw row color to the heatmap
+          heatmap_ctx.fillStyle = color[cluster_idx];
+          row.forEach((cell, cell_idx) => {
+            if (cell === true) {
+              heatmap_ctx.fillRect(cell_idx * cell_size + legend_width, row_idx * cell_size + legend_width, cell_size, cell_size);
             }
-            heatmap_ctx.fillStyle = color[cluster_idx];
-            row.forEach((cell, cell_idx) => {
-              if (cell === true) {
-                heatmap_ctx.fillRect(cell_idx * cell_size + legend_width, row_idx * cell_size + legend_width, cell_size, cell_size);
-              }
-            });
           });
 
-          // draw line and legend to the heat map
-          drawingTool.drawFrame(heatmap_canvas, heatmap_ctx);
-          heatmap_ctx.line_color = "black";
-          heatmap_ctx.lineWidth = 1;
-          heatmap_ctx.beginPath();
-          let heatmap_ctx_x = legend_width - 1;
-          n_cluster_list.forEach((n_cluster, idx) => {
-            // draw legend
-            heatmap_ctx.fillStyle = color[idx];
-            heatmap_ctx.fillRect(heatmap_ctx_x, 0, n_cluster * cell_size, legend_width);
-            heatmap_ctx.fillRect(0, heatmap_ctx_x, legend_width, n_cluster * cell_size);
+          // draw the canvas according to the cluster
+          this.ctx.fillStyle = color[cluster_idx];
+          const original_idx = not_isolated_list[ordering.indexOf(row_idx)];  // ordering.indexOf(row_idx) = the index before clustering. this value is needed to be transformed to the original index because the isolated rows are deleted from the original data.
+          const idx = sampling_idx_list[original_idx];
+          const x = idx % canvas.width * this.scale;
+          const y = Math.floor(idx / canvas.width) * this.scale;
+          this.ctx.fillRect(x - 1, y - 1, this.state.mean_step * this.scale, this.state.mean_step * this.scale);
+        });
 
-            // draw line
-            heatmap_ctx_x += n_cluster * cell_size;
-            heatmap_ctx.moveTo(heatmap_ctx_x, legend_width);
-            heatmap_ctx.lineTo(heatmap_ctx_x, heatmap_canvas.height );
+        // draw line and legend to the heat map
+        drawingTool.drawFrame(heatmap_canvas, heatmap_ctx);
+        heatmap_ctx.line_color = "black";
+        heatmap_ctx.lineWidth = 1;
+        heatmap_ctx.beginPath();
+        let heatmap_ctx_x = legend_width - 1;
+        n_cluster_list.forEach((n_cluster, idx) => {
+          // draw legend
+          heatmap_ctx.fillStyle = color[idx];
+          heatmap_ctx.fillRect(heatmap_ctx_x, 0, n_cluster * cell_size, legend_width);
+          heatmap_ctx.fillRect(0, heatmap_ctx_x, legend_width, n_cluster * cell_size);
 
-            heatmap_ctx.moveTo(legend_width, heatmap_ctx_x);
-            heatmap_ctx.lineTo(heatmap_canvas.width, heatmap_ctx_x);
-          });
-          heatmap_ctx.closePath();
-          heatmap_ctx.stroke();
+          // draw line
+          heatmap_ctx_x += n_cluster * cell_size;
+          heatmap_ctx.moveTo(heatmap_ctx_x, legend_width);
+          heatmap_ctx.lineTo(heatmap_ctx_x, heatmap_canvas.height );
+
+          heatmap_ctx.moveTo(legend_width, heatmap_ctx_x);
+          heatmap_ctx.lineTo(heatmap_canvas.width, heatmap_ctx_x);
+        });
+        heatmap_ctx.closePath();
+        heatmap_ctx.stroke();
 
 
-          const arrow_canvas = document.getElementById("arrow_canvas");
-          const arrow_ctx = arrow_canvas.getContext('2d');
-          arrow_canvas.width = 400;
-          arrow_canvas.height = 400;
+        const arrow_canvas = document.getElementById("arrow_canvas");
+        const arrow_ctx = arrow_canvas.getContext('2d');
+        arrow_canvas.width = 400;
+        arrow_canvas.height = 400;
 
-          // 極座標を用いて円形に配置
-          const center = arrow_canvas.width / 2;
-          const center_r = arrow_canvas.width / 4;
-          const circle_interval = 2 * Math.PI / n_cluster_list.length;
-          const circle_r = arrow_canvas.width / 16;
+        // 極座標を用いて円形に配置
+        const center = arrow_canvas.width / 2;
+        const center_r = arrow_canvas.width / 4;
+        const circle_interval = 2 * Math.PI / n_cluster_list.length;
+        const circle_r = arrow_canvas.width / 16;
 
-          let circle_coord_list = [];
-          n_cluster_list.forEach((n_cluster, idx) => {
-            const x = center + center_r * Math.cos(idx * circle_interval);
-            const y = center + center_r * Math.sin(idx * circle_interval);
-            circle_coord_list.push({
-                x: x,
-                y: y
-              });
-
-            arrow_ctx.beginPath();
-            arrow_ctx.arc(x, y, circle_r, 0, Math.PI * 2);
-            arrow_ctx.stroke();
-            arrow_ctx.closePath();
-            arrow_ctx.fillStyle = color[idx];
-            arrow_ctx.fill();
-          });
-
-          // 因果関係を表すcausal matrixを生成
-          let causal_matrix = [];
-          n_cluster_list.forEach((n_cluster, row_cluster_idx) => {
-            causal_matrix.push([]);
-            const row_range = cluster_range_list[row_cluster_idx];
-
-            cluster_range_list.forEach((range, col_cluster_idx) => {
-              if (row_cluster_idx === col_cluster_idx) {
-                causal_matrix[row_cluster_idx][col_cluster_idx] = 0;
-                return;
-              }
-              const col_range = range;
-              let causal_cnt = 0;
-              for (let row_idx = row_range.start; row_idx < row_range.end; row_idx++) {
-                for (let col_idx = col_range.start; col_idx < col_range.end; col_idx++) {
-                  causal_cnt += Math.ceil(graph_sorted[row_idx][col_idx]);
-                }
-              }
-
-              const area = n_cluster * n_cluster_list[col_cluster_idx];
-              if (causal_cnt > area / 2.5) {
-                causal_matrix[row_cluster_idx][col_cluster_idx] = 1;
-              } else {
-                causal_matrix[row_cluster_idx][col_cluster_idx] = 0;
-              }
-            });
+        let circle_coord_list = [];
+        n_cluster_list.forEach((n_cluster, idx) => {
+          const x = center + center_r * Math.cos(idx * circle_interval);
+          const y = center + center_r * Math.sin(idx * circle_interval);
+          circle_coord_list.push({
+            x: x,
+            y: y
           });
 
-          // draw arrows
-          arrow_ctx.fillStyle = 'black';
           arrow_ctx.beginPath();
-          causal_matrix.forEach((row, row_idx) => {
-            row.forEach((causal_flag, col_idx) => {
-              if (causal_flag === 1) {
-                const origin = circle_coord_list[row_idx];
-                const end = circle_coord_list[col_idx];
-
-                // 矢印が円の外側に来るように補正
-                const distance = Math.sqrt(Math.pow(end.y - origin.y, 2) * Math.pow(end.x - origin.x, 2));
-                const theta = Math.acos((end.x - origin.x) / distance);
-                const end_x = end.x - circle_r * Math.cos(theta);
-                const end_y = (end.y > origin.y) ? end.y - circle_r * Math.sin(theta) : end.y + circle_r * Math.sin(theta);
-
-                this.arrow(arrow_ctx, origin.x, origin.y, end_x, end_y, [0, 2, -20, 2, -20, 8]);
-              }
-            });
-
-          });
+          arrow_ctx.arc(x, y, circle_r, 0, Math.PI * 2);
+          arrow_ctx.stroke();
+          arrow_ctx.closePath();
+          arrow_ctx.fillStyle = color[idx];
           arrow_ctx.fill();
         });
-    });
-    
+
+        // 因果関係を表すcausal matrixを生成
+        let causal_matrix = [];
+        n_cluster_list.forEach((n_cluster, row_cluster_idx) => {
+          causal_matrix.push([]);
+          const row_range = cluster_range_list[row_cluster_idx];
+
+          cluster_range_list.forEach((range, col_cluster_idx) => {
+            if (row_cluster_idx === col_cluster_idx) {
+              causal_matrix[row_cluster_idx][col_cluster_idx] = 0;
+              return;
+            }
+            const col_range = range;
+            let causal_cnt = 0;
+            for (let row_idx = row_range.start; row_idx < row_range.end; row_idx++) {
+              for (let col_idx = col_range.start; col_idx < col_range.end; col_idx++) {
+                causal_cnt += Math.ceil(graph_sorted[row_idx][col_idx]);
+              }
+            }
+
+            const area = n_cluster * n_cluster_list[col_cluster_idx];
+            if (causal_cnt > area / 2.5) {
+              causal_matrix[row_cluster_idx][col_cluster_idx] = 1;
+            } else {
+              causal_matrix[row_cluster_idx][col_cluster_idx] = 0;
+            }
+          });
+        });
+
+        // draw arrows
+        arrow_ctx.fillStyle = 'black';
+        arrow_ctx.beginPath();
+        causal_matrix.forEach((row, row_idx) => {
+          row.forEach((causal_flag, col_idx) => {
+            if (causal_flag === 1) {
+              const origin = circle_coord_list[row_idx];
+              const end = circle_coord_list[col_idx];
+
+              // 矢印が円の外側に来るように補正
+              const distance = Math.sqrt(Math.pow(end.y - origin.y, 2) * Math.pow(end.x - origin.x, 2));
+              const theta = Math.acos((end.x - origin.x) / distance);
+              const end_x = end.x - circle_r * Math.cos(theta);
+              const end_y = (end.y > origin.y) ? end.y - circle_r * Math.sin(theta) : end.y + circle_r * Math.sin(theta);
+
+              this.arrow(arrow_ctx, origin.x, origin.y, end_x, end_y, [0, 2, -20, 2, -20, 8]);
+            }
+          });
+
+        });
+        arrow_ctx.fill();
+      });
     window.fetch(name + "_flow.json")
       .then((response) => {
         return response.json();
