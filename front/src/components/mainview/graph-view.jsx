@@ -298,6 +298,63 @@ export default class GraphView extends React.Component {
           arrow_ctx.fill();
         });
     });
+    
+    window.fetch(name + "_flow.json")
+      .then((response) => {
+        return response.json();
+      })
+      .then((json) => {
+        const flow_canvas = document.getElementById("flow_canvas");
+        const flow_ctx = flow_canvas.getContext('2d');
+        flow_canvas.width = canvas.width * this.scale;
+        flow_canvas.height = canvas.height * this.scale;
+        flow_ctx.drawImage(props.tiff_list[10], 0, 0, canvas.width, canvas.height, 0, 0, flow_canvas.width, flow_canvas.height);
+
+        const all_time_series= props.parent_state.all_time_series;
+        json.data.forEach((vector, idx) => {
+          const time_series = all_time_series[idx];
+          if (this.sum(time_series) !== 0 && this.isSamplingPoint(idx, canvas.width)) {
+            const x = idx % canvas.width * this.scale;
+            const y = Math.floor(idx / canvas.width) * this.scale;
+
+            let intensity = vector[2];
+            if (intensity < 1) {
+              return;
+            }
+            if (intensity > 3) {
+              intensity = 3;
+            }
+            const v_x = vector[0] * intensity;
+            const v_y = vector[1] * intensity;
+
+            if (v_x > 0 && v_y > 0) {
+              flow_ctx.strokeStyle = 'red';
+              flow_ctx.fillStyle = "red";
+            } else if (v_x > 0 && v_y <= 0) {
+                flow_ctx.strokeStyle = 'green';
+                flow_ctx.fillStyle = "green";
+            } else if (v_x <= 0 && v_y <= 0) {
+              flow_ctx.strokeStyle = 'blue';
+              flow_ctx.fillStyle = "blue";
+            } else {
+              flow_ctx.strokeStyle = 'yellow';
+              flow_ctx.fillStyle = "yellow";
+            }
+
+            flow_ctx.beginPath();
+            // flow_ctx.moveTo(x, y);
+            // flow_ctx.lineTo(x + v_x, y + v_y);
+            // flow_ctx.stroke();
+
+            this.arrow(flow_ctx, x, y, x + v_x, y + v_y, [0, 1, -6, 1, -6, 3]);
+          }
+          flow_ctx.fill();
+        });
+        // const cell_size = 1;
+        // const legend_width = 15;
+        // heatmap_canvas.width = graph_sorted.length * cell_size + legend_width;
+        // heatmap_canvas.height = graph_sorted.length * cell_size + legend_width;
+      });
   }
 
   isSamplingPoint(idx, width) {
@@ -357,6 +414,7 @@ export default class GraphView extends React.Component {
         tiff_index={this.props.parent_state.tiff_index}
         tiff_list={this.props.tiff_list}
       />
+      <div><canvas id="flow_canvas"></canvas></div>
       <div id="graphsvg"></div>
       <canvas id="cluster_canvas"></canvas>
       <canvas id="heatmap_canvas"></canvas>
