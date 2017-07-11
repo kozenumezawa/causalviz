@@ -134,8 +134,8 @@ export default class GraphView extends React.Component {
       });
      */
     // draw data
-    const color = d3.schemeCategory10;
-    // const color = drawingTool.getColorCategory(10);
+    let color = d3.schemeCategory10;
+
     d3.csv(name + '_labels.csv', (csv) => {
       // draw a base image
       this.canvas.width = canvas.width * this.scale;
@@ -153,7 +153,7 @@ export default class GraphView extends React.Component {
         }
       });
 
-      // graph sortedに沿って、heat mapを描画
+      // draw heatmap and canvas according to the graph
       window.fetch(name + '_graph_sorted.json')
         .then((response) => {
           return response.json();
@@ -161,6 +161,10 @@ export default class GraphView extends React.Component {
         .then((json) => {
           const graph_sorted = json.data;
           const n_cluster_list = json.n_cluster_list;
+          const ordering = json.ordering;
+          const not_isolated_list = json.not_isolated_list;
+          
+          color = drawingTool.getColorCategory(n_cluster_list.length);
 
           const heatmap_canvas = document.getElementById("heatmap_canvas");
           const heatmap_ctx = heatmap_canvas.getContext('2d');
@@ -189,7 +193,7 @@ export default class GraphView extends React.Component {
             }
             heatmap_ctx.fillStyle = color[cluster_idx];
             row.forEach((cell, cell_idx) => {
-              if (cell !== 0) {
+              if (cell === true) {
                 heatmap_ctx.fillRect(cell_idx * cell_size + legend_width, row_idx * cell_size + legend_width, cell_size, cell_size);
               }
             });
