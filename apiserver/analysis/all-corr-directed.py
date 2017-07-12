@@ -16,7 +16,7 @@ if __name__ == "__main__":
     # width = 285
     # mean_step = 5
 
-    input_file_name = "gaussian_wave.npy"
+    input_file_name = "gaussian_wave_sub.npy"
     output_file_name = "gaussian_corr.json"
     width = 128
 
