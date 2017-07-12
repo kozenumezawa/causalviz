@@ -8,7 +8,7 @@ if __name__ == "__main__":
     mean_step = 3
 
     # input_file_name = "trp3data_mean.npy"
-    # output_file_name = "trp3_corr_directed.json"
+    # output_file_name = "trp3_corr.json"
     # width = 128
 
     # input_file_name = "wilddata_mean.npy"

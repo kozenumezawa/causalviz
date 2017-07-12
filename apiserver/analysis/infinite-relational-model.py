@@ -1,3 +1,18 @@
+def getFileName(file_type, algorithm):
+    input_file_name = ""
+    output_file_name = ""
+
+    if file_type == "wild":
+        input_file_name = "wild_" + algorithm + ".json"
+        output_file_name = "wild"
+    elif file_type == "trp3":
+        input_file_name = "trp3_" + algorithm + ".json"
+        output_file_name = "trp3"
+    elif file_type == "gaussian":
+        input_file_name = "gaussian_" + algorithm + ".json"
+        output_file_name = "gaussian"
+    return (input_file_name, output_file_name)
+
 if __name__ == "__main__":
     import numpy as np
     import json
@@ -5,6 +20,7 @@ if __name__ == "__main__":
     import csv
     import seaborn as sns
     import matplotlib.pylab as plt
+    import sys
 
     import matplotlib.patches as patches
     import time
@@ -18,16 +34,17 @@ if __name__ == "__main__":
     from microscopes.kernels import parallel
     from microscopes.common.query import groups, zmatrix_heuristic_block_ordering, zmatrix_reorder
 
-    # input_file_name = "trp3_granger.json"
-    # output_file_name = "trp3"
+    if len(sys.argv) <= 3:
+        print "input data type, algorithm, threshold"
+        print "data type Ex: 'wild', 'trp3', 'gaussian'"
+        print "algorithm Ex: 'granger', 'corr'"
+        print "threshold Ex: 0.5, 2"
+        sys.exit()
+    file_type = sys.argv[1]
+    algorithm = sys.argv[2]
+    threshold = float(sys.argv[3])
 
-    # input_file_name = "wild_granger.json"
-    # output_file_name = "wild"
-
-    input_file_name = "gaussian_granger.json"
-    output_file_name = "gaussian"
-
-    n_clusters = 5
+    input_file_name, output_file_name = getFileName(file_type=file_type, algorithm=algorithm)
 
     data_step = 4
 
@@ -48,7 +65,7 @@ if __name__ == "__main__":
             if len(granger_list[pixel]) == 0:
                 continue
 
-            if granger < 3:
+            if granger < threshold:
                 graph_row.append(False)
             elif i == pixel:
                 graph_row.append(False)  # if i == j
@@ -69,13 +86,14 @@ if __name__ == "__main__":
     graph = graph[:,not_isolated_list]
 
     N = len(graph)
+    print "graph size = ", N
 
     labels = [i if i % 200 == 0 else '' for i in xrange(N)]
-    sns.heatmap(graph, linewidths=0, cbar=False, xticklabels=labels, yticklabels=labels)
-    plt.xlabel('index')
-    plt.ylabel('index')
-    plt.title('Granger Martix')
-    plt.show()
+    # sns.heatmap(graph, linewidths=0, cbar=False, xticklabels=labels, yticklabels=labels)
+    # plt.xlabel('index')
+    # plt.ylabel('index')
+    # plt.title('Granger Martix')
+    # plt.show()
 
     # conduct Infinite Relational Model
     defn = model_definition([N], [((0, 0), beta_bernoulli)])
@@ -103,8 +121,8 @@ if __name__ == "__main__":
     sizes = map(len, clusters)
     boundaries = np.cumsum(sizes)[:-1]
 
-    plt.imshow(z, cmap=plt.cm.binary, interpolation='nearest')
-    plt.show()
+    # plt.imshow(z, cmap=plt.cm.binary, interpolation='nearest')
+    # plt.show()
 
     # write graph
     f = open('./data/' + output_file_name + '_graph_sorted.json', "w")
@@ -112,7 +130,8 @@ if __name__ == "__main__":
         "data": z.tolist(),
         "n_cluster_list": [len(cluster) for cluster in clusters],
         "ordering": ordering,
-        "not_isolated_list": not_isolated_list
+        "not_isolated_list": not_isolated_list,
+        "threshold": threshold
     }
     json.dump(saveJSON, f)
     f.close()
