@@ -1,4 +1,4 @@
-# calculate correlation
+# calculate granger causality from each point to every point
 import numpy as np
 import json
 import math
@@ -31,6 +31,7 @@ if __name__ == "__main__":
         if (sum(x) == 0 or (i % width) % mean_step != 1 or math.floor(i / width) % mean_step != 0):
             granger_list.append([])
             continue
+
         granger_list.append([0 for _ in range(len(all_time_series))])
         for (j, y) in enumerate(all_time_series):
             if (sum(y) == 0 or (j % width) % mean_step != 1 or math.floor(j / width) % mean_step != 0):
