@@ -9,7 +9,6 @@ export default class GraphView extends React.Component {
     super(props);
 
     this.state = {
-      corr_list: [],
       mean_step: 3
     };
     this.scale = 4;
@@ -22,7 +21,7 @@ export default class GraphView extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     // tiff_listが更新されてから処理をする必要があるので、データの変更が起きたか調べるのはtiff_listを用いる
-    if (this.state.corr_list.length === 0 || this.props.tiff_list.toString() !== nextProps.tiff_list.toString()) {
+    if (this.props.tiff_list.toString() !== nextProps.tiff_list.toString()) {
       const data_type = nextProps.parent_state.data_type;
       const name = this.getName(data_type);
 
@@ -30,7 +29,6 @@ export default class GraphView extends React.Component {
         mean_step: (data_type === generalConst.DATA_WILD_TYPE) ? 5 : 3
       });
 
-      // this.drawData(nextProps, name);
       this.drawData(nextProps, name);
     }
   }
@@ -86,9 +84,18 @@ export default class GraphView extends React.Component {
 
         // Save the index of sampling points
         const sampling_idx_list = [];
+        const coord_sampling_points = [];
+        let not_isolated_list_idx = 0;
+        let sampling_point_idx = 0;
         props.parent_state.all_time_series.forEach((time_series, idx) => {
           if (this.sum(time_series) !== 0 && this.isSamplingPoint(idx, canvas.width)) {
-            sampling_idx_list.push(idx);
+            if (sampling_point_idx++ === not_isolated_list[not_isolated_list_idx]) {
+              sampling_idx_list.push(idx);
+              const x = idx % canvas.width * this.scale;
+              const y = Math.floor(idx / canvas.width) * this.scale;
+              coord_sampling_points.push([x, y]);
+              not_isolated_list_idx++;
+            }
           }
         });
 
@@ -103,7 +110,7 @@ export default class GraphView extends React.Component {
           return end_pixel;
         }, 0);
 
-        // fill color
+        // draw heatmap and fill canvas
         let cluster_idx = 0;
         graph_sorted.forEach((row, row_idx) => {
           if (row_idx >= cluster_range_list[cluster_idx].end) {
@@ -120,13 +127,14 @@ export default class GraphView extends React.Component {
 
           // draw the canvas according to the cluster
           this.ctx.fillStyle = color[cluster_idx];
-          const original_idx = not_isolated_list[ordering.indexOf(row_idx)];  // ordering.indexOf(row_idx) = the index before clustering. this value is needed to be transformed to the original index because the isolated rows are deleted from the original data.
-          const idx = sampling_idx_list[original_idx];
-          const x = idx % canvas.width * this.scale;
-          const y = Math.floor(idx / canvas.width) * this.scale;
+          const sampling_idx = ordering.indexOf(row_idx);   // ordering.indexOf(row_idx) = the index before clustering.
+          const x = coord_sampling_points[sampling_idx][0];
+          const y = coord_sampling_points[sampling_idx][1];
           this.ctx.fillRect(x - 1, y - 1, this.state.mean_step * this.scale, this.state.mean_step * this.scale);
         });
 
+        console.log(coord_sampling_points);
+        console.log(graph_sorted);
         // draw line and legend to the heat map
         drawingTool.drawFrame(heatmap_canvas, heatmap_ctx);
         heatmap_ctx.line_color = "black";
@@ -160,7 +168,7 @@ export default class GraphView extends React.Component {
         const center = arrow_canvas.width / 2;
         const center_r = arrow_canvas.width / 4;
         const circle_interval = 2 * Math.PI / n_cluster_list.length;
-        const circle_r = arrow_canvas.width / 16;
+        const circle_r = arrow_canvas.width / 64;
 
         let circle_coord_list = [];
         n_cluster_list.forEach((n_cluster, idx) => {
@@ -194,7 +202,9 @@ export default class GraphView extends React.Component {
             let causal_cnt = 0;
             for (let row_idx = row_range.start; row_idx < row_range.end; row_idx++) {
               for (let col_idx = col_range.start; col_idx < col_range.end; col_idx++) {
-                causal_cnt += Math.ceil(graph_sorted[row_idx][col_idx]);
+                if (graph_sorted[row_idx][col_idx] === true) {
+                  causal_cnt++;
+                }
               }
             }
 
@@ -222,7 +232,7 @@ export default class GraphView extends React.Component {
               const end_x = end.x - circle_r * Math.cos(theta);
               const end_y = (end.y > origin.y) ? end.y - circle_r * Math.sin(theta) : end.y + circle_r * Math.sin(theta);
 
-              this.arrow(arrow_ctx, origin.x, origin.y, end_x, end_y, [0, 2, -20, 2, -20, 8]);
+              this.arrow(arrow_ctx, origin.x, origin.y, end_x, end_y, [0, 2, -10, 1, -10, 4]);
             }
           });
 

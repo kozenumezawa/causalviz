@@ -457,6 +457,7 @@ class Store extends EventEmitter {
         break;
       case generalConst.DATA_GAUSSIAN_WAVE:
         tiff_name = 'TavellingGaussianWaves_sub.tif';
+        // tiff_name = 'TavellingGaussianWaves.tif';
         legend_name = '';
         break;
       default:

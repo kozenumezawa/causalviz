@@ -45,11 +45,11 @@ if __name__ == "__main__":
     calc_yx = CausalCalculator(X=y[:, np.newaxis], Y_cause=x[:, np.newaxis])
 
     # visualize original data
-    fig = plt.figure()
-    ax = fig.add_subplot(1,1,1)
-    ax.plot(x)
-    ax.plot(y)
-    plt.legend(labels=['X', 'Y'])
+    # fig = plt.figure()
+    # ax = fig.add_subplot(1,1,1)
+    # ax.plot(x)
+    # ax.plot(y)
+    # plt.legend(labels=['X', 'Y'])
     # plt.show()
 
     k = [2 * i + 1 for i in range(10)]
@@ -77,7 +77,7 @@ if __name__ == "__main__":
     ax.plot_wireframe(K, M, Gxy_list)
     ax.set_xlabel('k')
     ax.set_ylabel('m')
-    ax.set_zlabel('G(y->x)')
+    ax.set_zlabel('G')
     ax.legend(labels=['G(y->x)', 'G(x->y)'])
     plt.show()
 

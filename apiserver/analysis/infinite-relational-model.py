@@ -78,6 +78,9 @@ if __name__ == "__main__":
 
     not_isolated_list = []
     for (i, row) in enumerate(graph):
+        if np.sum(row) < 30:   # remove isolated node
+            continue
+
         if True in row:
             not_isolated_list.append(i)
             continue
