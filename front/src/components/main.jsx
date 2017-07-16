@@ -104,6 +104,8 @@ export default class main extends React.Component {
                     <div style={{positon: 'relative', display: 'inline-block', marginTop: 20}}>
                       <LegendContainer
                         id="legend_output"
+                        data_type={this.state.data_type}
+                        render_contents={this.state.render_contents}
                         legend_tiff={this.state.legend_tiff}
                       />
                     </div>

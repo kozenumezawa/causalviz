@@ -7,6 +7,7 @@ import layoutConst from '../../constants/layout-constants'
 import CorrelationContainer from '../container/correlation-container.jsx';
 import ClusterGraphContainer from '../graph/cluster-graph-container.jsx';
 import ClusterButton from '../input/cluster-button.jsx';
+import LegendContainer from '../legend-container.jsx'
 
 export default class CrossCorrelationView extends React.Component {
   constructor(props) {
@@ -16,6 +17,10 @@ export default class CrossCorrelationView extends React.Component {
   render() {
     return (
       <div>
+        {/*<div style={{positon: 'relative', display: 'inline-block', marginTop: 20}}>*/}
+
+        {/*</div>*/}
+
         <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.SECOND_STAGE+40, left: layoutConst.LEFT_REF+30}}>
           <CorrelationContainer
             id="cross_correlation_view"
@@ -28,6 +33,12 @@ export default class CrossCorrelationView extends React.Component {
             title_text={"Time lag view"}
             selected_area={this.props.parent_state.selected_area}
             loupe_point={this.props.parent_state.loupe_point}
+          />
+          <LegendContainer
+            id="legend_output"
+            data_type={this.props.parent_state.data_type}
+            render_contents={this.props.parent_state.render_contents}
+            legend_tiff={this.props.parent_state.legend_tiff}
           />
         </div>
 
