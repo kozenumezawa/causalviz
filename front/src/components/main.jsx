@@ -11,7 +11,6 @@ import layoutConst from '../constants/layout-constants'
 import TiffContainer from './container/tiff-container.jsx';
 
 import AppBar from './app-bar.jsx';
-import CommandButton from './input/command-button.jsx';
 import LegendContainer from './legend-container.jsx';
 
 import SelectOptView from './view/select-opt-view.jsx'
@@ -151,12 +150,6 @@ export default class main extends React.Component {
                 tiff_index={this.state.tiff_index}
                 tiff_list={tiff_list}
               />
-
-              <div style={{position: 'relative', display: 'inline-block', top: 10}}>
-              <CommandButton
-              filter_type={this.state.filter_type}
-              />
-              </div>
 
               <CrossCorrelationView
                 parent_state = {this.state}

@@ -8,6 +8,7 @@ import CorrelationContainer from '../container/correlation-container.jsx';
 import ClusterGraphContainer from '../graph/cluster-graph-container.jsx';
 import ClusterButton from '../input/cluster-button.jsx';
 import LegendContainer from '../legend-container.jsx'
+import CommandButton from '../input/command-button.jsx'
 
 export default class CrossCorrelationView extends React.Component {
   constructor(props) {
@@ -39,6 +40,12 @@ export default class CrossCorrelationView extends React.Component {
             data_type={this.props.parent_state.data_type}
             render_contents={this.props.parent_state.render_contents}
             legend_tiff={this.props.parent_state.legend_tiff}
+          />
+        </div>
+
+        <div style={{position: 'absolute', display: 'inline-block', top: 100, left: 380}}>
+          <CommandButton
+            filter_type={this.props.parent_state.filter_type}
           />
         </div>
 
