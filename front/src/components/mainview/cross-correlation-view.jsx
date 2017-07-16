@@ -39,7 +39,7 @@ export default class CrossCorrelationView extends React.Component {
           />
         </div>
 
-        <div style={{position: 'absolute', display: 'inline-block', top: 100, left: 350}}>
+        <div style={{position: 'absolute', display: 'inline-block', top: 100, left: 400}}>
           <CommandButton
             filter_type={this.props.parent_state.filter_type}
           />

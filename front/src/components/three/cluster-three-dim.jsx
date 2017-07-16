@@ -121,21 +121,19 @@ export default class ClusterThreeDim extends React.Component{
 
   render() {
     return (
-      <div style={{position: 'absolute', display: 'inline-block', top: 250, left: 50}}>
-        <Card
-          containerStyle={{width: 300, height: 300}}
+      <Card
+        containerStyle={{width: 300, height: 300}}
+      >
+        <CardHeader
+          title="Time lag 3D view"
+          textStyle={{paddingRight: "0px"}}
+        />
+        <CardMedia
+          //style={{textAlign:"center"}}
         >
-          <CardHeader
-            title="Time lag 3D view"
-            textStyle={{paddingRight: "0px"}}
-          />
-          <CardMedia
-            //style={{textAlign:"center"}}
-          >
-            <div id="three-view"></div>
-          </CardMedia>
-        </Card>
-      </div>
+          <div id="three-view"></div>
+        </CardMedia>
+      </Card>
     );
   }
 }
