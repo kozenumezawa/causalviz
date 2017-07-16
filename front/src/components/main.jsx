@@ -140,16 +140,18 @@ export default class main extends React.Component {
           )} />
           <Route path='/cross' render={(props) => (
             <div>
-              <TiffContainer
-                id="tiff_output"
-                canvas_width={this.state.canvas_width}
-                canvas_height={this.state.canvas_height}
-                clicked_point={this.state.clicked_point}
-                loupe_point={this.state.loupe_point}
-                selected_area={this.state.selected_area}
-                tiff_index={this.state.tiff_index}
-                tiff_list={tiff_list}
-              />
+              <div style={{marginLeft: 50, marginRight: 200, display: 'flex', justifyContent: 'space-between'}}>
+                <TiffContainer
+                  id="tiff_output"
+                  canvas_width={this.state.canvas_width}
+                  canvas_height={this.state.canvas_height}
+                  clicked_point={this.state.clicked_point}
+                  loupe_point={this.state.loupe_point}
+                  selected_area={this.state.selected_area}
+                  tiff_index={this.state.tiff_index}
+                  tiff_list={tiff_list}
+                />
+              </div>
 
               <CrossCorrelationView
                 parent_state = {this.state}

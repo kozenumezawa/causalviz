@@ -31,9 +31,9 @@ export default class extends React.Component {
   renderCanvas() {
     switch (this.props.render_contents) {
       case generalConst.VIEW_CROSS_CORRELATION:
-        let left = 100;
+        let left = 150;
         if (this.props.data_type === generalConst.DATA_WILD_TYPE) {
-          left = 150;
+          left += 50;
         }
         return (
           <canvas id={this.props.id} width="256" height="32" style={{position: "absolute", top: -190, left: left, transform: "rotate(-90deg)"}}></canvas>

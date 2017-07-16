@@ -18,10 +18,6 @@ export default class CrossCorrelationView extends React.Component {
   render() {
     return (
       <div>
-        {/*<div style={{positon: 'relative', display: 'inline-block', marginTop: 20}}>*/}
-
-        {/*</div>*/}
-
         <div style={{position: 'absolute', display: 'inline-block', top: layoutConst.SECOND_STAGE+40, left: layoutConst.LEFT_REF+30}}>
           <CorrelationContainer
             id="cross_correlation_view"
@@ -43,13 +39,13 @@ export default class CrossCorrelationView extends React.Component {
           />
         </div>
 
-        <div style={{position: 'absolute', display: 'inline-block', top: 100, left: 380}}>
+        <div style={{position: 'absolute', display: 'inline-block', top: 100, left: 350}}>
           <CommandButton
             filter_type={this.props.parent_state.filter_type}
           />
         </div>
 
-        <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 250 + this.props.parent_state.canvas_width}}>
+        <div style={{position: 'absolute', display: 'inline-block', top: 200, left: 300 + this.props.parent_state.canvas_width}}>
           <ClusterGraphContainer
             id="correlation_graph"
             all_time_series={Store.getCutTimeSeries()}
