@@ -190,7 +190,7 @@ class Store extends EventEmitter {
               play_timer_on = false;
             }
             this.emitChange();
-          }, 100);
+          }, 10);
         } else {
           play_timer_on = false;
         }
