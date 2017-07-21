@@ -509,6 +509,7 @@ class Store extends EventEmitter {
 
   updateTimeSeriesAndCluster() {
     all_time_series = this.createAllTimeSeriesFromTiff(legend_tiff);
+    this.removeEdgeTimeSeries();
 
     this.updateCorrelationList(slider_value);
   }
@@ -523,6 +524,30 @@ class Store extends EventEmitter {
 
     // storeUtils.createCsvFromTimeSeries(this.transposeTimeSeries(all_time_series_inverse));
     return storeUtils.transposeTimeSeries(all_time_series_inverse);
+  }
+  removeEdgeTimeSeries() {
+    if (data_type !== generalConst.DATA_WILD_TYPE && data_type !== generalConst.DATA_TRP_TYPE) {
+      return;
+    }
+
+    const zero_time_series = all_time_series[0];
+    all_time_series = all_time_series.map((time_series, idx) => {
+      if (time_series[0] === 0) {
+        return time_series
+      }
+      if (all_time_series[idx - canvas_width - 1][0] === 0
+          || all_time_series[idx - canvas_width][0] === 0
+          || all_time_series[idx - canvas_width + 1][0] === 0
+          || all_time_series[idx - 1][0] === 0
+          || all_time_series[idx + 1][0] === 0
+          || all_time_series[idx + canvas_width - 1][0] === 0
+          || all_time_series[idx + canvas_width][0] === 0
+          || all_time_series[idx + canvas_width + 1][0] === 0
+        ) {
+        return zero_time_series;
+      }
+      return time_series;
+    });
   }
 
   updateCheckedCluster (list) {
@@ -822,7 +847,9 @@ class Store extends EventEmitter {
       },
       body: JSON.stringify({
         data: all_time_series,
-        file_name: 'gaussian_wave_sub.npy'
+        file_name: 'wilddata_mean.npy'
+        // file_name: 'trp3data_mean.npy'
+        // file_name: 'gaussian_wave_sub.npy'
       })
     })
   }
