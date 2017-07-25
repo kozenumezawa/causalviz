@@ -89,7 +89,7 @@ if __name__ == "__main__":
     N = len(graph)
     print "graph size = ", N
 
-    labels = [i if i % 200 == 0 else '' for i in xrange(N)]
+    # labels = [i if i % 200 == 0 else '' for i in xrange(N)]
     # sns.heatmap(graph, linewidths=0, cbar=False, xticklabels=labels, yticklabels=labels)
     # plt.xlabel('index')
     # plt.ylabel('index')
