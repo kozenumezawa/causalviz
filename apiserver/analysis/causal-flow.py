@@ -19,29 +19,34 @@ def calcCausalFlow(granger_list):
     intensity *= math.sqrt(flow_x * flow_x + flow_y * flow_y)
     return [flow_x, flow_y, intensity]
 
+def isOutside(idx, N):
+    if idx < 0 or idx >= N:
+        return True
+    return False
+
 if __name__ == "__main__":
     mean_step = 3
-    block_r = 0     # radius of each block
+    block_r = 1     # radius of each block
     block_idx = [i for i in range(-block_r, block_r + 1)]
 
-    # input_file_name = "trp3data_mean.npy"
-    # output_file_name = "trp3_flow.json"
-    # width = 128
+    input_file_name = "trp3data_mean.npy"
+    output_file_name = "trp3_flow.json"
+    width = 128
 
     # input_file_name = "wilddata_mean.npy"
     # output_file_name = "wild_flow.json"
     # width = 285
     # mean_step = 5
 
-    input_file_name = "gaussian_wave_sub.npy"
-    output_file_name = "gaussian_flow.json"
-    width = 128
-
+    # input_file_name = "gaussian_wave_sub.npy"
+    # output_file_name = "gaussian_flow.json"
+    # width = 128
 
     all_time_series = np.load("./data/" + input_file_name)
     all_time_series = all_time_series.astype(np.float32)
-    vector_list = []
+    N = all_time_series.shape[0]
 
+    vector_list = []
     for (i, _) in enumerate(all_time_series):
         if (sum(all_time_series[i]) == 0 or (i % width) % mean_step != 1 or math.floor(i / width) % mean_step != 0):
             vector_list.append([])
@@ -49,6 +54,8 @@ if __name__ == "__main__":
         x_block = []
         for y_idx in block_idx:
             for x_idx in block_idx:
+                if isOutside(i + x_idx + (width * y_idx), N):
+                    continue
                 x_block.append(all_time_series[i + x_idx + (width * y_idx)])
         x_block = np.array(x_block)
         x_block = x_block.T
@@ -61,13 +68,16 @@ if __name__ == "__main__":
                     row_granger.append(0)
                     continue
                 y_block_center_idx = i + block_x_idx + block_y_idx * width
-                if (sum(all_time_series[y_block_center_idx]) == 0):
+
+                if (isOutside(y_block_center_idx, N) or sum(all_time_series[y_block_center_idx]) == 0):
                     row_granger.append(0)
                     continue
 
                 y_block = []
                 for y_idx in block_idx:
                     for x_idx in block_idx:
+                        if isOutside(y_block_center_idx + x_idx + (width * y_idx), N):
+                            continue
                         y_block.append(all_time_series[y_block_center_idx + x_idx + (width * y_idx)])
                 y_block = np.array(y_block)
                 y_block = y_block.T
