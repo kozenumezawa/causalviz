@@ -271,8 +271,8 @@ export default class GraphView extends React.Component {
               flow_ctx.strokeStyle = 'red';
               flow_ctx.fillStyle = "red";
             } else if (v_x > 0 && v_y <= 0) {
-                flow_ctx.strokeStyle = 'green';
-                flow_ctx.fillStyle = "green";
+                flow_ctx.strokeStyle = 'orange';
+                flow_ctx.fillStyle = "orange";
             } else if (v_x <= 0 && v_y <= 0) {
               flow_ctx.strokeStyle = 'blue';
               flow_ctx.fillStyle = "blue";

@@ -46,8 +46,6 @@ if __name__ == "__main__":
 
     input_file_name, output_file_name = getFileName(file_type=file_type, algorithm=algorithm)
 
-    data_step = 4
-
     f = open("./data/" + input_file_name, "r")
     json_data = json.load(f)
 
