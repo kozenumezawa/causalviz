@@ -21,7 +21,7 @@ def calcCausalFlow(granger_list):
 
 if __name__ == "__main__":
     mean_step = 3
-    block_r = 1     # radius of each block
+    block_r = 0     # radius of each block
     block_idx = [i for i in range(-block_r, block_r + 1)]
 
     # input_file_name = "trp3data_mean.npy"
@@ -33,7 +33,7 @@ if __name__ == "__main__":
     # width = 285
     # mean_step = 5
 
-    input_file_name = "gaussian_wave.npy"
+    input_file_name = "gaussian_wave_sub.npy"
     output_file_name = "gaussian_flow.json"
     width = 128
 
