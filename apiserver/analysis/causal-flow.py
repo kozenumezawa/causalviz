@@ -40,16 +40,17 @@ if __name__ == "__main__":
 
     vector_list = []
 
-    for (i, x) in enumerate(all_time_series):
+    for (i, _) in enumerate(all_time_series):
+        x = all_time_series[i]
         x = x.astype(np.float32)
         if (sum(x) == 0 or (i % width) % mean_step != 1 or math.floor(i / width) % mean_step != 0):
             vector_list.append([])
             continue
 
         granger_list = []
-        for x_idx in [-1, 0, 1]:
+        for x_idx in [-mean_step, 0, mean_step]:
             row_granger = []
-            for y_idx in [-1, 0, 1]:
+            for y_idx in [-mean_step, 0, mean_step]:
                 if x_idx == 0 and y_idx == 0:
                     row_granger.append(0)
                     continue
