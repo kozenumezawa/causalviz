@@ -16,7 +16,7 @@ let data_type = generalConst.DATA_TRP_TYPE;
 
 let filter_type = generalConst.FILTER_MEAN;
 
-let render_contents = generalConst.VIEW_CROSS_CORRELATION;
+let render_contents = generalConst.VIEW_GRANGER_CAUSALITY;
 
 let all_tiff_list = [];
 let all_time_series = [];
@@ -247,18 +247,16 @@ class Store extends EventEmitter {
       case eventConstants.HANDLE_SELECT_AREA:
         if (selected_area.on === true) {
           this.setHighlightedLines(action.rect_x, action.rect_y, action.x, action.y);
-          
-          if (render_contents === generalConst.VIEW_CROSS_CORRELATION) {
-            this.updateCorrelationList(checked_cluster.length);
-            // highlighted_lines.forEach((highlighted_line) => {
-            //   const time_series = all_time_series[highlighted_line];
-            //   const scalar_sum = time_series.reduce((prev, current) => {
-            //     return prev + current;
-            //   });
-            //   if (scalar_sum === 0) {
-            //
-            //   }
-            // });
+
+          switch (render_contents) {
+            case generalConst.VIEW_CROSS_CORRELATION:
+              this.updateCorrelationList(checked_cluster.length);
+              break;
+            case generalConst.VIEW_GRANGER_CAUSALITY:
+              console.log('a');
+              break;
+            default:
+              break;
           }
         }
         break;

@@ -20,6 +20,7 @@ import ComparisonView from './view/comparison-view.jsx'
 
 import GraphView from './mainview/graph-view.jsx';
 import CrossCorrelationView from './mainview/cross-correlation-view.jsx';
+import GrangerCausalityView from './mainview/granger-causality-view.jsx';
 import ThreeDimView from './mainview/three-dim-view.jsx';
 
 function getAllState() {
@@ -139,6 +140,27 @@ export default class main extends React.Component {
             </div>
           )} />
           <Route path='/cross' render={(props) => (
+            <div>
+              <div style={{marginLeft: 50, marginRight: 200, display: 'flex', justifyContent: 'space-between'}}>
+                <TiffContainer
+                  id="tiff_output"
+                  canvas_width={this.state.canvas_width}
+                  canvas_height={this.state.canvas_height}
+                  clicked_point={this.state.clicked_point}
+                  loupe_point={this.state.loupe_point}
+                  selected_area={this.state.selected_area}
+                  tiff_index={this.state.tiff_index}
+                  tiff_list={tiff_list}
+                />
+              </div>
+
+              <CrossCorrelationView
+                parent_state = {this.state}
+                tiff_list = {tiff_list}
+              />
+            </div>
+          )} />
+          <Route path='/granger' render={(props) => (
             <div>
               <div style={{marginLeft: 50, marginRight: 200, display: 'flex', justifyContent: 'space-between'}}>
                 <TiffContainer
