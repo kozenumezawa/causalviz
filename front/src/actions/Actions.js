@@ -1,3 +1,4 @@
+
 import Dispatcher from '../dispatcher/Dispatcher';
 import eventConstants from '../constants/event-constants';
 
@@ -25,6 +26,12 @@ export default {
   handleCrossCorrelation: () => {
     Dispatcher.dispatch({
       actionType: eventConstants.HANDLE_CROSS_CORRELATION
+    });
+  },
+
+  handleGrangerCausality: () => {
+    Dispatcher.dispatch({
+      actionType: eventConstants.HANDLE_GRANGER_CAUSALITY
     });
   },
 

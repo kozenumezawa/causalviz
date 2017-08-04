@@ -158,6 +158,13 @@ class Store extends EventEmitter {
         this.updateCorrelationList(slider_value);
         render_contents = generalConst.VIEW_CROSS_CORRELATION;
         break;
+      case eventConstants.HANDLE_GRANGER_CAUSALITY:
+        this.setInitialState();
+        slider_value = 10;
+        // this.updateCorrelationList(slider_value);
+        console.log('a');
+        render_contents = generalConst.VIEW_GRANGER_CAUSALITY;
+        break;
       case eventConstants.HANDLE_THREE_DIM:
         this.setInitialState();
         render_contents = generalConst.VIEW_THREE_DIM;

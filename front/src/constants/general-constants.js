@@ -6,6 +6,7 @@ const generalConstant = keyMirror({
   DATA_GAUSSIAN_WAVE       : null,
   VIEW_DEFAULT             : null,
   VIEW_CROSS_CORRELATION   : null,
+  VIEW_GRANGER_CAUSALITY   : null,
   VIEW_THREE_DIM           : null,
   ERR_REACH_EDGH           : null,
   FILTER_NONE              : null,

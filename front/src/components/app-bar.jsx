@@ -49,6 +49,7 @@ export default class CausalVisAppBar extends React.Component {
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handleDefaultClick = this.handleDefaultClick.bind(this);
     this.handleCrossCorrelation = this.handleCrossCorrelation.bind(this);
+    this.handleGrangerCausality = this.handleGrangerCausality.bind(this);
     this.handleThreeDim = this.handleThreeDim.bind(this);
     this.handleGraph = this.handleGraph.bind(this);
   }
@@ -86,6 +87,13 @@ export default class CausalVisAppBar extends React.Component {
       open: !this.state.open
     });
     Action.handleCrossCorrelation();
+  }
+
+  handleGrangerCausality() {
+    this.setState({
+      open: !this.state.open
+    });
+    Action.handleGrangerCausality();
   }
 
   handleThreeDim() {
@@ -129,6 +137,9 @@ export default class CausalVisAppBar extends React.Component {
             </Link>
             <Link to='/cross' onClick={this.handleCrossCorrelation}>
               <MenuItem>Cross Correlation</MenuItem>
+            </Link>
+            <Link to='/granger' onClick={this.handleGrangerCausality}>
+              <MenuItem>Granger Causality</MenuItem>
             </Link>
             <Link to='/threedim' onClick={this.handleThreeDim}>
               <MenuItem>3D View</MenuItem>
