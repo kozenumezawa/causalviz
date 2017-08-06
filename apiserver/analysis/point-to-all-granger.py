@@ -56,28 +56,28 @@ if __name__ == "__main__":
 
     x_block = getBlock(all_time_series=all_time_series, block_center=x_block_center, block_idx=block_idx, N=N)
 
-    lat = [i for i in range(width)]
-    lng = [i for i in range(all_time_series.shape[0] / width)]
+    lat = [i for i in range(width) if i % 10 == 0]
+    lng = [i for i in range(all_time_series.shape[0] / width) if i % 10 == 0]
 
     LAT, LNG = np.meshgrid(lat, lng)
 
     Gxy_list = []
-    for y_idx in lng:
+    for idx, y_idx in enumerate(lng):
         Gxy_list.append([])
         for x_idx in lat:
             y_block_center = x_idx + (width * y_idx)
 
             if y_block_center == x_block_center:
-                Gxy_list[y_idx].append(10)
+                Gxy_list[idx].append(10)
                 continue
             if (isOutside(y_block_center, N) or sum(all_time_series[y_block_center]) == 0):
-                Gxy_list[y_idx].append(0)
+                Gxy_list[idx].append(0)
                 continue
 
             y_block = getBlock(all_time_series=all_time_series, block_center=y_block_center, block_idx=block_idx, N=N)
 
             calc_yx = CausalCalculator(X=y_block, Y_cause=x_block)
-            Gxy_list[y_idx].append(calc_yx.calcGrangerCausality(k=k, m=m))
+            Gxy_list[idx].append(calc_yx.calcGrangerCausality(k=k, m=m))
 
 
     # visualize original data
