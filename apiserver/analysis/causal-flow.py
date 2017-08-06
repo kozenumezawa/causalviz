@@ -24,17 +24,21 @@ def isOutside(idx, N):
         return True
     return False
 
+def getBlock(all_time_series, block_center, block_idx, N):
+    block = []
+    for y_idx in block_idx:
+        for x_idx in block_idx:
+            if isOutside(block_center + x_idx + (width * y_idx), N):
+                continue
+            block.append(all_time_series[block_center + x_idx + (width * y_idx)])
+    block = np.array(block)
+    block = block.T
+    return block
+
 def getCausalFlow(all_time_series, x_block_center, mean_step, N):
     if (sum(all_time_series[x_block_center]) == 0 or (x_block_center % width) % mean_step != 1 or math.floor(x_block_center / width) % mean_step != 0):
         return []
-    x_block = []
-    for y_idx in block_idx:
-        for x_idx in block_idx:
-            if isOutside(x_block_center + x_idx + (width * y_idx), N):
-                continue
-            x_block.append(all_time_series[x_block_center + x_idx + (width * y_idx)])
-    x_block = np.array(x_block)
-    x_block = x_block.T
+    x_block = getBlock(all_time_series=all_time_series, block_center=x_block_center, block_idx=block_idx, N=N)
 
     granger_list = []
     for block_x_idx in [-mean_step, 0, mean_step]:
@@ -49,14 +53,7 @@ def getCausalFlow(all_time_series, x_block_center, mean_step, N):
                 row_granger.append(0)
                 return []
 
-            y_block = []
-            for y_idx in block_idx:
-                for x_idx in block_idx:
-                    if isOutside(y_block_center_idx + x_idx + (width * y_idx), N):
-                        return []
-                    y_block.append(all_time_series[y_block_center_idx + x_idx + (width * y_idx)])
-            y_block = np.array(y_block)
-            y_block = y_block.T
+            y_block = getBlock(all_time_series=all_time_series, block_center=y_block_center_idx, block_idx=block_idx, N=N)
 
             calc_yx = CausalCalculator(X=y_block, Y_cause=x_block)
             k, m = 1, 1
