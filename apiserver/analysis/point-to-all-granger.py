@@ -7,6 +7,22 @@ def normalization(x):
     x = x / np.std(x)   # variance of x becomes 1
     return x
 
+def isOutside(idx, N):
+    if idx < 0 or idx >= N:
+        return True
+    return False
+
+def getBlock(all_time_series, block_center, block_idx, N):
+    block = []
+    for y_idx in block_idx:
+        for x_idx in block_idx:
+            if isOutside(block_center + x_idx + (width * y_idx), N):
+                continue
+            block.append(all_time_series[block_center + x_idx + (width * y_idx)])
+    block = np.array(block)
+    block = block.T
+    return block
+
 if __name__ == "__main__":
     from mpl_toolkits.mplot3d import Axes3D
     import numpy as np
@@ -14,6 +30,9 @@ if __name__ == "__main__":
     from CausalCalculator import CausalCalculator
 
     mean_step = 3
+    k, m = 1, 20
+    block_r = 1     # radius of each block
+    block_idx = [i for i in range(-block_r, block_r + 1)]
 
     # input_file_name = "trp3data_mean.npy"
     # output_file_name = "trp3_corr.json"
@@ -28,58 +47,51 @@ if __name__ == "__main__":
     output_file_name = "gaussian_corr.json"
     width = 128
 
-
     all_time_series = np.load("./data/" + input_file_name)
     all_time_series = np.array(all_time_series, dtype=np.float)
+    N = all_time_series.shape[0]
 
-    x = all_time_series[7000]
-    y = all_time_series[6990]
+    x_block_center = 7000
+    # x_block_center = 3500
 
-    # x = all_time_series[3500]
-    # y = all_time_series[3510]
+    x_block = getBlock(all_time_series=all_time_series, block_center=x_block_center, block_idx=block_idx, N=N)
 
-    # x = normalization(x)
-    # y = normalization(y)
+    lat = [i for i in range(width)]
+    lng = [i for i in range(all_time_series.shape[0] / width)]
 
-    calc_xy = CausalCalculator(X=x[:, np.newaxis], Y_cause=y[:, np.newaxis])
-    calc_yx = CausalCalculator(X=y[:, np.newaxis], Y_cause=x[:, np.newaxis])
+    LAT, LNG = np.meshgrid(lat, lng)
+
+    Gxy_list = []
+    for y_idx in lng:
+        Gxy_list.append([])
+        for x_idx in lat:
+            y_block_center = x_idx + (width * y_idx)
+
+            if y_block_center == x_block_center:
+                Gxy_list[y_idx].append(10)
+                continue
+            if (isOutside(y_block_center, N) or sum(all_time_series[y_block_center]) == 0):
+                Gxy_list[y_idx].append(0)
+                continue
+
+            y_block = getBlock(all_time_series=all_time_series, block_center=y_block_center, block_idx=block_idx, N=N)
+
+            calc_yx = CausalCalculator(X=y_block, Y_cause=x_block)
+            Gxy_list[y_idx].append(calc_yx.calcGrangerCausality(k=k, m=m))
+
 
     # visualize original data
     # fig = plt.figure()
     # ax = fig.add_subplot(1,1,1)
     # ax.plot(x)
-    # ax.plot(y)
     # plt.legend(labels=['X', 'Y'])
     # plt.show()
 
-    k = [2 * i + 1 for i in range(10)]
-    m = [2 * i + 1 for i in range(10)]
-
-    # for i in range(k):
-
-    # x = np.arange(-3, 3, 0.25)
-    # y = np.arange(-3, 3, 0.25)
-    K, M = np.meshgrid(k, m)
-
-    Gyx_list = []
-    Gxy_list = []
-    for idx, i in enumerate(k):
-        Gyx_list.append([])
-        Gxy_list.append([])
-        for j in m:
-            Gyx_list[idx].append(calc_xy.calcGrangerCausality(k=i, m=j))
-            Gxy_list[idx].append(calc_yx.calcGrangerCausality(k=i, m=j))
-
-
     fig = plt.figure()
     ax = Axes3D(fig)
-    ax.plot_wireframe(K, M, Gyx_list, color="orange")
-    ax.plot_wireframe(K, M, Gxy_list)
-    ax.set_xlabel('k')
-    ax.set_ylabel('m')
+    ax.plot_wireframe(LAT, LNG, Gxy_list)
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
     ax.set_zlabel('G')
-    ax.legend(labels=['G(y->x)', 'G(x->y)'])
+    ax.legend(labels=['G(x->y)'])
     plt.show()
-
-    # print "Granger Causality Y -> X :", Gyx_list[0]
-    # print "Granger Causality X -> Y :", Gxy_list[0]
