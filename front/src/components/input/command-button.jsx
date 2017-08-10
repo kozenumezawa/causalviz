@@ -1,8 +1,8 @@
 import React from 'react';
 import Toggle from 'material-ui/Toggle';
 import IconButton from 'material-ui/IconButton'
-import Crop from 'material-ui/svg-icons/Image/crop';
-import Search from 'material-ui/svg-icons/Action/search';
+import Crop from 'material-ui/svg-icons/image/crop';
+import Search from 'material-ui/svg-icons/action/search';
 
 import Actions from '../../actions/Actions';
 
