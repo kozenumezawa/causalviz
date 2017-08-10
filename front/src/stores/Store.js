@@ -16,7 +16,7 @@ let data_type = generalConst.DATA_TRP_TYPE;
 
 let filter_type = generalConst.FILTER_MEAN;
 
-let render_contents = generalConst.VIEW_GRANGER_CAUSALITY;
+let render_contents = generalConst.VIEW_CROSS_CORRELATION;
 
 let all_tiff_list = [];
 let all_time_series = [];
