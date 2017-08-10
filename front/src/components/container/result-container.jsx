@@ -1,10 +1,10 @@
 import React from 'react';
 import {Card, CardHeader, CardMedia, CardText} from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton'
-import PlayArrow from 'material-ui/svg-icons/AV/play-arrow';
-import Stop from 'material-ui/svg-icons/AV/stop'
-import SkipNext from 'material-ui/svg-icons/AV/skip-next';
-import SkipPrevious from 'material-ui/svg-icons/AV/skip-previous';
+import PlayArrow from 'material-ui/svg-icons/av/play-arrow';
+import Stop from 'material-ui/svg-icons/av/stop'
+import SkipNext from 'material-ui/svg-icons/av/skip-next';
+import SkipPrevious from 'material-ui/svg-icons/av/skip-previous';
 
 import * as drawingTool from '../../utils/drawing-tool';
 import Actions from '../../actions/Actions';
