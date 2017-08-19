@@ -36,6 +36,15 @@ if __name__ == "__main__":
 
     x = all_time_series[3500]
     y = all_time_series[7000]
+    print x.shape
+
+    x = x.tolist()
+    y = y.tolist()
+    for i in range(0):
+        x.extend(x)
+        y.extend(y)
+    x = np.array(x)
+    y = np.array(y)
 
     # visualize original data
     fig = plt.figure()
@@ -45,28 +54,20 @@ if __name__ == "__main__":
     plt.legend(labels=['X', 'Y'])
     plt.show()
 
-
-    rx1 = 3.72 #determines chaotic behavior of the x1 series
-    rx2 = 3.72 #determines chaotic behavior of the x2 series
-    b12 = 0.2 #Influence of x1 on x2
-    b21 = 0.01 #Influence of x2 on x1
-    ts_length = 1000
-    x1,x2 = data.coupled_logistic(rx1,rx2,b12,b21,ts_length)
-
     x1 = x
     x2 = y
 
-    lag = 1
-    embed = 5
+    lag = 10
+    embed = 2
     e1 = ccm.Embed(x1)
     e2 = ccm.Embed(x2)
     X1 = e1.embed_vectors_1d(lag,embed)
     X2 = e2.embed_vectors_1d(lag,embed)
 
-    # scatter
+    # scatter plot of embedding dimension
     fig = plt.figure()
     ax1 = fig.add_subplot(2,1,1)
-    ax2 = fig.add_subplot(2,1,2, sharey=ax1)
+    ax2 = fig.add_subplot(2,1,2, sharex=ax1, sharey=ax1)
 
     X1_t = X1.T
     ax1.scatter(X1_t[0], X1_t[1], label="X")
@@ -79,14 +80,12 @@ if __name__ == "__main__":
     ax2.set_xlabel("Y(t)")
     ax2.set_ylabel("Y(t-1)")
 
-    # plt.legend(labels=['X1(t)', 'X1(t-1)'])
+    plt.tight_layout()
     plt.show()
 
 
-
     #split the embedded time series
-    x1tr, x1te, x2tr, x2te = train_test_split(X1,X2, percent=.75)
-
+    x1tr, x1te, x2tr, x2te = train_test_split(X1,X2, percent=.90)
     CCM = ccm.CCM() #initiate the class
 
     #library lengths to test
